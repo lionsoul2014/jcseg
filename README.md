@@ -1,4 +1,4 @@
-<h3>关于jcseg: </h3>
+<h3>一. 关于jcseg: </h3>
 
 jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算法实现，并且提供了最高版本的lucene-4.3.6和最高版本solr-4.3.6的分词接口．
 
@@ -38,7 +38,7 @@ jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算
 jcseg佩带了一个jcseg.properties文件，只要有使用文本编辑器你就可以自主的编辑里面的选项，配置适合不同场合的分词应用。例如：最大匹配词数，是否开启中文人名识别，是否记载词条拼音，是否载入词条同义词等等。 如何配置jcseg
 
 
-<h3>分词速度：</h3>
+<h3>二. 分词速度：</h3>
 
 测试环境：2.8GHZ/2G/Ubuntu
 
@@ -57,14 +57,13 @@ Complex 模式： 479338字/秒 1324.4KB/秒
 
 歧义 和 同义词 :/w 研究/v 琢磨/v 研讨/v 钻研/v 生命 起源 ，/w 混合词 :/w 做 b超/n 检查 身体 ，/w x-射线/n 就是 x射线/n ，/w 今天 去 奇都ktv/nz 唱 卡拉ok/nz 去 ，/w 单位 和 全角 :/w 2009年/m 8月/m 6日/m 开始 大学 之旅 ，/w 岳阳/ns 今天 的 气温 为 38.6℃/m ,/w 也就是 101.48℉/m ,/w 中文/n 国语/n 数字 :/w 四分之三/m 3/4/m 的 人 都 交了 六十五/m 65/m 块 钱 班费 ，/w 那是 一九九八年/m 1998年/m 前 的 事 了 ，/w 四川/ns 麻辣烫/n 很 好吃 ，/w 五四运动 留下 的 五四/m 54/m 精神 。/w 笔记本 五折/m 5折/m 包邮 亏本 大甩卖 甩卖 。/w 人名 识别 :/w 我/r 是 陈鑫/nr ，/w 也 是 jcesg/en 的 作者 ，/w 三国 时期 的 诸葛亮 是个 天才 ，/w 我们 一起 给 刘翔 加油 ，/w 罗志高/nr 兴奋 极了 因为 老吴/nr 送了 他/r 一台 笔记本 。/w 配对 标点 :/w 本次 『/w 畅想杯/nz 』/w 黑客 技术 大赛 的 得主 为 电信/nt 09-2bf/en 的 张三 ，/w 奖励 c++/en 程序设计 语言 一书 和 【/w 畅想网络/nz 】/w 的 『/w PHP教程/nz 』/w 一套 。/w 特殊 字母 :/w 【/w Ⅰ/nz 】/w （/w Ⅱ/m ）/w ，/w 英文/n 英语/n 数字 :/w bug/en report/en chenxin619315@gmail.com/en or/en visit/en http://code.google.com/p/jcseg/en ,/w we/en all/en admire/en appreciate/en like/en love/en enjoy/en the/en hacker/en spirit/en mind/en !/w 特殊 数字 :/w ①/m ⑩/m ⑽/m ㈩/m ./w
  
-<h3>Jcseg其他主页</h3>
+<h3>三. Jcseg其他主页: </h3>
+Jcseg官方主页: https://code.google.com/p/jcseg/ <br />
 Jcseg开源中国: http://www.oschina.net/p/jcseg <br />
-详细介绍: https://code.google.com/p/jcseg/ <br />
-开发帮助文档: http://code.google.com/p/jcseg/downloads/list <br />
-Wiki文档: https://code.google.com/p/jcseg/w/list <br />
+Jcseg开发帮助文档: http://git.oschina.net/lionsoul/jcseg/attach_files <br />
 
 
-<h3>关于作者: </h3>
+<h3>四. 联系作者: </h3>
 作者: 狮子的魂 <br />
 email: chenxin619315@gmail.com <br />
 qq: 1187582057 <br />
