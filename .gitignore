@@ -14,4 +14,4 @@ CHANGES.txt
 .classpath
 .project
 # vim swp file #
-.swp
+*.swp
