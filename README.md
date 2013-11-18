@@ -1,3 +1,5 @@
+Jcseg完整版本(包括词库, 帮助文档, 词库管理工具, jar文件)下载:  https://code.google.com/p/jcseg <br />
+
 <h3>一. 关于jcseg: </h3>
 
 jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算法实现，并且提供了最高版本的lucene-4.3.6和最高版本solr-4.3.6的分词接口．
