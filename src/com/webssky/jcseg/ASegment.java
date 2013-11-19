@@ -918,10 +918,13 @@ public abstract class ASegment implements ISegment {
 		if ( ENSCFilter.isUpperCaseLetter(c) ) c = c + 32; 
 		isb.append((char)c);
 		int ch;
-		boolean __check = false;
+		boolean __check = false, __wspace = false;
 		while ( (ch = readNext()) != -1 ) 
 		{
-			if ( ENSCFilter.isWhitespace(ch) ) break;
+			if ( ENSCFilter.isWhitespace(ch) ) {
+				__wspace = true;
+				break;
+			}
 			if ( ENSCFilter.isEnPunctuation(ch) 
 					&& ! ENSCFilter.isENKeepChar((char)ch) ) {
 				pushBack(ch);
@@ -979,7 +982,10 @@ public abstract class ASegment implements ISegment {
 		}
 		
 		//@step 3: check the end condition.
-		if ( ch == -1 ) {
+		// and the check if the token loop was break by whitespace
+		//cause there is no need to continue all the following work if it is.
+		//@added 2013-11-19
+		if ( ch == -1 || __wspace ) {
 			w = new Word(__str, IWord.T_BASIC_LATIN);
 			w.setPartSpeech(IWord.EN_POSPEECH);
 			return w;
@@ -1032,6 +1038,13 @@ public abstract class ASegment implements ISegment {
 		for ( ; j < config.MIX_CN_LENGTH 
 					&& (ch = readNext()) != -1; j++ ) 
 		{
+			/* Attension:
+			 *  it is a chance that jcseg works find for 
+			 *  	we break the loop directly when we meet a whitespace.
+			 *  1. if a EC word is found, unit check process will be ignore.
+			 *  2. if matches no EC word, certianly return of readNext() 
+			 *  	will make sure the units check process works find.
+			 */
 			if ( ENSCFilter.isWhitespace(ch) ) break; 
 			mixWord.append((char)ch);
 			//System.out.print((char)ch+",");
