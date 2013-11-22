@@ -3,7 +3,7 @@ bin/
 classes/
 doc/
 help/
-lib/
+# lib/ #
 META-INFO/
 tools/
 CHANGES.txt
