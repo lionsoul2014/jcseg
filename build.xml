@@ -43,26 +43,28 @@
 
     <!--Archive-->
     <target name="dist" depends="build">
-		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="com/webssky/jcseg/solr/*,com/webssky/jcseg/lucene/*">
+		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/solr/*,org/lionsoul/jcseg/lucene/*">
 			<!--manifest information setting-->
 			<manifest>
-				<attribute name="Main-Class" value="com.webssky.jcseg.test.JcsegTest"/>
+				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
 				<attribute name="Class-Path" value=""/>
 			</manifest>
 		</jar>
-		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="com/webssky/jcseg/lucene/*"/>
-		<jar jarfile="${jars}/jcseg-solr-${version}.jar" basedir="${classes}" includes="com/webssky/jcseg/solr/*"/>
-		<!--jcseg dictionary converter tools-->
-		<jar jarfile="${jars}/tools/jcseg-dicst.jar" basedir="${classes}" includes="com/webssky/jcseg/util/dic/*,com/webssky/jcseg/util/IStringBuffer.class">
+		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/lucene/*"/>
+		<jar jarfile="${jars}/jcseg-solr-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/solr/*"/>
+		
+    	<!--jcseg dictionary converter tools-->
+		<jar jarfile="${jars}/tools/jcseg-dicst.jar" basedir="${classes}" includes="org/lionsoul/jcseg/util/dic/*,org/lionsoul/jcseg/util/IStringBuffer.class">
 			<manifest>
-				<attribute name="Main-Class" value="com.webssky.jcseg.util.dic.DicConverter"/>
+				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicConverter"/>
 				<attribute name="Class-Path" value=""/>
 			</manifest>
 		</jar>
-		<!--jcseg dictionary merge tools-->
-		<jar jarfile="${jars}/tools/jcseg-dicmerge.jar" basedir="${classes}" includes="com/webssky/jcseg/Word.class,com/webssky/jcseg/core/IWord.class,com/webssky/jcseg/util/IStringBuffer.class,com/webssky/jcseg/util/Sort.class,com/webssky/jcseg/util/dic/*">
+		
+    	<!--jcseg dictionary merge tools-->
+		<jar jarfile="${jars}/tools/jcseg-dicmerge.jar" basedir="${classes}" includes="org/lionsoul/jcseg/Word.class,org/lionsoul/jcseg/core/IWord.class,org/lionsoul/jcseg/util/IStringBuffer.class,org/lionsoul/jcseg/util/Sort.class,org/lionsoul/jcseg/util/dic/*">
 			<manifest>
-				<attribute name="Main-Class" value="com.webssky.jcseg.util.dic.DicMerge"/>
+				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicMerge"/>
 				<attribute name="Class-Path" value=""/>
 			</manifest>
 		</jar>
@@ -72,7 +74,7 @@
     <!--Java document-->
     <target name="all" depends="dist">
 		<echo message="------------Making Java Document------------------"/>
-		<javadoc packagenames="com.*"
+		<javadoc packagenames="org.*"
 			sourcepath="${sources}"
 			destdir="${api}"
 			bottom="${bottom}"
