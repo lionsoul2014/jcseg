@@ -68,7 +68,7 @@ public class DicMerge {
 				if ( line.length() > 1 && line.charAt(0) == '#' ) continue;
 				if ( line.indexOf('/') == -1 ) {	//simple word
 					if ( ! entries.containsKey(line) )
-						entries.put(line, new Word(line, 0));
+						entries.put(line, new Word(line, 1));
 					continue;
 				}
 				
@@ -146,6 +146,19 @@ public class DicMerge {
 		IStringBuffer isb = new IStringBuffer();
 		for ( int j = 0; j < keys.length; j++ ) {
 			word = entries.get(keys[j]);
+			
+			/* Here:
+			 *  if the orgin lexicon is simple lexicon.
+			 *  we just need the word item.
+			 *  
+			 * @added 2013-11-28
+			 */
+			if ( word.getType() == 1 ) {
+				writer.write(word.getValue());
+				writer.write('\n');
+				continue;
+			}
+			
 			isb.clear();
 			isb.append(word.getValue());				//word
 			isb.append('/');
