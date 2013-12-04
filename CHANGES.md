@@ -1,3 +1,11 @@
+jcseg-1.9.2:
+1. 配置文件中词库多目录加载.
+2. 词库自动重载正则支持.
+3. 中文分数转阿拉伯分数bug修复.
+4. 词库合并工具bug修复.														-done
+5. 词库加载错误友好提示.
+6. 对复杂的数字和英文组合词进行再次切分, 例如: QQ2013, 切分成qq2013, qq, 2013
+
 jcseg-1.9.1:
 1. 优化IStringBuffer#resizeTo()方法, 使用System.arraycopy代替循环来拷贝元素.			-done
 2. 增加了util.dic.STConverter类来进行简体和繁体字符串的相互转换.						-done
