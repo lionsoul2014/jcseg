@@ -5,7 +5,7 @@ CJK_WORDS
 中华人民共和国/ns/zhong hua ren min gong he guo/null
 中华民国/ns/zhong hua min guo/null
 中国/ns/zhong guo/null
-中国/nz/zhong guo/null
+中國/nz/zhong guo/null
 中非/ns/zhong fei/null
 乌克兰/ns/wu ke lan/null
 也门/ns/ye men/null

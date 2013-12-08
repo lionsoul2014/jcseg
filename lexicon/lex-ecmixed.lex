@@ -1,5 +1,5 @@
 EC_MIXED_WORD
-#英文中文溷合字, 注意英文字符均为小写
+#英文中文混合字, 注意英文字符均为小写
 a咖/n/a ga/主角
 a片/n/a pian/毛片,av
 a座/f/a zuo/null
@@ -10,7 +10,7 @@ a罩杯/n/a zhao bei/a杯
 a计划/n/a ji hua/null
 aa制/I/aa zhi/null
 ab型/n/ab xing/null
-ab档桉/n/ab dang an/null
+ab档案/n/ab dang an/null
 a美a/n/null/null
 a梦/a/null/null
 x-射线/n/null/null

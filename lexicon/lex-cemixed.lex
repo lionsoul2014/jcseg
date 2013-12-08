@@ -1,5 +1,5 @@
 CE_MIXED_WORD
-#中文英文溷合词词库
+#中文英文混合词词库
 卡拉ok/nz/ka la ok/null
 漂亮mm/nz/piao lian mm/null
 拳皇ova/nz/quan huang ova/拳皇动漫

@@ -802,7 +802,7 @@ CJK_WORDS
 钶/null/ke/null/13
 熳/null/man/null/14
 荥/null/xing/null/26
-菰/null/gu/null/892
+菇/null/gu/null/892
 恢/null/hui/null/6562
 情/null/qing/null/318027
 错/null/cuo/null/168867
@@ -1184,7 +1184,7 @@ CJK_WORDS
 阞/null/le/null/14
 犹/null/you/null/8446
 隀/null/%/null/10
-勐/null/meng/null/7890
+猛/null/meng/null/7890
 倘/null/tang/null/2324
 葫/null/hu/null/449
 蓎/null/%/null/14
@@ -1256,7 +1256,7 @@ CJK_WORDS
 倢/null/jie/null/39
 葶/null/ting/null/14
 懖/null/%/null/17
-坂/null/ban/null/1854
+阪/null/ban/null/1854
 猦/null/%/null/10
 玈/null/lu/null/13
 傅/null/fu/null/3730
@@ -2078,7 +2078,7 @@ CJK_WORDS
 颎/null/jiong/null/11
 甩/null/shuai/null/2623
 疌/null/%/null/13
-噼/null/pi/null/1826
+劈/null/pi/null/1826
 虺/null/hui/null/22
 蛜/null/yi/null/31
 捷/null/jie/null/7286
@@ -2822,7 +2822,7 @@ CJK_WORDS
 衵/null/ni/null/17
 裗/null/%/null/16
 骊/null/li/null/88
-眯/null/%/null/470
+瞇/null/%/null/470
 咄/null/duo/null/442
 衶/null/%/null/11
 裘/null/qiu/null/952
@@ -2969,7 +2969,7 @@ CJK_WORDS
 骟/null/shan/null/11
 眹/null/zhen/null/18
 瞛/null/%/null/6
-呐/null/%/null/1747
+吶/null/%/null/1747
 咘/null/%/null/12
 裬/null/%/null/13
 晌/null/shang/null/220
@@ -3058,7 +3058,7 @@ CJK_WORDS
 鬌/null/%/null/12
 瞧/null/qiao/null/6472
 砉/null/xu/null/106
-吒/null/zha/null/207
+咤/null/zha/null/207
 唆/null/suo/null/769
 裸/null/luo/null/1806
 襚/null/sui/null/14
@@ -3093,7 +3093,7 @@ CJK_WORDS
 裻/null/%/null/13
 旸/null/yang/null/91
 晛/null/xian/null/8
-肮/null/%/null/679
+骯/null/%/null/679
 鬑/null/lian/null/10
 瞬/null/shun/null/3517
 砎/null/%/null/8
@@ -3698,7 +3698,7 @@ CJK_WORDS
 禘/null/di/null/12
 譋/null/%/null/8
 柦/null/%/null/8
-桉/null/an/null/77425
+案/null/an/null/77425
 鲜/null/xian/null/9541
 嘳/null/%/null/42
 柧/null/%/null/7
@@ -4237,7 +4237,7 @@ CJK_WORDS
 诿/null/wei/null/142
 象/null/xiang/null/82336
 棼/null/fen/null/17
-愣/null/leng/null/698
+楞/null/leng/null/698
 鶱/null/xuan/null/13
 鸔/null/%/null/12
 笑/null/xiao/null/94756
@@ -4247,7 +4247,7 @@ CJK_WORDS
 垭/null/ya/null/22
 棽/null/%/null/14
 楟/null/ting/null/8
-藁/null/gao/null/171
+槁/null/gao/null/171
 鶳/null/%/null/10
 窱/null/%/null/8
 笓/null/pi/null/7
@@ -4454,7 +4454,7 @@ CJK_WORDS
 笲/null/fan/null/5
 鸵/null/tuo/null/350
 箔/null/bo/null/437
-墒/null/%/null/12
+墑/null/%/null/12
 賥/null/%/null/10
 赇/null/qiu/null/7
 鸶/null/si/null/689
@@ -5731,7 +5731,7 @@ CJK_WORDS
 羔/null/gao/null/649
 岐/null/qi/null/658
 浿/null/%/null/15
-澹/null/dan/null/21570
+淡/null/dan/null/21570
 湃/null/pai/null/323
 缲/null/sao/null/9
 羕/null/%/null/9
@@ -5824,7 +5824,7 @@ CJK_WORDS
 岦/null/%/null/58
 湘/null/xiang/null/2284
 岧/null/tiao/null/10
-溷/null/hun/null/22888
+混/null/hun/null/22888
 岨/null/qu/null/5
 湚/null/%/null/13
 羬/null/%/null/6
@@ -6157,7 +6157,7 @@ CJK_WORDS
 庮/null/%/null/12
 濿/null/%/null/20
 庰/null/%/null/16
-弑/null/%/null/81
+弒/null/%/null/81
 庱/null/cheng/null/13
 弓/null/gong/null/2630
 庲/null/%/null/7
@@ -6334,7 +6334,7 @@ CJK_WORDS
 份/null/fen/null/99488
 佟/null/tong/null/19
 你/r/ni/null/915385
-彷/null/fang/null/72
+仿/null/fang/null/72
 佡/null/xian/null/17
 促/null/cu/null/6018
 佢/null/qu/null/451
@@ -6640,7 +6640,7 @@ CJK_WORDS
 肥/null/fei/null/8612
 脉/null/mo/null/4812
 釸/null/xi/null/8
-嵴/null/ji/null/1080
+脊/null/ji/null/1080
 肩/null/jian/null/5233
 肪/null/fang/null/425
 肫/null/zhun/null/27
@@ -6703,7 +6703,7 @@ CJK_WORDS
 膇/null/zhui/null/12
 鋘/null/wu/null/28
 膈/null/ge/null/70
-睃/null/juan/null/8
+脧/null/juan/null/8
 膉/null/%/null/14
 膊/null/bo/null/152
 鉹/null/%/null/26
@@ -6890,7 +6890,7 @@ CJK_WORDS
 烜/null/xuan/null/316
 芏/null/du/null/11
 烝/null/zheng/null/9
-苄/null/%/null/16
+芐/null/%/null/16
 灼/null/zhuo/null/491
 烞/null/%/null/21
 舯/null/%/null/16
@@ -7008,7 +7008,7 @@ CJK_WORDS
 烹/null/peng/null/681
 铀/null/you/null/190
 芫/null/yuan/null/51
-苟/null/ji/null/970
+茍/null/ji/null/970
 怊/null/chao/null/16
 烺/null/lang/null/7
 铁/null/tie/null/12
@@ -7249,7 +7249,7 @@ CJK_WORDS
 燧/null/sui/null/51
 茸/null/rong/null/217
 莚/null/yan/null/8
-憷/null/chu/null/68
+怵/null/chu/null/68
 悗/null/%/null/9
 铫/null/yao/null/18
 镍/null/nie/null/374
@@ -7671,7 +7671,7 @@ CJK_WORDS
 偕/null/xie/null/683
 戈/null/ge/null/3008
 闺/null/gui/null/337
-陕/null/xia/null/31
+陜/null/xia/null/31
 狷/null/juan/null/752
 獙/null/bi/null/12
 蒪/null/%/null/13
@@ -7848,7 +7848,7 @@ CJK_WORDS
 憾/null/han/null/7396
 薅/null/hao/null/14
 戠/null/shi/null/13
-凋/null/diao/null/105
+雕/null/diao/null/105
 珒/null/%/null/27
 偭/null/mian/null/10
 像/null/xiang/null/243002
@@ -8137,7 +8137,7 @@ CJK_WORDS
 僾/null/ai/null/7
 挔/null/%/null/5
 薵/null/%/null/17
-蘖/null/nie/null/17
+蘗/null/nie/null/17
 僿/null/sai/null/16
 凄/null/qi/null/60
 薶/null/wo/null/14
@@ -8163,7 +8163,7 @@ CJK_WORDS
 韎/null/mei/null/9
 瓋/null/%/null/15
 入/null/ru/null/167507
-净/null/%/null/77
+凈/null/%/null/77
 蘜/null/%/null/18
 韏/null/%/null/12
 凉/null/liang/null/8615
@@ -8408,7 +8408,7 @@ CJK_WORDS
 掞/null/shan/null/55
 搀/null/chan/null/103
 瓮/null/weng/null/11
-刹/null/%/null/2698
+剎/null/%/null/2698
 蚢/null/%/null/18
 挽/null/wan/null/76
 蜄/null/%/null/6
@@ -8575,7 +8575,7 @@ CJK_WORDS
 掸/null/dan/null/18
 搚/null/%/null/14
 飐/null/zhan/null/12
-畲/null/%/null/75
+畬/null/%/null/75
 痎/null/%/null/14
 蚼/null/%/null/39
 蜞/null/qi/null/21
@@ -8610,7 +8610,7 @@ CJK_WORDS
 剬/null/%/null/12
 蜢/null/meng/null/746
 掽/null/peng/null/13
-擀/null/%/null/11
+搟/null/%/null/11
 飕/null/sou/null/95
 痒/null/yang/null/51
 剭/null/%/null/9
@@ -8638,7 +8638,7 @@ CJK_WORDS
 蜦/null/%/null/7
 螈/null/yuan/null/51
 搣/null/mie/null/10
-噘/null/jue/null/32
+撅/null/jue/null/32
 顷/null/qing/null/1803
 飙/null/biao/null/4474
 畴/null/chou/null/635
@@ -9325,7 +9325,7 @@ CJK_WORDS
 呧/null/di/null/5
 昙/null/tan/null/639
 驭/null/yu/null/264
-睾/null/yi/null/174
+睪/null/yi/null/174
 矌/null/%/null/32
 哉/null/zai/null/5742
 袺/null/jie/null/11
@@ -10915,7 +10915,7 @@ CJK_WORDS
 籇/null/%/null/31
 贵/null/gui/null/43668
 樲/null/er/null/8
-档/null/%/null/107742
+檔/null/%/null/107742
 黩/null/du/null/38
 篦/null/bi/null/13
 籈/null/%/null/9
@@ -11098,7 +11098,7 @@ CJK_WORDS
 檴/null/huo/null/12
 欗/null/%/null/18
 齫/null/%/null/7
-煳/null/hu/null/10050
+糊/null/hu/null/10050
 姆/null/mu/null/7459
 趸/null/dun/null/12
 踚/null/%/null/11
@@ -11485,7 +11485,7 @@ CJK_WORDS
 嫔/null/pin/null/34
 辋/null/wang/null/17
 氦/null/hai/null/130
-沉/null/chen/null/13634
+沈/null/chen/null/13634
 婳/null/%/null/10
 嫕/null/yi/null/13
 辌/null/%/null/11
@@ -11915,7 +11915,7 @@ CJK_WORDS
 涩/null/se/null/1487
 绹/null/%/null/10
 罛/null/gu/null/16
-疴/null/e/null/47
+屙/null/e/null/47
 涪/null/fu/null/123
 渌/null/lu/null/16
 绺/null/liu/null/13
@@ -12119,8 +12119,8 @@ CJK_WORDS
 翭/null/%/null/15
 峪/null/yu/null/21
 嵌/null/qian/null/219
-淼/null/miao/null/2271
-熘/null/liu/null/12
+渺/null/miao/null/2271
+溜/null/liu/null/12
 翮/null/he/null/16
 渻/null/%/null/19
 翯/null/he/null/14
@@ -12638,4 +12638,4 @@ CJK_WORDS
 侻/null/%/null/14
 便/null/pian/null/114674
 档/null/dang/null/25542
-着/null/zhu/null/9632
+著/null/zhu/null/9632

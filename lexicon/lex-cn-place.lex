@@ -406,8 +406,8 @@ CJK_WORDS
 辽宁省/ns/liao ning sheng/null
 辽宁/ns/liao ning/null
 辽宁人/ns/liao ning ren/null
-沉阳市/ns/shen yang shi/null
-沉阳/ns/shen yang/null
+沈阳市/ns/shen yang shi/null
+沈阳/ns/shen yang/null
 新民市/ns/xin min shi/null
 法库县/ns/fa ku xian/null
 辽中县/ns/liao zhong xian/null
@@ -1238,7 +1238,7 @@ CJK_WORDS
 鹿邑县/ns/lu yi xian/null
 西华县/ns/xi hua xian/null
 扶沟县/ns/fu gou xian/null
-沉丘县/ns/shen qiu xian/null
+沈丘县/ns/shen qiu xian/null
 郸城县/ns/dan cheng xian/null
 确山县/ns/que shan xian/null
 新蔡县/ns/xin cai xian/null
