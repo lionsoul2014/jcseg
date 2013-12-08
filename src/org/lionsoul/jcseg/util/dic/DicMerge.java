@@ -79,12 +79,17 @@ public class DicMerge {
 					splits = null;		//let the gc do its work.
 					continue;
 				}
-				int fre = splits.length > 4 ? Integer.parseInt(splits[4]) : 0;
 				
 				//get the entries
 				word = entries.get(splits[0]);
-				if ( word == null ) {
-					word = new Word(splits[0], 0, fre);
+				if ( word == null ) 
+				{
+					int type = 0, fre = 0;
+					if ( splits.length > 4 ) {
+						fre = Integer.parseInt(splits[4]);
+						type = 2;
+					}
+					word = new Word(splits[0], fre, type);
 					if ( ! splits[1].equals("null") )		//part of the speech
 						word.setPartSpeech(splits[1].split(","));
 					if ( ! ( splits[2].equals("%")
@@ -175,12 +180,16 @@ public class DicMerge {
 					}
 				}
 			} 
+			
 			isb.append('/');
+			
 			if ( word.getPinyin() == null )				//pinyin
 				isb.append("null");
 			else
 				isb.append(word.getPinyin());
+			
 			isb.append('/');
+			
 			if ( word.getSyn() == null )				//synonyms
 				isb.append("null");
 			else {
@@ -194,6 +203,12 @@ public class DicMerge {
 					}
 				}
 			}
+			
+			if ( word.getType() == 2 ) {				//single word degree
+				isb.append('/');
+				isb.append(""+word.getFrequency());
+			}
+			
 			writer.write(isb.buffer(), 0, isb.length());
 			writer.write('\n');
 		}
