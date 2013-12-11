@@ -127,6 +127,55 @@ public class ENSCFilter {
     	return ( c == 32 || c == 12288 );
     }
     
+	/**
+	 * check the specified char is a digit or not.
+	 * 		true will return if it is or return false
+	 * this method can recognize full-with char.
+	 * 
+	 * @param	str
+	 * @return	boolean
+	 */
+	public static boolean isDigit( String str ) 
+	{
+		char c;
+		for ( int j = 0; j < str.length(); j++ ) 
+		{
+			c = str.charAt(j);
+			//make full-width char half-width
+			if ( c > 65280 ) c -= 65248;
+			if ( c < 48 || c > 57 ) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * check the specified char is a decimal.
+	 * 	including the full-width char.
+	 * 
+	 * @param	str
+	 * @return	boolean
+	 */
+	public static boolean isDecimal( String str ) 
+	{
+		if ( str.charAt(str.length() - 1) == '.' 
+				|| str.charAt(0) == '.' ) return false;
+		char c;
+		int p= 0;		//number of point
+		for ( int j = 1; j < str.length(); j++ ) 
+		{
+			c = str.charAt(j);
+			if ( c == '.' ) p++;
+			else 
+			{
+				//make full-width half-width
+				if ( c > 65280 ) c -= 65248;
+				if ( c < 48 || c > 57 ) return false;
+			}
+		}
+		
+		return (p==1);
+	}
+    
     /**
      * a static method to replace the full-width char to the half-width char
      * 		in a given string. 

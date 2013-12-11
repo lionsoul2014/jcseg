@@ -139,7 +139,9 @@ public abstract class ASegment implements ISegment {
 		while ( (c = readNext()) != -1 ) {
 			if ( ENSCFilter.isWhitespace(c) ) continue;
 			pos = idx;
-			//System.out.println((char)c);
+			
+			/* CJK string.
+			 * */
 			if ( isCJKChar( c ) ) 
 			{
 				char[] chars = nextCJKSentence(c);
@@ -399,6 +401,8 @@ public abstract class ASegment implements ISegment {
 				if ( wordPool.size() == 0 ) continue; 
 				return wordPool.removeFirst();
 			} 
+			/* english/latin char.
+			 * */
 			else if ( isEnChar(c) ) 
 			{
 				IWord w;
@@ -437,6 +441,8 @@ public abstract class ASegment implements ISegment {
 				w.setPosition(pos);
 				return w;
 			} 
+			/* find a content around with pair punctuations.
+			 * */
 			else if ( PPTFilter.isPairPunctuation( (char) c ) ) 
 			{
 				IWord w = null, w2 = null;
@@ -473,6 +479,8 @@ public abstract class ASegment implements ISegment {
 				
 				return w;
 			} 
+			/* letter number like 'ⅠⅡ';
+			 * */
 			else if ( isLetterNumber(c) ) 
 			{
 				IWord w = new Word(nextLetterNumber(c), IWord.T_OTHER_NUMBER);
@@ -483,6 +491,8 @@ public abstract class ASegment implements ISegment {
 				w.setPosition(pos);
 				return w;
 			} 
+			/* other number like '①⑩⑽㈩';
+			 * */
 			else if ( isOtherNumber(c) ) 
 			{
 				IWord w = new Word(nextOtherNumber(c), IWord.T_OTHER_NUMBER);
@@ -493,6 +503,8 @@ public abstract class ASegment implements ISegment {
 				w.setPosition(pos);
 				return w;
 			} 
+			/* chinse punctuation.
+			 * */
 			else if ( ENSCFilter.isCnPunctuation( c ) ) 
 			{
 				String str = ((char)c)+"";
@@ -560,53 +572,6 @@ public abstract class ASegment implements ISegment {
 			return true;
 		return false;*/
 		return ( ENSCFilter.isHWEnChar(c) || ENSCFilter.isFWEnChar(c) );
-	}
-	
-	/**
-	 * check the specified char is a digit or not.
-	 * 		true will return if it is or return false
-	 * this method can recognize full-with char.
-	 * 
-	 * @param	str
-	 * @return	boolean
-	 */
-	static boolean isDigit( String str ) 
-	{
-		char c;
-		for ( int j = 0; j < str.length(); j++ ) {
-			c = str.charAt(j);
-			//make full-width char half-width
-			if ( c > 65280 ) c -= 65248;
-			if ( c < 48 || c > 57 ) return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * check the specified char is a decimal.
-	 * 	including the full-width char.
-	 * 
-	 * @param	str
-	 * @return	boolean
-	 */
-	static boolean isDecimal( String str ) 
-	{
-		if ( str.charAt(str.length() - 1) == '.' 
-				|| str.charAt(0) == '.' ) return false;
-		char c;
-		int p= 0;		//number of point
-		for ( int j = 1; j < str.length(); j++ ) {
-			c = str.charAt(j);
-			if ( c == '.' ) p++;
-			else 
-			{
-				//make full-width half-width
-				if ( c > 65280 ) c -= 65248;
-				if ( c < 48 || c > 57 ) return false;
-			}
-		}
-		
-		return (p==1);
 	}
 	
 	/**
@@ -998,8 +963,9 @@ public abstract class ASegment implements ISegment {
 			 * we check the units here, so we can recognize
 			 * many other units that is not chinese like '℉,℃' eg..
 			 * */
-			if ( chkunits 
-					&& ( isDigit(__str) || isDecimal(__str) ) ) {
+			if ( chkunits && ( ENSCFilter.isDigit(__str) 
+						|| ENSCFilter.isDecimal(__str) ) ) 
+			{
 				ch = readNext();
 				if ( dic.match(ILexicon.CJK_UNITS, ((char)ch)+"") ) {
 					w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
@@ -1069,7 +1035,9 @@ public abstract class ASegment implements ISegment {
 		 * many other units that is not chinese like '℉,℃'
 		 * */
 		if ( chkunits && mc == 0 ) {
-			if ( isDigit(__str) || isDecimal(__str) ) {
+			if ( ENSCFilter.isDigit(__str) 
+					|| ENSCFilter.isDecimal(__str) ) 
+			{
 				ch = readNext();
 				if ( dic.match(ILexicon.CJK_UNITS, ((char)ch)+"") ) {
 					w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
