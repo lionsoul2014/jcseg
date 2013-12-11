@@ -1,19 +1,20 @@
 jcseg-1.9.2:
-1. 配置文件中词库多目录加载.
-2. 词库自动重载正则支持.
-3. 中文分数转阿拉伯分数bug修复.
-4. 词库合并工具bug修复.														-done
-5. 词库加载错误友好提示.
-6. 对复杂的数字和英文组合词进行再次切分, 例如: QQ2013, 切分成qq2013, qq, 2013
+1. 配置文件中词库多目录加载.									-done
+#2. 词库自动重载正则支持.
+2. 中文分数转阿拉伯分数bug修复.
+3. 词库合并工具bug修复.										-done
+4. 词库加载错误友好提示.									-done
+5. 对复杂的数字和英文组合词进行再次切分, 例如: QQ2013, 切分成qq2013, qq, 2013
+6. 去除默认对^,/,-等标点的自动保留, 英文可以得到更细化的且分.		-done
 
 jcseg-1.9.1:
-1. 优化IStringBuffer#resizeTo()方法, 使用System.arraycopy代替循环来拷贝元素.			-done
-2. 增加了util.dic.STConverter类来进行简体和繁体字符串的相互转换.						-done
-3. 增加了util.dic.DicConverter来管理jcseg词库简体和繁体相互转换.						-done
-4. 增加了util.dic.DicMerge类来合并jcseg的简体和繁体词库生成简繁体混合词库.				-done
-5. 将jcseg目前的简体词库经过转换得到了一份繁体词库(适合繁体切分).							-done
-6. 将简体词库和繁体词库进行了合并, 得到了一份简繁体混合词库.(简繁体通用, 但是会耗费更多内存).	-done
-7. 修复ASegment#nextBasicLatin()中"数字+空格+单位"组合中忽略空格直接组合数组和单位的bug.	-done
+1. 优化IStringBuffer#resizeTo()方法, 使用System.arraycopy代替循环来拷贝元素.
+2. 增加了util.dic.STConverter类来进行简体和繁体字符串的相互转换.
+3. 增加了util.dic.DicConverter来管理jcseg词库简体和繁体相互转换.
+4. 增加了util.dic.DicMerge类来合并jcseg的简体和繁体词库生成简繁体混合词库.
+5. 将jcseg目前的简体词库经过转换得到了一份繁体词库(适合繁体切分).
+6. 将简体词库和繁体词库进行了合并, 得到了一份简繁体混合词库.(简繁体通用, 但是会耗费更多内存).
+7. 修复ASegment#nextBasicLatin()中"数字+空格+单位"组合中忽略空格直接组合数组和单位的bug.
 
 jcseg-1.9.0:
 1. 修复"小数+单位"无法识别的情况.更改ASegment#isDigit()方法.
