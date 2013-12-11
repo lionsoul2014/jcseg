@@ -31,7 +31,9 @@ public class SpeedTest {
 			long start = System.currentTimeMillis();
 			JcsegTaskConfig  config = new JcsegTaskConfig();
 			ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
-			dic.loadFromLexiconDirectory(config.getLexiconPath());
+			//load lexicon
+			//for ( String lpath : config.getLexiconPath() )
+			//	dic.loadFromLexiconDirectory(lpath);
 			seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
 					new Object[]{config, dic});
 			System.out.println("Diciontary Loaded, cost:"+(System.currentTimeMillis() - start)+" msec");

@@ -34,7 +34,8 @@ public class JcsegTest {
 		ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
 		
 		//two ways to reload lexicons
-		//dic.loadFromLexiconDirectory(config.getLexiconPath());
+		//for ( String lpath : config.getLexiconPath() )
+		//	dic.loadFromLexiconDirectory(lpath);
 		//dic.loadFromLexiconFile("/java/lex-main.lex");
 		seg = SegmentFactory
 				.createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
@@ -102,7 +103,7 @@ public class JcsegTest {
 	 */
 	public static void main(String[] args) throws JcsegException, IOException {
 		String str = "歧义和同义词:研究生命起源，" +
-				"混合词: 做B超检查身体，X-射线就是x射线，今天去奇都ktv唱卡拉ok去，哆啦a梦是一个动漫中的主角，" +
+				"混合词: 做B超检查身体，x射线本质是什么，今天去奇都ktv唱卡拉ok去，哆啦a梦是一个动漫中的主角，" +
 				"单位和全角: 2009年８月６日开始大学之旅，岳阳今天的气温为38.6℃, 也就是101.48℉, " +
 				"中文数字: 四分之三的人都交了六十五块钱班费，那是一九九八年前的事了，四川麻辣烫很好吃，五四运动留下的五四精神。笔记本五折包邮亏本大甩卖。"+
 				"人名识别: 我是陈鑫，也是jcesg的作者，三国时期的诸葛亮是个天才，我们一起给刘翔加油，" +
