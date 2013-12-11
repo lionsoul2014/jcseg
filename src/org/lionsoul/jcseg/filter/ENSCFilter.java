@@ -1,8 +1,5 @@
 package org.lionsoul.jcseg.filter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * a class to deal with the english stop char 
  * 		like the english punctuation ';' <br />
@@ -11,7 +8,9 @@ import java.util.Map;
  */
 public class ENSCFilter {
 	
-	private static final Character[] EN_KEEP_CHARS = {
+	private static final String EN_KEEP_CHARS = "@%&.'#+";
+	
+	/*private static final Character[] EN_KEEP_CHARS = {
 		'@', '$', '%', '^', '&', '-', ':', '.', '/', '\'', '#', '+'};
 	
 	private static Map<Character, Character> enKeepChar = null;
@@ -22,7 +21,7 @@ public class ENSCFilter {
 		//set the keep char's keep status
 		for ( int j = 0; j < EN_KEEP_CHARS.length; j++ )
 			enKeepChar.put(EN_KEEP_CHARS[j], EN_KEEP_CHARS[j]);
-	}
+	}*/
 	
 	/**
 	 * check the given char is english stop punctuation.
@@ -31,7 +30,8 @@ public class ENSCFilter {
 	 * @return boolean
 	 */
 	public static boolean isENKeepChar( char c ) {
-		return enKeepChar.containsKey(c);
+		return (EN_KEEP_CHARS.indexOf(c) > -1);
+		//return enKeepChar.containsKey(c);
 	}
 	
 	public static boolean isUpperCaseLetter( int u ) {
