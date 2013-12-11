@@ -46,7 +46,15 @@ public class DictionaryFactory {
 					new Class[]{JcsegTaskConfig.class, Boolean.class},
 					new Object[]{config, sync});
 		try {
-			dic.loadFromLexiconDirectory(config.getLexiconPath());
+			//load lexicon from more than one path.
+			String[] lexpath = config.getLexiconPath();
+			if ( lexpath == null ) 
+				throw new IOException("Invalid lexicon path, " +
+						"make use the JcsegTaskConfig is initialized.");
+			
+			//load word item from all the directories.
+			for ( String lpath : lexpath )
+				dic.loadFromLexiconDirectory(lpath);
 			if ( dic.getConfig().isAutoload() ) dic.startAutoload();
 		} catch (IOException e) {
 			e.printStackTrace();

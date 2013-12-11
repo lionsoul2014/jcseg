@@ -323,8 +323,23 @@ public abstract class ADictionary {
 					}
 				}
 				//normal words lexicon file
-				else {
+				else 
+				{
 					String[] wd = line.split("/");
+					
+					if ( wd.length < 4 ) {	//format check
+						System.out.println("Lexicon File: " + file.getAbsolutePath() 
+								+ "#" + wd[0] + " format error. -ignored");
+						continue;
+					}
+					if ( wd.length == 5 ) {	//single word degree check.
+						if ( ! ENSCFilter.isDigit(wd[4]) ) {
+							System.out.println("Lexicon File: " + file.getAbsolutePath()
+									+ "#" + wd[0] + " format error(single word " +
+									"degree should be an integer). -ignored");
+							continue;
+						}
+					}
 					
 					//length limit(CJK_WORD only)
 					if ( ( t == ILexicon.CJK_WORD ) 

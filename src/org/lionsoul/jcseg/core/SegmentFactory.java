@@ -12,6 +12,9 @@ import java.lang.reflect.Constructor;
  */
 public class SegmentFactory {
 	
+	//current jcseg version.
+	public static final String version = "1.9.2";
+	
 	/**
 	 * load the ISegment class with the given path
 	 * 

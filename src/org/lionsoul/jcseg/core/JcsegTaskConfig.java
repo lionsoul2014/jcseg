@@ -81,7 +81,7 @@ public class JcsegTaskConfig {
 	
 	private String prefix = "lex";
 	private String suffix = "lex";
-	private String lexPath = null;
+	private String[] lexPath = null;		/*lexicon direcotry path array.*/
 	private boolean lexAutoload = false;
 	private int polltime = 10;
 	
@@ -162,12 +162,23 @@ public class JcsegTaskConfig {
 		
 		/*about the lexicon*/
 		//the lexicon path
-		lexPath = lexPro.getProperty("lexicon.path");
-		if ( lexPath == null )
+		String lexDirs = lexPro.getProperty("lexicon.path");
+		if ( lexDirs == null )
 			throw new IOException("lexicon.path property not find in jcseg.properties file!!!");
-		if ( lexPath.indexOf("{jar.dir}") > -1 )
-			lexPath = lexPath.replace("{jar.dir}", JAR_HOME);
+		if ( lexDirs.indexOf("{jar.dir}") > -1 )
+			lexDirs = lexDirs.replace("{jar.dir}", JAR_HOME);
 		//System.out.println("path: "+lexPath);
+		
+		//Multiple path for lexicon.path.
+		lexPath = lexDirs.split(":");
+		File f = null;
+		for ( String fpath : lexPath ) {
+			f = new File(fpath);
+			if ( ! f.exists() ) 
+				throw new IOException("Invalid sub lexicon path " + fpath 
+						+ " for lexicon.path in jcseg.properties");
+			f = null;	//Let gc do its work.
+		}
 		
 		//the lexicon file prefix and suffix
 		if ( lexPro.getProperty("lexicon.suffix") != null )
@@ -226,8 +237,12 @@ public class JcsegTaskConfig {
 		return suffix;
 	}
 	/**return the lexicon directory path*/
-	public String getLexiconPath() {
+	public String[] getLexiconPath() {
 		return lexPath;
+	}
+	
+	public void setLexiconPath( String[] lexPath ) {
+		this.lexPath = lexPath;
 	}
 	
 	/**about lexicon autoload*/
