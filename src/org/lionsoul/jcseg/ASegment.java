@@ -185,11 +185,12 @@ public abstract class ASegment implements ISegment {
 						 * && CNNMFilter.isCNNumeric(chars[cjkidx+3]) > -1.
 						 * }}}
 						 * 
-						 * checkCF will be reset to be true it num is a chinese fraction.
+						 * checkCF will be reset to be 'TRUE' it num is a chinese fraction.
 						 * @added 2013-12-14.
 						 * */
 						if ( checkCF  ) 
 						{
+							//get the chinese fraction.
 							w = new Word(num, IWord.T_CN_NUMERIC);
 							w.setPosition(pos+cjkidx);
 							w.setPartSpeech(IWord.NUMERIC_POSPEECH);
@@ -210,9 +211,13 @@ public abstract class ASegment implements ISegment {
 								wordPool.add(wd);
 							}
 						} 
-						//check the chinese numeric and single units.
+						/*
+						 * check the chinese numeric and single units.
+						 * 	type to find chinese and unit composed word.
+						 * */
 						else if ( CNNMFilter.isCNNumeric(chars[cjkidx+1]) > -1
-								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) {
+								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) 
+						{
 							
 							StringBuilder sb = new StringBuilder();
 							String temp = null;
