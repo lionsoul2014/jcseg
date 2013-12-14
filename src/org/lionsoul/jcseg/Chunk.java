@@ -88,6 +88,7 @@ public class Chunk implements IChunk {
 				//one-character word
 				if ( words[j].getLength() == 1 ) {
 					singleWordMorphemicFreedom = singleWordMorphemicFreedom 
+						//+ words[j].getFrequency();
 						+ Math.log((double) words[j].getFrequency());
 				}
 			}

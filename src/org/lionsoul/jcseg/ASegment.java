@@ -36,7 +36,11 @@ public abstract class ASegment implements ISegment {
 	protected LinkedList<IWord> wordPool = new LinkedList<IWord>();
 	protected IStringBuffer isb;
 	protected IntArrayList ialist;
+	
+	//Wether to check the chinese and english mixed word.
 	protected boolean checkCE = false;
+	//Wether to check the chinese fraction.
+	protected boolean checkCF = false;
 	
 	/*the dictionary and task config*/
 	protected ADictionary dic;
@@ -133,11 +137,16 @@ public abstract class ASegment implements ISegment {
 	 * @see ISegment#next() 
 	 */
 	@Override
-	public IWord next() throws IOException {
-		if ( wordPool.size() > 0 ) return wordPool.removeFirst(); 
+	public IWord next() throws IOException 
+	{
+		if ( wordPool.size() > 0 ) 
+			return wordPool.removeFirst(); 
 		int c, pos;
-		while ( (c = readNext()) != -1 ) {
-			if ( ENSCFilter.isWhitespace(c) ) continue;
+		
+		while ( (c = readNext()) != -1 ) 
+		{
+			if ( ENSCFilter.isWhitespace(c) ) 
+				continue;
 			pos = idx;
 			
 			/* CJK string.
@@ -158,15 +167,29 @@ public abstract class ASegment implements ISegment {
 					/*
 					 * @istep 1: 
 					 * 
-					 * check if there is chinese numeric
+					 * check if there is chinese numeric. 
+					 * 	make sure chars[cjkidx] is a chinese numeric
+					 * 		and	it is not the last word.
 					 */
 					if ( CNNMFilter.isCNNumeric(chars[cjkidx]) > -1 
 							&& cjkidx + 1 < chars.length ) {
+						
 						//get the chinese numeric chars
 						String num = nextCNNumeric( chars, cjkidx );
-						if (cjkidx + 3 < chars.length && chars[cjkidx+1] == '分' 
-									&& chars[cjkidx+2] == '之' 
-									&& CNNMFilter.isCNNumeric(chars[cjkidx+3]) > -1  )  {
+						
+						/*
+						 * check the chinese fraction.
+						 * old logic: {{{
+						 * cjkidx + 3 < chars.length && chars[cjkidx+1] == '分' 
+						 * 		&& chars[cjkidx+2] == '之' 
+						 * && CNNMFilter.isCNNumeric(chars[cjkidx+3]) > -1.
+						 * }}}
+						 * 
+						 * checkCF will be reset to be true it num is a chinese fraction.
+						 * @added 2013-12-14.
+						 * */
+						if ( checkCF  ) 
+						{
 							w = new Word(num, IWord.T_CN_NUMERIC);
 							w.setPosition(pos+cjkidx);
 							w.setPartSpeech(IWord.NUMERIC_POSPEECH);
@@ -176,7 +199,8 @@ public abstract class ASegment implements ISegment {
 							 * Convert the chinese fraction to arabic fraction,
 							 * 		if the Config.CNFRA_TO_ARABIC is true.
 							 */
-							if ( config.CNFRA_TO_ARABIC ) {
+							if ( config.CNFRA_TO_ARABIC ) 
+							{
 								String[] split = num.split("分之");
 								IWord wd = new Word(CNNMFilter.cnNumericToArabic(split[1], true)
 										+"/"+CNNMFilter.cnNumericToArabic(split[0], true),
@@ -185,7 +209,9 @@ public abstract class ASegment implements ISegment {
 								wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
 								wordPool.add(wd);
 							}
-						} else if ( CNNMFilter.isCNNumeric(chars[cjkidx+1]) > -1
+						} 
+						//check the chinese numeric and single units.
+						else if ( CNNMFilter.isCNNumeric(chars[cjkidx+1]) > -1
 								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) {
 							
 							StringBuilder sb = new StringBuilder();
@@ -237,7 +263,8 @@ public abstract class ASegment implements ISegment {
 							w.setPosition(pos + cjkidx);
 							wordPool.add(w);
 							if ( wd != null ) wordPool.add(wd);
-						}
+						}	//end chinese numeric
+						
 						
 						if ( w != null ) {
 							cjkidx += w.getLength();
@@ -413,7 +440,7 @@ public abstract class ASegment implements ISegment {
 							&& dic.match(ILexicon.STOP_WORD, str) ) continue;
 					w = new Word(str, IWord.T_PUNCTUATION);
 					w.setPartSpeech(IWord.PUNCTUATION);
-				} else {
+				} else  {
 					w = nextBasicLatin(c);
 					//clear the stopwords
 					if ( config.CLEAR_STOPWORD 
@@ -423,13 +450,16 @@ public abstract class ASegment implements ISegment {
 					 * append the english synoyms words.
 					 */
 					if ( config.APPEND_CJK_SYN 
-							&& dic.match(ILexicon.EN_WORD, w.getValue()) ) {
+							&& dic.match(ILexicon.EN_WORD, w.getValue()) ) 
+					{
 						String[] syns = dic.get(ILexicon.EN_WORD, 
 								w.getValue()).getSyn();
-						if ( syns != null ) {
+						if ( syns != null ) 
+						{
 							IWord wd;
 							for ( int j = 0;
-									j < syns.length; j++ ) {
+									j < syns.length; j++ ) 
+							{
 								wd = new Word(syns[j], w.getType());
 								wd.setPartSpeech(w.getPartSpeech());
 								wd.setPosition(w.getPosition());
@@ -856,7 +886,8 @@ public abstract class ASegment implements ISegment {
 		isb.append((char)c);
 		
 		checkCE = false;
-		while ( (ch = readNext()) != -1 ) {
+		while ( (ch = readNext()) != -1 ) 
+		{
 			if ( ENSCFilter.isWhitespace(ch) ) break;
 			if ( ! isCJKChar(ch) ) {
 				pushBack(ch);
@@ -866,6 +897,7 @@ public abstract class ASegment implements ISegment {
 			} 
 			isb.append((char)ch);
 		}
+		
 		return isb.toString().toCharArray();
 	}
 	
@@ -884,32 +916,40 @@ public abstract class ASegment implements ISegment {
 		if ( ENSCFilter.isUpperCaseLetter(c) ) c = c + 32; 
 		isb.append((char)c);
 		int ch;
-		boolean __check = false, __wspace = false;
+		boolean __check = false;
+		boolean __wspace = false;
+		
 		while ( (ch = readNext()) != -1 ) 
 		{
+			//whitespace check.
 			if ( ENSCFilter.isWhitespace(ch) ) {
 				__wspace = true;
 				break;
 			}
+			
+			//english punctuation check.
 			if ( ENSCFilter.isEnPunctuation(ch) 
 					&& ! ENSCFilter.isENKeepChar((char)ch) ) {
 				pushBack(ch);
 				break;
 			} 
+			
+			//english char check, so, wether to continue the loop?
 			if ( ! isEnChar(ch) ) {
 				pushBack(ch);
 				if ( isCJKChar( ch ) ) __check = true;
 				break;
 			}
 			
-			//turn the full-width char to half-width char.
+			//covert the full-width char to half-width char.
 			if ( ENSCFilter.isFWEnChar(ch) )
 				ch = ch - 65248;
-			//turn the lower case letter to upper case.
+			//covert the lower case letter to upper case.
 			if ( ENSCFilter.isUpperCaseLetter(ch) )
 				ch = ch + 32;
-
+			//append the char to the buffer.
 			isb.append((char)ch);
+			
 		}
 		
 		String __str = isb.toString();
@@ -957,8 +997,7 @@ public abstract class ASegment implements ISegment {
 			return w;
 		}
 		
-		if ( ! __check )  
-		{	
+		if ( ! __check )  {	
 			/* @reader: (2013-09-25)
 			 * we check the units here, so we can recognize
 			 * many other units that is not chinese like '℉,℃' eg..
@@ -1120,19 +1159,37 @@ public abstract class ASegment implements ISegment {
 		//StringBuilder isb = new StringBuilder();
 		isb.clear();
 		isb.append( chars[ index ]);
-		for ( int j = index + 1; j < chars.length; j++ ) {
-			//System.out.println("cn:"+chars[j]);
-			if ( CNNMFilter.isCNNumeric( chars[j] ) == -1 ) {
-				//deal with “分之”
-				if ( j + 2 < chars.length
-						&& chars[j] == '分' && chars[j+1] == '之') {
+		checkCF = false;		//reset the fraction checker.
+		
+		for ( int j = index + 1;
+					j < chars.length; j++ ) 
+		{
+			/* check and deal with '分之' if the 
+			 * 	current char is not a chinese numeric. 
+			 * 		(try to recognize a chinese fraction)
+			 * @added 2013-12-14
+			 * */
+			if ( CNNMFilter.isCNNumeric(chars[j]) == -1 ) 
+			{
+				if ( j + 2 < chars.length 
+						&& chars[j  ] == '分' 
+						&& chars[j+1] == '之'
+						/*check and make sure chars[j+2] is a chinese numeric.
+						 *  or error will happen on situation like '四六分之' .
+						 *  @added 2013-12-14 */
+						&& CNNMFilter.isCNNumeric(chars[j+2]) != -1 ) 
+				{
 					isb.append(chars[j++]);
-					isb.append(chars[j]);
+					isb.append(chars[j++]);
+					isb.append(chars[j  ]);
+					//System.out.println("In: "+chars[j]);
+					checkCF = true;
 					continue;
 				} 
 				else 
 					break;
 			}
+			//append the buffer.
 			isb.append( chars[j] );
 		}
 		return isb.toString();

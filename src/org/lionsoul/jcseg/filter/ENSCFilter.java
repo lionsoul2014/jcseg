@@ -2,11 +2,17 @@ package org.lionsoul.jcseg.filter;
 
 /**
  * a class to deal with the english stop char 
- * 		like the english punctuation ';' <br />
+ * 		like the english punctuation. <br />
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class ENSCFilter {
+public class ENSCFilter 
+{
+	//type constants
+	public static final int EN_LETTER = 0;
+	public static final int EN_NUMERIC = 1;
+	public static final int EN_PUNCTUATION = 2;
+	public static final int EN_UNKNOW = -1;
 	
 	private static final String EN_KEEP_CHARS = "@%&.'#+";
 	
@@ -58,6 +64,22 @@ public class ENSCFilter {
 	public static boolean isEnLetter( int u ) {
 		if ( u > 65280 ) u -= 65248;			//make full-with half-width
 		return ( (u >= 65 && u <= 90) || ( u >= 97 && u <= 122 ) );
+	}
+	
+	/**
+	 * get the type of the english char
+	 * 	defined in this class and start with EN_. (only half-width)
+	 * 
+	 * @param	u	char to identity.
+	 * @return	int	type keywords. 
+	 */
+	public static int getEnCharType( int u ) {
+		//if ( u > 65280 ) u -= 65248;			//make full-with half-width
+		//if ( u < 32 || u > 126 )	return EN_UNKNOW;
+		if ( u >= 48 && u <= 57 )	return EN_NUMERIC;
+		if ( u >= 65 && u <= 90 )	return EN_LETTER;
+		if ( u >= 97 && u <= 122 )	return EN_LETTER;
+		return EN_PUNCTUATION;
 	}
 	
 	/**
