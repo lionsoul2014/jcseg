@@ -57,6 +57,7 @@ public class JcsegTest {
 		System.out.println("中文数字转阿拉伯："+config.CNNUM_TO_ARABIC);
 		System.out.println("中文分数转阿拉伯："+config.CNFRA_TO_ARABIC);
 		System.out.println("保留未识别的字符："+config.KEEP_UNREG_WORDS);
+		System.out.println("英文词条二次切分："+config.EN_SECOND_SEG);
 		System.out.println("姓名成词歧义阕值："+config.NAME_SINGLE_THRESHOLD+"\n");
 	}
 	
