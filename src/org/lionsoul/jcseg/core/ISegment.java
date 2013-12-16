@@ -10,6 +10,13 @@ import java.io.Reader;
  */
 public interface ISegment {
 	
+	//Wether to check the chinese and english mixed word.
+	public static final int CHECK_CE_MASk = 1 << 0;
+	//Wether to check the chinese fraction.
+	public static final int CHECK_CF_MASK = 1 << 1;
+	//Wether to start the latin secondary segmentation.
+	public static final int START_SS_MASK = 1 << 2;
+	
 	/**
 	 * reset the reader
 	 * 
