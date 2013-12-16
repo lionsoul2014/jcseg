@@ -12,6 +12,7 @@ public class ENSCFilter
 	public static final int EN_LETTER = 0;
 	public static final int EN_NUMERIC = 1;
 	public static final int EN_PUNCTUATION = 2;
+	public static final int EN_WHITESPACE = 3;
 	public static final int EN_UNKNOW = -1;
 	
 	private static final String EN_KEEP_CHARS = "@%&.'#+";
@@ -75,7 +76,8 @@ public class ENSCFilter
 	 */
 	public static int getEnCharType( int u ) {
 		//if ( u > 65280 ) u -= 65248;			//make full-with half-width
-		//if ( u < 32 || u > 126 )	return EN_UNKNOW;
+		if ( u > 126 )				return EN_UNKNOW;
+		if ( u == 32 )				return EN_WHITESPACE;
 		if ( u >= 48 && u <= 57 )	return EN_NUMERIC;
 		if ( u >= 65 && u <= 90 )	return EN_LETTER;
 		if ( u >= 97 && u <= 122 )	return EN_LETTER;
