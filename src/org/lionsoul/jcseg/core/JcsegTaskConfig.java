@@ -16,7 +16,8 @@ import org.lionsoul.jcseg.util.Util;
  * @author	chenxin<chenxin619315@gmail.com>
  * @see		Config
  */
-public class JcsegTaskConfig {
+public class JcsegTaskConfig 
+{
 	
 	/**jar home directory.*/
 	public static String JAR_HOME = null;
@@ -76,6 +77,11 @@ public class JcsegTaskConfig {
 	
 	/**chinese fraction to arabic fraction .*/
 	public boolean CNFRA_TO_ARABIC = true;
+	
+	/*Wether to do the secondary split for complex latin compose*/
+	public boolean EN_SECOND_SEG = true;
+	/*Less length for the second split to make up a word*/
+	public int STOKEN_MIN_LEN = 1;
 	
 	public boolean KEEP_UNREG_WORDS = false;
 	
@@ -226,6 +232,13 @@ public class JcsegTaskConfig {
 			lexAutoload = true;
 		if ( lexPro.getProperty("lexicon.polltime") != null )
 			polltime = Integer.parseInt(lexPro.getProperty("lexicon.polltime"));
+		
+		//secondary split
+		if ( lexPro.getProperty("jcseg.ensencondseg") != null
+				&& lexPro.getProperty("jcseg.ensencondseg").equals("0"))
+			EN_SECOND_SEG = false;
+		if ( lexPro.getProperty("jcseg.stokenminlen") != null )
+			STOKEN_MIN_LEN = Integer.parseInt(lexPro.getProperty("jcseg.stokenminlen"));
 	}
 	
 	/**property about lexicon file.*/
@@ -376,6 +389,22 @@ public class JcsegTaskConfig {
 
 	public void setCnFactionToArabic( boolean cnFractionToArabic ) {
 		CNFRA_TO_ARABIC = cnFractionToArabic;
+	}
+	
+	public boolean getEnSecondSeg() {
+		return EN_SECOND_SEG;
+	}
+	
+	public void setEnSecondSeg( boolean enSecondSeg ) {
+		this.EN_SECOND_SEG = enSecondSeg;
+	}
+	
+	public int getSTokenMinLen() {
+		return STOKEN_MIN_LEN;
+	}
+	
+	public void setSTokenMinLen( int len ) {
+		STOKEN_MIN_LEN = len;
 	}
 	
 	public boolean keepUnregWords() {
