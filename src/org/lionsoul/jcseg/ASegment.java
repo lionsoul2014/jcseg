@@ -44,12 +44,16 @@ public abstract class ASegment implements ISegment {
 	protected ADictionary dic;
 	protected JcsegTaskConfig config;
 	
-	public ASegment( JcsegTaskConfig config, ADictionary dic ) throws IOException {
+	public ASegment( JcsegTaskConfig config, 
+			ADictionary dic ) throws IOException 
+	{
 		this(null, config, dic);
 	}
 	
 	public ASegment( Reader input, 
-				JcsegTaskConfig config, ADictionary dic ) throws IOException {
+				JcsegTaskConfig config, 
+				ADictionary dic ) throws IOException 
+				{
 		this.config = config;
 		this.dic = dic;
 		isb = new IStringBuffer(64);
@@ -63,7 +67,8 @@ public abstract class ASegment implements ISegment {
 	 * @param input
 	 * @throws IOException
 	 */
-	public void reset( Reader input ) throws IOException { 
+	public void reset( Reader input ) throws IOException 
+	{ 
 		if ( input != null )
 			reader = new PushbackReader(new BufferedReader(input), 64);
 		idx = -1;
@@ -694,6 +699,7 @@ public abstract class ASegment implements ISegment {
 				isb.append(chars[j]);
 				_TYPE = _ctype;
 			}
+			
 		}
 		
 		//Continue to check the last item.
@@ -1129,7 +1135,8 @@ public abstract class ASegment implements ISegment {
 			//English punctuation check.
 			if ( _ctype == ENSCFilter.EN_PUNCTUATION )
 			{
-				if ( ! ENSCFilter.isENKeepChar((char)ch) ) {
+				if ( ! config.isKeepPunctuation((char)ch) ) 
+				{
 					pushBack(ch);
 					break;
 				}

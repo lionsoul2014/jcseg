@@ -31,12 +31,12 @@ public class ENSCFilter
 	}*/
 	
 	/**
-	 * check the given char is english stop punctuation.
+	 * check the given char is english keep punctuation.
 	 * 
-	 * @param c
-	 * @return boolean
+	 * @param	c
+	 * @return	boolean
 	 */
-	public static boolean isENKeepChar( char c ) {
+	public static boolean isENKeepPunctuaton( char c ) {
 		return (EN_KEEP_CHARS.indexOf(c) > -1);
 		//return enKeepChar.containsKey(c);
 	}

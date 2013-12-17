@@ -83,6 +83,9 @@ public class JcsegTaskConfig
 	/*Less length for the second split to make up a word*/
 	public int STOKEN_MIN_LEN = 1;
 	
+	/*keep puncutations*/
+	private String KEEP_PUNCTUATIONS = "@%&.'#+";
+	
 	public boolean KEEP_UNREG_WORDS = false;
 	
 	private String prefix = "lex";
@@ -176,7 +179,7 @@ public class JcsegTaskConfig
 		//System.out.println("path: "+lexPath);
 		
 		//Multiple path for lexicon.path.
-		lexPath = lexDirs.split(":");
+		lexPath = lexDirs.split(";");
 		File f = null;
 		for ( String fpath : lexPath ) {
 			f = new File(fpath);
@@ -239,6 +242,10 @@ public class JcsegTaskConfig
 			EN_SECOND_SEG = false;
 		if ( lexPro.getProperty("jcseg.stokenminlen") != null )
 			STOKEN_MIN_LEN = Integer.parseInt(lexPro.getProperty("jcseg.stokenminlen"));
+		
+		//load the keep punctuations.
+		if ( lexPro.getProperty("jcseg.keeppunctuations") != null )
+			KEEP_PUNCTUATIONS = lexPro.getProperty("jcseg.keeppunctuations");
 	}
 	
 	/**property about lexicon file.*/
@@ -405,6 +412,14 @@ public class JcsegTaskConfig
 	
 	public void setSTokenMinLen( int len ) {
 		STOKEN_MIN_LEN = len;
+	}
+	
+	public void setKeepPunctuations( String keepPunctuations ) {
+		KEEP_PUNCTUATIONS = keepPunctuations;
+	}
+	
+	public boolean isKeepPunctuation( char c ) {
+		return (KEEP_PUNCTUATIONS.indexOf(c) > -1);
 	}
 	
 	public boolean keepUnregWords() {
