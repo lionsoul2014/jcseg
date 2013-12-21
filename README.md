@@ -25,7 +25,7 @@ jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算
 
 10。<font color="red">(!New)</font>自定义切分保留标点. 例如: 保留&, 就可以识别k&r这种复杂词条。
 
-11。<font color="red">(!New)</font>复杂英文切分结果的二次切分: 例如QQ2013会被切分成: qq2013/ qq/ 2013,  chenxin619315@gmail.com会被切分成: chenxin619315@gmail.com/ chenxin/ 619315/ gmail/ com。
+11。<font color="red">(!New)</font>复杂英文切分结果的二次切分:  可以保留原组合，同时可以避免复杂切分带来的检索命中率下降的情况，例如QQ2013会被切分成: qq2013/ qq/ 2013,  chenxin619315@gmail.com会被切分成: chenxin619315@gmail.com/ chenxin/ 619315/ gmail/ com。
 
 12。支持阿拉伯数字/小数/中文数字基本单字单位的识别，例如2012年，1.75米，38.6℃，五折，并且jcseg会将其转换为“5折”加入分词结果中。
 
