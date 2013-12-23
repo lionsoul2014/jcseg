@@ -22,7 +22,7 @@ import org.lionsoul.jcseg.util.IntArrayList;
 
 /**
  * abstract segment class, implemented ISegment interface <br />
- * implements all the common method that 
+ * implemented all the common method that 
  * 		simple segment and Complex segment algorithm both share. <br />
  * 
  * @author	chenxin <chenxin619315@gmail.com>
@@ -33,7 +33,7 @@ public abstract class ASegment implements ISegment {
 	protected int idx;
 	protected PushbackReader reader = null;
 	/*CJK word cache poll*/
-	protected LinkedList<IWord> wordPool = new LinkedList<IWord>();
+	protected LinkedList<IWord> wordPool = null;
 	protected IStringBuffer isb;
 	protected IntArrayList ialist;
 	
@@ -56,6 +56,7 @@ public abstract class ASegment implements ISegment {
 				{
 		this.config = config;
 		this.dic = dic;
+		wordPool = new LinkedList<IWord>();
 		isb = new IStringBuffer(64);
 		ialist = new IntArrayList(15);
 		reset(input);
@@ -459,7 +460,7 @@ public abstract class ASegment implements ISegment {
 						//check and to the secondary split.
 						if ( config.EN_SECOND_SEG
 								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 )
-							enSecondSeg(w);
+							enSecondSeg(enAfter);
 						wordPool.add(enAfter);
 						//append the synoyms words.
 						if ( config.APPEND_CJK_SYN ) appendLatinSyn(enAfter);
@@ -473,7 +474,7 @@ public abstract class ASegment implements ISegment {
 			 * */
 			else if ( isEnChar(c) ) 
 			{
-				IWord w;
+				IWord w, sword = null;
 				if ( ENSCFilter.isEnPunctuation( c ) ) 
 				{
 					String str = ((char)c)+"";
@@ -494,7 +495,7 @@ public abstract class ASegment implements ISegment {
 					 * */
 					if ( config.EN_SECOND_SEG
 							&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 )
-						enSecondSeg(w);
+						sword = enSecondSeg(w);
 					
 					//clear the stopwords
 					if ( config.CLEAR_STOPWORD 
@@ -504,13 +505,19 @@ public abstract class ASegment implements ISegment {
 						continue;
 					}
 					
+					/* @added: 2013-12-23.
+					 * 	for jcseg-1.9.3 to switch the sub token 
+					 * ahead of the origin one.
+					 * */
+					if ( sword != null ) wordPool.add(w);
+					
 					/* @added: 2013-09-25
 					 * append the english synoyms words.
 					 * */
 					if ( config.APPEND_CJK_SYN ) appendLatinSyn(w);
 				}
 				
-				return w;
+				return (sword == null) ? w : sword;
 			} 
 			/* find a content around with pair punctuations.
 			 * */
@@ -647,20 +654,22 @@ public abstract class ASegment implements ISegment {
 	 * You should check the config.EN_SECOND_SEG before invoke this method.
 	 * 
 	 * @param	w
+	 * @param	IWord - the first sub token for the secondary segment.
 	 */
-	public void enSecondSeg( IWord w ) 
+	public IWord enSecondSeg( IWord w ) 
 	{
 		//System.out.println("second: "+w.getValue());
 		isb.clear();
 		char[] chars = w.getValue().toCharArray();
 		int _TYPE = ENSCFilter.getEnCharType(chars[0]);
-		int _ctype, start = 0; 
+		int _ctype, start = 0, j, p = 0;
 		
 		isb.append(chars[0]);
-		IWord sword = null;
+		IWord sword = null, fword = null;	//first word
 		String _str = null;
 		
-		for ( int j = 1; j < chars.length; j++ ) 
+		
+		for ( j = 1; j < chars.length; j++ ) 
 		{
 			/* get the char type.
 			 * It could only be one of 
@@ -670,13 +679,15 @@ public abstract class ASegment implements ISegment {
 			if ( _ctype == ENSCFilter.EN_PUNCTUATION ) 
 			{
 				_TYPE = ENSCFilter.EN_PUNCTUATION;
+				p++;
 				continue;
 			}
 			
 			if ( _ctype == _TYPE ) isb.append(chars[j]);
 			else
 			{
-				start = j;
+				start = j - isb.length() - p;
+				
 				/* If the number of chars is larger than
 				 * 	config.EN_SSEG_LESSLEN we create a new IWord
 				 * and add to the wordPool.
@@ -691,12 +702,14 @@ public abstract class ASegment implements ISegment {
 						sword = new Word(_str, w.getType());
 						sword.setPartSpeech(w.getPartSpeech());
 						sword.setPosition(w.getPosition() + start);
-						wordPool.add(sword);
+						if ( fword == null ) fword = sword;
+						else wordPool.add(sword);
 					}
 				}
 				
 				isb.clear();
 				isb.append(chars[j]);
+				p = 0;
 				_TYPE = _ctype;
 			}
 			
@@ -705,19 +718,23 @@ public abstract class ASegment implements ISegment {
 		//Continue to check the last item.
 		if ( isb.length() >= config.STOKEN_MIN_LEN ) 
 		{
+			start = j - isb.length();
 			_str = isb.toString();
+			
 			if ( ! ( config.CLEAR_STOPWORD
 					&& dic.match(ILexicon.STOP_WORD, _str) ) ) 
 			{
 				sword = new Word(_str, w.getType());
 				sword.setPartSpeech(w.getPartSpeech());
 				sword.setPosition(w.getPosition() + start);
-				wordPool.add(sword);
+				if ( fword == null ) fword = sword;
+				else wordPool.add(sword);
 			}
 		}
 		
-		//Let gc do its work.
-		chars = null;
+		chars = null;	//Let gc do its work.
+
+		return fword;
 	}
 	
 	/**
@@ -1177,8 +1194,13 @@ public abstract class ASegment implements ISegment {
 		/* 
 		 * @step 2: 
 		 * 1. clear the useless english punctuations from the end.
-		 * 2. try to find the english and punctuation mixed word. 
+		 * 2. try to find the english and punctuation mixed word.
+		 * 
+		 * set _ctype as the status for the existence of punctuation
+		 * 	at the end of the isb cause we need to plus the tcount 
+		 * 	to avoid the secondary check for words like chenxin+, c+.
 		 */
+		_ctype = 0;
 		for ( int t = isb.length() - 1; t > 0 
 					&& isb.charAt(t) != '%'
 					&& ENSCFilter.isEnPunctuation(isb.charAt(t)); t-- ) 
@@ -1205,7 +1227,17 @@ public abstract class ASegment implements ISegment {
 			pushBack(isb.charAt(t));
 			isb.deleteCharAt(t);
 			__str = isb.toString();
+			
+			/*check and plus the tcount.*/
+			if ( _ctype == 0 ) 
+			{
+				tcount--;
+				_ctype = 1;
+			}
 		}
+		
+		//conditioan to start the secondary segmentation.
+		boolean ssseg = (tcount > 1) && chkunits;
 		
 		/*@step 3: check the end condition.
 		 * 	and the check if the token loop was break by whitespace
@@ -1217,7 +1249,7 @@ public abstract class ASegment implements ISegment {
 		{
 			w = new Word(__str, IWord.T_BASIC_LATIN);
 			w.setPartSpeech(IWord.EN_POSPEECH);
-			if ( tcount > 1 ) ctrlMask |= ISegment.START_SS_MASK;
+			if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
 			return w;
 		}
 		
@@ -1242,7 +1274,7 @@ public abstract class ASegment implements ISegment {
 			{
 				w = new Word(__str, IWord.T_BASIC_LATIN);
 				w.setPartSpeech(IWord.EN_POSPEECH);
-				if ( tcount > 1 ) ctrlMask |= ISegment.START_SS_MASK;
+				if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
 			}
 			
 			return w;
@@ -1320,7 +1352,7 @@ public abstract class ASegment implements ISegment {
 		{
 			w = new Word(__str, IWord.T_BASIC_LATIN);
 			w.setPartSpeech(IWord.EN_POSPEECH);
-			if ( tcount > 1 ) ctrlMask |= ISegment.START_SS_MASK;
+			if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
 		}
 		
 		return w;
