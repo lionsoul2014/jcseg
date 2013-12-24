@@ -297,8 +297,8 @@ public abstract class ADictionary {
 				//handle the stopwords
 				if ( t == ILexicon.STOP_WORD ) 
 				{
-					if ( ENSCFilter.isFWEnChar( line.charAt(0))
-							|| line.length() <= config.MAX_LENGTH ) 
+					if ( line.charAt(0) <= 127 || ( line.charAt(0) > 127 
+							&& line.length() <= config.MAX_LENGTH) ) 
 					{
 						dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
 					}
