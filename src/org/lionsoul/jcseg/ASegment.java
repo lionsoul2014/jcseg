@@ -502,19 +502,21 @@ public abstract class ASegment implements ISegment {
 							&& dic.match( ILexicon.STOP_WORD, w.getValue()) )
 					{
 						w = null;	//Let gc do its work
-						continue;
+						if ( sword == null ) continue;
 					}
-					
-					/* @added: 2013-12-23.
-					 * 	for jcseg-1.9.3 to switch the sub token 
-					 * ahead of the origin one.
-					 * */
-					if ( sword != null ) wordPool.add(w);
-					
-					/* @added: 2013-09-25
-					 * append the english synoyms words.
-					 * */
-					if ( config.APPEND_CJK_SYN ) appendLatinSyn(w);
+					else
+					{
+						/* @added: 2013-12-23.
+						 * 	for jcseg-1.9.3 to switch the sub token 
+						 * ahead of the origin one.
+						 * */
+						if ( sword != null ) wordPool.add(w);
+						
+						/* @added: 2013-09-25
+						 * append the english synoyms words.
+						 * */
+						if ( config.APPEND_CJK_SYN ) appendLatinSyn(w);
+					}
 				}
 				
 				return (sword == null) ? w : sword;
