@@ -459,8 +459,8 @@ public abstract class ASegment implements ISegment {
 						enAfter.setPosition(chars.length);
 						//check and to the secondary split.
 						if ( config.EN_SECOND_SEG
-								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 )
-							enSecondSeg(enAfter);
+								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 ) 
+							enSecondSeg(enAfter, false);
 						wordPool.add(enAfter);
 						//append the synoyms words.
 						if ( config.APPEND_CJK_SYN ) appendLatinSyn(enAfter);
@@ -495,7 +495,7 @@ public abstract class ASegment implements ISegment {
 					 * */
 					if ( config.EN_SECOND_SEG
 							&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 )
-						sword = enSecondSeg(w);
+						sword = enSecondSeg(w, true);
 					
 					//clear the stopwords
 					if ( config.CLEAR_STOPWORD 
@@ -656,9 +656,10 @@ public abstract class ASegment implements ISegment {
 	 * You should check the config.EN_SECOND_SEG before invoke this method.
 	 * 
 	 * @param	w
+	 * @param	retfw	Wether to return the fword.
 	 * @param	IWord - the first sub token for the secondary segment.
 	 */
-	public IWord enSecondSeg( IWord w ) 
+	public IWord enSecondSeg( IWord w, boolean retfw ) 
 	{
 		//System.out.println("second: "+w.getValue());
 		isb.clear();
@@ -704,7 +705,7 @@ public abstract class ASegment implements ISegment {
 						sword = new Word(_str, w.getType());
 						sword.setPartSpeech(w.getPartSpeech());
 						sword.setPosition(w.getPosition() + start);
-						if ( fword == null ) fword = sword;
+						if ( retfw && fword == null ) fword = sword;
 						else wordPool.add(sword);
 					}
 				}
@@ -729,7 +730,7 @@ public abstract class ASegment implements ISegment {
 				sword = new Word(_str, w.getType());
 				sword.setPartSpeech(w.getPartSpeech());
 				sword.setPosition(w.getPosition() + start);
-				if ( fword == null ) fword = sword;
+				if ( retfw && fword == null ) fword = sword;
 				else wordPool.add(sword);
 			}
 		}
