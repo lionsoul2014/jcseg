@@ -4,8 +4,7 @@ classes/
 doc/
 help/
 # lib/ #
-META-INFO/
-tools/
+output/
 CHANGES.txt
 # Binary Files #
 *.jar
