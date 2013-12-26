@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
+  <groupId>org.lionsoul.jcseg</groupId>
+  <artifactId>jcseg</artifactId>
+  <version>${jcseg.version}</version>
+  <packaging>pom</packaging>
+
+  <name>jcseg</name>
+  <url>http://code.google.com/p/jcseg/</url>
+  <description>Lightweight open source chinese tokenizer with lucene and solr support.</description>
+  
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <organization>
+  	<url>http://www.lionsoul.org/</url>
+  	<name>lionsoul</name>
+  </organization>
+  
+  <scm>
+  	<url>http://git.oschina.net/lionsoul/jcseg</url>
+  	<connection>scm:git@git.oschina.net:lionsoul/jcseg.git</connection>
+  	<developerConnection>scm:git@git.oschina.net:lionsoul/jcseg.git</developerConnection>
+  </scm>
+  
+  <developers>
+  	<developer>
+  		<id>lionsoul</id>
+  		<name>chenxin</name>
+  		<email>chenxin619315@gmail.com</email>
+  	</developer>
+  </developers>
+  
+  <issueManagement>
+  	<url>http://code.google.com/p/jcseg/issues</url>
+  	<system>google code issues</system>
+  </issueManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jcseg.version>1.9.3</jcseg.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <modules>
+    <module>jcseg-core</module>
+    <module>jcseg-analyzer</module>
+    <module>jcseg-solr</module>
+    <module>jcseg-tools</module>
+  </modules>
+  
+  <build>
+	<plugins>
+	<plugin>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<configuration>
+		  <source>1.6</source>
+		  <target>1.6</target>
+		  <encoding>UTF-8</encoding>
+		</configuration>
+	  </plugin>
+	</plugins>
+  </build>
+</project>
