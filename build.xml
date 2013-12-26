@@ -6,27 +6,48 @@
 		<echo message="----------BUILDING JCSEG PACKAGE----------------------------"/>
 		<echo message=""/>
 		<property name="bottom" value="jcseg 2012-2013"/>
-		<property name="jars" value="${basedir}"/>
+		<property name="jars" value="${basedir}/output"/>
 		<property name="sources" value="${basedir}/src"/>
 		<property name="classes" value="${basedir}/classes"/>
-		<property name="version" value="1.9.2"/>
+		<property name="version" value="1.9.3"/>
 		<property name="lib.dir" value="${basedir}/lib"/>
 		<property name="api" value="${basedir}/doc"/>
+		
+		<!--maven module-->
+		<property name="mvn" value="src/main/java"/>
+		<property name="core" value="jcseg-core"/>
+		<property name="analyzers" value="jcseg-analyzers"/>
+		<property name="solr" value="jcseg-solr"/>
+		<property name="tools" value="jcseg-tools"/>
 
 		<delete dir="${classes}"/>
 		<delete dir="${api}"/>
-		<delete>
-			<fileset dir="${basedir}" includes="*.jar"/>
-		</delete>		
+		<delete dir="${sources}"/>
 
+		<mkdir dir="${jars}"/>
+		<mkdir dir="${sources}"/>
 		<mkdir dir="${classes}"/>
-		<copy file="jcseg.properties" todir="${classes}"/>
+		<copy file="${basedir}/jcseg.properties" todir="${classes}"/>
+		<!--copy maven sub module sources to the src-->
+		<echo message="Coping sources of ${core} to ${sources}"/>
+		<copy todir="${sources}">
+			<fileset dir="${basedir}/${core}/${mvn}"/>
+		</copy>
+		<echo message="Coping sources of ${analyzers} to ${sources}"/>
+		<copy todir="${sources}">
+			<fileset dir="${basedir}/${analyzers}/${mvn}"/>
+		</copy>
+		<echo message="Coping sources of ${solr} to ${sources}"/>
+		<copy todir="${sources}">
+			<fileset dir="${basedir}/${solr}/${mvn}"/>
+		</copy>
+		<echo message="Coping sources of ${tools} to ${sources}"/>
+		<copy todir="${sources}">
+			<fileset dir="${basedir}/${tools}/${mvn}"/>
+		</copy>
+		
 		<mkdir dir="${api}"/>
     </target>
-
-    <path id="classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-    </path>
 
     <!--Build-->
     <target name="build" depends="init">
@@ -54,7 +75,7 @@
 		<jar jarfile="${jars}/jcseg-solr-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/solr/*"/>
 		
     	<!--jcseg dictionary converter tools-->
-		<jar jarfile="${jars}/tools/jcseg-dicst.jar" basedir="${classes}" includes="org/lionsoul/jcseg/util/dic/*,org/lionsoul/jcseg/util/IStringBuffer.class">
+		<jar jarfile="${jars}/jcseg-dicst-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/util/dic/*,org/lionsoul/jcseg/util/IStringBuffer.class">
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicConverter"/>
 				<attribute name="Class-Path" value=""/>
@@ -62,7 +83,7 @@
 		</jar>
 		
     	<!--jcseg dictionary merge tools-->
-		<jar jarfile="${jars}/tools/jcseg-dicmerge.jar" basedir="${classes}" includes="org/lionsoul/jcseg/Word.class,org/lionsoul/jcseg/core/IWord.class,org/lionsoul/jcseg/util/IStringBuffer.class,org/lionsoul/jcseg/util/Sort.class,org/lionsoul/jcseg/util/dic/*">
+		<jar jarfile="${jars}/jcseg-dicmerge-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/Word.class,org/lionsoul/jcseg/core/IWord.class,org/lionsoul/jcseg/util/IStringBuffer.class,org/lionsoul/jcseg/util/Sort.class,org/lionsoul/jcseg/util/dic/*">
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicMerge"/>
 				<attribute name="Class-Path" value=""/>
@@ -85,10 +106,14 @@
 			</classpath>
 		</javadoc>
 		<jar jarfile="${jars}/jcseg-${version}-javadoc.jar" basedir="${api}" includes="**/*"></jar>
+		<!--clean-->
+		<delete dir="${classes}"/>
+		<delete dir="${api}"/>
+		<delete dir="${sources}"/>
     </target>
 
     <target name="usage">
-		<echo message="*** jcseg ANT Build Script ***"/>
+		<echo message="*** Jcseg ANT Build Script ***"/>
 		<echo message="Usage: "/>
 		<echo message="   ant [target]"/>
 		<echo message=""/>     
