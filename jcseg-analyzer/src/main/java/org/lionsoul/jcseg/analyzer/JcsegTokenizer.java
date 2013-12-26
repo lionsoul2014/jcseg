@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.lucene;
+package org.lionsoul.jcseg.analyzer;
 
 import java.io.IOException;
 import java.io.Reader;
