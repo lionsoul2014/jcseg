@@ -8,8 +8,8 @@
     <version>${jcseg.version}</version>
   </parent>
   
-  <artifactId>jcseg-analyzers</artifactId>
-  <name>jcseg-analyzers</name>
+  <artifactId>jcseg-analyzer</artifactId>
+  <name>jcseg-analyzer</name>
   <url>http://code.google.com/p/jcseg</url>
   
   <properties>
