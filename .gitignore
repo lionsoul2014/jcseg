@@ -5,7 +5,7 @@ doc/
 help/
 # lib/ #
 output/
-*/target/
+target/
 CHANGES.txt
 # Binary Files #
 *.jar
