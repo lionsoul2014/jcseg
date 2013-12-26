@@ -16,7 +16,7 @@
 		<!--maven module-->
 		<property name="mvn" value="src/main/java"/>
 		<property name="core" value="jcseg-core"/>
-		<property name="analyzers" value="jcseg-analyzers"/>
+		<property name="analyzers" value="jcseg-analyzer"/>
 		<property name="solr" value="jcseg-solr"/>
 		<property name="tools" value="jcseg-tools"/>
 
@@ -64,14 +64,14 @@
 
     <!--Archive-->
     <target name="dist" depends="build">
-		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/solr/*,org/lionsoul/jcseg/lucene/*">
+		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/solr/*,org/lionsoul/jcseg/analyzer/*">
 			<!--manifest information setting-->
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
 				<attribute name="Class-Path" value=""/>
 			</manifest>
 		</jar>
-		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/lucene/*"/>
+		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/analyzer/*"/>
 		<jar jarfile="${jars}/jcseg-solr-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/solr/*"/>
 		
     	<!--jcseg dictionary converter tools-->
