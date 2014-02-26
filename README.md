@@ -5,7 +5,7 @@ Jcseg完整版本(源码, 词库, 帮助文档, 词库管理工具, jar文件)�
 jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算法实现，并且提供了最高版本的lucene-4.x和最高版本solr-4.x的分词接口．
 
 
-1。目前最高版本：jcseg-1.9.2。兼容最高版本lucene-4.x和最高版本solr-4.x
+1。目前最高版本：jcseg-1.9.3。兼容最高版本lucene-4.x和最高版本solr-4.x
 
 2。mmseg四种过滤算法，分词准确率达到了98.41%。
 
@@ -41,7 +41,7 @@ jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算
 
 18。自动中英文停止词过滤功能（需要在jcseg.properties中开启该选项，lex-stopwords.lex为停止词词库）。
 
-19。词库更新自动加载功能, 开启一个守护线程随时检测词库的更新并且加载。
+19。词库更新自动加载功能, 开启一个守护线程定时的检测词库的更新并且加载。
 
 20。<font color="red">(!New)</font>自动词性标注。
 
@@ -73,5 +73,4 @@ Complex 模式： 479338字/秒 1324.4KB/秒
 <h3>三. Jcseg其他主页: </h3>
 Jcseg官方主页: https://code.google.com/p/jcseg/ <br />
 Jcseg开源中国: http://www.oschina.net/p/jcseg <br />
-Jcseg开发帮助文档: http://git.oschina.net/lionsoul/jcseg/attach_files <br />
 
