@@ -2,7 +2,6 @@ package org.lionsoul.jcseg;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PushbackReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,6 +15,7 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.filter.CNNMFilter;
 import org.lionsoul.jcseg.filter.ENSCFilter;
 import org.lionsoul.jcseg.filter.PPTFilter;
+import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.IntArrayList;
 
@@ -31,7 +31,10 @@ public abstract class ASegment implements ISegment {
 	
 	/*current position for the given stream.*/
 	protected int idx;
-	protected PushbackReader reader = null;
+	
+	//protected PushbackReader reader = null;
+	protected IPushbackReader reader = null;
+	
 	/*CJK word cache poll*/
 	protected LinkedList<IWord> wordPool = null;
 	protected IStringBuffer isb;
@@ -53,7 +56,7 @@ public abstract class ASegment implements ISegment {
 	public ASegment( Reader input, 
 				JcsegTaskConfig config, 
 				ADictionary dic ) throws IOException 
-				{
+	{
 		this.config = config;
 		this.dic = dic;
 		wordPool = new LinkedList<IWord>();
@@ -70,8 +73,8 @@ public abstract class ASegment implements ISegment {
 	 */
 	public void reset( Reader input ) throws IOException
 	{ 
-		if ( input != null )
-			reader = new PushbackReader(new BufferedReader(input), 64);
+		if ( input != null ) 
+			reader = new IPushbackReader(new BufferedReader(input));
 		idx = -1;
 	}
 	
@@ -79,7 +82,9 @@ public abstract class ASegment implements ISegment {
 	 * read the next char from the current position 
 	 * @throws IOException 
 	 */
-	protected int readNext() throws IOException {
+	protected int readNext() 
+			throws IOException 
+	{	
 		int c = reader.read();
 		if ( c != -1 ) idx++;
 		return c;
@@ -91,7 +96,9 @@ public abstract class ASegment implements ISegment {
 	 * @param data
 	 * @throws IOException 
 	 */
-	protected void pushBack( int data ) throws IOException {
+	protected void pushBack( int data ) 
+			throws IOException 
+	{
 		reader.unread(data);
 		idx--;
 	}
