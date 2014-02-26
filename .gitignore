@@ -3,6 +3,7 @@ bin/
 classes/
 doc/
 help/
+feedback/
 # lib/ #
 output/
 target/
