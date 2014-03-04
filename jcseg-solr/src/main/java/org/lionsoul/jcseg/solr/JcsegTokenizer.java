@@ -15,21 +15,21 @@ import org.lionsoul.jcseg.core.SegmentFactory;
 
 
 /**
- * jcsge tokennizer for lucene.
- * 
- * @author	chenxin<chenxin619315@gmail.com>
+ * jcseg tokenizer for Lucene.
+ *
+ * @author    chenxin<chenxin619315@gmail.com>
  */
 public class JcsegTokenizer extends Tokenizer {
-	
+
 	private ISegment segmentor;
-	
+
 	private CharTermAttribute termAtt;
 	private OffsetAttribute offsetAtt;
-	
+
 	public JcsegTokenizer(Reader input, int mode,
 			JcsegTaskConfig config, ADictionary dic ) throws JcsegException, IOException {
 		super(input);
-		
+
 		segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
 		segmentor.reset(input);
 		termAtt = addAttribute(CharTermAttribute.class);
@@ -51,7 +51,7 @@ public class JcsegTokenizer extends Tokenizer {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void reset() throws IOException {
 		super.reset();
