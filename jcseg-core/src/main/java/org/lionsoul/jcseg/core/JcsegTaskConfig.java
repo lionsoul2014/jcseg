@@ -100,6 +100,7 @@ public class JcsegTaskConfig
 	
 	public JcsegTaskConfig( String proFile ) {
 		JAR_HOME = Util.getJarHome(this);
+		JAR_HOME = "";
 		try {
 			resetFromPropertyFile(proFile);
 		} catch (IOException e) {
