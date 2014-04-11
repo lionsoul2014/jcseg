@@ -50,7 +50,7 @@ public class DictionaryFactory {
 			String[] lexpath = config.getLexiconPath();
 			if ( lexpath == null ) 
 				throw new IOException("Invalid lexicon path, " +
-						"make use the JcsegTaskConfig is initialized.");
+						"make sure the JcsegTaskConfig is initialized.");
 			
 			//load word item from all the directories.
 			for ( String lpath : lexpath )

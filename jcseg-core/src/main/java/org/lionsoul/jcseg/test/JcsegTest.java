@@ -43,6 +43,7 @@ public class JcsegTest {
 		//append pinyin
 		//config.setAppendCJKPinyin(true);
 		System.out.println("jcseg参数设置：");
+		System.out.println("当前加载的配置文件："+config.getPropertieFile());
 		System.out.println("最大切分匹配词数："+config.MAX_LENGTH);
 		System.out.println("最大混合中文长度："+config.MIX_CN_LENGTH);
 		System.out.println("开启中文人名识别："+config.I_CN_NAME);
@@ -61,7 +62,8 @@ public class JcsegTest {
 		System.out.println("姓名成词歧义阕值："+config.NAME_SINGLE_THRESHOLD+"\n");
 	}
 	
-	public void segment(String str) throws IOException {
+	public void segment(String str) throws IOException 
+	{
 		
 		StringBuffer sb = new StringBuffer();
 		//seg.setLastRule(null);
@@ -71,7 +73,8 @@ public class JcsegTest {
 		boolean isFirst = true;
 		int counter = 0;
 		seg.reset(new StringReader(str));
-		while ( (word = seg.next()) != null ) {
+		while ( (word = seg.next()) != null ) 
+		{
 			if ( isFirst ) {
 				sb.append(word.getValue());
 				isFirst = false;
@@ -80,6 +83,14 @@ public class JcsegTest {
 				sb.append(" ");
 				sb.append(word.getValue());
 			}
+			
+			//----for testing append word position and length
+/*			sb.append("[");
+			sb.append(word.getPosition());
+			sb.append("/");
+			sb.append(word.getLength());
+			sb.append("]");*/
+			
 			//append the part of the speech
 			if ( word.getPartSpeech() != null ) {
 				sb.append('/');
@@ -89,6 +100,7 @@ public class JcsegTest {
 			word = null;
 			counter++;
 		}
+		
 		long e = System.nanoTime();
 		System.out.println("分词结果：");
 		System.out.println(sb.toString());

@@ -94,6 +94,9 @@ public class JcsegTaskConfig
 	private boolean lexAutoload = false;
 	private int polltime = 10;
 	
+	//the currently used lexicon properties file
+	private String pfile = null;
+	
 	public JcsegTaskConfig() {
 		this(null);
 	}
@@ -120,7 +123,8 @@ public class JcsegTaskConfig
 	public void resetFromPropertyFile( String proFile ) throws IOException {
 		Properties lexPro = new Properties();
 		/*load the mapping from the default property file.*/
-		if ( proFile == null ) {
+		if ( proFile == null ) 
+		{
 			/*
 			 * 1.load the the jcseg.properties located with the jar file.
 			 * 2.load the jcseg.propertiess from the classpath.
@@ -128,21 +132,29 @@ public class JcsegTaskConfig
 			 */
 			boolean jcseg_properties = false;
 			File pro_file = new File(JAR_HOME+"/"+LEX_PROPERTY_FILE);
-			if ( pro_file.exists() ) {
+			if ( pro_file.exists() ) 
+			{
 				lexPro.load(new FileReader(pro_file));
+				pfile = JAR_HOME+"/"+LEX_PROPERTY_FILE;
 				jcseg_properties = true;
 			}
-			if ( ! jcseg_properties ) {
+			
+			if ( ! jcseg_properties ) 
+			{
 				InputStream is = DictionaryFactory.class.getResourceAsStream("/"+LEX_PROPERTY_FILE);
 				if ( is != null ) {
 					lexPro.load(new BufferedInputStream( is )); 
+					pfile = "classpath/jcseg.properties";
 					jcseg_properties = true;
 				}
 			}
-			if ( ! jcseg_properties ) {
+			
+			if ( ! jcseg_properties ) 
+			{
 				pro_file = new File(System.getProperty("user.home")+"/"+LEX_PROPERTY_FILE);
 				if ( pro_file.exists() ) {
 					lexPro.load(new FileReader(pro_file));
+					pfile = pro_file.getAbsolutePath();
 					jcseg_properties = true;
 				}
 			}
@@ -429,5 +441,11 @@ public class JcsegTaskConfig
 	
 	public void setKeepUnregWords( boolean keepUnregWords ) {
 		KEEP_UNREG_WORDS = keepUnregWords;
+	}
+	
+	//return the currently use properties file
+	public String getPropertieFile()
+	{
+		return pfile;
 	}
 }

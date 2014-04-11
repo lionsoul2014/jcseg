@@ -5,7 +5,7 @@ package org.lionsoul.jcseg.core;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public interface IWord {
+public interface IWord extends Cloneable {
 	
 	public static final String[] NAME_POSPEECH = {"nr"};
 	public static final String[] NUMERIC_POSPEECH = {"m"};
@@ -156,4 +156,16 @@ public interface IWord {
 	 * @param s
 	 */
 	public void addSyn( String s );
+	
+	/**
+	 * I mean: you have to rewrite the equals method
+	 * 	cause the jcseg require it 
+	 */
+	@Override
+	public boolean equals( Object o );
+	
+	/**
+	 * make clone available
+	 */
+	public IWord clone();
 }

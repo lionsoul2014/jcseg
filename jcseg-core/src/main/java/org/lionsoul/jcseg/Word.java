@@ -8,7 +8,8 @@ import org.lionsoul.jcseg.core.IWord;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class Word implements IWord {
+public class Word implements IWord,Cloneable
+{
 	
 	private String value;
 	private int fre = 0;
@@ -18,12 +19,14 @@ public class Word implements IWord {
 	private String[] partspeech = null;
 	private String[] syn = null;
 	
-	public Word( String value, int type ) {
+	public Word( String value, int type ) 
+	{
 		this.value = value;
 		this.type = type;
 	}
 	
-	public Word( String value, int fre, int type ) {
+	public Word( String value, int fre, int type ) 
+	{
 		this.value = value;
 		this.fre = fre;
 		this.type = type;
@@ -33,7 +36,8 @@ public class Word implements IWord {
 	 * @see IWord#getValue() 
 	 */
 	@Override
-	public String getValue() {
+	public String getValue() 
+	{
 		return value;
 	}
 	
@@ -41,7 +45,8 @@ public class Word implements IWord {
 	 * @see IWord#getLength() 
 	 */
 	@Override
-	public int getLength() {
+	public int getLength() 
+	{
 		return value.length();
 	}
 
@@ -49,7 +54,8 @@ public class Word implements IWord {
 	 * @see IWord#getFrequency() 
 	 */
 	@Override
-	public int getFrequency() {
+	public int getFrequency() 
+	{
 		return fre;
 	}
 
@@ -57,7 +63,8 @@ public class Word implements IWord {
 	 * @see IWord#getType() 
 	 */
 	@Override
-	public int getType() {
+	public int getType() 
+	{
 		return type;
 	}
 	
@@ -65,14 +72,16 @@ public class Word implements IWord {
 	 * @see IWord#setPosition(int)
 	 */
 	@Override
-	public void setPosition( int pos ) {
+	public void setPosition( int pos ) 
+	{
 		position = pos;
 	}
 	
 	/**
 	 * @see IWord#getPosition()
 	 */
-	public int getPosition() {
+	public int getPosition() 
+	{
 		return position;
 	}
 	
@@ -80,7 +89,8 @@ public class Word implements IWord {
 	 * @see IWord#getPinying() 
 	 */
 	@Override
-	public String getPinyin() {
+	public String getPinyin() 
+	{
 		return pinyin;
 	}
 
@@ -88,12 +98,14 @@ public class Word implements IWord {
 	 * @see IWord#getSyn() 
 	 */
 	@Override
-	public String[] getSyn() {
+	public String[] getSyn() 
+	{
 		return syn;
 	}
 
 	@Override
-	public void setSyn(String[] syn) {
+	public void setSyn(String[] syn) 
+	{
 		this.syn = syn;
 	}
 	
@@ -101,19 +113,22 @@ public class Word implements IWord {
 	 * @see IWord#getPartSpeech() 
 	 */
 	@Override
-	public String[] getPartSpeech() {
+	public String[] getPartSpeech() 
+	{
 		return partspeech;
 	}
 	
 	@Override
-	public void setPartSpeech(String[] partspeech) {
+	public void setPartSpeech(String[] partspeech) 
+	{
 		this.partspeech = partspeech;
 	}
 	
 	/**
 	 * @see IWord#setPinying(String)
 	 */
-	public void setPinyin( String py ) {
+	public void setPinyin( String py ) 
+	{
 		pinyin = py;
 	}
 	
@@ -121,7 +136,8 @@ public class Word implements IWord {
 	 * @see IWord#addPartSpeech( String );
 	 */
 	@Override
-	public void addPartSpeech( String ps ) {
+	public void addPartSpeech( String ps ) 
+	{
 		if ( partspeech == null ) {
 			partspeech = new String[1];
 			partspeech[0] = ps;
@@ -140,7 +156,8 @@ public class Word implements IWord {
 	 * @see IWord#addSyn(String) 
 	 */
 	@Override
-	public void addSyn( String s ) {
+	public void addSyn( String s ) 
+	{
 		if ( syn == null ) {
 			syn = new String[1];
 			syn[0] = s;
@@ -157,12 +174,14 @@ public class Word implements IWord {
 	
 	/**
 	 * @see Object#equals(Object) 
+	 * @see IWord#equals(Object)
 	 */
-	public boolean equals( Object o ) {
-		if ( this == o ) 
-			return true;
+	public boolean equals( Object o ) 
+	{
+		if ( this == o ) 	return true;
 		
-		if ( o instanceof IWord )  {
+		if ( o instanceof IWord )  
+		{
 			IWord word = (IWord) o;
 			boolean bool = word.getValue().equalsIgnoreCase(this.getValue());
 			/*
@@ -173,13 +192,33 @@ public class Word implements IWord {
 			 */
 			return (bool && (word.getType() == this.getType()));
 		}
+		
 		return false;
+	}
+	
+	/**
+	 * Interface to clone the current object
+	 * 
+	 * @return IWord
+	 */
+	@Override
+	public IWord clone()
+	{
+		IWord w = null;
+		try {
+			w = (IWord) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return w;
 	}
 	
 	/**
 	 * @see Object#toString()
 	 */
-	public String toString() {
+	public String toString() 
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(value);
 		sb.append('/');

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.lionsoul.jcseg.core.ADictionary;
 import org.lionsoul.jcseg.core.IChunk;
@@ -15,6 +14,7 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.filter.CNNMFilter;
 import org.lionsoul.jcseg.filter.ENSCFilter;
 import org.lionsoul.jcseg.filter.PPTFilter;
+import org.lionsoul.jcseg.util.IHashQueue;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.IntArrayList;
@@ -27,25 +27,27 @@ import org.lionsoul.jcseg.util.IntArrayList;
  * 
  * @author	chenxin <chenxin619315@gmail.com>
  */
-public abstract class ASegment implements ISegment {
+public abstract class ASegment implements ISegment 
+{
 	
 	/*current position for the given stream.*/
-	protected int idx;
+	protected int 					idx;
 	
 	//protected PushbackReader reader = null;
-	protected IPushbackReader reader = null;
+	protected IPushbackReader 		reader = null;
 	
 	/*CJK word cache poll*/
-	protected LinkedList<IWord> wordPool = null;
-	protected IStringBuffer isb;
-	protected IntArrayList ialist;
+	//protected LinkedList<IWord> wordPool = null;
+	protected IHashQueue<IWord> 	wordPool = null;
+	protected IStringBuffer 		isb;
+	protected IntArrayList 			ialist;
 	
 	//Segmentation function control mask
-	protected int ctrlMask = 0;
+	protected int 					ctrlMask = 0;
 	
 	/*the dictionary and task config*/
-	protected ADictionary dic;
-	protected JcsegTaskConfig config;
+	protected ADictionary 			dic;
+	protected JcsegTaskConfig 		config;
 	
 	public ASegment( JcsegTaskConfig config, 
 			ADictionary dic ) throws IOException 
@@ -57,11 +59,11 @@ public abstract class ASegment implements ISegment {
 				JcsegTaskConfig config, 
 				ADictionary dic ) throws IOException 
 	{
-		this.config = config;
-		this.dic = dic;
-		wordPool = new LinkedList<IWord>();
-		isb = new IStringBuffer(64);
-		ialist = new IntArrayList(15);
+		this.config 	= config;
+		this.dic 		= dic;
+		wordPool 		= new IHashQueue<IWord>();
+		isb 			= new IStringBuffer(64);
+		ialist 			= new IntArrayList(15);
 		reset(input);
 	}
 	
@@ -104,7 +106,8 @@ public abstract class ASegment implements ISegment {
 	}
 	
 	@Override
-	public int getStreamPosition() {
+	public int getStreamPosition() 
+	{
 		return idx + 1;
 	}
 	
@@ -113,7 +116,8 @@ public abstract class ASegment implements ISegment {
 	 * 
 	 * @param	dic
 	 */
-	public void setDict( ADictionary dic ) {
+	public void setDict( ADictionary dic ) 
+	{
 		this.dic = dic;
 	}
 	
@@ -122,7 +126,8 @@ public abstract class ASegment implements ISegment {
 	 * 
 	 * @return	ADictionary
 	 */
-	public ADictionary getDict() {
+	public ADictionary getDict() 
+	{
 		return dic;
 	}
 	
@@ -131,7 +136,8 @@ public abstract class ASegment implements ISegment {
 	 * 
 	 * @param	config
 	 */
-	public void setConfig( JcsegTaskConfig config ) {
+	public void setConfig( JcsegTaskConfig config ) 
+	{
 		this.config = config;
 	}
 	
@@ -140,7 +146,8 @@ public abstract class ASegment implements ISegment {
 	 * 
 	 * @param	JcsegTaskConfig
 	 */
-	public JcsegTaskConfig getConfig() {
+	public JcsegTaskConfig getConfig() 
+	{
 		return config;
 	}
 
@@ -150,8 +157,16 @@ public abstract class ASegment implements ISegment {
 	@Override
 	public IWord next() throws IOException 
 	{
-		if ( wordPool.size() > 0 ) 
-			return wordPool.removeFirst(); 
+		/*
+		 * @Note: check and get the token directly from the word pool
+		 * 		if word pool is available.
+		 * changed wordPool to IHashQueue for the same Word in wordPool
+		 * 	the start position of the word will be the last one
+		 * 
+		 * @added: 2014-04-11
+		 */
+		if ( wordPool.size() > 0 ) return wordPool.remove();
+		
 		int c, pos;
 		
 		while ( (c = readNext()) != -1 ) 
@@ -166,13 +181,17 @@ public abstract class ASegment implements ISegment {
 				char[] chars = nextCJKSentence(c);
 				int cjkidx = 0;
 				IWord w = null;
-				while ( cjkidx < chars.length ) {
+				while ( cjkidx < chars.length ) 
+				{
 					/*
 					 * find the next CJK word.
 					 * the process will be different with the different algorithm
 					 * @see getBestCJKChunk() from SimpleSeg or ComplexSeg. 
 					 */
 					w = null;
+					
+					
+					//-----------------------------------------------------------
 					
 					/*
 					 * @istep 1: 
@@ -230,17 +249,17 @@ public abstract class ASegment implements ISegment {
 								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) 
 						{
 							
-							StringBuilder sb = new StringBuilder();
-							String temp = null;
+							StringBuilder sb 	= new StringBuilder();
+							String temp		 	= null;
 							sb.append(num);
-							boolean matched = false;
+							boolean matched 	= false;
 							int j;
 							
 							//find the word that made up with the numeric
 							//like: 五四运动
 							for ( j = num.length();
 									(cjkidx + j) < chars.length 
-									&& j < config.MAX_LENGTH; j++ ) 
+										&& j < config.MAX_LENGTH; j++ ) 
 							{
 								sb.append(chars[cjkidx + j]);
 								temp = sb.toString();
@@ -251,6 +270,15 @@ public abstract class ASegment implements ISegment {
 									matched = true;
 								}
 							}
+							
+							/*
+							 * @Note: when mached is true, to avoid the start position problem
+							 * 	we have to check the word pool the same word is exists or not
+							 *  if it exist the same word to have to clone the word
+							 *  
+							 * @added: 2014-04-11
+							 */
+							//if ( matched && wordPool.contains(w) )	w = w.clone();
 							
 							IWord wd = null;
 							//find the numeric units
@@ -283,6 +311,7 @@ public abstract class ASegment implements ISegment {
 								w = new Word( num, IWord.T_CN_NUMERIC );
 								w.setPartSpeech(IWord.NUMERIC_POSPEECH);
 							}
+							
 							w.setPosition(pos + cjkidx);
 							wordPool.add(w);
 							if ( wd != null ) wordPool.add(wd);
@@ -306,17 +335,22 @@ public abstract class ASegment implements ISegment {
 									&& config.LOAD_CJK_SYN && w.getSyn() != null ) 
 							{
 								IWord wd;
-								for ( int j = 0; j < w.getSyn().length; j++ ) {
+								for ( int j = 0; j < w.getSyn().length; j++ ) 
+								{
 									wd = new Word(w.getSyn()[j], w.getType());
 									wd.setPartSpeech(w.getPartSpeech());
 									wd.setPosition(w.getPosition());
 									wordPool.add(wd);
 								}
 							}
+							
 							continue;
 						}
 						
 					}
+					
+					
+					//-------------------------------------------------------------
 					
 					IChunk chunk = getBestCJKChunk(chars, cjkidx);
 					//System.out.println(chunk+"\n");
@@ -380,6 +414,8 @@ public abstract class ASegment implements ISegment {
 					}
 					
 					
+					//---------------------------------------------------------
+					
 					/*
 					 * @istep 3:
 					 * 
@@ -405,6 +441,9 @@ public abstract class ASegment implements ISegment {
 								&& dic.match(ILexicon.CE_MIXED_WORD, cestr) ) 
 						{
 							ce = dic.get(ILexicon.CE_MIXED_WORD, cestr);
+							//@see comments of ASegment#next
+							//if ( wordPool.contains(ce) ) ce = ce.clone();
+							
 							ce.setPosition(pos+cjkidx);
 							wordPool.add(ce);
 							cjkidx += w.getLength();
@@ -421,13 +460,20 @@ public abstract class ASegment implements ISegment {
 					 * 	will be handled at last cause we have to handle 
 					 * 			the pinyin and the syn words first.
 					 */
-					if ( ce == null ) {
+					if ( ce == null ) 
+					{
+						//@see comment of ASegment#next()
+						//You may uncomment the following code
+						//if ( wordPool.contains(w) ) w = w.clone();
 						w.setPosition(pos+cjkidx);
 						wordPool.add(w);
 						cjkidx += w.getLength();
 					} else {
 						w = ce;
 					}
+					
+					
+					//-------------------------------------------------------
 
 					/*
 					 * @istep 4:
@@ -475,7 +521,7 @@ public abstract class ASegment implements ISegment {
 				}
 				
 				if ( wordPool.size() == 0 ) continue; 
-				return wordPool.removeFirst();
+				return wordPool.remove();
 			} 
 			/* english/latin char.
 			 * */
