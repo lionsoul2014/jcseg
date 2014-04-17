@@ -13,7 +13,7 @@ import java.lang.reflect.Constructor;
 public class SegmentFactory {
 	
 	//current jcseg version.
-	public static final String version = "1.9.2";
+	public static final String version = "1.9.3";
 	
 	/**
 	 * load the ISegment class with the given path
@@ -22,7 +22,8 @@ public class SegmentFactory {
 	 * @return ISegment
 	 */
 	public static ISegment createSegment( String __segClass,
-				Class<?> paramtypes[], Object args[] ) {
+				Class<?> paramtypes[], Object args[] ) 
+	{
 		ISegment seg = null;
 		try {
 			Class<?> _class = Class.forName(__segClass);
@@ -33,6 +34,7 @@ public class SegmentFactory {
 			System.out.println("can't load the ISegment implements class " +
 					"with path ["+__segClass+"] ");
 		}
+		
 		return seg;
 	}
 	
@@ -43,7 +45,8 @@ public class SegmentFactory {
 	 * @return	ISegment
 	 * @throws JcsegException 
 	 */
-	public static ISegment createJcseg( int mode, Object...args ) throws JcsegException {
+	public static ISegment createJcseg( int mode, Object...args ) throws JcsegException 
+	{
 		String __segClass;
 		if ( mode == JcsegTaskConfig.SIMPLE_MODE )
 			__segClass = "org.lionsoul.jcseg.SimpleSeg";

@@ -39,7 +39,8 @@ public class ComplexSeg extends ASegment {
 	 * @see ASegment#getBestCJKChunk(char[], int) 
 	 */
 	@Override
-	public IChunk getBestCJKChunk(char chars[], int index) {
+	public IChunk getBestCJKChunk(char chars[], int index) 
+	{
 		
 		IWord[] mwords = getNextMatch(chars, index), mword2, mword3;
 		if ( mwords.length == 1 
@@ -50,7 +51,8 @@ public class ComplexSeg extends ASegment {
 		int idx_2, idx_3;
 		ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
 		
-		for ( int x = 0; x < mwords.length; x++ ) {
+		for ( int x = 0; x < mwords.length; x++ ) 
+		{
 			//the second layer
 			idx_2 = index + mwords[x].getLength();
 			if ( idx_2 < chars.length ) {
