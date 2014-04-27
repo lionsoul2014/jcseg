@@ -1155,7 +1155,7 @@ public abstract class ASegment implements ISegment
 			{
 				pushBack(ch);
 				/*check chinese english mixed word*/
-				if ( ENSCFilter.isEnLetter(ch) ) 
+				if ( ENSCFilter.isEnLetter(ch) || ENSCFilter.isEnNumeric(ch) ) 
 					ctrlMask |= ISegment.CHECK_CE_MASk;
 				break;
 			} 

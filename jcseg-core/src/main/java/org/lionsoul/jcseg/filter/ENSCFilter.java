@@ -68,6 +68,18 @@ public class ENSCFilter
 	}
 	
 	/**
+	 * check the specifield char is an english numeric(48-57)
+	 *  	including the full-width char
+	 *  
+	 * @param 	u
+	 */
+	public static boolean isEnNumeric( int u )
+	{
+		if ( u > 65280 ) u -= 65248;			//make full-with half-width
+		return ( (u >= 48 && u <= 57) );
+	}
+	
+	/**
 	 * get the type of the english char
 	 * 	defined in this class and start with EN_. (only half-width)
 	 * 
