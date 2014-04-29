@@ -7353,7 +7353,7 @@ CJK_WORDS
 牛/null/niu/null/34225
 莫/null/mo/null/27786
 萍/null/ping/null/4392
-您/null/nin/null/185118
+您/null/nin/null/228759
 愋/null/%/null/10
 铽/null/te/null/9
 萎/null/wei/null/989
@@ -10143,7 +10143,7 @@ CJK_WORDS
 坁/null/%/null/8
 梒/null/%/null/14
 鳦/null/yi/null/12
-因/null/yin/null/326759
+因/null/yin/null/226759
 栱/null/gong/null/171
 梓/null/zi/null/828
 秣/null/mo/null/25
