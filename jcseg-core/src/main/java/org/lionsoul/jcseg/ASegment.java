@@ -322,7 +322,7 @@ public abstract class ASegment implements ISegment
 						if ( w != null ) 
 						{
 							cjkidx += w.getLength();
-							//add the pinyin to the poll
+							//add the pinyin to the pool
 							if ( config.APPEND_CJK_PINYIN 
 									&& config.LOAD_CJK_PINYIN && w.getPinyin() != null ) 
 							{
@@ -491,8 +491,8 @@ public abstract class ASegment implements ISegment
 					
 					//add the syn words to the pool
 					String[] syns = null;
-					if ( T == -1 && config.LOAD_CJK_SYN && 
-							( syns = w.getSyn() ) != null ) 
+					if ( T == -1 && config.APPEND_CJK_SYN
+							&& config.LOAD_CJK_SYN && ( syns = w.getSyn() ) != null ) 
 					{
 						IWord wd;
 						for ( int j = 0; j < syns.length; j++ ) 
