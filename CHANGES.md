@@ -1,11 +1,13 @@
 jcseg-1.9.4:(on the way..)
-1. 该善中英混合词的识别,可以识别更多情况, 例如: 高3													-done
+1. 该善中英混合词的识别,可以识别更多情况, 例如: 高3											-done
 2. 加入IHashQueue来替换原来的ILinkedList, 改善word pool的性能,加快了切分速度(测试了,确实加快了)			-done
-3. 更改org.lionsoul.jcseg.util.STConverter加入了更全的简繁词条对照								-done
-4. 修复了中文数字转阿拉伯数字的一种会过滤的情况.	
-5. 词库路径空格bug问题:JAR_HOME = java.net.URLDecoder.decode(, "utf-8");
-6. 词库自动重载正则支持
-7. lucene highlight错位bug。
+3. 更改org.lionsoul.jcseg.util.STConverter加入了更全的简繁词条对照							-done
+4. 修复了中文数字转阿拉伯数字的一种会过滤的情况.(http://code.google.com/p/jcseg/issues/detail?id=22)
+5. 词库路径空格bug问题:JAR_HOME = java.net.URLDecoder.decode("", "utf-8");					-done
+6. 中文数字转阿拉伯数字的一个bug.(例如：二零一四年会被转换成1914年)
+7. 复杂中文的二次切分
+8. 词库自动重载正则支持
+9. lucene highlight错位bug。
 
 jcseg-1.9.3:
 1. 更改为maven托管，同时也支持原始的ant编译。

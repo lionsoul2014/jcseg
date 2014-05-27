@@ -112,6 +112,7 @@ z盘/n/z pan/null
 q版/n/q ban/null
 qq号/n/qq hao/null
 q立方/n/q li fang/null
+q币/n/q bi/null
 #
 rss订阅/n/rss ding yue/null
 #

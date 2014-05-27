@@ -101,9 +101,9 @@ public class JcsegTaskConfig
 		this(null);
 	}
 	
-	public JcsegTaskConfig( String proFile ) {
+	public JcsegTaskConfig( String proFile ) 
+	{
 		JAR_HOME = Util.getJarHome(this);
-		JAR_HOME = "";
 		try {
 			resetFromPropertyFile(proFile);
 		} catch (IOException e) {
@@ -165,7 +165,8 @@ public class JcsegTaskConfig
 			 * 
 			 * @date	2013-07-06
 			 */
-			if ( ! jcseg_properties ) {
+			if ( ! jcseg_properties ) 
+			{
 				String _report = "jcseg properties[jcseg.properties] file loading error: \n";
 				_report += "try the follwing ways to solve the problem: \n";
 				_report += "1. put jcseg.properties into the classpath.\n";
@@ -175,7 +176,8 @@ public class JcsegTaskConfig
 			}
 		} 
 		/*load the  mapping from the specified property file.*/
-		else {
+		else 
+		{
 			File pro_file = new File(proFile);
 			if ( ! pro_file.exists() ) 
 				throw new IOException("property file ["+proFile+"] not found!");
@@ -194,10 +196,12 @@ public class JcsegTaskConfig
 		//Multiple path for lexicon.path.
 		lexPath = lexDirs.split(";");
 		File f = null;
-		for ( String fpath : lexPath ) {
-			f = new File(fpath);
+		for ( int i = 0; i < lexPath.length; i++ ) 
+		{
+			lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
+			f = new File(lexPath[i]);
 			if ( ! f.exists() ) 
-				throw new IOException("Invalid sub lexicon path " + fpath 
+				throw new IOException("Invalid sub lexicon path " + lexPath[i] 
 						+ " for lexicon.path in jcseg.properties");
 			f = null;	//Let gc do its work.
 		}
