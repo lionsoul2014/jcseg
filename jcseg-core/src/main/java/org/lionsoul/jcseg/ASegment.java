@@ -203,9 +203,9 @@ public abstract class ASegment implements ISegment
 					if ( CNNMFilter.isCNNumeric(chars[cjkidx]) > -1 
 							&& cjkidx + 1 < chars.length ) 
 					{
-						
 						//get the chinese numeric chars
-						String num = nextCNNumeric( chars, cjkidx );
+						String num 	= nextCNNumeric( chars, cjkidx );
+						int NUMLEN	= num.length();
 						
 						/*
 						 * check the chinese fraction.
@@ -248,9 +248,9 @@ public abstract class ASegment implements ISegment
 						else if ( CNNMFilter.isCNNumeric(chars[cjkidx+1]) > -1
 								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) 
 						{
-							
 							StringBuilder sb 	= new StringBuilder();
 							String temp		 	= null;
+							String ONUM			= num;	//backup the old num
 							sb.append(num);
 							boolean matched 	= false;
 							int j;
@@ -281,25 +281,41 @@ public abstract class ASegment implements ISegment
 							//if ( matched && wordPool.contains(w) )	w = w.clone();
 							
 							IWord wd = null;
+							
+							/*
+							 * @Note: when matched is true, num maybe a word like '五月',
+							 * 	yat, this will make it skip the chinese numeric to arabic logic
+							 * 	so find the matched word that it maybe a single chinese untis word
+							 * 
+							 * @added: 2014-06-06
+							 */
+							if ( matched == true && num.length() - NUMLEN == 1 
+									&& dic.match(ILexicon.CJK_UNITS, num.substring(NUMLEN)) )
+							{
+								num	= ONUM;
+								matched = false;	//reset the matched
+							}
+							
 							//find the numeric units
 							if ( matched == false && config.CNNUM_TO_ARABIC ) 
 							{
 								//get the numeric'a arabic
-								String arbic = CNNMFilter.cnNumericToArabic(num, true)+"";
+								String arabic = CNNMFilter.cnNumericToArabic(num, true)+"";
 								
 								if ( (cjkidx + num.length()) < chars.length
 										&& dic.match(ILexicon.CJK_UNITS,
 												chars[cjkidx + num.length()]+"" ) ) 
 								{
 									char units = chars[ cjkidx + num.length() ];
-									num += units; arbic += units;
+									num += units; arabic += units;
 								}
 								
-								wd = new Word( arbic, IWord.T_CN_NUMERIC);
+								wd = new Word( arabic, IWord.T_CN_NUMERIC);
 								wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
 								wd.setPosition(pos+cjkidx);
 							}
-							//clear the stop words
+							
+							//clear the stop words as need
 							if ( dic.match(ILexicon.STOP_WORD, num) ) 
 							{
 								cjkidx += num.length();
@@ -1488,7 +1504,7 @@ public abstract class ASegment implements ISegment
 		//StringBuilder isb = new StringBuilder();
 		isb.clear();
 		isb.append( chars[ index ]);
-		ctrlMask &= ~ISegment.CHECK_CF_MASK;		//reset the fraction checke mask.
+		ctrlMask &= ~ISegment.CHECK_CF_MASK;		//reset the fraction check mask.
 		
 		for ( int j = index + 1;
 					j < chars.length; j++ ) 
@@ -1518,9 +1534,11 @@ public abstract class ASegment implements ISegment
 				else 
 					break;
 			}
+			
 			//append the buffer.
 			isb.append( chars[j] );
 		}
+		
 		return isb.toString();
 	}
 	
