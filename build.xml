@@ -5,11 +5,11 @@
 		<echo message="------------------------------------------------------------"/>
 		<echo message="----------BUILDING JCSEG PACKAGE----------------------------"/>
 		<echo message=""/>
-		<property name="bottom" value="jcseg 2012-2013"/>
+		<property name="bottom" value="jcseg 2012-2014"/>
 		<property name="jars" value="${basedir}/output"/>
 		<property name="sources" value="${basedir}/src"/>
 		<property name="classes" value="${basedir}/classes"/>
-		<property name="version" value="1.9.3"/>
+		<property name="version" value="1.9.4"/>
 		<property name="lib.dir" value="${basedir}/lib"/>
 		<property name="api" value="${basedir}/doc"/>
 		
