@@ -1,4 +1,4 @@
-Jcseg完整版本(源码, 词库, 帮助文档, 词库管理工具, jar文件)下载:  http://sourceforge.net/projects/jcseg <br />
+Jcseg[dʒɛ'​ke'sɛ]完整版本(源码, 词库, 帮助文档, 词库管理工具, jar文件)下载:  http://sourceforge.net/projects/jcseg <br />
 
 <h3>一. 关于jcseg: </h3>
 
