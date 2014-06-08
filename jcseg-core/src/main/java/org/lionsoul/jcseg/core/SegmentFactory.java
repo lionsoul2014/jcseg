@@ -10,10 +10,11 @@ import java.lang.reflect.Constructor;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class SegmentFactory {
+public class SegmentFactory 
+{
 	
 	//current jcseg version.
-	public static final String version = "1.9.3";
+	public static final String version = "1.9.4";
 	
 	/**
 	 * load the ISegment class with the given path
@@ -52,6 +53,8 @@ public class SegmentFactory {
 			__segClass = "org.lionsoul.jcseg.SimpleSeg";
 		else if ( mode == JcsegTaskConfig.COMPLEX_MODE )
 			__segClass = "org.lionsoul.jcseg.ComplexSeg";
+		else if ( mode == JcsegTaskConfig.DETECT_MODE )
+			__segClass = "org.lionsoul.jcseg.DetectSeg";
 		else 
 			throw new JcsegException("No Such Algorithm Excpetion");
 		

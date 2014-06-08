@@ -8,8 +8,8 @@ import java.io.Reader;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public interface ISegment {
-	
+public interface ISegment 
+{
 	//Wether to check the chinese and english mixed word.
 	public static final int CHECK_CE_MASk = 1 << 0;
 	//Wether to check the chinese fraction.

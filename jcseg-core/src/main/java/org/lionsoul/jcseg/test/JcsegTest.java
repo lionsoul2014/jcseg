@@ -19,7 +19,8 @@ import org.lionsoul.jcseg.core.SegmentFactory;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTest {
+public class JcsegTest 
+{
 	
 	ISegment seg = null;
 	
@@ -39,6 +40,10 @@ public class JcsegTest {
 		//dic.loadFromLexiconFile("/java/lex-main.lex");
 		seg = SegmentFactory
 				.createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
+		
+		//detect mode test
+		//seg	= SegmentFactory
+		//		.createJcseg(JcsegTaskConfig.DETECT_MODE, new Object[]{config, dic});
 		
 		//append pinyin
 		//config.setAppendCJKPinyin(true);
@@ -160,7 +165,7 @@ public class JcsegTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		System.out.println("Bye!");
 	}
-
 }

@@ -24,8 +24,9 @@ public class JcsegTaskConfig
 	/**default lexicon property file name*/
 	public static final String LEX_PROPERTY_FILE = "jcseg.properties";
 	/**simple algorithm or complex algorithm */
-	public static final int SIMPLE_MODE = 1;
-	public static final int COMPLEX_MODE = 2;
+	public static final int SIMPLE_MODE 	= 1;
+	public static final int COMPLEX_MODE 	= 2;
+	public static final int DETECT_MODE		= 3;
 	
 	/**maximum length for maximum match(5-7)*/
 	public int MAX_LENGTH = 5;
@@ -97,7 +98,8 @@ public class JcsegTaskConfig
 	//the currently used lexicon properties file
 	private String pfile = null;
 	
-	public JcsegTaskConfig() {
+	public JcsegTaskConfig() 
+	{
 		this(null);
 	}
 	
@@ -120,7 +122,8 @@ public class JcsegTaskConfig
 	 * 
 	 * @throws IOException
 	 */
-	public void resetFromPropertyFile( String proFile ) throws IOException {
+	public void resetFromPropertyFile( String proFile ) throws IOException 
+	{
 		Properties lexPro = new Properties();
 		/*load the mapping from the default property file.*/
 		if ( proFile == null ) 

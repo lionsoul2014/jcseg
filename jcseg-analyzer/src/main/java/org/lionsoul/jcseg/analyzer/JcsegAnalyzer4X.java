@@ -14,13 +14,15 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzer4X extends Analyzer {
+public class JcsegAnalyzer4X extends Analyzer 
+{
 	
 	private int mode;
 	private JcsegTaskConfig config = null;
 	private ADictionary dic = null;
 	
-	public JcsegAnalyzer4X( int mode ) {
+	public JcsegAnalyzer4X( int mode ) 
+	{
 		this.mode = mode;
 		
 		//initialize the task config and the dictionary
@@ -28,7 +30,8 @@ public class JcsegAnalyzer4X extends Analyzer {
 		dic = DictionaryFactory.createDefaultDictionary(config);
 	}
 	
-	public void setConfig( JcsegTaskConfig config ) {
+	public void setConfig( JcsegTaskConfig config ) 
+	{
 		this.config = config;
 	}
 	
@@ -45,13 +48,15 @@ public class JcsegAnalyzer4X extends Analyzer {
 	}
 
 	@Override
-	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
+	protected TokenStreamComponents createComponents(String fieldName, Reader reader) 
+	{
 		try {
 			Tokenizer source = new JcsegTokenizer(reader, mode, config, dic);
 			return new TokenStreamComponents(source, new JcsegFilter(source));
 		} catch ( Exception e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 }

@@ -19,7 +19,8 @@ import org.lionsoul.jcseg.core.SegmentFactory;
  *
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTokenizer extends Tokenizer {
+public class JcsegTokenizer extends Tokenizer 
+{
 
 	private ISegment segmentor;
 
@@ -27,7 +28,9 @@ public class JcsegTokenizer extends Tokenizer {
 	private OffsetAttribute offsetAtt;
 
 	public JcsegTokenizer(Reader input, int mode,
-			JcsegTaskConfig config, ADictionary dic ) throws JcsegException, IOException {
+			JcsegTaskConfig config, ADictionary dic ) 
+					throws JcsegException, IOException 
+	{
 		super(input);
 
 		segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
@@ -37,7 +40,8 @@ public class JcsegTokenizer extends Tokenizer {
 	}
 
 	@Override
-	public boolean incrementToken() throws IOException {
+	public boolean incrementToken() throws IOException 
+	{
 		clearAttributes();
 		IWord word = segmentor.next();
 		if ( word != null ) {
@@ -53,7 +57,8 @@ public class JcsegTokenizer extends Tokenizer {
 	}
 
 	@Override
-	public void reset() throws IOException {
+	public void reset() throws IOException 
+	{
 		super.reset();
 		segmentor.reset(input);
 	}

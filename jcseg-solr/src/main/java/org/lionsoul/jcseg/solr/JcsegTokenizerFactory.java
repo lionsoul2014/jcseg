@@ -37,12 +37,16 @@ public class JcsegTokenizerFactory extends TokenizerFactory {
 		
 		String _mode = args.get("mode");
 		if ( _mode == null ) mode = JcsegTaskConfig.COMPLEX_MODE;
-		else {
+		else 
+		{
 			_mode = _mode.toLowerCase();
-			if ( "simple".equals(_mode) ) {
+			
+			if ( "simple".equals(_mode) )
 				mode = JcsegTaskConfig.SIMPLE_MODE;
-			}
-			else mode = JcsegTaskConfig.COMPLEX_MODE;
+			else if ( "detect".equals(_mode) )
+				mode = JcsegTaskConfig.DETECT_MODE;
+			else
+				mode = JcsegTaskConfig.COMPLEX_MODE;
 		}
 		
 		//initialize the task config and the dictionary
@@ -50,7 +54,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory {
 		dic = DictionaryFactory.createDefaultDictionary(config);
 	}
 	
-	public void setConfig( JcsegTaskConfig config ) {
+	public void setConfig( JcsegTaskConfig config ) 
+	{
 		this.config = config;
 	}
 	
@@ -67,7 +72,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory {
 	}
 
 	@Override
-	public Tokenizer create(AttributeFactory factory, Reader input) {
+	public Tokenizer create(AttributeFactory factory, Reader input) 
+	{
 		try {
 			return new JcsegTokenizer(input, mode, config, dic);
 		} catch (JcsegException e) {

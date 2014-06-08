@@ -367,7 +367,6 @@ public abstract class ASegment implements ISegment
 					
 					
 					//-------------------------------------------------------------
-					
 					IChunk chunk = getBestCJKChunk(chars, cjkidx);
 					//System.out.println(chunk+"\n");
 					//w = new Word(chunk.getWords()[0].getValue(), IWord.T_CJK_WORD);
