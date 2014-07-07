@@ -26,6 +26,8 @@ b罩杯/n/b zhao bei/b杯
 bb机/n/bb ji/call机
 bb仔/n/bb zai/null
 bp机/n/bp ji/null
+b型/n/b xing/null
+b型肝炎/n/b xing gan yan/乙型肝炎
 #
 c盘/n/c pan/null
 c座/f/c zuo/null

@@ -695,7 +695,17 @@ public abstract class ASegment implements ISegment
 	 */
 	private void appendLatinSyn( IWord w )
 	{
-		IWord ew = dic.get(ILexicon.EN_WORD, w.getValue());
+		IWord ew;
+		
+		/*
+		 * @added 2014-07-07
+		 * w maybe EC_MIX_WORD, so check its syn first
+		 * 	and make sure it is not a EC_MIX_WORD then check the EN_WORD 
+		 */
+		if ( w.getSyn() == null )
+			ew = dic.get(ILexicon.EN_WORD, w.getValue());
+		else 
+			ew = w;
 		
 		if (  ew != null && ew.getSyn() != null ) 
 		{
