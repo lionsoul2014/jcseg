@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.solr;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
