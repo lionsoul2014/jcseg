@@ -30,6 +30,14 @@ public class JcsegAnalyzer4X extends Analyzer
 		dic = DictionaryFactory.createDefaultDictionary(config);
 	}
 	
+	public JcsegAnalyzer4X( int mode, String proFile )
+	{
+		this.mode = mode;
+		
+		config = new JcsegTaskConfig(proFile);
+		dic = DictionaryFactory.createDefaultDictionary(config);
+	}
+	
 	public void setConfig( JcsegTaskConfig config ) 
 	{
 		this.config = config;

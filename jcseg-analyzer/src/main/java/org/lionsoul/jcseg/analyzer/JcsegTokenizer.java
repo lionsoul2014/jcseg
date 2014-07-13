@@ -15,7 +15,7 @@ import org.lionsoul.jcseg.core.SegmentFactory;
 
 
 /**
- * jcsge tokennizer for lucene.
+ * jcseg tokennizer for lucene.
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
