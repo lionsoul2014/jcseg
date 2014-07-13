@@ -1,26 +1,30 @@
-jcseg-1.9.5(Upcoming):
+jcseg-1.9.5(snapshot):
+1. 修复部分英中混合词的同义词无法追加的bug							-done
 
-1. 复杂中文的二次切分
-2. 词库自动重载正则支持
-3. lucene highlight错位bug。
+2. 增加jcseg-elasticsearch模块 - elasticsearch切分插件			-done
+
+3. 复杂中文的二次切分
+
+4. 词库自动重载正则支持
+
 
 
 //----------------------------------------------------------------------------------------------------
 jcseg-1.9.4(当前版本)：
 
-1. 改善中英混合词的识别,可以识别更多情况, 例如: 高3											-done
+1. 改善中英混合词的识别,可以识别更多情况, 例如: 高3
 
-2. 加入IHashQueue来替换原来的ILinkedList,改善word pool的性能,加快切分速度						-done
+2. 加入IHashQueue来替换原来的ILinkedList,改善word pool的性能,加快切分速度
 
-3. 更改org.lionsoul.jcseg.util.STConverter加入了更全的简繁词条对照							-done
+3. 更改org.lionsoul.jcseg.util.STConverter加入了更全的简繁词条对照
 
-4. 修复了中文数字转阿拉伯数字的一种会过滤的情况.(http://code.google.com/p/jcseg/issues/detail?id=22)	-done
+4. 修复了中文数字转阿拉伯数字的一种会过滤的情况.(http://code.google.com/p/jcseg/issues/detail?id=22)
 
-5. 修复词库路径空格bug:JAR_HOME = java.net.URLDecoder.decode("", "utf-8");					-done
+5. 修复词库路径空格bug:JAR_HOME = java.net.URLDecoder.decode("", "utf-8");
 
-6. 修复中文数字转阿拉伯数字的一个bug.(例如：二零一四年会被转换成1914年)								-done
+6. 修复中文数字转阿拉伯数字的一个bug.(例如：二零一四年会被转换成1914年)	
 
-7. 检测模式切分(只切分返回词库中已有的词条,自动大小写，全半角转换)									-done
+7. 检测模式切分(只切分返回词库中已有的词条,自动大小写，全半角转换)
 
 
 jcseg-1.9.3:
