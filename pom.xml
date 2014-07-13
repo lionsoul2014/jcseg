@@ -51,7 +51,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcseg.version>1.9.3</jcseg.version>
+    <jcseg.version>1.9.5</jcseg.version>
   </properties>
 
   <dependencies>
@@ -68,6 +68,7 @@
     <module>jcseg-analyzer</module>
     <module>jcseg-solr</module>
     <module>jcseg-tools</module>
+    <module>jcseg-elasticsearch</module>
   </modules>
   
   <build>
