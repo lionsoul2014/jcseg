@@ -1,0 +1,37 @@
+#append the following setting to you elasticsearch.yml
+index:
+  analysis:
+  
+    tokenizer:   
+      jcseg_complex:
+        type: jcseg
+        seg_mode: complex
+      jcseg_simple:
+        type: jcseg
+        seg_mode: simple
+      jcseg_detect:
+        type: jcseg
+        seg_mode: detect
+        
+    analyzer:
+      jcseg:
+        alias:
+        - jcseg_analyzer
+        type: org.elasticsearch.index.analysis.JcsegAnalyzerProvider
+      jcseg_complex:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_complex
+      jcseg_simple:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_simple
+      jcseg_detect:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_detect
+        
+index.analysis.analyzer.default.type : "jcseg"
