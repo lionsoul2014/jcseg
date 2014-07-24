@@ -15,7 +15,7 @@
 
   <name>jcseg</name>
   <url>http://code.google.com/p/jcseg/</url>
-  <description>Lightweight open source chinese tokenizer with lucene and solr support.</description>
+  <description>Lightweight open source chinese tokenizer with lucene,solr,elasticsearch support.</description>
   
   <licenses>
     <license>
@@ -64,7 +64,7 @@
   </dependencies>
   
   <modules>
-    <module>jcseg-core</module>
+	<module>jcseg-core</module>
     <module>jcseg-analyzer</module>
     <module>jcseg-solr</module>
     <module>jcseg-tools</module>
