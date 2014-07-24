@@ -384,7 +384,7 @@ public abstract class ASegment implements ISegment
 						StringBuilder sb = new StringBuilder();
 						sb.append(w.getValue());
 						String str = null;
-						
+
 						//the w is a Chinese last name.
 						if ( dic.match(ILexicon.CN_LNAME, w.getValue())
 								&& (str = findCHName(chars, 0, chunk)) != null) 
@@ -416,6 +416,7 @@ public abstract class ASegment implements ISegment
 						{
 							w = new Word(sb.toString(), T);
 							//if ( config.APPEND_PART_OF_SPEECH )
+							//w.setPosition(pos+cjkidx);
 							w.setPartSpeech(IWord.NAME_POSPEECH);
 						}
 					}
@@ -520,11 +521,14 @@ public abstract class ASegment implements ISegment
 					}
 					
 					//handle the after english word
+					//generated at the above chinese and english mix word
 					if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
 							&& dic.match(ILexicon.STOP_WORD, 
 									enAfter.getValue()) ) )
 					{
-						enAfter.setPosition(chars.length);
+						//@Note: bug fixed for the position (2014-07-23)
+						//	changed chars.length to pos+chars.length
+						enAfter.setPosition(pos+chars.length);
 						//check and to the secondary split.
 						if ( config.EN_SECOND_SEG
 								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 ) 
@@ -549,6 +553,7 @@ public abstract class ASegment implements ISegment
 					if ( config.CLEAR_STOPWORD 
 							&& dic.match(ILexicon.STOP_WORD, str) ) continue;
 					w = new Word(str, IWord.T_PUNCTUATION);
+					w.setPosition(pos);
 					w.setPartSpeech(IWord.PUNCTUATION);
 				} 
 				else  
