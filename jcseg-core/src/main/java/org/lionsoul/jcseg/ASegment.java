@@ -595,8 +595,10 @@ public abstract class ASegment implements ISegment
 				return (sword == null) ? w : sword;
 			} 
 			/* find a content around with pair punctuations.
+			 * 	set the pptmaxlen to 0 to close it
 			 * */
-			else if ( PPTFilter.isPairPunctuation( (char) c ) ) 
+			else if ( config.PPT_MAX_LENGTH > 0 
+					&& PPTFilter.isPairPunctuation( (char) c ) ) 
 			{
 				IWord w = null, w2 = null;
 				String text = getPairPunctuationText(c);
@@ -804,7 +806,7 @@ public abstract class ASegment implements ISegment
 		//Continue to check the last item.
 		if ( isb.length() >= config.STOKEN_MIN_LEN ) 
 		{
-			start = j - isb.length();
+			start = j - isb.length() - p;
 			_str = isb.toString();
 			
 			if ( ! ( config.CLEAR_STOPWORD
@@ -1180,7 +1182,12 @@ public abstract class ASegment implements ISegment
 		
 		while ( (ch = readNext()) != -1 ) 
 		{
-			if ( ENSCFilter.isWhitespace(ch) ) break;
+			if ( ENSCFilter.isWhitespace(ch) ) 
+			{
+				pushBack(ch);
+				break;
+			}
+			
 			if ( ! isCJKChar(ch) ) 
 			{
 				pushBack(ch);
@@ -1322,7 +1329,7 @@ public abstract class ASegment implements ISegment
 			}
 		}
 		
-		//conditioan to start the secondary segmentation.
+		//condition to start the secondary segmentation.
 		boolean ssseg = (tcount > 1) && chkunits;
 		
 		/*@step 3: check the end condition.
@@ -1390,13 +1397,18 @@ public abstract class ASegment implements ISegment
 					&& (ch = readNext()) != -1; j++ ) 
 		{
 			/* Attension:
-			 *  it is a chance that jcseg works find for 
+			 *  it is a accident that jcseg works find for 
 			 *  	we break the loop directly when we meet a whitespace.
 			 *  1. if a EC word is found, unit check process will be ignore.
 			 *  2. if matches no EC word, certianly return of readNext() 
 			 *  	will make sure the units check process works find.
 			 */
-			if ( ENSCFilter.isWhitespace(ch) ) break; 
+			if ( ENSCFilter.isWhitespace(ch) )
+			{
+				pushBack(ch);
+				break;
+			}
+			
 			ibuffer.append((char)ch);
 			//System.out.print((char)ch+",");
 			ialist.add(ch);
@@ -1462,7 +1474,12 @@ public abstract class ASegment implements ISegment
 		int ch;
 		while ( (ch = readNext()) != -1 ) 
 		{
-			if ( ENSCFilter.isWhitespace(ch) ) break;
+			if ( ENSCFilter.isWhitespace(ch) ) 
+			{
+				pushBack(ch);
+				break;
+			}
+			
 			if ( ! isLetterNumber( ch ) ) 
 			{
 				pushBack(ch);
@@ -1491,7 +1508,12 @@ public abstract class ASegment implements ISegment
 		int ch;
 		while ( (ch = readNext()) != -1 ) 
 		{
-			if ( ENSCFilter.isWhitespace(ch) ) break;
+			if ( ENSCFilter.isWhitespace(ch) ) 
+			{
+				pushBack(ch);
+				break;
+			}
+			
 			if ( ! isOtherNumber(ch) ) 
 			{
 				pushBack(ch);
