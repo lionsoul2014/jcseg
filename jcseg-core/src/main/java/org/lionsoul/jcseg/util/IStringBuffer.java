@@ -71,7 +71,7 @@ public class IStringBuffer {
 	 * 
 	 * @param	str	string to append to
 	 */
-	public void append( String str ) {
+	public IStringBuffer append( String str ) {
 		if ( str == null )
 			throw new NullPointerException();
 		//check the necessary to resize the buffer.
@@ -80,6 +80,8 @@ public class IStringBuffer {
 		for ( int j = 0; j < str.length(); j++ ) {
 			buff[count++] = str.charAt(j);
 		}
+		
+		return this;
 	}
 	
 	/**
@@ -89,7 +91,7 @@ public class IStringBuffer {
 	 * @param	start	the start index.
 	 * @param	length	length of chars to append to.
 	 */
-	public void append( char[] chars, int start, int length ) {
+	public IStringBuffer append( char[] chars, int start, int length ) {
 		if ( chars == null )
 			throw new NullPointerException();
 		if ( start < 0 )
@@ -105,6 +107,8 @@ public class IStringBuffer {
 		for ( int j = 0; j < length; j++ ) {
 			buff[count++] = chars[start+j];
 		}
+		
+		return this;
 	}
 	
 	/**
@@ -112,8 +116,8 @@ public class IStringBuffer {
 	 * 
 	 * @param	chars
 	 */
-	public void append( char[] chars ) {
-		append(chars, 0, chars.length);
+	public IStringBuffer append( char[] chars ) {
+		return append(chars, 0, chars.length);
 	}
 	
 	/**
@@ -121,9 +125,11 @@ public class IStringBuffer {
 	 * 
 	 * @param	c	the char to append to
 	 */
-	public void append( char c ) {
+	public IStringBuffer append( char c ) {
 		if ( count == buff.length ) resizeTo( buff.length * 2 + 1 );
 		buff[count++] = c;
+		
+		return this;
 	}
 	
 	/**
@@ -149,7 +155,7 @@ public class IStringBuffer {
 	/**
 	 * delete the char at the specified position. <br /> 
 	 */
-	public void deleteCharAt( int idx ) {
+	public IStringBuffer deleteCharAt( int idx ) {
 		if ( idx < 0 )
 			throw new IndexOutOfBoundsException("idx < 0");
 		if ( idx >= count )
@@ -163,6 +169,8 @@ public class IStringBuffer {
 			buff[j] = buff[j+1];
 		}
 		count--;
+		
+		return this;
 	}
 	
 	/**
@@ -178,8 +186,10 @@ public class IStringBuffer {
 	 * clear the buffer by
 	 * 		reset the count to 0. <br /> 
 	 */
-	public void clear() {
+	public IStringBuffer clear() {
 		count = 0;
+		
+		return this;
 	}
 	
 	/**
