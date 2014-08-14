@@ -1,14 +1,18 @@
 jcseg-1.9.5(snapshot):
 
-1. 修复部分英中混合词的同义词无法追加的bug						-done
+1. 修复部分英中混合词的同义词无法追加的bug				-done
 
 2. 增加jcseg-elasticsearch模块 - elasticsearch切分插件			-done
 
-3. 修复切分词条的些许情况offset错误bug							-done
+3. 修复切分词条的些许情况offset错误bug					-done
 
-4. 复杂中文的二次切分
+4. 更改对solr-4.9的支持
 
-5. 词库自动重载正则支持
+5. 上传到了Jcseg到了maven中央仓库
+
+6. 复杂中文的二次切分
+
+7. 词库自动重载正则支持
 
 
 

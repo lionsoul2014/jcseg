@@ -3,13 +3,10 @@ bin/
 classes/
 doc/
 help/
-feedback/
 # lib/ #
-output/
 target/
-CHANGES.txt
 # Binary Files #
-*.jar
+# *.jar #
 # Package Files #
 .settings/
 .classpath
