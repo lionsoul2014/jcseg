@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
-import org.apache.lucene.util.AttributeSource.AttributeFactory;
+import org.apache.lucene.util.AttributeFactory;
 import org.lionsoul.jcseg.core.ADictionary;
 import org.lionsoul.jcseg.core.DictionaryFactory;
 import org.lionsoul.jcseg.core.JcsegException;
@@ -72,7 +72,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory {
 	}
 
 	@Override
-	public Tokenizer create(AttributeFactory factory, Reader input) 
+	public Tokenizer create( 
+			AttributeFactory factory, Reader input ) 
 	{
 		try {
 			return new JcsegTokenizer(input, mode, config, dic);
