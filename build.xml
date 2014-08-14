@@ -20,6 +20,7 @@
 		<property name="solr" value="jcseg-solr"/>
 		<property name="elasticsearch" value="jcseg-elasticsearch"/>
 		<property name="tools" value="jcseg-tools"/>
+		<property name="jdk.version" value="1.6"/>
 
 		<delete dir="${classes}"/>
 		<delete dir="${api}"/>
@@ -63,7 +64,7 @@
     <target name="build" depends="init">
 		<echo message="-------------Compiling Application--------------"/>
 		<echo message="${lib.dir}"/>
-		<javac srcdir="${sources}" destdir="${classes}">
+		<javac srcdir="${sources}" destdir="${classes}" source="${jdk.version}" target="${jdk.version}">
 			<classpath>
 				<path id="classpath">
 					<fileset dir="${lib.dir}" includes="**/*.jar"/>
