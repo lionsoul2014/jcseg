@@ -6,7 +6,7 @@ jcseg-1.9.5(snapshot):
 
 3. 修复切分词条的些许情况offset错误bug					-done
 
-4. 更改对solr-4.9的支持
+4. 更改对solr-4.9的支持							-done
 
 5. 上传到了Jcseg到了maven中央仓库
 
