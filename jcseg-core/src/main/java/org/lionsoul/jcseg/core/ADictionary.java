@@ -18,7 +18,8 @@ import org.lionsoul.jcseg.filter.ENSCFilter;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public abstract class ADictionary {
+public abstract class ADictionary 
+{
 	
 	public static final String AL_TODO_FILE = "lex-autoload.todo";
 	
@@ -28,7 +29,8 @@ public abstract class ADictionary {
 	/**autoload thread */
 	private Thread autoloadThread = null;
 	
-	public ADictionary( JcsegTaskConfig config, Boolean sync ) {
+	public ADictionary( JcsegTaskConfig config, Boolean sync ) 
+	{
 		this.config = config;
 		this.sync = sync.booleanValue();
 	}
@@ -75,53 +77,94 @@ public abstract class ADictionary {
 	}
 	
 	/**start the lexicon autoload thread .*/
-	public void startAutoload() {
-		if ( autoloadThread != null ) return;
-		autoloadThread = new Thread(new Runnable(){
+	public void startAutoload() 
+	{
+		if ( config.getLexiconPath() == null 
+				|| autoloadThread != null ) 
+		{
+			return;
+		}
+		
+		//create a start the lexicon auto load thread
+		autoloadThread = new Thread(new Runnable() {
+			
 			@Override
-			public void run() {
-				File todo = new File(config.getLexiconPath()+"/"+AL_TODO_FILE);
-				long lastModified = todo.lastModified();
-				while ( true ) {
+			public void run() 
+			{
+				String[] paths = config.getLexiconPath();
+				AutoLoadFile[] files = new AutoLoadFile[paths.length];
+				for ( int i = 0; i < files.length; i++ )
+				{
+					files[i] = new AutoLoadFile(paths[i] + "/" + AL_TODO_FILE);
+					files[i].setLastUpdateTime(files[i].getFile().lastModified());
+				}
+				
+				while ( true ) 
+				{
 					//sleep for some time (seconds)
 					try {
 						Thread.sleep(config.getPollTime() * 1000);
 					} catch (InterruptedException e) {break;}
 					
-					//check the update of the lex-autoload.todo
-					if ( todo.lastModified() <= lastModified ) continue;
 					
-					//load words form the lexicon files
-					try {
-						BufferedReader reader = new BufferedReader(new FileReader(todo));
-						String line = null;
-						while ( ( line = reader.readLine() ) != null ) {
-							line = line.trim();
-							if ( line.indexOf('#') != -1 ) continue;
-							if ( "".equals(line) ) continue; 
-							loadFromLexiconFile(config.getLexiconPath()+"/"+line);
-						}
-						reader.close();
-						FileWriter fw = new FileWriter(todo);
-						fw.write("");
-						fw.close();
+					//check the update of all the reload todo files
+					File f			= null;
+					AutoLoadFile af	= null;
+					
+					for ( int i = 0; i < files.length; i++ )
+					{
+						af	= files[i];
+						f	= files[i].getFile();
 						
-						lastModified = todo.lastModified();
-						//System.out.println("newly added words loaded.");
-					} catch (IOException e) {
-						break;
+						if ( ! f.exists() ) continue;
+						if ( f.lastModified() <= af.getLastUpdateTime() ) 
+						{
+							continue;
+						}
+						
+						//load words form the lexicon files
+						try {
+							BufferedReader reader = new BufferedReader(new FileReader(f));
+							String line = null;
+							while ( ( line = reader.readLine() ) != null ) 
+							{
+								line = line.trim();
+								if ( line.indexOf('#') != -1 ) continue;
+								if ( "".equals(line) ) continue; 
+								loadFromLexiconFile(paths[i] + "/" + line);
+							}
+							
+							reader.close();
+							
+							FileWriter fw = new FileWriter(f);
+							fw.write("");
+							fw.close();
+							
+							//update the last update time
+							//@Note: some file system may close the in-time last update time update
+							//	in that case, this won't work normally.
+							//but, it will still work!!!
+							af.setLastUpdateTime(f.lastModified());
+							//System.out.println("newly added words loaded for path " + f.getParent());
+						} catch (IOException e) {
+							break;
+						}
 					}
+					
 				}
-				autoloadThread = null;
 			}
+			
 		});
+		
 		autoloadThread.setDaemon(true);
 		autoloadThread.start();
 		//System.out.println("lexicon autoload thread started!!!");
 	}
 	
-	public void stopAutoload() {
-		if ( autoloadThread != null ) {
+	public void stopAutoload() 
+	{
+		if ( autoloadThread != null ) 
+		{
 			autoloadThread.interrupt();
 			autoloadThread = null;
 		}
@@ -234,11 +277,14 @@ public abstract class ADictionary {
 	 * @throws IOException 
 	 */
 	public static File[] getLexiconFiles( String lexDir, 
-			String prefix, String suffix ) throws IOException {
+			String prefix, String suffix ) throws IOException 
+	{
 		
 		File path = new File(lexDir);
 		if ( path.exists() == false )
+		{
 			throw new IOException("Lexicon directory ["+lexDir+"] does'n exists.");
+		}
 		
 		/*
 		 * load all the lexicon file under the lexicon path 
@@ -268,7 +314,8 @@ public abstract class ADictionary {
 	 */
 	public static void loadWordsFromFile( 
 			JcsegTaskConfig config, 
-			ADictionary dic, File file, String charset ) {
+			ADictionary dic, File file, String charset ) 
+	{
 		
 		InputStreamReader ir = null;
 		BufferedReader br = null;

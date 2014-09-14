@@ -20,7 +20,7 @@
 		<property name="solr" value="jcseg-solr"/>
 		<property name="elasticsearch" value="jcseg-elasticsearch"/>
 		<property name="tools" value="jcseg-tools"/>
-		<property name="jdk.version" value="1.6"/>
+		<property name="jdk.version" value="1.7"/>
 
 		<delete dir="${classes}"/>
 		<delete dir="${api}"/>
