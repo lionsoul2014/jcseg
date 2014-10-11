@@ -1,22 +1,28 @@
-jcseg-1.9.5(snapshot):
+jcseg-1.9.6:
 
-1. 修复部分英中混合词的同义词无法追加的bug				-done
+1. fix lazyInitRace bug				-done
 
-2. 增加jcseg-elasticsearch模块 - elasticsearch切分插件			-done
+2. 同义词&拼音的高亮显示问题
 
-3. 修复切分词条的些许情况offset错误bug					-done
+3. 上传到了Jcseg到了maven中央仓库
 
-4. 更改对solr-4.9的支持							-done
+4. 复杂中文的二次切分
 
-5. 上传到了Jcseg到了maven中央仓库
-
-6. 复杂中文的二次切分
-
-7. 词库自动重载正则支持
+5. 词库自动重载正则支持
 
 
+jcseg-1.9.5:
 
-//----------------------------------------------------------------------------------------------------
+1. 修复部分英中混合词的同义词无法追加的bug
+
+2. 增加jcseg-elasticsearch模块 - elasticsearch切分插件
+
+3. 修复切分词条的些许情况offset错误bug
+
+4. 更改对solr-4.9的支持
+
+
+
 jcseg-1.9.4(当前版本)：
 
 1. 改善中英混合词的识别,可以识别更多情况, 例如: 高3

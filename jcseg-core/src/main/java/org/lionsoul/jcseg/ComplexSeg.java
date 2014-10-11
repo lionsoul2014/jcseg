@@ -10,6 +10,7 @@ import org.lionsoul.jcseg.core.ILexicon;
 import org.lionsoul.jcseg.core.IWord;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
 //import java.util.Iterator;
+import org.lionsoul.jcseg.filter.MMSegFilter;
 
 
 /**
@@ -55,7 +56,8 @@ public class ComplexSeg extends ASegment {
 		{
 			//the second layer
 			idx_2 = index + mwords[x].getLength();
-			if ( idx_2 < chars.length ) {
+			if ( idx_2 < chars.length ) 
+			{
 				mword2 = getNextMatch(chars, idx_2);
 				/*
 				 * the first try for the second layer
@@ -66,13 +68,16 @@ public class ComplexSeg extends ASegment {
 				if ( mword2.length == 1
 						&& mword2[0].getType() == ILexicon.UNMATCH_CJK_WORD) {
 					return new Chunk(new IWord[]{mwords[mwords.length - 1]});
-				} 
-				for ( int y = 0; y < mword2.length; y++ ) {
+				}
+				
+				for ( int y = 0; y < mword2.length; y++ ) 
+				{
 					//the third layer
 					idx_3 = idx_2 + mword2[y].getLength();
 					if ( idx_3 < chars.length ) {
 						mword3 = getNextMatch(chars, idx_3);
-						for ( int z = 0; z < mword3.length; z++ ) {
+						for ( int z = 0; z < mword3.length; z++ ) 
+						{
 							ArrayList<IWord> wArr = new ArrayList<IWord>(3);
 							wArr.add(mwords[x]);
 							wArr.add(mword2[y]);
@@ -95,7 +100,9 @@ public class ComplexSeg extends ASegment {
 		}
 		
 		if ( chunkArr.size() == 1 ) 
+		{
 			return chunkArr.get(0);
+		}
 		
 /*		Iterator<IChunk> it = chunkArr.iterator();
 		while ( it.hasNext() ) {
@@ -120,31 +127,36 @@ public class ComplexSeg extends ASegment {
 	 * @param chunks
 	 * @return IWord
 	 */
-	private IChunk filterChunks(IChunk[] chunks) {
+	private IChunk filterChunks(IChunk[] chunks) 
+	{
 		//call the maximum match rule.
-		IChunk[] afterChunks = MMRule.createRule().call(chunks);
-		if ( afterChunks.length >= 2 ) {
-			//call the largest average rule.
-			afterChunks = LAWLRule.createRule().call(afterChunks);
-			if ( afterChunks.length >= 2 ) {
-				//call the smallest variance rule.
-				afterChunks = SVWLRule.createRule().call(afterChunks);
-				if ( afterChunks.length >= 2 ) {
-					//call the largest sum of degree of morphemic freedom rule.
-					afterChunks = LSWMFRule.createRule().call(afterChunks);
-					if ( afterChunks.length >= 2 ) {
-						/*
-						 * Attention:
-						 * there is chance for length of the chunks over 2
-						 * even after the four rules.
-						 * we use the LASTRule to clear the Ambiguity. 
-						 */
-						//return LASTRule.createRule().call(afterChunks).getWords()[0];
-						afterChunks = new IChunk[]{LASTRule.createRule().call(afterChunks)};
-					} 
-				}
-			}
+		IChunk[] afterChunks = MMSegFilter.getMaximumMatchChunks(chunks);
+		if ( afterChunks.length == 1 )
+		{
+			return afterChunks[0];
 		}
+		
+		//call the largest average rule.
+		afterChunks = MMSegFilter.getLargestAverageWordLengthChunks(afterChunks);
+		if ( afterChunks.length == 1 )
+		{
+			return afterChunks[0];
+		}
+		
+		//call the smallest variance rule.
+		afterChunks = MMSegFilter.getSmallestVarianceWordLengthChunks(afterChunks);
+		if ( afterChunks.length == 1 )
+		{
+			return afterChunks[0];
+		}
+		
+		//call the largest sum of degree of morphemic freedom rule.
+		afterChunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(afterChunks);
+		if ( afterChunks.length == 1 )
+		{
+			return afterChunks[0];
+		}
+		
 		return afterChunks[0];
 	}
 
