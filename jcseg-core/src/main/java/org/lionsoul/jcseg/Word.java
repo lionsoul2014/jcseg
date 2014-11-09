@@ -15,6 +15,17 @@ public class Word implements IWord,Cloneable
 	private int fre = 0;
 	private int type;
 	private int position;
+	
+	/**
+	 * well the we could get the length of the word
+	 * 	by invoke #getValue().length
+	 * owing to the impt of jcseg and {@link #getValue()}.length
+	 * 	may no equals to {@link #getLength()}
+	 * 
+	 * {@link #getLength()} will return the value setted by
+	 */
+	private int length = -1;
+	
 	private String pinyin = null;
 	private String[] partspeech = null;
 	private String[] syn = null;
@@ -47,7 +58,17 @@ public class Word implements IWord,Cloneable
 	@Override
 	public int getLength() 
 	{
-		return value.length();
+		return (length == -1 ) ? value.length() : length;
+	}
+	
+
+	/**
+	 * @see IWord#setLength(int) 
+	 */
+	@Override
+	public void setLength( int length ) 
+	{
+		this.length	= length;
 	}
 
 	/**
