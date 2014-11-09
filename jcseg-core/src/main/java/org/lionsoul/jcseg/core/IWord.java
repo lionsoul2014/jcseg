@@ -75,14 +75,21 @@ public interface IWord extends Cloneable {
 	 * 
 	 * @return String
 	 */
-	String getValue();
+	public String getValue();
 	
 	/**
 	 * return the length of the word
 	 * 
 	 * @return int
 	 */
-	int getLength();
+	public int getLength();
+	
+	/**
+	 * self define the length
+	 * 
+	 * @param	int
+	 */
+	public void setLength( int length );
 	
 	/**
 	 * return the frequency of the word,
@@ -90,28 +97,28 @@ public interface IWord extends Cloneable {
 	 * 
 	 * @return int
 	 */
-	int getFrequency();
+	public int getFrequency();
 	
 	/**
 	 * return the type of the word
 	 * 
 	 * @return int
 	 */
-	int getType();
+	public int getType();
 	
 	/**
 	 * set the position of the word
 	 * 
 	 * @param pos
 	 */
-	void setPosition( int pos );
+	public void setPosition( int pos );
 	
 	/**
 	 * return the start position of the word.
 	 * 
 	 * @return int
 	 */
-	int getPosition();
+	public int getPosition();
 	
 	/**
 	 * return the pinying of the word 

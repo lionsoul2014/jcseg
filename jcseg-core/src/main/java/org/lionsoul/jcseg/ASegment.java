@@ -246,7 +246,7 @@ public abstract class ASegment implements ISegment
 						 * 	type to find chinese and unit composed word.
 						 * */
 						else if ( CNNMFilter.isCNNumeric(chars[cjkidx+1]) > -1
-								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"")) 
+								|| dic.match(ILexicon.CJK_UNITS, chars[cjkidx+1]+"") ) 
 						{
 							StringBuilder sb 	= new StringBuilder();
 							String temp		 	= null;
@@ -316,7 +316,8 @@ public abstract class ASegment implements ISegment
 							}
 							
 							//clear the stop words as need
-							if ( dic.match(ILexicon.STOP_WORD, num) ) 
+							if ( config.CLEAR_STOPWORD 
+									&& dic.match(ILexicon.STOP_WORD, num) ) 
 							{
 								cjkidx += num.length();
 								continue;
@@ -344,9 +345,10 @@ public abstract class ASegment implements ISegment
 							{
 								IWord wd = new Word(w.getPinyin(), IWord.T_CJK_PINYIN);
 								wd.setPosition(w.getPosition());
+								//wd.setLength(w.getValue().length());
 								wordPool.add(wd);
 							}
-							//add the syn words to the poll
+							//add the syn words to the pool
 							if ( config.APPEND_CJK_SYN 
 									&& config.LOAD_CJK_SYN && w.getSyn() != null ) 
 							{
@@ -356,6 +358,7 @@ public abstract class ASegment implements ISegment
 									wd = new Word(w.getSyn()[j], w.getType());
 									wd.setPartSpeech(w.getPartSpeech());
 									wd.setPosition(w.getPosition());
+									//wd.setLength(w.getValue().length());
 									wordPool.add(wd);
 								}
 							}
@@ -502,6 +505,7 @@ public abstract class ASegment implements ISegment
 					{
 						IWord wd = new Word(w.getPinyin(), IWord.T_CJK_PINYIN);
 						wd.setPosition(w.getPosition());
+						//wd.setLength(w.getValue().length());
 						wordPool.add(wd);
 					}
 					
@@ -516,6 +520,7 @@ public abstract class ASegment implements ISegment
 							wd = new Word(syns[j], w.getType());
 							wd.setPartSpeech(w.getPartSpeech());
 							wd.setPosition(w.getPosition());
+							//wd.setLength(w.getValue().length());
 							wordPool.add(wd);
 						}
 					}
@@ -523,16 +528,16 @@ public abstract class ASegment implements ISegment
 					//handle the after english word
 					//generated at the above chinese and english mix word
 					if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
-							&& dic.match(ILexicon.STOP_WORD, 
-									enAfter.getValue()) ) )
+							&& dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) )
 					{
 						//@Note: bug fixed for the position (2014-07-23)
 						//	changed chars.length to pos+chars.length
 						enAfter.setPosition(pos+chars.length);
 						//check and to the secondary split.
 						if ( config.EN_SECOND_SEG
-								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 ) 
+								&& ( ctrlMask & ISegment.START_SS_MASK ) != 0 )  {
 							enSecondSeg(enAfter, false);
+						}
 						wordPool.add(enAfter);
 						//append the synoyms words.
 						if ( config.APPEND_CJK_SYN ) appendLatinSyn(enAfter);
@@ -723,6 +728,7 @@ public abstract class ASegment implements ISegment
 				sw = new Word(syns[j], w.getType());
 				sw.setPartSpeech(w.getPartSpeech());
 				sw.setPosition(w.getPosition());
+				//sw.setLength(ew.getValue().length());
 				wordPool.add(sw);
 			}
 		}
