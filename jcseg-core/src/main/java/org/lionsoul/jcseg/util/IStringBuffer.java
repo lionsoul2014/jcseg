@@ -98,7 +98,7 @@ public class IStringBuffer {
 			throw new IndexOutOfBoundsException();
 		if ( length <= 0 )
 			throw new IndexOutOfBoundsException();
-		if ( start + length >= chars.length ) 
+		if ( start + length > chars.length ) 
 			throw new IndexOutOfBoundsException();
 		
 		//check the necessary to resize the buffer.
