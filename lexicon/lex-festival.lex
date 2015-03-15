@@ -38,8 +38,8 @@ CJK_WORDS
 中秋节/t/zhong qiu jie/null
 人口日/t/ren kou ri/null
 人权日/t/ren quan ri/null
-儿歌节/t/r ge jie/null
-儿童节/t/r tong jie/null
+儿歌节/t/er ge jie/null
+儿童节/t/er tong jie/null
 元宵/t/yuan xiao/null
 元宵节/t/yuan xiao jie/null
 元旦/t/yuan dan/null
@@ -97,7 +97,7 @@ CJK_WORDS
 大暑/t/da shu/null
 大雪/t/da xue/null
 奥林匹克日/t/ao lin pi ke ri/null
-妇女节/t/fu nu: jie/null
+妇女节/t/fu nv jie/null
 三八节/t/san ba jie/null
 三八妇女节/t/san ba fu nu: jie/null
 学生营养日/t/xue sheng ying yang ri/null
