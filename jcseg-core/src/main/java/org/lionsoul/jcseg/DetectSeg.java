@@ -163,7 +163,7 @@ public class DetectSeg implements ISegment
 	@Override
 	public IWord next() throws IOException 
 	{
-		int c, i;
+		int c, i, pos;
 		IWord	w = null;
 		String	T = null;
 		
@@ -171,6 +171,7 @@ public class DetectSeg implements ISegment
 		{
 			w	= null;
 			T	= null;
+			pos = idx;
 			isb.clear();
 			
 			//@Convertor: check if char is an latin letter
@@ -236,6 +237,9 @@ public class DetectSeg implements ISegment
 			{
 				pushBack(isb.charAt(i));
 			}
+			
+			//add position record
+			w.setPosition(pos);
 			
 			return w;
 		}
