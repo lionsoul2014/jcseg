@@ -9,25 +9,23 @@ import org.lionsoul.jcseg.util.IIntFIFO;
  */
 public class IIntFIFOTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) 
-	{
-		IIntFIFO q = new IIntFIFO();
-		
-		q.enQueue('A');
-		q.enQueue('B');
-		System.out.println("size: " + q.size());
-		
-		q.enQueue('C');
-		q.enQueue('D');
-		System.out.println("size: " + q.size());
-		
-		while ( q.size() > 0 )
-		{
-			System.out.println("size: " + q.size() + ", " + (char)q.deQueue());
-		}
-	}
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        IIntFIFO q = new IIntFIFO();
+
+        q.enQueue('A');
+        q.enQueue('B');
+        System.out.println("size: " + q.size());
+
+        q.enQueue('C');
+        q.enQueue('D');
+        System.out.println("size: " + q.size());
+
+        while (q.size() > 0) {
+            System.out.println("size: " + q.size() + ", " + (char) q.deQueue());
+        }
+    }
 
 }
