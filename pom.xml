@@ -83,6 +83,23 @@
 		  <encoding>UTF-8</encoding>
 		</configuration>
 	  </plugin>
+    <plugin>
+      <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+      <artifactId>maven-java-formatter-plugin</artifactId>
+      <version>0.4</version>
+      <configuration>
+        <configFile>../formatter-profile.xml</configFile>
+        <encoding>UTF-8</encoding>
+        <lineEnding>CRLF</lineEnding>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>format</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
 	</plugins>
   </build>
 
