@@ -5,5 +5,8 @@ jdk:
   - openjdk7
   - oraclejdk8
 
+script:
+  - mvn test checkstyle:check
+
 after_success:
-  - mvn clean test checkstyle:check
+  - mvn clean checkstyle:checkstyle
