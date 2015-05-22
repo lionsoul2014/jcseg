@@ -53,6 +53,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jcseg.version>1.9.5</jcseg.version>
     <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+    <checkstyle.console>false</checkstyle.console>
   </properties>
 
   <dependencies>
