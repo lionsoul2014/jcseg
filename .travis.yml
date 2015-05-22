@@ -6,4 +6,4 @@ jdk:
   - oraclejdk8
 
 after_success:
-  - mvn clean test
+  - mvn clean test checkstyle:check
