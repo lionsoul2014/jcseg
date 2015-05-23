@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-	
+
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
@@ -16,7 +17,7 @@
   <name>jcseg</name>
   <url>http://code.google.com/p/jcseg/</url>
   <description>Lightweight open source chinese tokenizer with lucene,solr,elasticsearch support.</description>
-  
+
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -24,29 +25,29 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <organization>
-  	<url>http://www.lionsoul.org/</url>
-  	<name>lionsoul</name>
+    <url>http://www.lionsoul.org/</url>
+    <name>lionsoul</name>
   </organization>
-  
+
   <scm>
-  	<url>http://git.oschina.net/lionsoul/jcseg</url>
-  	<connection>scm:git@git.oschina.net:lionsoul/jcseg.git</connection>
-  	<developerConnection>scm:git@git.oschina.net:lionsoul/jcseg.git</developerConnection>
+    <url>http://git.oschina.net/lionsoul/jcseg</url>
+    <connection>scm:git@git.oschina.net:lionsoul/jcseg.git</connection>
+    <developerConnection>scm:git@git.oschina.net:lionsoul/jcseg.git</developerConnection>
   </scm>
-  
+
   <developers>
-  	<developer>
-  		<id>lionsoul</id>
-  		<name>chenxin</name>
-  		<email>chenxin619315@gmail.com</email>
-  	</developer>
+    <developer>
+      <id>lionsoul</id>
+      <name>chenxin</name>
+      <email>chenxin619315@gmail.com</email>
+    </developer>
   </developers>
-  
+
   <issueManagement>
-  	<url>http://code.google.com/p/jcseg/issues</url>
-  	<system>google code issues</system>
+    <url>http://code.google.com/p/jcseg/issues</url>
+    <system>google code issues</system>
   </issueManagement>
 
   <properties>
@@ -64,43 +65,43 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <modules>
-	<module>jcseg-core</module>
+    <module>jcseg-core</module>
     <module>jcseg-analyzer</module>
     <module>jcseg-solr</module>
     <module>jcseg-tools</module>
     <module>jcseg-elasticsearch</module>
   </modules>
-  
+
   <build>
-	<plugins>
-	<plugin>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<configuration>
-		  <source>1.6</source>
-		  <target>1.6</target>
-		  <encoding>UTF-8</encoding>
-		</configuration>
-	  </plugin>
-    <plugin>
-      <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-      <artifactId>maven-java-formatter-plugin</artifactId>
-      <version>0.4</version>
-      <configuration>
-        <configFile>../formatter-profile.xml</configFile>
-        <encoding>UTF-8</encoding>
-        <lineEnding>CRLF</lineEnding>
-      </configuration>
-      <executions>
-        <execution>
-          <goals>
-            <goal>format</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-	</plugins>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+        <artifactId>maven-java-formatter-plugin</artifactId>
+        <version>0.4</version>
+        <configuration>
+          <configFile>../formatter-profile.xml</configFile>
+          <encoding>UTF-8</encoding>
+          <lineEnding>CRLF</lineEnding>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <reporting>
@@ -121,7 +122,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <version>2.5</version>
-      </plugin> 
-    </plugins>  
- </reporting>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
