@@ -1,0 +1,12 @@
+language: java
+
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk8
+
+script:
+  - mvn test checkstyle:check
+
+after_success:
+  - mvn clean checkstyle:checkstyle

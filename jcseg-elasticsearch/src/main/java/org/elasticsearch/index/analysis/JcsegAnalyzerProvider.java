@@ -35,33 +35,36 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAnalyzer4X>  {
+public class JcsegAnalyzerProvider extends
+        AbstractIndexAnalyzerProvider<JcsegAnalyzer4X> {
 
     private final JcsegAnalyzer4X analyzer;
-    
+
     @Inject
-    public JcsegAnalyzerProvider(Index index, @IndexSettings Settings indexSettings, 
-    		Environment env, @Assisted String name, @Assisted Settings settings) 
-    {
+    public JcsegAnalyzerProvider(Index index,
+            @IndexSettings Settings indexSettings, Environment env,
+            @Assisted String name, @Assisted Settings settings) {
         super(index, indexSettings, name, settings);
-        //System.out.println("###Analyzer: "+env.configFile()+"###");
-        File proFile = new File(env.configFile()+"/jcseg/jcseg.properties");
+        // System.out.println("###Analyzer: "+env.configFile()+"###");
+        File proFile = new File(env.configFile() + "/jcseg/jcseg.properties");
         String seg_mode = settings.get("seg_mode", "complex");
-        
+
         int mode = JcsegTaskConfig.COMPLEX_MODE;
-        if( seg_mode.equals("complex") )
+        if (seg_mode.equals("complex"))
             mode = JcsegTaskConfig.COMPLEX_MODE;
-        else if ( seg_mode.equals("simple") )
-        	mode = JcsegTaskConfig.SIMPLE_MODE;
-        else if( seg_mode.equals("detect") )
-        	mode = JcsegTaskConfig.DETECT_MODE;
-        
-        if ( proFile.exists() ) analyzer = new JcsegAnalyzer4X(mode, proFile.getPath());
-        else analyzer = new JcsegAnalyzer4X(mode);
+        else if (seg_mode.equals("simple"))
+            mode = JcsegTaskConfig.SIMPLE_MODE;
+        else if (seg_mode.equals("detect"))
+            mode = JcsegTaskConfig.DETECT_MODE;
+
+        if (proFile.exists())
+            analyzer = new JcsegAnalyzer4X(mode, proFile.getPath());
+        else
+            analyzer = new JcsegAnalyzer4X(mode);
     }
-    
-    @Override public JcsegAnalyzer4X get() 
-    {
+
+    @Override
+    public JcsegAnalyzer4X get() {
         return this.analyzer;
     }
 }
