@@ -12,22 +12,26 @@ import org.apache.lucene.analysis.TokenStream;
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
-public class JcsegFilter extends TokenFilter {
+public class JcsegFilter extends TokenFilter 
+{
 	
 	//private CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 
-	protected JcsegFilter(TokenStream input) {
+	protected JcsegFilter(TokenStream input) 
+	{
 		super(input);
 	}
 
 	@Override
-	public boolean incrementToken() throws IOException {
+	public boolean incrementToken() throws IOException 
+	{
 		while (input.incrementToken()) {
             //char text[] = termAtt.buffer();
             //int termLength = termAtt.length();
             
             return true;
         }
+		
         return false;
 	}
 

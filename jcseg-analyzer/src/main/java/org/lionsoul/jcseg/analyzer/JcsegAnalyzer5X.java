@@ -1,29 +1,26 @@
 package org.lionsoul.jcseg.analyzer;
 
-/*
-import java.io.Reader;
+import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.lionsoul.jcseg.core.ADictionary;
 import org.lionsoul.jcseg.core.DictionaryFactory;
+import org.lionsoul.jcseg.core.JcsegException;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
 
-
 /**
- * jcseg analyzer for lucene.
+ * jcseg analyzer for lucene with version on or after 5.0
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-/*
-public class JcsegAnalyzer4X extends Analyzer 
+public class JcsegAnalyzer5X extends Analyzer
 {
-	
 	private int mode;
 	private JcsegTaskConfig config = null;
 	private ADictionary dic = null;
 	
-	public JcsegAnalyzer4X( int mode ) 
+	public JcsegAnalyzer5X( int mode ) 
 	{
 		this.mode = mode;
 		
@@ -32,7 +29,7 @@ public class JcsegAnalyzer4X extends Analyzer
 		dic = DictionaryFactory.createDefaultDictionary(config);
 	}
 	
-	public JcsegAnalyzer4X( int mode, String proFile )
+	public JcsegAnalyzer5X( int mode, String proFile )
 	{
 		this.mode = mode;
 		
@@ -58,16 +55,18 @@ public class JcsegAnalyzer4X extends Analyzer
 	}
 
 	@Override
-	protected TokenStreamComponents createComponents(String fieldName, Reader reader) 
+	protected TokenStreamComponents createComponents(String fieldName) 
 	{
+		Tokenizer tokenizer;
 		try {
-			Tokenizer source = new JcsegTokenizer(reader, mode, config, dic);
-			return new TokenStreamComponents(source, new JcsegFilter(source));
-		} catch ( Exception e) {
+			tokenizer = new JcsegTokenizer(mode, config, dic);
+			return new TokenStreamComponents(tokenizer, new JcsegFilter(tokenizer));
+		} catch (JcsegException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
 }
-*/

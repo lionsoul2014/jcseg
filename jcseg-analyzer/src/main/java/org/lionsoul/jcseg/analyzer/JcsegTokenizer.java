@@ -1,11 +1,11 @@
 package org.lionsoul.jcseg.analyzer;
 
 import java.io.IOException;
-import java.io.Reader;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.lionsoul.jcseg.core.ADictionary;
 import org.lionsoul.jcseg.core.ISegment;
 import org.lionsoul.jcseg.core.IWord;
@@ -15,28 +15,39 @@ import org.lionsoul.jcseg.core.SegmentFactory;
 
 
 /**
- * jcseg tokennizer for lucene.
+ * here is the documentation from {@link org.apache.lucene.analysis.tokenizer}
+ * A Tokenizer is a TokenStream whose input is a Reader.
+ * <p>
+ * This is an abstract class; subclasses must override {@link #incrementToken()}
+ * <p>
+ * NOTE: Subclasses overriding {@link #incrementToken()} must
+ * call {@link AttributeSource#clearAttributes()} before
+ * setting attributes.
+ *
+ * ----------------------------------------
+ * @Note: lucene invoke Tokenizer#setReader(Reader input) to set the inputPending
+ * 	after invoke the reset, global object input will be available.
+ * 
+ * jcseg tokennizer for lucene on or after <b>5.1.0</b>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
 public class JcsegTokenizer extends Tokenizer 
 {
-	
+	/**the default jcseg segmentor*/
 	private ISegment segmentor;
+
+	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+	private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
+	private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
 	
-	private CharTermAttribute termAtt;
-	private OffsetAttribute offsetAtt;
-	
-	public JcsegTokenizer(Reader input, int mode,
-			JcsegTaskConfig config, ADictionary dic ) 
-					throws JcsegException, IOException 
+	public JcsegTokenizer(
+			int mode,
+			JcsegTaskConfig config,
+			ADictionary dic ) throws JcsegException, IOException 
 	{
-		super(input);
-		
 		segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
 		segmentor.reset(input);
-		termAtt = addAttribute(CharTermAttribute.class);
-		offsetAtt = addAttribute(OffsetAttribute.class);
 	}
 
 	@Override
@@ -44,16 +55,22 @@ public class JcsegTokenizer extends Tokenizer
 	{
 		clearAttributes();
 		IWord word = segmentor.next();
-		if ( word != null ) {
-			termAtt.append(word.getValue());
-			//termAtt.copyBuffer(word.getValue(), 0, word.getValue().length);
-			termAtt.setLength(word.getLength());
-			offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
-			return true;
-		} else {
+		
+		if ( word == null )
+		{
 			end();
 			return false;
 		}
+		
+		//termAtt.append(word.getValue());
+		//termAtt.setLength(word.getLength());
+		
+		char[] token = word.getValue().toCharArray();
+		termAtt.copyBuffer(token, 0, token.length);
+		offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
+		typeAtt.setType("word");
+		
+		return true;
 	}
 	
 	@Override
