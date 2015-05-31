@@ -13,11 +13,6 @@
   <name>jcseg-core</name>
   <url>http://code.google.com/p/jcseg</url>
   
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcseg.version>1.9.5</jcseg.version>
-  </properties>
-  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
