@@ -1,11 +1,9 @@
-Jcseg[dʒɛ'​ke'sɛ]完整版本(源码, 词库, 帮助文档, 词库管理工具, jar文件)下载:  http://sourceforge.net/projects/jcseg <br />
-
 <h3>一. 关于jcseg: </h3>
 
 jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算法实现，并且提供了最高版本的lucene, solr, elasticsearch(New)的分词接口．
 
 
-1。目前最高版本：jcseg-1.9.5。兼容最高版本lucene-4.x,solr-4.x,elasticsearch
+1。目前最高版本：jcseg-1.9.6。兼容最高版本lucene-4.x,solr-4.x,elasticsearch
 
 2。三种切分模式：<br />
 <pre>

@@ -9,7 +9,7 @@
 		<property name="jars" value="${basedir}"/>
 		<property name="sources" value="${basedir}/src"/>
 		<property name="classes" value="${basedir}/classes"/>
-		<property name="version" value="1.9.5"/>
+		<property name="version" value="1.9.6"/>
 		<property name="lib.dir" value="${basedir}/lib"/>
 		<property name="api" value="${basedir}/doc"/>
 		
@@ -17,7 +17,6 @@
 		<property name="mvn" value="src/main/java"/>
 		<property name="core" value="jcseg-core"/>
 		<property name="analyzers" value="jcseg-analyzer"/>
-		<property name="solr" value="jcseg-solr"/>
 		<property name="elasticsearch" value="jcseg-elasticsearch"/>
 		<property name="tools" value="jcseg-tools"/>
 		<property name="jdk.version" value="1.7"/>
@@ -39,11 +38,6 @@
 		<echo message="Coping sources of ${analyzers} to ${sources}"/>
 		<copy todir="${sources}">
 			<fileset dir="${basedir}/${analyzers}/${mvn}"/>
-		</copy>
-		
-		<echo message="Coping sources of ${solr} to ${sources}"/>
-		<copy todir="${sources}">
-			<fileset dir="${basedir}/${solr}/${mvn}"/>
 		</copy>
 		
 		<echo message="Coping sources of ${elasticsearch} to ${sources}"/>
@@ -75,7 +69,7 @@
 
     <!--Archive-->
     <target name="dist" depends="build">
-		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/solr/*,org/lionsoul/jcseg/analyzer/*">
+		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/analyzer/*">
 			<!--manifest information setting-->
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
@@ -83,7 +77,6 @@
 			</manifest>
 		</jar>
 		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/analyzer/*"/>
-		<jar jarfile="${jars}/jcseg-solr-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/solr/*"/>
 		<jar jarfile="${jars}/jcseg-elasticsearch-${version}.jar" basedir="${classes}" includes="org/elasticsearch/*,es-plugin.properties"/>
 		
     	<!--jcseg dictionary converter tools-->
