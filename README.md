@@ -3,7 +3,7 @@
 jcseg是使用Java开发的一个开源中文分词器，使用流行的mmseg算法实现，并且提供了最高版本的lucene, solr, elasticsearch(New)的分词接口．
 
 
-1。目前最高版本：jcseg-1.9.6。兼容最高版本lucene-4.x,solr-4.x,elasticsearch
+1。目前最高版本：jcseg-1.9.6。兼容最高版本lucene-5.x,solr-5.x,elasticsearch-1.5.x
 
 2。三种切分模式：<br />
 <pre>
