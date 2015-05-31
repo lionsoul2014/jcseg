@@ -22,8 +22,8 @@ import java.io.Reader;
  * 
  * @author chenxin<chenxin6193152gmail.com>
  */
-public class JcsegTokenizerFactory extends AbstractTokenizerFactory {
-
+public class JcsegTokenizerFactory extends AbstractTokenizerFactory 
+{
     private String seg_mode;
     private JcsegTaskConfig config;
     private ADictionary dic;
@@ -54,7 +54,7 @@ public class JcsegTokenizerFactory extends AbstractTokenizerFactory {
         	mode = JcsegTaskConfig.DETECT_MODE;
 		
 		try {
-			return new JcsegTokenizer(reader, mode, config, dic);
+			return new JcsegTokenizer(mode, config, dic);
 		} catch (JcsegException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
