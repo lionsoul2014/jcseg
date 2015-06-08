@@ -1,16 +1,25 @@
+jcseg-1.9.7:
+
+1. 复杂中文的二次切分
+
+2. 词库自动重载正则支持
+
+3. jcseg-server模块的restfull接口
+
+
 jcseg-1.9.6:
 
-1. fix lazyInitRace bug				-done
+1. mmseg过滤器的lazyInitRace bug修复											-done
 
-2. 同义词&拼音的高亮显示问题			-done
+2. 同义词&拼音的高亮显示问题修复													-done
 
-3. 上传到了Jcseg到了maven中央仓库
+3. detect模式增加位置返回和部分bug修复											-done
 
-4. 复杂中文的二次切分
+4. 词库词性补全（完成绝大部分常用词条的词性补全）									-done
 
-5. 词库自动重载正则支持
+5. 增加对最新版本的lucene(5.1.0), solr(5.1.0), elasticsearch(1.5.2)的支持		-done
 
-6. 词库词性补全
+6. 词库autoload多目录支持bug修复												-done
 
 
 jcseg-1.9.5:
