@@ -15,9 +15,8 @@ import org.lionsoul.jcseg.core.JcsegException;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.core.SegmentFactory;
 
-
 /**
- * jcseg speed test program . <br />
+ * jcseg speed test program
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -81,5 +80,4 @@ public class SpeedTest {
 			e.printStackTrace();
 		} 
 	}
-
 }

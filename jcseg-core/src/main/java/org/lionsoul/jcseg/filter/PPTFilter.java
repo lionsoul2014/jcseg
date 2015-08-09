@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * a class to deal with the text bettween the pair punctuations. <br />
+ * a class to deal with the text bettween the pair punctuations
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -23,17 +23,17 @@ public class PPTFilter {
 	}
 	
 	/**
-	 * check the given char is pair punctuation or not. <br />
+	 * check the given char is pair punctuation or not
 	 * 
-	 * @param c <br />
-	 * @param boolean true for it is and false for not.
+	 * @param c
+	 * @param boolean true for it is and false for not
 	 */
 	public static boolean isPairPunctuation( char c ) {
 		return pairPunctuation.containsKey(c);
 	}
 	
 	/**
-	 * get the pair punctuation' pair.
+	 * get the pair punctuation' pair
 	 * 
 	 * @param c
 	 * @return char
@@ -41,5 +41,4 @@ public class PPTFilter {
 	public static char getPunctuationPair( char c ) {
 		return pairPunctuation.get(c);
 	}
-	
 }

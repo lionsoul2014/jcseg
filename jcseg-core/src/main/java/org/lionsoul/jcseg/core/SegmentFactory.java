@@ -4,9 +4,10 @@ import java.io.Reader;
 import java.lang.reflect.Constructor;
 
 /**
- * Segment factory to create singleton ISegment
- * 		object.  a path of the class that has implemented the ISegment
- * interface must be given first.
+ * <p>
+ * Segment factory to create singleton ISegment object
+ * a path of the class that has implemented the ISegment interface must be given first
+ * </p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -40,7 +41,7 @@ public class SegmentFactory
 	}
 	
 	/**
-	 * create the specified mode jcseg instance . <br />
+	 * create the specified mode jcseg instance
 	 * 
 	 * @param	mode
 	 * @return	ISegment
@@ -69,5 +70,4 @@ public class SegmentFactory
 		
 		return createSegment(__segClass, _paramtype, args);
 	}
-	
 }

@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * a class to deal with Chinese numeric. <br />
+ * a class to deal with Chinese numeric
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
 public class CNNMFilter {
 	/**
-	 * chinese numeric chars. <br />
-	 * i have put the chars into the lexicon file lex-cn-numeric.lex for the old version. <r />
-	 * it's better to follow the current work.
+	 * chinese numeric chars
+	 * i have put the chars into the lexicon file lex-cn-numeric.lex for the old version
+	 * it's better to follow the current work
 	 */
 	private static final Character[] CN_NUMERIC = {
 			'一', '二', '三', '四', '五','六', '七', '八', '九',
@@ -45,10 +45,10 @@ public class CNNMFilter {
 	}
 	
 	/**
-	 * check the given char is chinese numeric or not. <br />
+	 * check the given char is chinese numeric or not
 	 * 
-	 * @param c <br />
-	 * @return boolean true for the char is chinese numeric and false for not.
+	 * @param c
+	 * @return boolean true for the char is chinese numeric and false for not
 	 */
 	public static int isCNNumeric( char c ) 
 	{
@@ -59,7 +59,7 @@ public class CNNMFilter {
 	
 	
 	/**
-	 * a static method to turn the Chinese numeric to Arabic numbers.
+	 * a static method to turn the Chinese numeric to Arabic numbers
 	 * 
 	 * @param cnn
 	 * @param boolea flag

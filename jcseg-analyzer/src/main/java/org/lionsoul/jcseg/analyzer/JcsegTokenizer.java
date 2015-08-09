@@ -15,20 +15,26 @@ import org.lionsoul.jcseg.core.SegmentFactory;
 
 
 /**
+ * <p>
  * here is the documentation from {@link org.apache.lucene.analysis.tokenizer}
  * A Tokenizer is a TokenStream whose input is a Reader.
+ * </p>
+ * 
  * <p>
  * This is an abstract class; subclasses must override {@link #incrementToken()}
  * <p>
- * NOTE: Subclasses overriding {@link #incrementToken()} must
- * call {@link AttributeSource#clearAttributes()} before
- * setting attributes.
- *
- * ----------------------------------------
- * @Note: lucene invoke Tokenizer#setReader(Reader input) to set the inputPending
- * 	after invoke the reset, global object input will be available.
  * 
- * jcseg tokennizer for lucene on or after <b>5.1.0</b>
+ * <p>
+ * NOTE: Subclasses overriding {@link #incrementToken()} must
+ * call {@link AttributeSource#clearAttributes()} before setting attributes
+ * </p>
+ *
+ * <p>
+ * lucene invoke Tokenizer#setReader(Reader input) to set the inputPending
+ * after invoke the reset, global object input will be available
+ * </p>
+ * 
+ * <p>jcseg tokennizer for lucene on or after 5.1.0</p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -42,9 +48,9 @@ public class JcsegTokenizer extends Tokenizer
 	private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
 	
 	public JcsegTokenizer(
-			int mode,
-			JcsegTaskConfig config,
-			ADictionary dic ) throws JcsegException, IOException 
+		int mode,
+		JcsegTaskConfig config,
+		ADictionary dic ) throws JcsegException, IOException 
 	{
 		segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
 		segmentor.reset(input);

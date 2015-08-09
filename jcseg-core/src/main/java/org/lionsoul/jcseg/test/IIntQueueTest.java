@@ -45,5 +45,4 @@ public class IIntQueueTest {
 			System.out.println((char)q.deQueue()+", size: " + q.size());
 		}
 	}
-
 }

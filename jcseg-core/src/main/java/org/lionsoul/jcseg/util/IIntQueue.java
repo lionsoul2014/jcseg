@@ -2,7 +2,8 @@ package org.lionsoul.jcseg.util;
 
 /**
  * char queue class base on double link
- * 	(Not thread safe)
+ * 
+ * Not thread safe
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -40,7 +41,7 @@ public class IIntQueue
 	
 	/**
 	 * remove the node from the head
-	 * 	and you should make sure the size is larger than 0 by calling size()
+	 * and you should make sure the size is larger than 0 by calling size()
 	 * before you invoke the method or you will just get -1
 	 * 
 	 * @param	int

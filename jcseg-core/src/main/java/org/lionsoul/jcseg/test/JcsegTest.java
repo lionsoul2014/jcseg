@@ -13,7 +13,6 @@ import org.lionsoul.jcseg.core.JcsegException;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.core.SegmentFactory;
 
-
 /**
  * jcseg test program.
  * 

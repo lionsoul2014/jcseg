@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 
 /**
- * Dictionary Factory to create Dictionary instance . <br />
- * 		a path of the class that has extends the ADictionary
- * 	class must be given first. <br />
+ * <p>
+ * Dictionary Factory to create Dictionary instance
+ * a path of the class that has extends the ADictionary class must be given first
+ * </p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -15,7 +16,7 @@ public class DictionaryFactory {
 	private DictionaryFactory() {}
 	
 	/**
-	 * create a new ADictionary instance . <br />
+	 * create a new ADictionary instance
 	 * 
 	 * @param 	__dicClass
 	 * @return	ADictionary
@@ -35,8 +36,7 @@ public class DictionaryFactory {
 	}
 	
 	/**
-	 * create a default ADictionary instance of class
-	 * 		com.webssky.jcseg.Dictionary . <br />
+	 * create a default ADictionary instance of class com.webssky.jcseg.Dictionary
 	 * 
 	 * @see		Dictionary
 	 * @return	ADictionary

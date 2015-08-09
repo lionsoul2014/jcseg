@@ -3,7 +3,7 @@ package org.lionsoul.jcseg.test;
 import org.lionsoul.jcseg.util.IntArrayList;
 
 /**
- * IntArrayList class Simple test program. <br />
+ * IntArrayList class Simple test program
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -44,5 +44,4 @@ public class IntArrayListTest {
 			System.out.println("get("+j+")="+list.get(j));
 		}
 	}
-
 }

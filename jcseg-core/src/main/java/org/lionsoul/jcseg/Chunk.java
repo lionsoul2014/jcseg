@@ -4,8 +4,9 @@ import org.lionsoul.jcseg.core.IChunk;
 import org.lionsoul.jcseg.core.IWord;
 
 /**
- * chunk concept for the mmseg chinese word segment algorithm.
- * 		has implemented IChunk interface.
+ * <p>
+ * chunk concept for the mmseg chinese word segment algorithm has implemented IChunk interface
+ * </p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -121,5 +122,4 @@ public class Chunk implements IChunk {
 		}
 		return sb.toString();
 	}
-
 }

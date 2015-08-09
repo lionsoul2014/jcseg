@@ -13,7 +13,7 @@ import org.lionsoul.jcseg.util.STConverter;
 
 
 /**
- * Jcseg dictionary simplified/traditional convert class.
+ * Jcseg dictionary simplified/traditional convert class
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -24,8 +24,7 @@ public class DicConverter {
 	
 	/**
 	 * convert the srcfile to dstfile to with 
-	 * 	the specified convert rule. (SIMPLIFIED_TO_TRADITIONAL
-	 * 	or TRADITIONAL_TO_SIMPLIFIED).
+	 * 	the specified convert rule. (SIMPLIFIED_TO_TRADITIONAL or TRADITIONAL_TO_SIMPLIFIED)
 	 * 
 	 * @param	srcfile
 	 * @param	dstfile
@@ -34,7 +33,7 @@ public class DicConverter {
 	 * @throws IOException
 	 */
 	public static boolean convert( 
-			File srcFile, File dstFile, int _cvt ) throws IOException 
+		File srcFile, File dstFile, int _cvt ) throws IOException 
 	{
 		if ( srcFile.equals(dstFile) ) return false;
 		BufferedReader reader = new BufferedReader(new FileReader(srcFile));
@@ -141,6 +140,5 @@ public class DicConverter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

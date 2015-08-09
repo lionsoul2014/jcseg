@@ -29,5 +29,4 @@ public class IIntFIFOTest {
 			System.out.println("size: " + q.size() + ", " + (char)q.deQueue());
 		}
 	}
-
 }

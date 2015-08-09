@@ -1,8 +1,7 @@
 package org.lionsoul.jcseg.filter;
 
 /**
- * a class to deal with the english stop char 
- * 		like the english punctuation. <br />
+ * <p>a class to deal with the english stop char like the english punctuation</p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -31,7 +30,7 @@ public class ENSCFilter
 	}*/
 	
 	/**
-	 * check the given char is english keep punctuation.
+	 * check the given char is english keep punctuation
 	 * 
 	 * @param	c
 	 * @return	boolean
@@ -58,7 +57,7 @@ public class ENSCFilter
 	}
 	
 	/**
-	 * include the full-width and half-width char.
+	 * include the full-width and half-width char
 	 * 
 	 * @param	u
 	 */
@@ -69,7 +68,7 @@ public class ENSCFilter
 	
 	/**
 	 * check the specifield char is an english numeric(48-57)
-	 *  	including the full-width char
+	 * including the full-width char
 	 *  
 	 * @param 	u
 	 */
@@ -81,10 +80,10 @@ public class ENSCFilter
 	
 	/**
 	 * get the type of the english char
-	 * 	defined in this class and start with EN_. (only half-width)
+	 * defined in this class and start with EN_. (only half-width)
 	 * 
-	 * @param	u	char to identity.
-	 * @return	int	type keywords. 
+	 * @param	u	char to identity
+	 * @return	int	type keywords
 	 */
 	public static int getEnCharType( int u ) {
 		//if ( u > 65280 ) u -= 65248;			//make full-with half-width
@@ -97,7 +96,9 @@ public class ENSCFilter
 	}
 	
 	/**
-	 * check the given char is a half-width char or not.
+	 * <p>
+	 * check the given char is a half-width char or not
+	 * </p>
 	 * 
 	 * <ul>
 	 * <li>32 		-&gt; whitespace</li>
@@ -118,8 +119,8 @@ public class ENSCFilter
     }
     
     /**
-     * check the given char is a full-width char. 
-     * @reader: the full-width punctuation is not included here.
+     * check the given char is a full-width char
+     * @reader: the full-width punctuation is not included here
      * 
      * @param c
      * @return boolean
@@ -131,7 +132,7 @@ public class ENSCFilter
     }
     
     /**
-     * check the given char is half-width punctuation.<br />
+     * check the given char is half-width punctuation
      * 
      * @param c
      * @return boolean
@@ -154,19 +155,18 @@ public class ENSCFilter
     }
     
     /**
-     * check the given string is a whitespace. <br />
+     * check the given string is a whitespace
      * 
      * @param c
-     * @return boolean;
+     * @return boolean
      */
     public static boolean isWhitespace( int c ) {
     	return ( c == 32 || c == 12288 );
     }
     
 	/**
-	 * check the specified char is a digit or not.
-	 * 		true will return if it is or return false
-	 * this method can recognize full-with char.
+	 * check the specified char is a digit or not
+	 * true will return if it is or return false this method can recognize full-with char
 	 * 
 	 * @param	str
 	 * @return	boolean
@@ -185,8 +185,7 @@ public class ENSCFilter
 	}
 	
 	/**
-	 * check the specified char is a decimal.
-	 * 	including the full-width char.
+	 * check the specified char is a decimal including the full-width char
 	 * 
 	 * @param	str
 	 * @return	boolean
@@ -213,9 +212,8 @@ public class ENSCFilter
 	}
     
     /**
-     * a static method to replace the full-width char to the half-width char
-     * 		in a given string. 
-     * (65281-65374 for full-width char) <br />
+     * a static method to replace the full-width char to the half-width char in a given string
+     * (65281-65374 for full-width char)
      * 
      * @param str
      * @return String the new String after the replace.
@@ -232,11 +230,10 @@ public class ENSCFilter
     }
 	
     /**
-     * a static method to replace the half-width char to the full-width char.
-     * 		in a given string. <br />
+     * a static method to replace the half-width char to the full-width char in a given string
      * 
      * @param str
-     * @return String the new String after the replace.
+     * @return String the new String after the replace
      */
     public static String hwsTofws( String str ) {
     	char[] chars = str.toCharArray();

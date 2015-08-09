@@ -1,8 +1,9 @@
 package org.lionsoul.jcseg.core;
 
 /**
- * chunk interface for JCSeg.
- * 		the most important concept for the mmseg chinese segment alogorithm.
+ * <p>
+ * chunk interface for JCSeg the most important concept for the mmseg chinese segment alogorithm
+ * </p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */

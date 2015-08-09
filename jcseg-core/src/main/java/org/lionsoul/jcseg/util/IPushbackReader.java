@@ -24,8 +24,7 @@ public class IPushbackReader
 	}
 	
 	/**
-	 * read the next int from the stream
-	 * 	this will check the buffer queue first
+	 * read the next int from the stream this will check the buffer queue first
 	 * and take the first item of the buffer as the result
 	 * 
 	 * @return	int
@@ -42,8 +41,8 @@ public class IPushbackReader
 	
 	/**
 	 * read the specified block from the stream
-	 * @see #read()
 	 * 
+	 * @see #read()
 	 * @return int
 	 * @throws IOException 
 	 */

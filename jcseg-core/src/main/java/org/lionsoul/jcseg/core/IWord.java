@@ -21,8 +21,7 @@ public interface IWord extends Cloneable {
 	public static final int T_CJK_WORD = 1;
 	
 	/**
-	 * chinese and english mix word.
-	 * 		like B超,SIM卡. 
+	 * chinese and english mix word like B超,SIM卡. 
 	 */
 	public static final int T_MIXED_WORD = 2;
 	
@@ -32,8 +31,7 @@ public interface IWord extends Cloneable {
 	public static final int T_CN_NAME = 3;
 	
 	/**
-	 * chinese nickname.
-	 * like: 老陈 
+	 * chinese nickname like: 老陈 
 	 */
 	public static final int T_CN_NICKNAME = 4;
 	
@@ -59,7 +57,8 @@ public interface IWord extends Cloneable {
 	public static final int T_CJK_PINYIN = 8;
 	
 	/**
-	 * Chinese numeric */
+	 * Chinese numeric
+	*/
 	public static final int T_CN_NUMERIC = 9;
 	
 	public static final int T_PUNCTUATION = 10;

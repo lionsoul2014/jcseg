@@ -29,5 +29,4 @@ public class IStringBufferTest {
 		isb.deleteCharAt(4);
 		System.out.println("Done, cost:"+(e-s)+"msec, "+isb.toString());
 	}
-
 }

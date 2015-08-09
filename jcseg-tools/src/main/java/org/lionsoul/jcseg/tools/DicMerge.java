@@ -15,12 +15,15 @@ import org.lionsoul.jcseg.core.IWord;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.Sort;
 
-
 /**
+ * <p>
  * Jcseg dictionary merge class.
- * 	all the duplicate entries will be removed, sorted them by natural order.
+ * all the duplicate entries will be removed, sorted them by natural order
+ * </p>
  * 
- * demo: 人事部/nt/ren shi bu/人事管理部門,人事管理部 . <br />
+ * <p>
+ * demo: 人事部/nt/ren shi bu/人事管理部門,人事管理部
+ * </p>
  * 
  * <ul>
  * <li>1. the pinyin will be merged.</li>
@@ -39,16 +42,15 @@ public class DicMerge {
 	}
 	
 	/**
-	 * merge two jcseg dictionary files,
-	 * 	remove the duplicate entries and store the entris in a specified file. <br />
+	 * merge two jcseg dictionary files
+	 * remove the duplicate entries and store the entris in a specified file
 	 * 
 	 * @param	srcFiles
 	 * @param	dstfile
 	 * @return	int
 	 * @throws 	IOException
 	 */
-	public static int merge( 
-			 File[] srcFiles, File dstFile ) throws IOException 
+	public static int merge( File[] srcFiles, File dstFile ) throws IOException 
 	{
 		//merge the source dictionary.
 		IWord word = null;
@@ -298,7 +300,5 @@ public class DicMerge {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }

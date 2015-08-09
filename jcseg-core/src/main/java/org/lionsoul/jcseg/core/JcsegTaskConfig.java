@@ -9,9 +9,8 @@ import java.util.Properties;
 
 import org.lionsoul.jcseg.util.Util;
 
-
 /**
- * Jcseg segmentation task config class . <br />
+ * <p>Jcseg segmentation task config class</p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  * @see		Config
@@ -63,7 +62,7 @@ public class JcsegTaskConfig
 	
 	/**
 	 * the threshold of the single word that is a single word
-	 * 		when it and the last char of the name make up a word.
+	 * when it and the last char of the name make up a word.
 	 */
 	public int NAME_SINGLE_THRESHOLD = 1000000;
 	
@@ -79,12 +78,12 @@ public class JcsegTaskConfig
 	/**chinese fraction to arabic fraction .*/
 	public boolean CNFRA_TO_ARABIC = true;
 	
-	/*Wether to do the secondary split for complex latin compose*/
+	/**Wether to do the secondary split for complex latin compose*/
 	public boolean EN_SECOND_SEG = true;
-	/*Less length for the second split to make up a word*/
+	/**Less length for the second split to make up a word*/
 	public int STOKEN_MIN_LEN = 1;
 	
-	/*keep puncutations*/
+	/**keep puncutations*/
 	private String KEEP_PUNCTUATIONS = "@%&.'#+";
 	
 	public boolean KEEP_UNREG_WORDS = false;
@@ -114,7 +113,7 @@ public class JcsegTaskConfig
 	}
 	
 	/**
-	 * reset the value of its options from a propertie file . <br /> 
+	 * reset the value of its options from a propertie file
 	 * 
 	 * @param	proFile	path of jcseg.properties file.
 	 * 		when null is givend, jcseg will look up the
@@ -276,6 +275,7 @@ public class JcsegTaskConfig
 	public String getLexiconFileSuffix() {
 		return suffix;
 	}
+	
 	/**return the lexicon directory path*/
 	public String[] getLexiconPath() {
 		return lexPath;

@@ -12,7 +12,6 @@ import org.lionsoul.jcseg.util.IHashQueue;
 
 public class IHashQueueTest 
 {
-
 	/**
 	 * @param args
 	 */
@@ -59,5 +58,4 @@ public class IHashQueueTest
 		
 		System.out.println("Done");
 	}
-
 }

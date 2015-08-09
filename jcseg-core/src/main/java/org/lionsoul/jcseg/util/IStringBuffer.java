@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.util;
 
 /**
- * string buffer class. <br />
+ * string buffer class
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -14,7 +14,7 @@ public class IStringBuffer {
 	private int count;
 	
 	/**
-	 * create a buffer with a default length 16. <br /> 
+	 * create a buffer with a default length 16
 	 */
 	public IStringBuffer() {
 		buff = new char[16];
@@ -22,7 +22,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * create a buffer with a specified length. <br />
+	 * create a buffer with a specified length
 	 * 
 	 * @param	length
 	 */
@@ -34,7 +34,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * create a buffer with a specified string. <br />
+	 * create a buffer with a specified string
 	 * 
 	 * @param	str
 	 */
@@ -48,8 +48,8 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * resize the buffer. <br />
-	 * 	this will have to copy the old chars from the old buffer to the new buffer. <br /> 
+	 * resize the buffer
+	 * this will have to copy the old chars from the old buffer to the new buffer
 	 */
 	private void resizeTo( int length ) {
 		if ( length <= 0 )
@@ -67,7 +67,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * append a string to the buffer. <br />
+	 * append a string to the buffer
 	 * 
 	 * @param	str	string to append to
 	 */
@@ -85,11 +85,11 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * append parts of the chars to the buffer. <br />
+	 * append parts of the chars to the buffer
 	 * 
 	 * @param	chars
-	 * @param	start	the start index.
-	 * @param	length	length of chars to append to.
+	 * @param	start	the start index
+	 * @param	length	length of chars to append to
 	 */
 	public IStringBuffer append( char[] chars, int start, int length ) {
 		if ( chars == null )
@@ -112,7 +112,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * append some chars to the buffer. <br />
+	 * append some chars to the buffer
 	 * 
 	 * @param	chars
 	 */
@@ -121,9 +121,9 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * append a char to the buffer. <br />
+	 * append a char to the buffer
 	 * 
-	 * @param	c	the char to append to
+	 * @param	c the char to append to
 	 */
 	public IStringBuffer append( char c ) {
 		if ( count == buff.length ) resizeTo( buff.length * 2 + 1 );
@@ -133,16 +133,16 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * return the lenght of the buffer. <br />
+	 * return the lenght of the buffer
 	 * 
-	 * @return	int	the length of the buffer.
+	 * @return	int	the length of the buffer
 	 */
 	public int length() {
 		return count;
 	}
 	
 	/**
-	 * get the char at a specified position in the buffer. <br /> 
+	 * get the char at a specified position in the buffer
 	 */
 	public char charAt( int idx ) {
 		if ( idx < 0 )
@@ -153,7 +153,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * delete the char at the specified position. <br /> 
+	 * delete the char at the specified position
 	 */
 	public IStringBuffer deleteCharAt( int idx ) {
 		if ( idx < 0 )
@@ -174,7 +174,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * return the chars of the buffer. <br />
+	 * return the chars of the buffer
 	 * 
 	 * @return	char[]
 	 */
@@ -183,8 +183,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * clear the buffer by
-	 * 		reset the count to 0. <br /> 
+	 * clear the buffer by reset the count to 0
 	 */
 	public IStringBuffer clear() {
 		count = 0;
@@ -193,7 +192,7 @@ public class IStringBuffer {
 	}
 	
 	/**
-	 * return the string of the current buffer. <br />
+	 * return the string of the current buffer
 	 * 
 	 * @return	String
 	 * @see Object#toString() 

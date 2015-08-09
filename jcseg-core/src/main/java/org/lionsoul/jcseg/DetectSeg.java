@@ -14,11 +14,11 @@ import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
- * Detect Segmentation mode
- * 	return words only in the loaded dictionary
- * 
+ * <p>
+ * Detect Segmentation mode return words only in the loaded dictionary
  * yat, when matched a word and return it
- * 	or continue to find the next word in the dictionary
+ * or continue to find the next word in the dictionary
+ * </p>
  * 
  * @author 	chenxin <chenxin619315@gmail.com>
  * @since	1.9.4
@@ -103,7 +103,7 @@ public class DetectSeg implements ISegment
 	}
 	
 	/**
-	 * push back the data to the stream.
+	 * push back the data to the stream
 	 * 
 	 * @param 	data
 	 * @throws	IOException 
@@ -116,7 +116,7 @@ public class DetectSeg implements ISegment
 	}
 	
 	/**
-	 * set the dictionary of the current segmentor. <br />
+	 * set the dictionary of the current segmentor
 	 * 
 	 * @param	dic
 	 */
@@ -126,7 +126,7 @@ public class DetectSeg implements ISegment
 	}
 	
 	/**
-	 * get the current dictionary instance . <br />
+	 * get the current dictionary instance
 	 * 
 	 * @return	ADictionary
 	 */
@@ -136,7 +136,7 @@ public class DetectSeg implements ISegment
 	}
 	
 	/**
-	 * set the current task config . <br />
+	 * set the current task config
 	 * 
 	 * @param	config
 	 */
@@ -146,7 +146,7 @@ public class DetectSeg implements ISegment
 	}
 	
 	/**
-	 * get the current task config instance. <br /> 
+	 * get the current task config instance
 	 * 
 	 * @param	JcsegTaskConfig
 	 */

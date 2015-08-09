@@ -6,9 +6,9 @@ import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 
 /**
- * token filter class ,
- * 		according the to lucene API, this will be remove
- * 	in in Lucene 5.0 . <br />
+ * <p>
+ * token filter class according the to lucene API, this will be remove in in Lucene 5.0
+ * </p>
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
@@ -34,5 +34,4 @@ public class JcsegFilter extends TokenFilter
 		
         return false;
 	}
-
 }

@@ -20,5 +20,4 @@ public class LexiconException extends Exception {
 	public LexiconException( String info, Throwable res ) {
 		super(info, res);
 	}
-
 }

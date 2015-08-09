@@ -1,14 +1,12 @@
 package org.lionsoul.jcseg.util;
 
 /**
- * int first in first out queue
- * 		base on single link.
+ * int first in first out queue base on single link
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
 public class IIntFIFO 
-{
-	
+{	
 	//size of the queue
 	private int size;
 	

@@ -6,18 +6,20 @@ import java.util.Map;
 import org.lionsoul.jcseg.core.IWord;
 
 /**
+ * <p>
  * A normal queue base one single link
  * 	but with hash index, so, it is fast for searching
+ * </p>
  * 
+ * <p>
  * Currently build to replace the LinkList work pool 
  * 	of class org.lionsoul.jcseg.ASegment
+ * </p>
  * 
  * @Note: Not thread safe
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
-
- //--------------------------------------------------
 
 public class IHashQueue<T extends IWord> 
 {
@@ -70,7 +72,7 @@ public class IHashQueue<T extends IWord>
 	
 	/**
 	 * remove the node from the head
-	 * 	and you should make sure the size is larger than 0 by calling size()
+	 * and you should make sure the size is larger than 0 by calling size()
 	 * before you invoke the method or you will just get null
 	 * 
 	 * @param	T

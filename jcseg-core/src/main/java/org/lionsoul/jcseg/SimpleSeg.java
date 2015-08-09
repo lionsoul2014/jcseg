@@ -10,8 +10,7 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
 
 
 /**
- * simplex segment for JCSeg,
- * 		has extend from ASegment. <br />
+ * simplex segment for JCSeg has extend from ASegment
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -34,5 +33,4 @@ public class SimpleSeg extends ASegment {
 		IWord[] words = getNextMatch(chars, index);
 		return new Chunk(new IWord[]{words[words.length - 1]});
 	}
-
 }

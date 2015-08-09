@@ -21,9 +21,10 @@ import org.lionsoul.jcseg.util.IntArrayList;
 
 
 /**
- * abstract segment class, implemented ISegment interface <br />
- * implemented all the common method that 
- * 		simple segment and Complex segment algorithm both share. <br />
+ * <p>
+ * abstract segment class, implemented ISegment interface implemented all the common method 
+ * 	that simple segment and Complex segment algorithm both share. 
+ * </p>
  * 
  * @author	chenxin <chenxin619315@gmail.com>
  */
@@ -49,15 +50,12 @@ public abstract class ASegment implements ISegment
 	protected ADictionary 			dic;
 	protected JcsegTaskConfig 		config;
 	
-	public ASegment( JcsegTaskConfig config, 
-			ADictionary dic ) throws IOException 
+	public ASegment( JcsegTaskConfig config, ADictionary dic ) throws IOException 
 	{
 		this(null, config, dic);
 	}
 	
-	public ASegment( Reader input, 
-				JcsegTaskConfig config, 
-				ADictionary dic ) throws IOException 
+	public ASegment( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
 	{
 		this.config 	= config;
 		this.dic 		= dic;
@@ -84,8 +82,7 @@ public abstract class ASegment implements ISegment
 	 * read the next char from the current position 
 	 * @throws IOException 
 	 */
-	protected int readNext() 
-			throws IOException 
+	protected int readNext() throws IOException 
 	{	
 		int c = reader.read();
 		if ( c != -1 ) idx++;
@@ -98,8 +95,7 @@ public abstract class ASegment implements ISegment
 	 * @param data
 	 * @throws IOException 
 	 */
-	protected void pushBack( int data ) 
-			throws IOException 
+	protected void pushBack( int data ) throws IOException 
 	{
 		reader.unread(data);
 		idx--;
@@ -112,7 +108,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * set the dictionary of the current segmentor. <br />
+	 * set the dictionary of the current segmentor.
 	 * 
 	 * @param	dic
 	 */
@@ -122,7 +118,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * get the current dictionary instance . <br />
+	 * get the current dictionary instance.
 	 * 
 	 * @return	ADictionary
 	 */
@@ -132,7 +128,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * set the current task config . <br />
+	 * set the current task config.
 	 * 
 	 * @param	config
 	 */
@@ -142,7 +138,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * get the current task config instance. <br /> 
+	 * get the current task config instance.
 	 * 
 	 * @param	JcsegTaskConfig
 	 */
@@ -602,8 +598,7 @@ public abstract class ASegment implements ISegment
 			/* find a content around with pair punctuations.
 			 * 	set the pptmaxlen to 0 to close it
 			 * */
-			else if ( config.PPT_MAX_LENGTH > 0 
-					&& PPTFilter.isPairPunctuation( (char) c ) ) 
+			else if ( config.PPT_MAX_LENGTH > 0 && PPTFilter.isPairPunctuation( (char) c ) ) 
 			{
 				IWord w = null, w2 = null;
 				String text = getPairPunctuationText(c);
@@ -697,11 +692,10 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * Check and append the synoyms words of 
-	 * 		specified word included the CJK and basic latin words.
-	 * 
-	 * All the synoyms words share the same position,
-	 * 		part of speech, word type with the primitive word.
+	 * <p>
+	 * Check and append the synoyms words of specified word included the CJK and basic latin words
+	 * All the synoyms words share the same position part of speech, word type with the primitive word
+	 * </p>
 	 * 
 	 * @param	w
 	 */
@@ -736,15 +730,16 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * Do the secondary split for the specified complex latin word.
-	 * This will split a complex english, arabic, punctuation
-	 * 	compose word to multiple simple parts.
-	 * Like 'qq2013' will split to 'qq' and '2013' .
+	 * <p>
+	 * Do the secondary split for the specified complex latin word
+	 * This will split a complex english, arabic, punctuation compose word to multiple simple parts
+	 * Like 'qq2013' will split to 'qq' and '2013'
+	 * </p>
 	 * 
-	 * And all the sub words share the same
-	 * 		type and part of speech with the primitive word.
-	 * 
-	 * You should check the config.EN_SECOND_SEG before invoke this method.
+	 * <p>
+	 * And all the sub words share the same type and part of speech with the primitive word
+	 * You should check the config.EN_SECOND_SEG before invoke this method
+	 * </p>
 	 * 
 	 * @param	w
 	 * @param	retfw	Wether to return the fword.
@@ -833,7 +828,7 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * check the specified char is CJK, Thai... char
-	 * 	true will be return if it is or return false.
+	 * true will be return if it is or return false
 	 * 
 	 * @param c
 	 * @return boolean
@@ -847,9 +842,8 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * check the specified char is a basic latin and russia and 
-	 * 	greece letter true will be return if it is or return false.
-	 * 
-	 * this method can recognize full-width char and letter.
+	 * greece letter true will be return if it is or return false
+	 * this method can recognize full-width char and letter
 	 * 
 	 * @param c
 	 * @return boolean
@@ -872,8 +866,7 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * check the specified char is Letter number like 'ⅠⅡ'
-	 * 		true will be return if it is,
-	 * 		or return false. <br />
+	 * true will be return if it is, or return false
 	 * 
 	 * @param c
 	 * @return boolean
@@ -887,8 +880,7 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * check the specified char is other number like '①⑩⑽㈩'
-	 * 		true will be return if it is,
-	 * 		or return false. <br />
+	 * true will be return if it is, or return false
 	 * 
 	 * @param c
 	 * @return boolean
@@ -901,7 +893,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * match the next CJK word in the dictionary. <br />
+	 * match the next CJK word in the dictionary
 	 * 
 	 * @param chars
 	 * @param index
@@ -953,7 +945,7 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find the chinese name from the position of the given word.
+	 * find the chinese name from the position of the given word
 	 * 
 	 * @param chars
 	 * @param index
@@ -1134,7 +1126,7 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * find the Chinese double name:
-	 * when the last name and the first char of the name make up a word.
+	 * when the last name and the first char of the name make up a word
 	 * 
 	 * @param chunk the best chunk.
 	 * @return boolean
@@ -1169,8 +1161,8 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * load a CJK char list from the stream start from the current position.
-	 * 		till the char is not a CJK char.<br />
+	 * load a CJK char list from the stream start from the 
+	 * current position till the char is not a CJK char
 	 * 
 	 * @param c
 	 * @return char[]
@@ -1209,8 +1201,8 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find the letter or digit word from the current position.<br />
-	 * 		count until the char is whitespace or not letter_digit. 
+	 * find the letter or digit word from the current position 
+	 * count until the char is whitespace or not letter_digit
 	 * 
 	 * @param c
 	 * @return IWord
@@ -1463,10 +1455,9 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find the next other letter from the current position.
-	 * 		find the letter number from the current position.
-	 * 		count until the char in the specified position is not 
-	 * 		a letter number or whitespace. <br />
+	 * find the next other letter from the current position
+	 * find the letter number from the current position
+	 * count until the char in the specified position is not a letter number or whitespace
 	 * 
 	 * @param c
 	 * @return String
@@ -1498,9 +1489,8 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find the other number from the current position. <br />
-	 * 		count until the char in the specified position is not
-	 * 		a orther number or whitespace. <br />
+	 * find the other number from the current position
+	 * count until the char in the specified position is not a orther number or whitespace
 	 * 
 	 * @param c
 	 * @return String
@@ -1532,11 +1522,10 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find the chinese number from the current position. <br />
-	 * 		count until the char in the specified position is not
-	 * 		a orther number or whitespace. <br />
+	 * find the chinese number from the current position
+	 * count until the char in the specified position is not a orther number or whitespace
 	 * 
-	 * @param chars char array of CJK items.
+	 * @param chars char array of CJK items
 	 * @param index
 	 * @return String[]
 	 */
@@ -1585,8 +1574,8 @@ public abstract class ASegment implements ISegment
 	}
 	
 	/**
-	 * find pair punctuation of the given punctuation char.
-	 * the purpose is to get the text bettween them. <br />
+	 * find pair punctuation of the given punctuation char
+	 * the purpose is to get the text bettween them
 	 * 
 	 * @param c
 	 * @throws IOException 
@@ -1629,9 +1618,8 @@ public abstract class ASegment implements ISegment
 	
 	/**
 	 * an abstract method to gain a CJK word from the 
-	 * current position.
-	 * 		simpleSeg and ComplexSeg is different to deal this,
-	 * 		so make it a abstract method here.
+	 * current position. simpleSeg and ComplexSeg is different to deal this, 
+	 * so make it a abstract method here
 	 * 
 	 * @param  chars
 	 * @param  index
@@ -1639,5 +1627,4 @@ public abstract class ASegment implements ISegment
 	 * @throws IOException
 	 */
 	protected abstract IChunk getBestCJKChunk(char chars[], int index) throws IOException;
-
 }

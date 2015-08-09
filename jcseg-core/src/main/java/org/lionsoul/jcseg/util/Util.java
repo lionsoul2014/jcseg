@@ -21,5 +21,4 @@ public class Util {
 		File jarFile = new File(path);
 		return jarFile.getParentFile().getAbsolutePath();
 	}
-
 }

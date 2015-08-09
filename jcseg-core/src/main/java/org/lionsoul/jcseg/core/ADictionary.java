@@ -14,7 +14,7 @@ import org.lionsoul.jcseg.filter.ENSCFilter;
 
 
 /**
- * Dictionary abstract class. <br />
+ * Dictionary abstract class
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
@@ -44,7 +44,7 @@ public abstract class ADictionary
 	}
 	
 	/**
-	 * load all the words from a specified lexicon file . <br /> 
+	 * load all the words from a specified lexicon file
 	 * 
 	 * @param	config
 	 * @param	file
@@ -58,8 +58,7 @@ public abstract class ADictionary
 	}
 	
 	/**
-	 * load the all the words form all the files 
-	 * 			under a specified lexicon directionry . <br />
+	 * load the all the words form all the files under a specified lexicon directionry
 	 * 
 	 * @param	lexDir
 	 * 
@@ -76,7 +75,9 @@ public abstract class ADictionary
 		}
 	}
 	
-	/**start the lexicon autoload thread .*/
+	/**
+	 * start the lexicon autoload thread
+	*/
 	public void startAutoload() 
 	{
 		if ( config.getLexiconPath() == null 
@@ -175,18 +176,16 @@ public abstract class ADictionary
 	}
 	
 	/**
-	 * loop up the dictionary, 
-	 * 		check the given key is in the dictionary or not. <br />
+	 * loop up the dictionary, check the given key is in the dictionary or not
 	 * 
 	 * @param t
 	 * @param key
-	 * @return true for matched,
-	 * 			false for not match.
+	 * @return true for matched false for not match.
 	 */
 	public abstract boolean match( int t, String key );
 	
 	/**
-	 * add a new word to the dictionary. <br />
+	 * add a new word to the dictionary
 	 * 
 	 * @param t
 	 * @param key
@@ -195,8 +194,7 @@ public abstract class ADictionary
 	public abstract void add( int t, String key, int type );
 	
 	/**
-	 * add a new word to the dictionary with
-	 * its statistics frequency. <br />
+	 * add a new word to the dictionary with its statistics frequency
 	 * 
 	 * @param t
 	 * @param key
@@ -207,7 +205,7 @@ public abstract class ADictionary
 	
 	/**
 	 * return the IWord asscociate with the given key.
-	 * 	if there is not mapping for the key null will be return. <br />
+	 * if there is not mapping for the key null will be return
 	 * 
 	 * @param t
 	 * @param key
@@ -215,7 +213,7 @@ public abstract class ADictionary
 	public abstract IWord get( int t, String key );
 	
 	/**
-	 * remove the mapping associate with the given key. <br />
+	 * remove the mapping associate with the given key
 	 * 
 	 * @param t
 	 * @param key
@@ -223,7 +221,7 @@ public abstract class ADictionary
 	public abstract void remove( int t, String key );
 	
 	/**
-	 * return the size of the dictionary <br />
+	 * return the size of the dictionary
 	 * 
 	 * @param	t
 	 * @return int
@@ -232,7 +230,7 @@ public abstract class ADictionary
 	
 	
 	/**
-	 * get the key's type index located in ILexicon interface. <br /> 
+	 * get the key's type index located in ILexicon interface
 	 * 
 	 * @param key
 	 * @return int
@@ -271,8 +269,7 @@ public abstract class ADictionary
 	}
 	
 	/**
-	 * get all the lexicon file under the specified path
-	 * 		and meet the specified conditions . <br />
+	 * get all the lexicon file under the specified path and meet the specified conditions
 	 * 
 	 * @throws IOException 
 	 */
@@ -304,8 +301,7 @@ public abstract class ADictionary
 	}
 	
 	/**
-	 * load all the words in the 
-	 * 		specified lexicon file into the dictionary. <br />
+	 * load all the words in the specified lexicon file into the dictionary
 	 * 
 	 * @param	config
 	 * @param	dic

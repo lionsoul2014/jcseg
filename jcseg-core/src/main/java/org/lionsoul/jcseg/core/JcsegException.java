@@ -20,5 +20,4 @@ public class JcsegException extends Exception {
 	public JcsegException( String info, Throwable res ) {
 		super(info, res);
 	}
-
 }

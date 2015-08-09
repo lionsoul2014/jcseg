@@ -1,9 +1,8 @@
 package org.lionsoul.jcseg.util;
 
 /**
- * array list for basic int data type.
- * 	to intead of ArrayList<T>, Well, this will save a lot
- * 	work to Reopened and Unpacking. <br />
+ * array list for basic int data type to intead of ArrayList
+ * Well, this will save a lot work to Reopened and Unpacking
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -65,9 +64,8 @@ public class IntArrayList
 	}
 	
 	/**
-	 * remove the element at the specified position.
-	 * 	use System.arraycopy intead of a loop may be
-	 * 		more effcient. <br />
+	 * remove the element at the specified position
+	 * use System.arraycopy intead of a loop may be more effcient
 	 * 
 	 * @param idx
 	 */

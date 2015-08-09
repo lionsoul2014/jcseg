@@ -5,7 +5,7 @@ import org.elasticsearch.index.analysis.AnalysisModule;
 import org.elasticsearch.index.analysis.JcsegAnalysisBinderProcessor;
 import org.elasticsearch.plugins.AbstractPlugin;
 
-/*
+/**
  * elasticsearch jcseg analysis plugin
  * 
  * @author	chenxin<chenxin619315@gmail.com>

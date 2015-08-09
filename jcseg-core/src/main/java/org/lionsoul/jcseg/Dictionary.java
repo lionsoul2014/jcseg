@@ -13,7 +13,7 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
 //import com.webssky.jcseg.core.JHashMap;
 
 /**
- * Dictionary class. <br />
+ * Dictionary class
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */

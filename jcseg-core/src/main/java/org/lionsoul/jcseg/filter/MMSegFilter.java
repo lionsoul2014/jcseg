@@ -14,7 +14,7 @@ public class MMSegFilter
 {
 	/**
 	 *	1. the maximum match rule
-	 * 	this rule will return the chunks that own the largest word length.
+	 * 	this rule will return the chunks that own the largest word length
 	 */
 	public static IChunk[] getMaximumMatchChunks(IChunk[] chunks) 
 	{
@@ -46,7 +46,7 @@ public class MMSegFilter
 	
 	/**
 	 * 2. largest average word length
-	 * this rule will return the chunks that own the largest average word length.
+	 * this rule will return the chunks that own the largest average word length
 	 */
 	public static IChunk[] getLargestAverageWordLengthChunks(IChunk[] chunks) 
 	{
@@ -77,8 +77,8 @@ public class MMSegFilter
 	}
 	
 	/**
-	 * the smallest variance word length.
-	 * this rule will the chunks that one the smallest variance word length.
+	 * the smallest variance word length
+	 * this rule will the chunks that one the smallest variance word length
 	 */
 	public static IChunk[] getSmallestVarianceWordLengthChunks(IChunk[] chunks) 
 	{
@@ -112,7 +112,7 @@ public class MMSegFilter
 	/**
 	 * the largest sum of degree of morphemic freedom of one-character words
 	 * 	this rule will return the chunks that own the largest sum of degree of morphemic freedom 
-	 * 	of one-character.
+	 * 	of one-character
 	 */
 	public static IChunk[] getLargestSingleMorphemicFreedomChunks(IChunk[] chunks) 
 	{

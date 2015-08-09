@@ -17,10 +17,8 @@ public class Word implements IWord,Cloneable
 	private int position;
 	
 	/**
-	 * well the we could get the length of the word
-	 * 	by invoke #getValue().length
-	 * owing to the impt of jcseg and {@link #getValue()}.length
-	 * 	may no equals to {@link #getLength()}
+	 * well the we could get the length of the word by invoke #getValue().length
+	 * owing to the impt of jcseg and {@link #getValue()}.length may no equals to {@link #getLength()}
 	 * 
 	 * {@link #getLength()} will return the value setted by
 	 */

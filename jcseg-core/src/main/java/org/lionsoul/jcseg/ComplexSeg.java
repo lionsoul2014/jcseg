@@ -14,8 +14,11 @@ import org.lionsoul.jcseg.filter.MMSegFilter;
 
 
 /**
- * Complex segment for JCSeg, has implements the ASegment class. <br />
- * 		this will need the filter work of four filter rule: <br />
+ * <p>
+ * Complex segment for JCSeg, has implements the ASegment class 
+ * this will need the filter work of four filter rule: 
+ * </p>
+ * 
  * <ul>
  * <li>1.maximum match chunk.</li>
  * <li>2.largest average word length.</li>
@@ -122,7 +125,7 @@ public class ComplexSeg extends ASegment {
 	}
 	
 	/**
-	 * filter the chunks with the four rule. 
+	 * filter the chunks with the four rule
 	 * 
 	 * @param chunks
 	 * @return IWord
@@ -159,5 +162,4 @@ public class ComplexSeg extends ASegment {
 		
 		return afterChunks[0];
 	}
-
 }
