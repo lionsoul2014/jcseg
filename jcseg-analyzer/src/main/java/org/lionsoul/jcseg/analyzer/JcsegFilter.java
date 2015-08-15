@@ -23,7 +23,7 @@ public class JcsegFilter extends TokenFilter
 	}
 
 	@Override
-	public boolean incrementToken() throws IOException 
+	final public boolean incrementToken() throws IOException 
 	{
 		while (input.incrementToken()) {
             //char text[] = termAtt.buffer();
