@@ -57,7 +57,7 @@ public class JcsegTokenizer extends Tokenizer
 	}
 
 	@Override
-	public boolean incrementToken() throws IOException 
+	final public boolean incrementToken() throws IOException 
 	{
 		clearAttributes();
 		IWord word = segmentor.next();
