@@ -27,7 +27,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.settings.IndexSettings;
-import org.lionsoul.jcseg.analyzer.JcsegAnalyzer5X;
+import org.lionsoul.jcseg.analyzer.v4x.JcsegAnalyzer4X;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
 
 /**
@@ -35,10 +35,10 @@ import org.lionsoul.jcseg.core.JcsegTaskConfig;
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAnalyzer5X>
+public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAnalyzer4X>
 {
 	/**default Jcseg tokenizer instance*/
-    private final JcsegAnalyzer5X analyzer;
+    private final JcsegAnalyzer4X analyzer;
     
     @Inject
     public JcsegAnalyzerProvider(Index index, @IndexSettings Settings indexSettings, 
@@ -58,10 +58,10 @@ public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAn
         	mode = JcsegTaskConfig.DETECT_MODE;
         
         analyzer = proFile.exists() ? 
-        	new JcsegAnalyzer5X(mode, proFile.getPath()) : new JcsegAnalyzer5X(mode);
+        	new JcsegAnalyzer4X(mode, proFile.getPath()) : new JcsegAnalyzer4X(mode);
     }
     
-    @Override public JcsegAnalyzer5X get() 
+    @Override public JcsegAnalyzer4X get() 
     {
         return this.analyzer;
     }

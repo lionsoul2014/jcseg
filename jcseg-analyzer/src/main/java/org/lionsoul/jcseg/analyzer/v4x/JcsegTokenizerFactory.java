@@ -1,6 +1,7 @@
-package org.lionsoul.jcseg.analyzer;
+package org.lionsoul.jcseg.analyzer.v4x;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
 
 import org.apache.lucene.analysis.Tokenizer;
@@ -73,10 +74,10 @@ public class JcsegTokenizerFactory extends TokenizerFactory
 	}
 
 	@Override
-	public Tokenizer create( AttributeFactory factory ) 
+	public Tokenizer create( AttributeFactory factory, Reader reader ) 
 	{
 		try {
-			return new JcsegTokenizer(mode, config, dic);
+			return new JcsegTokenizer(reader, mode, config, dic);
 		} catch (JcsegException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

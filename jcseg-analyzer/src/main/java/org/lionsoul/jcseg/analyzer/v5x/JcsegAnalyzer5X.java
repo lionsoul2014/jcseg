@@ -1,20 +1,21 @@
-package org.lionsoul.jcseg.analyzer;
+package org.lionsoul.jcseg.analyzer.v5x;
 
-import java.io.IOException;
+/*import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
+import org.lionsoul.jcseg.analyzer.JcsegFilter;
 import org.lionsoul.jcseg.core.ADictionary;
 import org.lionsoul.jcseg.core.DictionaryFactory;
 import org.lionsoul.jcseg.core.JcsegException;
-import org.lionsoul.jcseg.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.core.JcsegTaskConfig;*/
 
 /**
  * jcseg analyzer for lucene with version on or after 5.0
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzer5X extends Analyzer
+/*public class JcsegAnalyzer5X extends Analyzer
 {
 	private int mode;
 	private JcsegTaskConfig config = null;
@@ -69,4 +70,4 @@ public class JcsegAnalyzer5X extends Analyzer
 		
 		return null;
 	}
-}
+}*/

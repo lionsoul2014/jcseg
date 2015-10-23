@@ -1,6 +1,6 @@
-package org.lionsoul.jcseg.analyzer;
+package org.lionsoul.jcseg.analyzer.v5x;
 
-import java.io.IOException;
+/*import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -11,7 +11,7 @@ import org.lionsoul.jcseg.core.ISegment;
 import org.lionsoul.jcseg.core.IWord;
 import org.lionsoul.jcseg.core.JcsegException;
 import org.lionsoul.jcseg.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.core.SegmentFactory;
+import org.lionsoul.jcseg.core.SegmentFactory;*/
 
 
 /**
@@ -38,9 +38,9 @@ import org.lionsoul.jcseg.core.SegmentFactory;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTokenizer extends Tokenizer 
+/*public class JcsegTokenizer extends Tokenizer 
 {
-	/**the default jcseg segmentor*/
+	//the default jcseg segmentor
 	private ISegment segmentor;
 
 	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
@@ -85,4 +85,4 @@ public class JcsegTokenizer extends Tokenizer
 		super.reset();
 		segmentor.reset(input);
 	}
-}
+}*/
