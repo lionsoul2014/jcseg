@@ -6,20 +6,24 @@ jcseg-1.9.7:
 
 3. jcseg-server模块的restfull接口
 
+4. 文章textRank关键词提取器
+
+5. 文章textRank摘要提取器
+
 
 jcseg-1.9.6:
 
-1. mmseg过滤器的lazyInitRace bug修复											-done
+1. mmseg过滤器的lazyInitRace bug修复
 
-2. 同义词&拼音的高亮显示问题修复													-done
+2. 同义词&拼音的高亮显示问题修复
 
-3. detect模式增加位置返回和部分bug修复											-done
+3. detect模式增加位置返回和部分bug修复
 
-4. 词库词性补全（完成绝大部分常用词条的词性补全）									-done
+4. 词库词性补全（完成绝大部分常用词条的词性补全）
 
-5. 增加对最新版本的lucene(5.1.0), solr(5.1.0), elasticsearch(1.5.2)的支持		-done
+5. 增加对最新版本的lucene(5.1.0), solr(5.1.0), elasticsearch(1.5.2)的支持
 
-6. 词库autoload多目录支持bug修复												-done
+6. 词库autoload多目录支持bug修复
 
 
 jcseg-1.9.5:
