@@ -99,16 +99,26 @@ public class JcsegTaskConfig
 	
 	public JcsegTaskConfig() 
 	{
-		this(null);
+		this(null, true);
 	}
 	
-	public JcsegTaskConfig( String proFile ) 
+	public JcsegTaskConfig(String proFile)
+	{
+		this(proFile, true);
+	}
+	
+	public JcsegTaskConfig( String proFile, boolean resetPro ) 
 	{
 		JAR_HOME = Util.getJarHome(this);
-		try {
-			resetFromPropertyFile(proFile);
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		//reset the properties from the specifield file ?
+		if ( resetPro )
+		{
+			try {
+				resetFromPropertyFile(proFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

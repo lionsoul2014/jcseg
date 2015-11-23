@@ -1,5 +1,11 @@
 package org.lionsoul.jcseg.nlp;
 
-public class SummaryExtractor {
+/**
+ * document summary extractor 
+ * 
+ * @author chenxin<chenxin619315@gmail.com>
+*/
+public class SummaryExtractor 
+{
 
 }
