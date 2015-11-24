@@ -10,11 +10,11 @@ import org.lionsoul.jcseg.core.ISegment;
 import org.lionsoul.jcseg.core.IWord;
 
 /**
- * document keywords extractor
+ * key phrase extractor 
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
-public abstract class KeywordsExtractor 
+public abstract class KeyphraseExtractor 
 {
 	/**
 	 * the ISegment object
@@ -26,7 +26,7 @@ public abstract class KeywordsExtractor
 	 * 
 	 * @param	seg
 	*/
-	public KeywordsExtractor( ISegment seg ) {
+	public KeyphraseExtractor( ISegment seg ) {
 		this.seg = seg;
 	}
 	
@@ -41,15 +41,15 @@ public abstract class KeywordsExtractor
 		 * normally word with length less than 2 will
 		 * be something, well could be ignored 
 		*/
-		if ( word.getValue().length() < 2 ) 
+		/*if ( word.getValue().length() < 2 ) 
 		{
 			return false;
-		}
+		}*/
 		
 		//type check
 		switch ( word.getType() )
 		{
-			//case IWord.T_BASIC_LATIN:
+			case IWord.T_BASIC_LATIN:
 			case IWord.T_LETTER_NUMBER:
 			case IWord.T_OTHER_NUMBER:
 			case IWord.T_CJK_PINYIN:
@@ -72,11 +72,11 @@ public abstract class KeywordsExtractor
 		 		if ( poss[0].equals("en") ) return true;
 		 		return false;
 		 	}
-	        case 'm':
+	        /*case 'm':
 	        {
 	        	if ( poss[0].equals("mix") ) return true;
 	        	return false;
-	        }
+	        }*/
 	        case 'q':
 	        case 'b':
 	        case 'r':
@@ -95,53 +95,43 @@ public abstract class KeywordsExtractor
 	        {
 	        	return false;
 	        }
-        	
-			/*case 'n':
-			case 'v':
-			case 'a':
-			case 't':
-			case 's':
-			case 'f':
-			{
-				return true;
-			}*/
 		}
 		
 		return true;
 	}
 	
 	/**
-	 * get the keywords list from a string
+	 * get the keyphrase list from a string
 	 * 
 	 * @param	doc
 	 * @return List[]
 	 * @throws	IOException
 	*/
-	public List<String> getKeywordsFromString(String doc) throws IOException
+	public List<String> getKeyphraseFromString(String doc) throws IOException
 	{
-		return getKeywords(new StringReader(doc));
+		return getKeyphrase(new StringReader(doc));
 	}
 	
 	/**
-	 * get the keywords list from a file 
+	 * get the keyphrase list from a file 
 	 * 
 	 * @param	file
 	 * @return	List[]
 	 * @throws	IOException
 	*/
-	public List<String> getKeywordsFromFile(String file) throws IOException
+	public List<String> getKeyphraseFromFile(String file) throws IOException
 	{
-		return getKeywords(new FileReader(file));
+		return getKeyphrase(new FileReader(file));
 	}
 	
 	/**
-	 * get the keywords list from a reader
+	 * get the keyphrase list from a reader
 	 * 
 	 * @param	dFile
 	 * @return	List[]
 	 * @throws	IOException
 	*/
-	public abstract List<String> getKeywords(Reader reader) throws IOException;
+	public abstract List<String> getKeyphrase(Reader reader) throws IOException;
 
 	
 	public ISegment getSeg() {

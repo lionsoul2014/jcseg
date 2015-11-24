@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.nlp;
+package org.lionsoul.jcseg.nlp.impl;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.lionsoul.jcseg.core.ISegment;
 import org.lionsoul.jcseg.core.IWord;
+import org.lionsoul.jcseg.nlp.KeywordsExtractor;
 
 /**
  * document keywords extractor base on textRank algorithm
@@ -27,7 +28,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 	protected int keywordsNum = 10;
 	
 	//max iterate times
-	protected int maxIterateNum = 210;
+	protected int maxIterateNum = 201;
 	
 	//window size
 	protected int windowSize = 5;
@@ -38,8 +39,9 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 	}
 
 	@Override
-	public List<String> getKeywords(Reader reader) throws IOException {
-		Map<String, List<String>> vote = new HashMap<String, List<String>>();
+	public List<String> getKeywords(Reader reader) throws IOException 
+	{
+		Map<String, List<String>> winMap = new HashMap<String, List<String>>();
 		List<String> words = new ArrayList<String>();
 		
 		//document segment
@@ -50,9 +52,9 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 			if ( filter(w) == false ) continue;
 			
 			String word = w.getValue();
-			if ( ! vote.containsKey(word) ) 
+			if ( ! winMap.containsKey(word) ) 
 			{
-				vote.put(word, new LinkedList<String>());
+				winMap.put(word, new LinkedList<String>());
 			}
 			
 			words.add(word);
@@ -62,7 +64,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		for ( int i = 0; i < words.size(); i++ )
 		{
 			String word = words.get(i);
-			List<String> support = vote.get(word);
+			List<String> support = winMap.get(word);
 			
 			int sIdx = Math.max(0, i - windowSize);
 			int eIdx = Math.min(i + windowSize, words.size() - 1);
@@ -75,31 +77,33 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		}
 		
 		//do the page rank scores caculate
-		HashMap<String, Float> score = new HashMap<String, Float>(1, 0.7F);
+		HashMap<String, Float> score = null;
 		for ( int c = 0; c < maxIterateNum; c++ )
 		{
 			HashMap<String, Float> T = new HashMap<String, Float>();
-			for ( Map.Entry<String, List<String>> entry : vote.entrySet() )
+			for ( Map.Entry<String, List<String>> entry : winMap.entrySet() )
 			{
 				String key = entry.getKey();
 				List<String> value = entry.getValue();
 				
-				float sega = 0F;
-				for ( String item : value )
+				float segema = 0F;
+				for ( String ele : value )
 				{
-					int size = vote.get(item).size();
-					if ( item.equals(key) || size == 0 ) continue;
+					int size = winMap.get(ele).size();
+					if ( ele.equals(key) || size == 0 ) {
+						continue;
+					}
 					
 					float Sy = 0;
 					if ( score != null 
-							&& score.containsKey(item) ) {
-						Sy = score.get(item);
+							&& score.containsKey(ele) ) {
+						Sy = score.get(ele);
 					}
 					
-					sega += Sy / size;
+					segema += Sy / size;
 				}
 				
-				T.put(key, 1 - D + D * sega);
+				T.put(key, 1 - D + D * segema);
 			}
 			
 			/*
@@ -118,10 +122,10 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 			}
 		});
 		
-		for ( Map.Entry<String, Float> entry : entryList )
+		/*for ( Map.Entry<String, Float> entry : entryList )
 		{
 			System.out.println(entry.getKey()+"="+entry.getValue());
-		}
+		}*/
 		
 		//return the sublist as the final result
 		int len = Math.min(keywordsNum, entryList.size());
@@ -130,6 +134,12 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		{
 			keywords.add(entryList.get(i).getKey());
 		}
+		
+		//let gc do its work
+		winMap.clear();
+		words.clear();
+		winMap = null; words = null;
+		score = null; entryList = null;
 		
 		return keywords;
 	}

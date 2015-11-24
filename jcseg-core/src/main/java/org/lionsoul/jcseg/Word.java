@@ -23,6 +23,7 @@ public class Word implements IWord,Cloneable
 	 * {@link #getLength()} will return the value setted by
 	 */
 	private int length = -1;
+	private int h = -1;
 	
 	private String pinyin = null;
 	private String[] partspeech = null;
@@ -273,5 +274,30 @@ public class Word implements IWord,Cloneable
 		}
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * rewrite the hash code generate algorithm
+	 * take the value as the main factor
+	 *  
+	 * @return	int
+	*/
+	@Override
+	public int hashCode()
+	{
+		if ( h == -1 )
+		{
+			/*
+			 * DJB hash algorithm 2
+			 * invented by doctor Daniel J. Bernstein.
+			 */
+			h = 5381;
+			for ( int j = 0; j < value.length(); j++ ) {
+				h = h * 33 ^ value.charAt(j);
+			}
+			h &= 0x7FFFFFFF;
+		}
+		
+		return h;
 	}
 }
