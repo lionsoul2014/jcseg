@@ -4,6 +4,7 @@ classes/
 doc/
 help/
 # lib/ #
+lib/*.jar
 target/
 # Binary Files #
 # *.jar #
