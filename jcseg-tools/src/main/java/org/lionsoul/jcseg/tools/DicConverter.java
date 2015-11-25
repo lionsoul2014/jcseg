@@ -26,8 +26,8 @@ public class DicConverter {
 	 * convert the srcfile to dstfile to with 
 	 * 	the specified convert rule. (SIMPLIFIED_TO_TRADITIONAL or TRADITIONAL_TO_SIMPLIFIED)
 	 * 
-	 * @param	srcfile
-	 * @param	dstfile
+	 * @param	srcFile
+	 * @param	dstFile
 	 * @param	_cvt
 	 * @return 	boolean
 	 * @throws IOException

@@ -13,7 +13,6 @@ import org.lionsoul.jcseg.util.Util;
  * <p>Jcseg segmentation task config class</p>
  * 
  * @author	chenxin<chenxin619315@gmail.com>
- * @see		Config
  */
 public class JcsegTaskConfig 
 {

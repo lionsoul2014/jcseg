@@ -26,7 +26,7 @@ public class PPTFilter {
 	 * check the given char is pair punctuation or not
 	 * 
 	 * @param c
-	 * @param boolean true for it is and false for not
+	 * @return boolean true for it is and false for not
 	 */
 	public static boolean isPairPunctuation( char c ) {
 		return pairPunctuation.containsKey(c);

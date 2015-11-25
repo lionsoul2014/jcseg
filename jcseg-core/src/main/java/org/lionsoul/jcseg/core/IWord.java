@@ -86,7 +86,7 @@ public interface IWord extends Cloneable {
 	/**
 	 * self define the length
 	 * 
-	 * @param	int
+	 * @param	length
 	 */
 	public void setLength( int length );
 	

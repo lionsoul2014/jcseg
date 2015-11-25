@@ -40,7 +40,7 @@ public class IntArrayList
 	/**
 	 * Append a new Integer to the end.
 	 * 
-	 * @param	val.
+	 * @param	val
 	 */
 	public void add( int val ) 
 	{

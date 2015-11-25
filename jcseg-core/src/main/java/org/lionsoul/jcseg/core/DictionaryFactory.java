@@ -38,7 +38,7 @@ public class DictionaryFactory {
 	/**
 	 * create a default ADictionary instance of class com.webssky.jcseg.Dictionary
 	 * 
-	 * @see		Dictionary
+	 * @see		org.lionsoul.jcseg.Dictionry
 	 * @return	ADictionary
 	 */
 	public static ADictionary createDefaultDictionary( JcsegTaskConfig config, boolean sync ) {

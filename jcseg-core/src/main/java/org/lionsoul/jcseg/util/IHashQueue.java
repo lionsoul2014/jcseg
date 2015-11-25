@@ -16,7 +16,7 @@ import org.lionsoul.jcseg.core.IWord;
  * 	of class org.lionsoul.jcseg.ASegment
  * </p>
  * 
- * @Note: Not thread safe
+ * AT+Note: Not thread safe
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -73,9 +73,7 @@ public class IHashQueue<T extends IWord>
 	/**
 	 * remove the node from the head
 	 * and you should make sure the size is larger than 0 by calling size()
-	 * before you invoke the method or you will just get null
-	 * 
-	 * @param	T
+	 * before you invoke the method or you will just get null.
 	 */
 	public T remove()
 	{

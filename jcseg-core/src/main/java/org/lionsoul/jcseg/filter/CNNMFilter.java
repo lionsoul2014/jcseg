@@ -62,7 +62,7 @@ public class CNNMFilter {
 	 * a static method to turn the Chinese numeric to Arabic numbers
 	 * 
 	 * @param cnn
-	 * @param boolea flag
+	 * @param flag
 	 * @return int
 	 */
 	public static int cnNumericToArabic( String cnn, boolean flag ) 

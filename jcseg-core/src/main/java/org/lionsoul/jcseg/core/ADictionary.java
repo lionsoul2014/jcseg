@@ -46,7 +46,6 @@ public abstract class ADictionary
 	/**
 	 * load all the words from a specified lexicon file
 	 * 
-	 * @param	config
 	 * @param	file
 	 */
 	public void loadFromLexiconFile( File file ) {

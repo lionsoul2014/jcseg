@@ -33,7 +33,7 @@ public abstract class KeywordsExtractor
 	/**
 	 * word item filter
 	 * 
-	 * @param	IWord
+	 * @param	word
 	*/
 	protected boolean filter(IWord word)
 	{
@@ -137,8 +137,7 @@ public abstract class KeywordsExtractor
 	/**
 	 * get the keywords list from a reader
 	 * 
-	 * @param	dFile
-	 * @return	List[]
+	 * @param	reader
 	 * @throws	IOException
 	*/
 	public abstract List<String> getKeywords(Reader reader) throws IOException;

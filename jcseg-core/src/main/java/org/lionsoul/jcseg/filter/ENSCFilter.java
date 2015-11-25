@@ -111,7 +111,7 @@ public class ENSCFilter
 	 * <li>123-126	-&gt; punctuations</li>
 	 * </ul>
 	 * 
-	 * @param int
+	 * @param c
 	 * @return boolean
 	 */
     public static boolean isHWEnChar( int c ) {
@@ -120,7 +120,7 @@ public class ENSCFilter
     
     /**
      * check the given char is a full-width char
-     * @reader: the full-width punctuation is not included here
+     * AT+reader: the full-width punctuation is not included here
      * 
      * @param c
      * @return boolean

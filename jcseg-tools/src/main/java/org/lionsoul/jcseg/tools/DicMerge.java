@@ -46,7 +46,7 @@ public class DicMerge {
 	 * remove the duplicate entries and store the entris in a specified file
 	 * 
 	 * @param	srcFiles
-	 * @param	dstfile
+	 * @param	dstFile
 	 * @return	int
 	 * @throws 	IOException
 	 */

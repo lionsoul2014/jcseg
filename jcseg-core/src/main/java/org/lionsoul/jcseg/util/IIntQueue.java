@@ -43,8 +43,6 @@ public class IIntQueue
 	 * remove the node from the head
 	 * and you should make sure the size is larger than 0 by calling size()
 	 * before you invoke the method or you will just get -1
-	 * 
-	 * @param	int
 	 */
 	public int deQueue()
 	{

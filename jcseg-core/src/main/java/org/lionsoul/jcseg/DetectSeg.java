@@ -148,7 +148,7 @@ public class DetectSeg implements ISegment
 	/**
 	 * get the current task config instance
 	 * 
-	 * @param	JcsegTaskConfig
+	 * @return	JcsegTaskConfig
 	 */
 	public JcsegTaskConfig getConfig() 
 	{
