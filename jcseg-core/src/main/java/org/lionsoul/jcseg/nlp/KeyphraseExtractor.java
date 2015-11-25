@@ -87,8 +87,8 @@ public abstract class KeyphraseExtractor
 	        case 'y':
 	        case 'd':	//@date 2015-11-23
 	        case 'o':
-	        case 'h':
-	        case 'k':
+	        //case 'h':
+	        //case 'k':
 	        case 'g':
 	        case 'x':
 	        case 'w':

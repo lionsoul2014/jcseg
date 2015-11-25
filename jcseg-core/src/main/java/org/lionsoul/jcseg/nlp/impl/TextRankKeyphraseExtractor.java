@@ -44,7 +44,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 	/**
 	 * max phrase length
 	*/
-	protected int maxPhraseLength = 9;
+	protected int maxWordsNum = 5;
 
 	public TextRankKeyphraseExtractor(ISegment seg) {
 		super(seg);
@@ -134,36 +134,92 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 			return new ArrayList<String>(1);
 		}
 		
+		float tScores = 0F, avgScores = 0F, stdScores = 0F;
+		for ( Map.Entry<IWord, Float> entry : entryList )
+		{
+			tScores += entry.getValue();
+			//System.out.println(entry.getKey().getValue()+"="+entry.getValue());
+		}
+		
+		avgScores = tScores / wordsPool.size();
+		stdScores = avgScores * (1 + D);
+		
 		/*
 		 * we consider the conjoint keywords as a key phrase
 		 * so, get all the conjointed keywords
 		*/
 		IStringBuffer isb = new IStringBuffer();
 		List<String> phraseList = new LinkedList<String>();
-		
-		for ( int i = 0; i < entryList.size();  )
+		for ( int i = 0; i < entryList.size(); )
 		{
 			Map.Entry<IWord, Float> entry = entryList.get(i);
 			IWord seed = entry.getKey();
-			int len = 0, pos = seed.getPosition() + seed.getLength() - 1;
-			isb.clear().append(seed.getValue());
-			
-			for ( i++; i < entryList.size(); i++ )
+			if ( entry.getValue() < stdScores ) 
 			{
-				Map.Entry<IWord, Float> te = entryList.get(i);
-				IWord walker = te.getKey();
-				if ( walker.getPosition() - pos != 1 )
+				i++;
+				continue;
+			}
+			
+			int len = 0;
+			List<IWord> sortQueue = null;
+			List<IWord> listQueue = new ArrayList<IWord>(maxWordsNum);
+			listQueue.add(seed);
+			
+			//make a chunk
+			for ( int j = 1; j < maxWordsNum; j++ )
+			{
+				int idx = i + j;
+				if ( idx >= entryList.size() ) break;
+				listQueue.add(entryList.get(idx).getKey());
+			}
+			
+			for ( ; listQueue.size() > 1 ; )
+			{
+				/*
+				 * sort the sort queue and check all the words could
+				 * make a phrase by its original position
+				*/
+				sortQueue = new ArrayList<IWord>(listQueue);
+				Collections.sort(sortQueue, new Comparator<IWord>(){
+					@Override
+					public int compare(IWord o1, IWord o2) {
+						return (o1.getPosition() - o2.getPosition());
+					}
+				});
+				
+				IWord t = sortQueue.get(0);
+				int pos = t.getPosition() + t.getLength() - 1;
+				boolean match = true;
+				for ( int k = 1; k < sortQueue.size(); k++ ) 
 				{
-					break;
+					IWord kw = sortQueue.get(k);
+					if ( kw.getPosition() - pos != 1  ) {
+						match = false;
+						break;
+					}
+					
+					//reset the pos
+					pos = kw.getPosition() + kw.getLength() - 1;
 				}
 				
-				len++;
-				pos = walker.getPosition() + walker.getLength() - 1;
-				isb.append(walker.getValue());
+				/*
+				 * not matched, remove the last word item
+				 * from the list queue and continue the next match check ... 
+				*/
+				if ( match == false )
+				{
+					//let gc do its work
+					sortQueue.clear();
+					sortQueue = null;
+					listQueue.remove(listQueue.size()-1);
+					continue;
+				}
+				
+				len = listQueue.size();
+				break;
 			}
 			
 			//no matching
-			if ( isb.length() > maxPhraseLength ) continue;
 			if ( len == 0 ) 
 			{
 				//return the mix words
@@ -173,10 +229,19 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 						&& seed.getLength() >= autoMinLength ) {
 					phraseList.add(seed.getValue());
 				}
+				
+				i++;
 				continue;
 			}
 			
+			isb.clear();
+			for ( IWord word : sortQueue ) isb.append(word.getValue());
 			phraseList.add(isb.toString());
+			i += sortQueue.size();
+			
+			//let gc do its work
+			listQueue.clear();
+			listQueue = null;
 		}
 		
 		return phraseList;
@@ -214,11 +279,11 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 		this.autoMinLength = autoMinLength;
 	}
 	
-	public int getMaxPhraseLength() {
-		return maxPhraseLength;
+	public int getMaxWordsNum() {
+		return maxWordsNum;
 	}
 
-	public void setMaxPhraseLength(int maxPhraseLength) {
-		this.maxPhraseLength = maxPhraseLength;
+	public void setMaxWordsNum(int maxPhraseLength) {
+		this.maxWordsNum = maxPhraseLength;
 	}
 }
