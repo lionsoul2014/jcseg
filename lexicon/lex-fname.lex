@@ -14,6 +14,7 @@ CJK_WORDS
 妮可/nr/ni ke/null
 凯蒂/nr/kai di/null
 #外人翻译名字#
+阿汤哥/nr/a tang ge/汤姆·克鲁斯
 汤姆·克鲁斯/nr/tang mu ke lu si/阿汤哥
 咪咪·罗杰斯/nr/mi mi luo jie si/null
 妮可·基德曼/nr/ni ke ji de man/null
