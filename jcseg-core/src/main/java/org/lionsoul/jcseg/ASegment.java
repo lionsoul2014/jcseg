@@ -140,7 +140,7 @@ public abstract class ASegment implements ISegment
 	/**
 	 * get the current task config instance.
 	 * 
-	 * @param	JcsegTaskConfig
+	 * @return	JcsegTaskConfig
 	 */
 	public JcsegTaskConfig getConfig() 
 	{
@@ -743,7 +743,7 @@ public abstract class ASegment implements ISegment
 	 * 
 	 * @param	w
 	 * @param	retfw	Wether to return the fword.
-	 * @param	IWord - the first sub token for the secondary segment.
+	 * @return	IWord - the first sub token for the secondary segment.
 	 */
 	public IWord enSecondSeg( IWord w, boolean retfw ) 
 	{
@@ -835,7 +835,13 @@ public abstract class ASegment implements ISegment
 	 */
 	static boolean isCJKChar( int c ) 
 	{
-		if ( Character.getType(c) == Character.OTHER_LETTER ) 
+		/*
+		 * @Note: added at 2015-11-25
+		 * for foreign country translated name recognize
+		 * add '·' as CJK chars
+		*/
+		if ( c == 183 
+				|| Character.getType(c) == Character.OTHER_LETTER ) 
 			return true;
 		return false;
 	}
