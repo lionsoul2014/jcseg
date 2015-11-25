@@ -122,17 +122,24 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 			}
 		});
 		
-		/*for ( Map.Entry<String, Float> entry : entryList )
+		float tScores = 0F, avgScores = 0F, stdScores = 0F;
+		for ( Map.Entry<String, Float> entry : entryList )
 		{
+			tScores += entry.getValue();
 			System.out.println(entry.getKey()+"="+entry.getValue());
-		}*/
+		}
+		
+		avgScores = tScores / words.size();
+		stdScores = avgScores * (1 + D);
 		
 		//return the sublist as the final result
 		int len = Math.min(keywordsNum, entryList.size());
 		List<String> keywords = new ArrayList<String>(len);
-		for ( int i = 0; i < len; i++ )
+		for ( int i = 0; i < entryList.size(); i++ )
 		{
-			keywords.add(entryList.get(i).getKey());
+			Map.Entry<String, Float> e = entryList.get(i);
+			if ( i >= len || e.getValue() < stdScores ) break;
+			keywords.add(e.getKey());
 		}
 		
 		//let gc do its work
