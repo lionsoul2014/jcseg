@@ -2427,7 +2427,7 @@ CJK_WORDS
 擐/null/huan/null/6
 餥/null/%/null/15
 瘢/null/ban/null/11
-的/vu,d,k,nd,e,a,i,r,n,v,u/de/null/6538132
+的/u,e,a,k/de/null/6538132
 匟/null/kang/null/10
 蝳/null/%/null/12
 馈/v/kui/null/64
@@ -12402,7 +12402,7 @@ CJK_WORDS
 三/q,j,n,m/san/null/301762
 廷/n/ting/null/6457
 上/ns,j,p,nl,n,vd,v,nd/shang/null/828394
-下/m,j,ns,nl,n,q,v,vd,nd/xia/null/589356
+下/q,t/xia/null/589356
 丌/null/qi/null/9694
 建/j,v/jian/null/128612
 不/vu,v,d/bu/null/2831612
