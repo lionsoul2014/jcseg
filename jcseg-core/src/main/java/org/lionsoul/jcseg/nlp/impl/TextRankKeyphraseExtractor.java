@@ -30,7 +30,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 	protected int keywordsNum = 10;
 	
 	//max iterate times
-	protected int maxIterateNum = 201;
+	protected int maxIterateNum = 120;
 	
 	//window size
 	protected int windowSize = 5;
@@ -87,16 +87,15 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 		}
 		
 		///do the page rank socres count
-		Map<IWord, Float> score = null;
+		Map<IWord, Float> score = new HashMap<IWord, Float>();
 		for ( int c = 0; c < maxIterateNum; c++ )
 		{
-			Map<IWord, Float> T = new HashMap<IWord, Float>();
 			for ( Map.Entry<IWord, List<IWord>> entry : winMap.entrySet() )
 			{
 				IWord key = entry.getKey();
 				List<IWord> value = entry.getValue();
 				
-				float segema = 0F;
+				float sigema = 0F;
 				for ( IWord ele : value )
 				{
 					int size = winMap.get(ele).size();
@@ -110,14 +109,12 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
 						Sy = score.get(ele);
 					}
 					
-					segema += Sy / size;
+					sigema += Sy / size;
 				}
 				
 				//core page rank algorithm
-				T.put(key, 1 - D + D * segema);
+				score.put(key, 1 - D + D * sigema);
 			}
-			
-			score = T;
 		}
 		
 		//sort the items by PR value

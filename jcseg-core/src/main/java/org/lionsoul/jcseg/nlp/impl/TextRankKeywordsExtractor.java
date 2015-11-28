@@ -28,7 +28,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 	protected int keywordsNum = 10;
 	
 	//max iterate times
-	protected int maxIterateNum = 201;
+	protected int maxIterateNum = 120;
 	
 	//window size
 	protected int windowSize = 5;
@@ -77,16 +77,15 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		}
 		
 		//do the page rank scores caculate
-		HashMap<String, Float> score = null;
+		HashMap<String, Float> score = new HashMap<String, Float>();
 		for ( int c = 0; c < maxIterateNum; c++ )
 		{
-			HashMap<String, Float> T = new HashMap<String, Float>();
 			for ( Map.Entry<String, List<String>> entry : winMap.entrySet() )
 			{
 				String key = entry.getKey();
 				List<String> value = entry.getValue();
 				
-				float segema = 0F;
+				float sigema = 0F;
 				for ( String ele : value )
 				{
 					int size = winMap.get(ele).size();
@@ -100,16 +99,11 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 						Sy = score.get(ele);
 					}
 					
-					segema += Sy / size;
+					sigema += Sy / size;
 				}
 				
-				T.put(key, 1 - D + D * segema);
+				score.put(key, 1 - D + D * sigema);
 			}
-			
-			/*
-			 * prepare the global score for the next iteration
-			 * */
-			score = T;
 		}
 
 		//sort the items by score
@@ -126,7 +120,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		for ( Map.Entry<String, Float> entry : entryList )
 		{
 			tScores += entry.getValue();
-			System.out.println(entry.getKey()+"="+entry.getValue());
+			//System.out.println(entry.getKey()+"="+entry.getValue());
 		}
 		
 		avgScores = tScores / words.size();

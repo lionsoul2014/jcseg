@@ -16,10 +16,11 @@ public class KeywordsExtractorTest {
 	public static void main(String[] args) 
 	{
 		//create your JcsegTaskConfig here please
-		JcsegTaskConfig config = new JcsegTaskConfig("/java/test/jcseg.properties"); 
+		JcsegTaskConfig config = new JcsegTaskConfig("/data0/Code/java/test/jcseg.properties"); 
 		
 		config.setClearStopwords(true);
 		config.setAppendCJKSyn(false);
+		config.setKeepUnregWords(false);
 		ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
 		
 		try {

@@ -114,7 +114,7 @@ public abstract class KeywordsExtractor
 	 * get the keywords list from a string
 	 * 
 	 * @param	doc
-	 * @return List[]
+	 * @return  List[]
 	 * @throws	IOException
 	*/
 	public List<String> getKeywordsFromString(String doc) throws IOException

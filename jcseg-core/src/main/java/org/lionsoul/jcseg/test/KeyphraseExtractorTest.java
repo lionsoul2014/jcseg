@@ -21,6 +21,7 @@ public class KeyphraseExtractorTest {
 		//config.setClearStopwords(true);
 		config.setAppendCJKSyn(false);
 		config.setEnSecondSeg(false);
+		config.setKeepUnregWords(false);
 		ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
 		
 		try {
