@@ -21,4 +21,26 @@ public class Util {
 		File jarFile = new File(path);
 		return jarFile.getParentFile().getAbsolutePath();
 	}
+	
+	/**
+	 * print the specifield matrix
+	 * 
+	 * @param	double[][]
+	*/
+	public static void printMatrix(double[][] matrix)
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append('[').append('\n');
+		for ( double[] line : matrix )
+		{
+			for ( double column : line ) 
+			{
+				sb.append(column).append(", ");
+			}
+			sb.append('\n');
+		}
+		sb.append(']');
+		System.out.println(sb.toString());
+	}
+	
 }
