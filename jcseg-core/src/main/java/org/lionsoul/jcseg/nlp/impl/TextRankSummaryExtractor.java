@@ -13,6 +13,7 @@ import org.lionsoul.jcseg.SentenceSeg;
 import org.lionsoul.jcseg.core.ISegment;
 import org.lionsoul.jcseg.core.IWord;
 import org.lionsoul.jcseg.nlp.SummaryExtractor;
+import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.Sort;
 
 /**
@@ -198,13 +199,17 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		for ( double d : score ) r += d;
 		return r;
 	}
-
-	@Override
-	public List<String> getKeySentence(Reader reader) throws IOException 
+	
+	/**
+	 * get the documents order by relevance score.
+	 * 
+	 * @param	sentence
+	 * @param	senWords
+	 * @throws	IOException 
+	*/
+	protected Document[] textRankSortedDocuments(
+			List<Sentence> sentence, List<List<IWord>> senWords) throws IOException
 	{
-		//build the documents
-		List<Sentence> sentence = textToSentence(reader);
-		List<List<IWord>> senWords = sentenceTokenize(sentence);
 		int docNum = sentence.size();
 	
 		//documents relavance matrix build
@@ -245,30 +250,103 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		//and sort the documents by scores
 		Document[] docs = new Document[docNum];
 		for ( int i = 0; i < docNum; i++ ) {
-			docs[i] = new Document(sentence.get(i), senWords.get(i), score[i]);
+			docs[i] = new Document(i, sentence.get(i), senWords.get(i), score[i]);
 		}
 		
 		Sort.shellSort(docs);
+		
+		
+		//let gc do its works
+		relevance = null;
+		score = null;
+		weight_sum = null;
+		
+		return docs;
+	}
+
+	@Override
+	public List<String> getKeySentence(Reader reader) throws IOException 
+	{
+		//build the documents
+		List<Sentence> sentence = textToSentence(reader);
+		List<List<IWord>> senWords = sentenceTokenize(sentence);
+		int docNum = sentence.size();
+				
+		//get the text rank score sorted documents
+		Document[] docs = textRankSortedDocuments(sentence, senWords);
+		
 		//return the sublist as the final result
 		int len = Math.min(sentenceNum, docNum);
 		List<String> topSentence = new ArrayList<String>(len);
 		for ( int i = 0; i < len; i++ ) {
 			topSentence.add(docs[i].getSentence().getValue());
-			System.out.println(i+", "+docs[i].getScore()+", "+docs[i].getSentence());
+			//System.out.println(i+", "+docs[i].getScore()+", "+docs[i].getSentence());
 		}
 		
-		//let gc do its works
+		//let gc do its work
+		docs = null;
 		sentence.clear(); sentence = null;
 		senWords.clear(); senWords = null;
-		relevance = null; score = null;
-		weight_sum = null; docs = null;
 		
 		return topSentence;
 	}
 
 	@Override
-	public String getSummary(Reader reader) throws IOException {
-		return null;
+	public String getSummary(Reader reader, int length) throws IOException 
+	{
+		//build the documents
+		List<Sentence> sentence = textToSentence(reader);
+		List<List<IWord>> senWords = sentenceTokenize(sentence);
+		int docNum = sentence.size();
+				
+		//get the text rank score sorted documents
+		Document[] docs = textRankSortedDocuments(sentence, senWords);
+		
+		/*
+		 * substring length chars from the position
+		 * of the document with the greatest text rank score.
+		 * if still not enought start ahead of it...
+		*/
+		int less = length, sIdx = docs[0].getIndex();
+		for ( int i = docs[0].getIndex(); i < docNum; i++ )
+		{
+			less -= sentence.get(i).getLength();
+			if ( less <= 0 ) break;
+		}
+		
+		//not enought: check the sentence ahead of it
+		if ( less > 0 )
+		{
+			for ( int i = docs[0].getIndex() - 1; i >= 0; i-- ) {
+				less -= sentence.get(i).getLength();
+				if ( less <= 0 ) {
+					sIdx = i;
+					break;
+				}
+			}
+			
+			if ( less > 0 ) sIdx = 0;
+		}
+		
+		IStringBuffer isb = new IStringBuffer();
+		for ( int i = sIdx; i < docNum; i++ )
+		{
+			int senLen = isb.length() + sentence.get(i).getLength();
+			if ( senLen < length ) {
+				isb.append(sentence.get(i).getValue());
+			} else if ( ((float)length - isb.length()) / length >= 0.15F ) {
+				isb.append(sentence.get(i).getValue());
+			} else {
+				break;
+			}
+		}
+		
+		//let gc do its work
+		docs = null;
+		sentence.clear(); sentence = null;
+		senWords.clear(); senWords = null;
+				
+		return isb.toString();
 	}
 	
 	
@@ -290,6 +368,11 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		private Sentence sentence;
 		
 		/**
+		 * the orginal index 
+		*/
+		private int index;
+		
+		/**
 		 * the Words list for the current document 
 		*/
 		private List<IWord> words;
@@ -297,12 +380,14 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		/**
 		 * construct method 
 		 * 
+		 * @param	index
 		 * @param	sentence
 		 * @param	words
 		 * @param	score
 		*/
-		public Document(Sentence sentence, List<IWord> words, double score)
+		public Document(int index, Sentence sentence, List<IWord> words, double score)
 		{
+			this.index = index;
 			this.sentence = sentence;
 			this.words = words;
 			this.score = score;
@@ -314,6 +399,14 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 
 		public void setScore(double score) {
 			this.score = score;
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+
+		public void setIndex(int index) {
+			this.index = index;
 		}
 
 		public Sentence getSentence() {

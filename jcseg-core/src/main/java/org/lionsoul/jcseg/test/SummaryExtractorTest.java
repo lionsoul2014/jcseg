@@ -44,19 +44,25 @@ public class SummaryExtractorTest
 					+ "妈妈哈文也可爱地转发微博，并喊话女儿，称：“该回家了好不好？”  "
 					+ "小编真心惊呆了，这个这个清纯的妹子真的是哈文和李咏的女儿么？ "
 					+ "因为小编平时很少关注李咏夫妇，对李咏爱女法图麦的印象还停留在...酱紫↓    翻遍妈妈哈文的微博相册，发现哈文是真心宠爱女儿啊，满满的姑娘的美照，拿出来给大家看看。    "
-					+ "与爸爸在一起的照片，小法也是酷劲十足！     "
+					+ "与爸爸在一起的照片，小法也是酷劲十足！"
 					+ "13岁的小女孩出落得亭亭玉立，与之前判若两人   最后说一句： 我女儿再美也是我生的！  "
-					+ "来源：bomb01|新华网|新浪微博 ";
+					+ "来源：bomb01|新华网|新浪微博";
 			
 			List<String> keySentence = null;
 			keySentence = extractor.getKeySentenceFromString(doc);
-			//keySentence = extractor.getKeySentenceFromFile("/home/chenxin/curpos/4.txt");
+			//keySentence = extractor.getKeySentenceFromFile("/home/chenxin/curpos/1.txt");
+			System.out.println("+-Key sentence: ");
 			int count = 1;
 			for ( String sen : keySentence )
 			{
 				System.out.println("Top " + count + ": " + sen);
 				count++;
 			}
+			
+			//System.out.println("+-Summary: ");
+			//String summary = extractor.getSummaryFromString(doc, 100);
+			//String summary = extractor.getSummaryFromFile("/home/chenxin/curpos/8.txt", 86);
+			//System.out.println(summary);
 		} catch (JcsegException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

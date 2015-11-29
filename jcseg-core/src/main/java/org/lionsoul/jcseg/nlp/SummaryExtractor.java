@@ -76,12 +76,13 @@ public abstract class SummaryExtractor
 	 * get document summary from a string
 	 * 
 	 * @param	doc
+	 * @param	length
 	 * @return	String
 	 * @throws	IOException
 	*/
-	public String getSummaryFromString(String doc) throws IOException
+	public String getSummaryFromString(String doc, int length) throws IOException
 	{
-		return getSummary(new StringReader(doc));
+		return getSummary(new StringReader(doc), length);
 	}
 	
 	
@@ -89,22 +90,24 @@ public abstract class SummaryExtractor
 	 * get document summary from a file
 	 * 
 	 * @param	file
+	 * @param	length
 	 * @return	String
 	 * @throws	IOException
 	*/
-	public String getSummaryFromFile(String file) throws IOException
+	public String getSummaryFromFile(String file, int length) throws IOException
 	{
-		return getSummary(new FileReader(file));
+		return getSummary(new FileReader(file), length);
 	}
 	
 	/**
 	 * get summary from a reader
 	 * 
 	 * @param	reader
+	 * @param	length
 	 * @return	String
 	 * @throws	IOException
 	*/
-	public abstract String getSummary( Reader reader ) throws IOException;
+	public abstract String getSummary(Reader reader, int length) throws IOException;
 
 	public ISegment getWordSeg() {
 		return wordSeg;
