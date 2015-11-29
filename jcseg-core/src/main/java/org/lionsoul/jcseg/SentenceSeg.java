@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.lionsoul.jcseg.filter.ENSCFilter;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
@@ -83,49 +84,90 @@ public class SentenceSeg
 		
 		while ( (c = readNext()) != -1 ) 
 		{
-			boolean endTag = false;
-			if ( pos == -1 ) pos = idx;
+			//clear the whitespace of the begainning
+			if ( ENSCFilter.isWhitespace(c) ) continue;
+			if ( c == '\n' || c == '\t' ) continue;
+			if ( ENSCFilter.isCnPunctuation(c) ) 
+			{
+				switch ( (char)c )
+				{
+				case '“':
+				case '【':
+				case '（':
+				case '《':
+				case '｛':
+					break;
+				default: continue;
+				}
+			}
+			if ( ENSCFilter.isEnPunctuation(c)) 
+			{
+				switch ( (char)c )
+				{
+				case '"':
+				/*case '[':
+				case '(':
+				case '{':
+				case '<':*/
+					break;
+				default: continue;
+				}
+			}
+			 
+			pos = idx;
+			gisb.clear().append((char)c);
 			
-			/*
-			 * here, define the sentence end tag
-			 * punctuation like the following:
-			 * .。\n;；?？!！:： 
-			*/
-			switch ((char)c)
+			while ( (c = readNext()) != -1 )
 			{
-			case '"': gisb.append('"'); readUntil('"');  break;
-			case '“': gisb.append('"'); readUntil('”');  break;
-			case '【': gisb.append('"'); readUntil('】'); break;
-			case '《': gisb.append('"'); readUntil('》'); break;
-			case '.':
-			case '。':
-			case ';':
-			case '；':
-			case '?':
-			case '？':
-			case '!':
-			case '！':
-			{
-				endTag = true;
-				gisb.append((char)c);
-				break;
+				boolean endTag = false;
+				
+				/*
+				 * here, define the sentence end tag
+				 * punctuation like the following:
+				 * .。\n;；?？!！:： 
+				*/
+				switch ((char)c)
+				{
+				case '"': gisb.append('"'); readUntil('"');  break;
+				case '“': gisb.append('“'); readUntil('”');  break;
+				case '【': gisb.append('【'); readUntil('】'); break;
+				case '《': gisb.append('《'); readUntil('》'); break;
+				case '.':
+				case '。':
+				case ';':
+				case '；':
+				case '?':
+				case '？':
+				case '!':
+				case '！':
+				{
+					endTag = true;
+					gisb.append((char)c);
+					break;
+				}
+				case ':':
+				case '：':
+				case '\n':
+				{
+					endTag = true;
+					break;
+				}
+				default:
+					gisb.append((char)c);
+				}
+				
+				if ( endTag ) break;
 			}
-			case ':':
-			case '：':
-			case '\n':
-			{
-				endTag = true;
-				break;
-			}
-			default:
-				gisb.append((char)c);
+
+			//clear the whitespace from the back
+			for ( int i = gisb.length() - 1; i >= 0; i-- ) {
+				char chr = gisb.charAt(i);
+				if ( chr == ' ' || chr == '\t' ) gisb.deleteCharAt(i);
+				else break;
 			}
 			
-			if ( endTag ) 
-			{
-				if ( gisb.length() <= 1 ) continue;
-				return new Sentence(gisb.toString(), pos);
-			}
+			if ( gisb.length() <= 1 ) continue;
+			return new Sentence(gisb.toString(), pos);
 		}
 				
 		return null;

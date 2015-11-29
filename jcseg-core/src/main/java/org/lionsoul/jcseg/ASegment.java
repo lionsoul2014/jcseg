@@ -598,7 +598,8 @@ public abstract class ASegment implements ISegment
 			/* find a content around with pair punctuations.
 			 * 	set the pptmaxlen to 0 to close it
 			 * */
-			else if ( config.PPT_MAX_LENGTH > 0 && PPTFilter.isPairPunctuation( (char) c ) ) 
+			else if ( config.PPT_MAX_LENGTH > 0 
+					&& PPTFilter.isPairPunctuation( (char) c ) ) 
 			{
 				IWord w = null, w2 = null;
 				String text = getPairPunctuationText(c);
