@@ -5,6 +5,11 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.lionsoul.jcseg.server.controller.KeyphraseController;
+import org.lionsoul.jcseg.server.controller.KeywordsController;
+import org.lionsoul.jcseg.server.controller.SentenceController;
+import org.lionsoul.jcseg.server.controller.SummaryController;
+import org.lionsoul.jcseg.server.controller.TokenizerController;
 
 /**
  * Jcseg RESTful api server
@@ -71,47 +76,16 @@ public class JcsegServer
 	public JcsegServer registerHandler()
 	{
 		/*
-		//common handler
-		ContextHandler commonContext = new ContextHandler("/");
-		commonContext.setHandler(new ErrorHandler());
-		
-		//tokenizer handler
-		ContextHandler tokenizeContext = new ContextHandler("/tokenizer/");
-		tokenizeContext.setHandler(new TokenizerHandler());
-		
-		//keywords extractor handler
-		ContextHandler keywordsContext = new ContextHandler("/extractor/keywords/");
-		keywordsContext.setHandler(new KeywordsExtractorHandler());
-		
-		//keyphrase extractor handler
-		ContextHandler keyphraseContext = new ContextHandler("/extractor/keyphrase/");
-		keyphraseContext.setHandler(new KeyphraseExtractorHandler());
-		
-		//key sentence extractor handler
-		ContextHandler sentenceContext = new ContextHandler("/extractor/sentence/");
-		sentenceContext.setHandler(new SentenceExtractorHandler());
-		
-		//summary extracotr handler
-		ContextHandler summaryContext = new ContextHandler("/extractor/summary/");
-		summaryContext.setHandler(new SummaryExtractorHandler());
-		
-		
-		 * build a context handler collections
-		 * and set it as the server's default context handler. 
-		
-		ContextHandlerCollection contexts = new ContextHandlerCollection();
-		contexts.setHandlers(new Handler[]{
-			commonContext, tokenizeContext, keywordsContext,
-			keyphraseContext, sentenceContext, summaryContext
-		});
-		
-		server.setHandler(contexts);*/
-		
-		/*
 		 * yet, i am going to rewrite the path to handler mapping mechanism
 		 * check the Router handler for more info 
 		*/
-		server.setHandler(new RouterHandler());
+		RouterHandler router = new RouterHandler();
+		router.addMapping("/tokenizer/*", TokenizerController.class);
+		router.addMapping("/extractor/keywords", KeywordsController.class);
+		router.addMapping("/extractor/keyphrase", KeyphraseController.class);
+		router.addMapping("/extractor/sentence", SentenceController.class);
+		router.addMapping("/extractor/summary", SummaryController.class);
+		server.setHandler(router);
 		
 		return this;
 	}
