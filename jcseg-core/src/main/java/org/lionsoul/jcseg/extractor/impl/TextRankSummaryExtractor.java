@@ -103,7 +103,8 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		
 		//1. count the average document length
 		double avgdl = 0D;
-		for ( Sentence sen : sentence ) avgdl += sen.getLength();
+		//for ( Sentence sen : sentence ) avgdl += sen.getLength();
+		for ( List<IWord> words : senWords ) avgdl += words.size();
 		avgdl /= docNum;
 		
 		//2. count all the tf and the df/N
