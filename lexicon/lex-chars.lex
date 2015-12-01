@@ -4810,7 +4810,7 @@ CJK_WORDS
 櫜/null/gao/null/11
 鼱/null/jing/null/8
 簭/null/%/null/12
-太/j,d/tai/null/232918
+太/j,d/tai/null/1891386
 跠/null/%/null/9
 蹂/v/rou/null/342
 鼲/null/%/null/7
@@ -9342,7 +9342,7 @@ CJK_WORDS
 袼/null/ge/null/11
 褞/null/%/null/6
 方/m,q,a,nhf,d,n/fang/null/310681
-要/vl,n,vd,c,u,a,v,vu/yao/null/1034142
+要/v,c,u,a,v/yao/null/1034142
 昜/null/yang/null/22
 驰/v/chi/null/3248
 睭/null/%/null/323

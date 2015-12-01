@@ -22,3 +22,4 @@ CJK_WORDS
 白富美/n/bai fu mei/null
 狮子的魂/nz/shi zi de hun/null
 仓老师/nz/cang lao shi/仓井空
+菇凉/n/gu liang/null
