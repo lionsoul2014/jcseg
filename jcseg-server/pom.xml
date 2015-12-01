@@ -10,6 +10,7 @@
   
   <artifactId>jcseg-server</artifactId>
   <name>jcseg-server</name>
+  <url>http://git.oschina.net/lionsoul/jcseg</url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,16 +18,22 @@
   
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>org.lionsoul.jcseg</groupId>
+      <artifactId>jcseg-core</artifactId>
+      <version>${jcseg.version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
       <version>9.3.0.RC0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   
