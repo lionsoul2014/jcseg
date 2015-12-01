@@ -42,7 +42,7 @@ public class DictionaryFactory {
 	 * @return	ADictionary
 	 */
 	public static ADictionary createDefaultDictionary( JcsegTaskConfig config, boolean sync ) {
-		ADictionary dic = createDictionary("org.lionsoul.jcseg.Dictionary",
+		ADictionary dic = createDictionary("org.lionsoul.jcseg.tokenizer.Dictionary",
 					new Class[]{JcsegTaskConfig.class, Boolean.class},
 					new Object[]{config, sync});
 		try {

@@ -51,11 +51,11 @@ public class SegmentFactory
 	{
 		String __segClass;
 		if ( mode == JcsegTaskConfig.SIMPLE_MODE )
-			__segClass = "org.lionsoul.jcseg.SimpleSeg";
+			__segClass = "org.lionsoul.jcseg.tokenizer.SimpleSeg";
 		else if ( mode == JcsegTaskConfig.COMPLEX_MODE )
-			__segClass = "org.lionsoul.jcseg.ComplexSeg";
+			__segClass = "org.lionsoul.jcseg.tokenizer.ComplexSeg";
 		else if ( mode == JcsegTaskConfig.DETECT_MODE )
-			__segClass = "org.lionsoul.jcseg.DetectSeg";
+			__segClass = "org.lionsoul.jcseg.tokenizer.DetectSeg";
 		else 
 			throw new JcsegException("No Such Algorithm Excpetion");
 		

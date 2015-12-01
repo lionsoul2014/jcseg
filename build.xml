@@ -18,7 +18,6 @@
 		<property name="core" value="jcseg-core"/>
 		<property name="analyzers" value="jcseg-analyzer"/>
 		<property name="elasticsearch" value="jcseg-elasticsearch"/>
-		<property name="tools" value="jcseg-tools"/>
 		<property name="jdk.version" value="1.7"/>
 
 		<delete dir="${classes}"/>
@@ -46,11 +45,6 @@
 		</copy>
 		<copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
 		
-		<echo message="Coping sources of ${tools} to ${sources}"/>
-		<copy todir="${sources}">
-			<fileset dir="${basedir}/${tools}/${mvn}"/>
-		</copy>
-		
 		<mkdir dir="${api}"/>
     </target>
 
@@ -69,7 +63,8 @@
 
     <!--Archive-->
     <target name="dist" depends="build">
-		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" excludes="org/lionsoul/jcseg/analyzer/*">
+		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" 
+			excludes="org/lionsoul/jcseg/analyzer/*,org/elasticsearch/*,org/lionsoul/jcseg/server/*">
 			<!--manifest information setting-->
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
@@ -78,22 +73,6 @@
 		</jar>
 		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/analyzer/*"/>
 		<jar jarfile="${jars}/jcseg-elasticsearch-${version}.jar" basedir="${classes}" includes="org/elasticsearch/*,es-plugin.properties"/>
-		
-    	<!--jcseg dictionary converter tools-->
-		<jar jarfile="${jars}/jcseg-dicst-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/util/dic/*,org/lionsoul/jcseg/util/IStringBuffer.class">
-			<manifest>
-				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicConverter"/>
-				<attribute name="Class-Path" value=""/>
-			</manifest>
-		</jar>
-		
-    	<!--jcseg dictionary merge tools-->
-		<jar jarfile="${jars}/jcseg-dicmerge-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/Word.class,org/lionsoul/jcseg/core/IWord.class,org/lionsoul/jcseg/util/IStringBuffer.class,org/lionsoul/jcseg/util/Sort.class,org/lionsoul/jcseg/util/dic/*">
-			<manifest>
-				<attribute name="Main-Class" value="org.lionsoul.jcseg.util.dic.DicMerge"/>
-				<attribute name="Class-Path" value=""/>
-			</manifest>
-		</jar>
     </target>
 
     <!--Java document-->
