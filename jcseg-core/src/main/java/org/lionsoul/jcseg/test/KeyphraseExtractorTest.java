@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.test.extractor;
+package org.lionsoul.jcseg.test;
 
 import java.io.IOException;
 import java.util.List;

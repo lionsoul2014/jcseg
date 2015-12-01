@@ -14,7 +14,7 @@ import org.lionsoul.jcseg.util.Util;
  * 
  * @author	chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTaskConfig 
+public class JcsegTaskConfig implements Cloneable
 {
 	
 	/**jar home directory.*/
@@ -463,5 +463,16 @@ public class JcsegTaskConfig
 	public String getPropertieFile()
 	{
 		return pfile;
+	}
+	
+	/**
+	 * rewrite the clone method
+	 * 
+	 * @return	JcsegTaskConfig
+	*/
+	@Override
+	public JcsegTaskConfig clone() throws CloneNotSupportedException
+	{
+		return (JcsegTaskConfig) super.clone();
 	}
 }

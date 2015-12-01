@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.test.util;
+package org.lionsoul.jcseg.test;
 
 import org.lionsoul.jcseg.util.IIntQueue;
 
