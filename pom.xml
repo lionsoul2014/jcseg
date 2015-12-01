@@ -67,6 +67,7 @@
 	<module>jcseg-core</module>
     <module>jcseg-analyzer</module>
     <module>jcseg-elasticsearch</module>
+    <module>jcseg-server</module>
   </modules>
   
   <build>
