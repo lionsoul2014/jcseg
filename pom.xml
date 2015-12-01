@@ -51,7 +51,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcseg.version>1.9.6</jcseg.version>
+    <jcseg.version>1.9.7-SNAPSHOT</jcseg.version>
   </properties>
 
   <dependencies>

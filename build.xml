@@ -9,7 +9,7 @@
 		<property name="jars" value="${basedir}"/>
 		<property name="sources" value="${basedir}/src"/>
 		<property name="classes" value="${basedir}/classes"/>
-		<property name="version" value="1.9.6"/>
+		<property name="version" value="1.9.7-SNAPSHOT"/>
 		<property name="lib.dir" value="${basedir}/lib"/>
 		<property name="api" value="${basedir}/doc"/>
 		
@@ -93,6 +93,18 @@
 		<delete dir="${classes}"/>
 		<delete dir="${api}"/>
 		<delete dir="${sources}"/>
+    </target>
+
+    <!--project clean-->
+    <target name="clean">
+		<echo message="------------Cleaning project------------------"/>
+		<!--clean-->
+		<delete dir="${classes}"/>
+		<delete dir="${api}"/>
+		<delete dir="${sources}"/>
+		<delete>
+			<fileset dir="." includes="*.jar"/>
+		</delete>
     </target>
 
     <target name="usage">
