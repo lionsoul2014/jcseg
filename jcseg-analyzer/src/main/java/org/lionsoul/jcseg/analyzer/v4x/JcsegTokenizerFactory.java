@@ -7,10 +7,10 @@ import java.util.Map;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
-import org.lionsoul.jcseg.core.ADictionary;
-import org.lionsoul.jcseg.core.DictionaryFactory;
-import org.lionsoul.jcseg.core.JcsegException;
-import org.lionsoul.jcseg.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
+import org.lionsoul.jcseg.tokenizer.core.JcsegException;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * jcseg tokenizer factory class for solr

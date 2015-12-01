@@ -3,7 +3,7 @@ package org.lionsoul.jcseg.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lionsoul.jcseg.core.IWord;
+import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 /**
  * <p>

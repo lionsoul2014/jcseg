@@ -3,8 +3,8 @@ package org.lionsoul.jcseg.test;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.lionsoul.jcseg.Sentence;
-import org.lionsoul.jcseg.SentenceSeg;
+import org.lionsoul.jcseg.tokenizer.Sentence;
+import org.lionsoul.jcseg.tokenizer.SentenceSeg;
 
 /**
  * sentence seg test program

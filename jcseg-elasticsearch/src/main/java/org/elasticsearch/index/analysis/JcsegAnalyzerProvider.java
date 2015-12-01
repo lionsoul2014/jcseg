@@ -28,7 +28,7 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.settings.IndexSettings;
 import org.lionsoul.jcseg.analyzer.v4x.JcsegAnalyzer4X;
-import org.lionsoul.jcseg.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * JcsegAnalyzerProvider
