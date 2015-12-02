@@ -15,7 +15,7 @@ public class SegmentFactory
 {
 	
 	//current jcseg version.
-	public static final String version = "1.9.4";
+	public static final String version = "1.9.7";
 	
 	/**
 	 * load the ISegment class with the given path

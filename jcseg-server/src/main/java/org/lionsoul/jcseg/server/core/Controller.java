@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.server;
+package org.lionsoul.jcseg.server.core;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,8 +10,10 @@ import org.eclipse.jetty.server.Request;
 
 /**
  * base Contoller class 
+ * 
+ * @author chenxin<chenxin619315@gmail.com>
 */
-public class Controller 
+public abstract class Controller 
 {
 	/**
 	 * original base request 
@@ -29,6 +31,12 @@ public class Controller
 	protected HttpServletResponse response;
 	
 	/**
+	 * request UriEntry
+	*/
+	protected UriEntry uri;
+	
+	
+	/**
 	 * contruct method
 	 * 
 	 * @param	baseRequest
@@ -37,47 +45,24 @@ public class Controller
 	 * @throws	IOException 
 	*/
 	public Controller(
-			Request baseRequest, HttpServletRequest request, 
-			HttpServletResponse response) throws IOException
+			UriEntry uriEntry, Request baseRequest, 
+			HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
+		this.uri = uriEntry;
 		this.baseRequest = baseRequest;
 		this.request = request;
 		this.response = response;
 	}
 	
-	public Controller()
-	{
-		//empty construct method
-	}
-	
 	/**
 	 * handle the current request
 	 * 
+	 * @param	method
 	 * @throws IOException
 	*/
-	protected void doRequest() throws IOException
+	protected void run(String method) throws IOException
 	{
 		
-	}
-	
-	/**
-	 * handler the get request
-	 * 
-	 * @throws	IOException 
-	*/
-	protected void doGET() throws IOException
-	{
-		doRequest();
-	}
-	
-	/**
-	 * handler the post request 
-	 * 
-	 * @throws	IOException 
-	*/
-	protected void doPOST() throws IOException
-	{
-		doRequest();
 	}
 	
 	/**
@@ -105,24 +90,6 @@ public class Controller
 	protected void response(boolean status, int errcode, String data) throws IOException
 	{
 		response(status, errcode, data, true);
-	}
-
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	public Controller setRequest(HttpServletRequest request) {
-		this.request = request;
-		return this;
-	}
-
-	public HttpServletResponse getResponse() {
-		return response;
-	}
-
-	public Controller setResponse(HttpServletResponse response) {
-		this.response = response;
-		return this;
 	}
 	
 }

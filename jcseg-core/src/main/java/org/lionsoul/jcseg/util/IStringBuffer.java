@@ -146,9 +146,9 @@ public class IStringBuffer {
 	 */
 	public char charAt( int idx ) {
 		if ( idx < 0 )
-			throw new IndexOutOfBoundsException("idx < 0");
+			throw new IndexOutOfBoundsException("idx{"+idx+"} < 0");
 		if ( idx >= count )
-			throw new IndexOutOfBoundsException("idx >= buffer.length");
+			throw new IndexOutOfBoundsException("idx{"+idx+"} >= buffer.length");
 		return buff[idx];
 	}
 	
@@ -171,6 +171,22 @@ public class IStringBuffer {
 		count--;
 		
 		return this;
+	}
+	
+	/**
+	 * set the char at the specifield index
+	 * 
+	 * @param	idx
+	 * @param	chr
+	*/
+	public void set(int idx, char chr)
+	{
+		if ( idx < 0 )
+			throw new IndexOutOfBoundsException("idx < 0");
+		if ( idx >= count )
+			throw new IndexOutOfBoundsException("idx >= buffer.length");
+		
+		buff[idx] = chr;
 	}
 	
 	/**
