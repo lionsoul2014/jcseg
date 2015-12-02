@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
+import org.lionsoul.jcseg.server.GlobalResourcePool;
 
 /**
  * base Contoller class 
@@ -15,6 +16,11 @@ import org.eclipse.jetty.server.Request;
 */
 public abstract class Controller 
 {
+	/**
+	 * global resource pool
+	*/
+	protected GlobalResourcePool resourcePool;
+	
 	/**
 	 * original base request 
 	*/
@@ -45,9 +51,11 @@ public abstract class Controller
 	 * @throws	IOException 
 	*/
 	public Controller(
-			UriEntry uriEntry, Request baseRequest, 
-			HttpServletRequest request, HttpServletResponse response) throws IOException
+			GlobalResourcePool resourcePool, UriEntry uriEntry, 
+			Request baseRequest, HttpServletRequest request, 
+			HttpServletResponse response) throws IOException
 	{
+		this.resourcePool = resourcePool;
 		this.uri = uriEntry;
 		this.baseRequest = baseRequest;
 		this.request = request;

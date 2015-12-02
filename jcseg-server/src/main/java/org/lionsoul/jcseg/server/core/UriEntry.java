@@ -74,6 +74,15 @@ public class UriEntry
 				i = eIdx + 1;
 			}
 			
+			/*
+			 * check and add a empty method name
+			 * with request style like /tokenizer/
+			*/
+			if ( requestUri.charAt(requestUri.length()-1) == '/' )
+			{
+				parts.add("");
+			}
+			
 			int length = parts.size();
 			
 			if ( length > 1 ) 

@@ -1,7 +1,5 @@
 package org.lionsoul.jcseg.server;
 
-
-
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
@@ -35,6 +33,11 @@ public class JcsegServer
 	private Server server;
 	
 	/**
+	 * global resource pool 
+	*/
+	private GlobalResourcePool resourcePool = null;
+	
+	/**
 	 * construct method
 	 * 
 	 * @param	config
@@ -42,7 +45,8 @@ public class JcsegServer
 	public JcsegServer(JcsegServerConfig config)
 	{
 		this.config = config;
-		this.init();
+		resourcePool = new GlobalResourcePool();
+		init();
 	}
 	
 	/**
@@ -105,11 +109,11 @@ public class JcsegServer
 		 * yet, i am going to rewrite the path to handler mapping mechanism
 		 * check the Router handler for more info 
 		*/
-		server.setHandler(new StandardHandler(router));
+		server.setHandler(new StandardHandler(resourcePool, router));
 		
 		return this;
 	}
-	
+
 	/**
 	 * start the server 
 	 * 
