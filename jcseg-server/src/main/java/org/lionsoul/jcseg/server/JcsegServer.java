@@ -11,6 +11,7 @@ import org.lionsoul.jcseg.server.controller.KeywordsController;
 import org.lionsoul.jcseg.server.controller.SentenceController;
 import org.lionsoul.jcseg.server.controller.SummaryController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
+import org.lionsoul.jcseg.server.core.ContextRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.StandardHandler;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
@@ -94,6 +95,14 @@ public class JcsegServer
 		router.addMapping("/extractor/keyphrase", KeyphraseController.class);
 		router.addMapping("/extractor/sentence", SentenceController.class);
 		router.addMapping("/extractor/summary", SummaryController.class);
+		
+		
+		// test for contextRouter
+//		AbstractRouter router = new ContextRouter( MainController.class); 
+//		router.addMapping("/extractor/keywords", KeywordsController.class);
+//		router.addMapping("/extractor/keyphrase", KeyphraseController.class);
+//		router.addMapping("/extractor/sentence/a", SentenceController.class);
+//		router.addMapping("/extractor/summary/*", SummaryController.class);
 		
 		/*
 		 * the rest of path and dynamic rest checking will handler it 
