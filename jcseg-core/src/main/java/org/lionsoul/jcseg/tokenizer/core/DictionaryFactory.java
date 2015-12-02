@@ -3,6 +3,8 @@ package org.lionsoul.jcseg.tokenizer.core;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 
+import org.lionsoul.jcseg.tokenizer.Dictionary;
+
 /**
  * <p>
  * Dictionary Factory to create Dictionary instance
@@ -18,18 +20,18 @@ public class DictionaryFactory {
 	/**
 	 * create a new ADictionary instance
 	 * 
-	 * @param 	__dicClass
+	 * @param 	_class
 	 * @return	ADictionary
 	 */
 	public static ADictionary createDictionary(
-			String __dicClass, Class<?>[] paramType, Object[] args) {
+			Class<? extends ADictionary> _class, Class<?>[] paramType, Object[] args)
+	{
 		try {
-			Class<?> _class = Class.forName(__dicClass);
 			Constructor<?> cons = _class.getConstructor(paramType);
 			return ( ( ADictionary ) cons.newInstance(args) );
 		} catch ( Exception e ) {
 			System.err.println("can't create the ADictionary instance " +
-					"with classpath ["+__dicClass+"]");
+					"with classpath ["+_class.getName()+"]");
 			e.printStackTrace();
 		}
 		return null;
@@ -38,11 +40,14 @@ public class DictionaryFactory {
 	/**
 	 * create a default ADictionary instance of class com.webssky.jcseg.Dictionary
 	 * 
-	 * @see		org.lionsoul.jcseg.Dictionry
+	 * @param	config
+	 * @param	sync
 	 * @return	ADictionary
 	 */
-	public static ADictionary createDefaultDictionary( JcsegTaskConfig config, boolean sync ) {
-		ADictionary dic = createDictionary("org.lionsoul.jcseg.tokenizer.Dictionary",
+	public static ADictionary createDefaultDictionary( 
+			JcsegTaskConfig config, boolean sync ) 
+	{
+		ADictionary dic = createDictionary(Dictionary.class,
 					new Class[]{JcsegTaskConfig.class, Boolean.class},
 					new Object[]{config, sync});
 		try {
@@ -59,6 +64,7 @@ public class DictionaryFactory {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return dic;
 	}
 	

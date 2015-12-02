@@ -3,6 +3,10 @@ package org.lionsoul.jcseg.tokenizer.core;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 
+import org.lionsoul.jcseg.tokenizer.ComplexSeg;
+import org.lionsoul.jcseg.tokenizer.DetectSeg;
+import org.lionsoul.jcseg.tokenizer.SimpleSeg;
+
 /**
  * <p>
  * Segment factory to create singleton ISegment object
@@ -20,21 +24,20 @@ public class SegmentFactory
 	/**
 	 * load the ISegment class with the given path
 	 * 
-	 * @param 	__segClass
+	 * @param 	_class
 	 * @return ISegment
 	 */
-	public static ISegment createSegment( String __segClass,
+	public static ISegment createSegment( Class<? extends ISegment> _class,
 				Class<?> paramtypes[], Object args[] ) 
 	{
 		ISegment seg = null;
 		try {
-			Class<?> _class = Class.forName(__segClass);
 			Constructor<?> cons = _class.getConstructor(paramtypes);
-			seg = ( ISegment ) cons.newInstance(args);
+			seg = (ISegment) cons.newInstance(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("can't load the ISegment implements class " +
-					"with path ["+__segClass+"] ");
+					"with path ["+_class.getName()+"] ");
 		}
 		
 		return seg;
@@ -49,13 +52,13 @@ public class SegmentFactory
 	 */
 	public static ISegment createJcseg( int mode, Object...args ) throws JcsegException 
 	{
-		String __segClass;
+		Class<? extends ISegment> _clsname;
 		if ( mode == JcsegTaskConfig.SIMPLE_MODE )
-			__segClass = "org.lionsoul.jcseg.tokenizer.SimpleSeg";
+			_clsname = SimpleSeg.class;
 		else if ( mode == JcsegTaskConfig.COMPLEX_MODE )
-			__segClass = "org.lionsoul.jcseg.tokenizer.ComplexSeg";
+			_clsname = ComplexSeg.class;
 		else if ( mode == JcsegTaskConfig.DETECT_MODE )
-			__segClass = "org.lionsoul.jcseg.tokenizer.DetectSeg";
+			_clsname = DetectSeg.class;
 		else 
 			throw new JcsegException("No Such Algorithm Excpetion");
 		
@@ -68,6 +71,6 @@ public class SegmentFactory
 			throw new JcsegException("length of the arguments should be 2 or 3");
 		}
 		
-		return createSegment(__segClass, _paramtype, args);
+		return createSegment(_clsname, _paramtype, args);
 	}
 }
