@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.lionsoul.jcseg.server.GlobalResourcePool;
 
 /**
  * jcseg server router handler
@@ -19,6 +20,11 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 public class StandardHandler extends AbstractHandler
 {
 	/**
+	 * global resource pool
+	*/
+	private GlobalResourcePool resourcePool = null;
+	
+	/**
 	 * router 
 	*/
 	protected AbstractRouter router = null;
@@ -26,10 +32,12 @@ public class StandardHandler extends AbstractHandler
 	/**
 	 * contruct method
 	 * 
+	 * @param	resourcePool
 	 * @param	router
 	*/
-	public StandardHandler(AbstractRouter router)
+	public StandardHandler(GlobalResourcePool resourcePool, AbstractRouter router)
 	{
+		this.resourcePool = resourcePool;
 		this.router = router;
 	}
 	
@@ -44,7 +52,7 @@ public class StandardHandler extends AbstractHandler
 		*/
 		UriEntry uriEntry = UriEntry.parseRequestUri(request.getRequestURI());
 		Class<? extends Controller> _class = router.getController(uriEntry);
-		//System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
+		System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
 		
 		try {
 			/*
@@ -52,11 +60,21 @@ public class StandardHandler extends AbstractHandler
 			 * and invoke the run method to process the request.
 			*/
 			Class<?>[] paramType = new Class[]{
-					UriEntry.class, Request.class, 
-					HttpServletRequest.class, HttpServletResponse.class};
+					GlobalResourcePool.class,
+					UriEntry.class, 
+					Request.class, 
+					HttpServletRequest.class, 
+					HttpServletResponse.class
+			};
 			Constructor<?> constructor = _class.getConstructor(paramType);
 			
-			Object[] arguments = new Object[]{uriEntry, baseRequest, request, response};
+			Object[] arguments = new Object[]{
+					resourcePool, 
+					uriEntry, 
+					baseRequest, 
+					request, 
+					response
+			};
 			Controller controller = (Controller)constructor.newInstance(arguments);
 			controller.run(uriEntry.getMethod());
 		} catch (InstantiationException e) {
