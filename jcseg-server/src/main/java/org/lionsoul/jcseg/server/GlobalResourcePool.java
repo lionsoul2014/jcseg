@@ -56,6 +56,17 @@ public class GlobalResourcePool
 	}
 	
 	/**
+	 * get the specifield dictionary
+	 * 
+	 * @param	name
+	 * @return	ADictionary
+	*/
+	public ADictionary getDic(String name)
+	{
+		return dicPool.get(name);
+	}
+	
+	/**
 	 * add a new JcsegTaskConfig mapping
 	 * 
 	 * @param	name
@@ -74,5 +85,16 @@ public class GlobalResourcePool
 	public void removeConfig(String name)
 	{
 		configPool.remove(name);
+	}
+	
+	/**
+	 * get the specifield config
+	 * 
+	 * @param	name
+	 * @return	JcsegTaskConfig
+	*/
+	public JcsegTaskConfig getConfig(String name)
+	{
+		return configPool.get(name);
 	}
 }

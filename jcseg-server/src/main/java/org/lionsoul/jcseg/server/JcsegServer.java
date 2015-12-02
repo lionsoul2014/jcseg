@@ -13,6 +13,10 @@ import org.lionsoul.jcseg.server.controller.SummaryController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.StandardHandler;
+import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
+import org.lionsoul.jcseg.tokenizer.core.JcsegException;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * Jcseg RESTful api server
@@ -104,6 +108,37 @@ public class JcsegServer
 		
 		return this;
 	}
+	
+	/**
+	 * register global resource (global resource initialize)
+	 * 
+	 * @return JcsegServer
+	 * @throws CloneNotSupportedException 
+	 * @throws JcsegException 
+	*/
+	public JcsegServer registerGlobalResource() throws CloneNotSupportedException, JcsegException
+	{
+		String configFile = "/java/test/jcseg.properties";
+		JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig(configFile);
+		JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
+		
+		ADictionary dic = DictionaryFactory.createDefaultDictionary(tokenizerConfig);
+		
+		//segmentation object for extractor
+		extractorConfig.setAppendCJKPinyin(false);
+		extractorConfig.setClearStopwords(true);
+		extractorConfig.setKeepUnregWords(false);
+		
+		/*
+		 * register the global resource
+		*/
+		resourcePool.addDict("main", dic);
+		resourcePool.addConfig("default", tokenizerConfig);
+		resourcePool.addConfig("extractor", extractorConfig);
+		
+		return this;
+	}
+	
 
 	/**
 	 * start the server 
@@ -136,7 +171,13 @@ public class JcsegServer
 		JcsegServer server = new JcsegServer(config);
 		
 		try {
-			server.registerHandler().start();
+			System.out.print("+--[Info]: Register handler ... ");
+			server.registerHandler();
+			System.out.println(" --[Ok]");
+			System.out.print("+--[Info]: Register global resource ... ");
+			server.registerGlobalResource();
+			System.out.println(" --[Ok]");
+			server.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

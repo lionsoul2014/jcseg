@@ -52,7 +52,7 @@ public class StandardHandler extends AbstractHandler
 		*/
 		UriEntry uriEntry = UriEntry.parseRequestUri(request.getRequestURI());
 		Class<? extends Controller> _class = router.getController(uriEntry);
-		System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
+		//System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
 		
 		try {
 			/*

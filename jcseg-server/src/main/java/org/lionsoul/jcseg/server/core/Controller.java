@@ -74,6 +74,132 @@ public abstract class Controller
 	}
 	
 	/**
+	 * get a String argument
+	 * 
+	 * @param	name
+	 * @return	String
+	*/
+	public String getString(String name)
+	{
+		return request.getParameter(name);
+	}
+	
+	/**
+	 * get a integer arguments
+	 * 
+	 * @param	name
+	 * @return	int
+	*/
+	public int getInt(String name)
+	{
+		int val = 0;
+		try {
+			val = Integer.valueOf(request.getParameter(name));
+		} catch (NumberFormatException e) {}
+		
+		return val;
+	}
+	
+	public int getInt(String name, int val)
+	{
+		String v = request.getParameter(name);
+		if ( v == null ) return val;
+		return getInt(name);
+	}
+	
+	/**
+	 * get a float arguments
+	 * 
+	 * @param	name
+	 * @return	float
+	*/
+	public float getFloat(String name)
+	{
+		float fval = 0F;
+		try {
+			fval = Float.valueOf(request.getParameter(name));
+		} catch (NumberFormatException e) {}
+		
+		return fval;
+	}
+	
+	public float getFloat(String name, float val)
+	{
+		String v = request.getParameter(name);
+		if ( v == null ) return val;
+		return getFloat(name);
+	}
+	
+	/**
+	 * get a long argument
+	 * 
+	 * @param	name
+	 * @return	long
+	*/
+	public long getLong(String name)
+	{
+		long val = 0;
+		try {
+			val = Long.valueOf(request.getParameter(name));
+		} catch (NumberFormatException e) {}
+		
+		return val;
+	}
+	
+	public long getLong(String name, long val)
+	{
+		String v = request.getParameter(name);
+		if ( v == null ) return val;
+		return getLong(name);
+	}
+	
+	/**
+	 * get a double argument
+	 * 
+	 * @param	name
+	 * @return	double
+	*/
+	public double getDouble(String name)
+	{
+		double val = 0;
+		try {
+			val = Double.valueOf(request.getParameter(name));
+		} catch (NumberFormatException e) {}
+		
+		return val;
+	}
+	
+	public double getDouble(String name, double val)
+	{
+		String v = request.getParameter(name);
+		if ( v == null ) return val;
+		return getDouble(name);
+	}
+	
+	/**
+	 * get a boolean argument
+	 * 
+	 * @param	name
+	 * @return	boolean
+	*/
+	public boolean getBoolean(String name)
+	{
+		boolean val = false;
+		try {
+			val = Boolean.valueOf(request.getParameter(name));
+		} catch (NumberFormatException e) {}
+		
+		return val;
+	}
+	
+	public boolean getBoolean(String name, boolean val)
+	{
+		String v = request.getParameter(name);
+		if ( v == null ) return val;
+		return getBoolean(name);
+	}
+	
+	/**
 	 * global output protocol
 	 * 
 	 * @param	status
@@ -90,7 +216,7 @@ public abstract class Controller
 		output.println("{");
 		output.println("\"status\": " + status + ",");
 		output.println("\"errcode\": " + errcode + ",");
-		if (quote) output.print("\"data\": \"" + data + "\"");
+		if (quote) output.println("\"data\": \"" + data + "\"");
 		else output.println("\"data\": " + data);
 		output.println("}");
 	}
