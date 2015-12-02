@@ -14,10 +14,10 @@ import org.lionsoul.jcseg.server.core.UriEntry;
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
-public class ErrorController extends Controller
+public class MainController extends Controller
 {
 
-	public ErrorController(
+	public MainController(
 			UriEntry uriEntry, Request baseRequest,
 			HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{

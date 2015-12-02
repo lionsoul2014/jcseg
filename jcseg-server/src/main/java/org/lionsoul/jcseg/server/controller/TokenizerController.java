@@ -30,7 +30,7 @@ public class TokenizerController extends Controller
 		this.response(
 				false, 
 				-1, 
-				"tokenizer coming soon ... "
+				"tokenizer#"+method+" coming soon ... "
 		);
 	}
 

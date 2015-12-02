@@ -7,7 +7,11 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.lionsoul.jcseg.server.controller.ErrorController;
+import org.lionsoul.jcseg.server.controller.MainController;
+import org.lionsoul.jcseg.server.controller.KeyphraseController;
+import org.lionsoul.jcseg.server.controller.KeywordsController;
+import org.lionsoul.jcseg.server.controller.SentenceController;
+import org.lionsoul.jcseg.server.controller.SummaryController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.StandardHandler;
@@ -76,7 +80,17 @@ public class JcsegServer
 	*/
 	public JcsegServer registerHandler()
 	{
-		AbstractRouter router = new DynamicRestRouter(ErrorController.class);
+		String basePath = this.getClass().getPackage().getName()+".controller";
+		AbstractRouter router = new DynamicRestRouter(basePath, MainController.class);
+		router.addMapping("/extractor/keywords", KeywordsController.class);
+		router.addMapping("/extractor/keyphrase", KeyphraseController.class);
+		router.addMapping("/extractor/sentence", SentenceController.class);
+		router.addMapping("/extractor/summary", SummaryController.class);
+		
+		/*
+		 * the rest of path and dynamic rest checking will handler it 
+		*/
+		//router.addMapping("/tokenizer/default", TokenizerController.class);
 		
 		/*
 		 * yet, i am going to rewrite the path to handler mapping mechanism

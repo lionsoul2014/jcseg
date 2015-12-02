@@ -1,5 +1,8 @@
 package org.lionsoul.jcseg.server.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * rest style router
  * 
@@ -7,26 +10,69 @@ package org.lionsoul.jcseg.server.core;
 */
 public class DynamicRestRouter extends AbstractRouter
 {
+	/**
+	 * base package path for the controller 
+	*/
+	private String basePath = null;
+	
+	
+	/**
+	 * standard path to controller mapping 
+	*/
+	private Map<String, Class<? extends Controller>> mapping = null;
 
-	public DynamicRestRouter(Class<? extends Controller> defaultController) {
+	public DynamicRestRouter(String basePath, 
+			Class<? extends Controller> defaultController) 
+	{
 		super(defaultController);
+		
+		this.basePath = basePath;
+		mapping = new HashMap<String, Class<? extends Controller>>();
 	}
 
 	@Override
-	protected void addMapping(String path, Class<? extends Controller> _class) 
+	public void addMapping(String path, Class<? extends Controller> _class) 
 	{
-		
+		mapping.put(path, _class);
 	}
 
 	@Override
-	protected void removeMapping(String path) 
+	public void removeMapping(String path) 
 	{
-		
+		mapping.remove(path);
 	}
 	
 	@Override
-	protected Class<? extends Controller> getController(UriEntry uriEntry) 
+	@SuppressWarnings("unchecked")
+	public Class<? extends Controller> getController(UriEntry uriEntry) 
 	{
+		/*
+		 * check the global mapping first 
+		*/
+		String requireUri = uriEntry.getRequestUri();
+		if ( mapping.containsKey(requireUri) ) {
+			return mapping.get(requireUri);
+		}
+		
+		/*
+		 * uriEntry.getController to define the Controller class
+		 * and the uriEntry.getMethod to define which method to invoke 
+		*/
+		String cClass = uriEntry.getController();
+		String method = uriEntry.getMethod();
+		if ( cClass == null || method == null ) {
+			return defaultController;
+		}
+		
+		//build the class pacakge path
+		String _clsname = basePath + "." + cClass + "Controller";
+		try {
+			Class<?> _class = Class.forName(_clsname);
+			if ( Controller.class.isAssignableFrom(_class) ) {
+				return (Class<? extends Controller>) _class;
+			}
+		} catch (ClassNotFoundException e) {}
+		
 		return defaultController;
 	}
 

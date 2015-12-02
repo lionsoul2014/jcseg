@@ -29,14 +29,14 @@ public abstract class AbstractRouter
 	 * @param	path
 	 * @param	_class
 	*/
-	protected abstract void addMapping(String path, Class<? extends Controller> _class);
+	public abstract void addMapping(String path, Class<? extends Controller> _class);
 	
 	/**
 	 * remove the specifield mapping 
 	 * 
 	 * @param	path
 	*/
-	protected abstract void removeMapping(String path);
+	public abstract void removeMapping(String path);
 	
 	/**
 	 * get controller
@@ -44,5 +44,5 @@ public abstract class AbstractRouter
 	 * @param	uriEntry
 	 * @return	Class<? extends Controller>
 	*/
-	protected abstract Class<? extends Controller> getController(UriEntry uriEntry);
+	public abstract Class<? extends Controller> getController(UriEntry uriEntry);
 }

@@ -11,17 +11,17 @@ public class ContextRouter extends AbstractRouter
 	}
 
 	@Override
-	protected void addMapping(String path, Class<? extends Controller> _class) {
+	public void addMapping(String path, Class<? extends Controller> _class) {
 		
 	}
 
 	@Override
-	protected void removeMapping(String path) {
+	public void removeMapping(String path) {
 		
 	}
 
 	@Override
-	protected Class<? extends Controller> getController(UriEntry uriEntry) {
+	public Class<? extends Controller> getController(UriEntry uriEntry) {
 		return defaultController;
 	}
 

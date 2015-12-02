@@ -20,12 +20,12 @@ public class UriEntry
 	/**
 	 * the controller name 
 	*/
-	private String controller;
+	private String controller = null;
 	
 	/**
 	 * the method name 
 	*/
-	private String method;
+	private String method = null;
 	
 	/**
 	 * parse a given request uri to generate a 
