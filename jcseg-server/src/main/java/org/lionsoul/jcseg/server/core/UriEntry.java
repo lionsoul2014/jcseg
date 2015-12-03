@@ -129,7 +129,7 @@ public class UriEntry
 	*/
 	public int getLength()
 	{
-		return parts.size();
+		return parts == null ? 0 : parts.size();
 	}
 
 	public String getController() {
