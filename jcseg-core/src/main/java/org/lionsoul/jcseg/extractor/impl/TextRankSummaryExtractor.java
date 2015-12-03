@@ -150,7 +150,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		for ( int i = 0; i < docNum; i++ )
 		{
 			int j = 0;
-			int dl = sentence.get(i).getLength();
+			int dl = senWords.get(i).size();
 			double dlRelative = K1 * (1 - B + B * dl / avgdl);
 			
 			/*
@@ -270,6 +270,13 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 	{
 		//build the documents
 		List<Sentence> sentence = textToSentence(reader);
+		if ( sentence.size() == 1 ) 
+		{
+			List<String> list = new ArrayList<String>(1);
+			list.add(sentence.get(0).getValue());
+			return list;
+		}
+		
 		List<List<IWord>> senWords = sentenceTokenize(sentence);
 		int docNum = sentence.size();
 				
@@ -297,6 +304,13 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 	{
 		//build the documents
 		List<Sentence> sentence = textToSentence(reader);
+		if ( sentence.size() == 1 )
+		{
+			String summary = sentence.get(0).getValue();
+			return length >= summary.length() 
+					? summary.substring(0) : summary.substring(0, length);
+		}
+		
 		List<List<IWord>> senWords = sentenceTokenize(sentence);
 		int docNum = sentence.size();
 				

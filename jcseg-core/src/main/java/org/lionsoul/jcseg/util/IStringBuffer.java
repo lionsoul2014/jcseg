@@ -133,6 +133,37 @@ public class IStringBuffer {
 	}
 	
 	/**
+	 * append a boolean value
+	 * 
+	 * @param	bool
+	*/
+	public IStringBuffer append(boolean bool)
+	{
+		String str = bool ? "true" : "false";
+		return append(str);
+	}
+	
+	/**
+	 * append a long value
+	 * 
+	 * @param	longv
+	*/
+	public IStringBuffer append(long longv)
+	{
+		return append(String.valueOf(longv));
+	}
+	
+	/**
+	 * append a double value
+	 * 
+	 * @param	doublev
+	*/
+	public IStringBuffer append(double doublev)
+	{
+		return append(String.valueOf(doublev));
+	}
+	
+	/**
 	 * return the lenght of the buffer
 	 * 
 	 * @return	int	the length of the buffer
