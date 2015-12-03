@@ -32,6 +32,11 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 	
 	//window size
 	protected int windowSize = 5;
+	
+	/**
+	 * auto filter the words with low score
+	*/
+	protected boolean autoFilter = false;
 
 
 	public TextRankKeywordsExtractor(ISegment seg) {
@@ -132,7 +137,8 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 		for ( int i = 0; i < entryList.size(); i++ )
 		{
 			Map.Entry<String, Float> e = entryList.get(i);
-			if ( i >= len || e.getValue() < stdScores ) break;
+			if ( i >= len ) break;
+			if ( autoFilter && e.getValue() < stdScores ) break;
 			keywords.add(e.getKey());
 		}
 		
@@ -167,6 +173,14 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
 
 	public void setWindowSize(int windowSize) {
 		this.windowSize = windowSize;
+	}
+
+	public boolean isAutoFilter() {
+		return autoFilter;
+	}
+
+	public void setAutoFilter(boolean autoFilter) {
+		this.autoFilter = autoFilter;
 	}
 	
 }

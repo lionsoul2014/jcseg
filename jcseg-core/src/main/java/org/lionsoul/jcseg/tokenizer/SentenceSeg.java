@@ -86,7 +86,7 @@ public class SentenceSeg
 		{
 			//clear the whitespace of the begainning
 			if ( ENSCFilter.isWhitespace(c) ) continue;
-			if ( c == '\n' || c == '\t' ) continue;
+			if ( c == '\n' || c == '\t' || c == '…' ) continue;
 			if ( ENSCFilter.isCnPunctuation(c) ) 
 			{
 				switch ( (char)c )
@@ -140,6 +140,7 @@ public class SentenceSeg
 				case '？':
 				case '!':
 				case '！':
+				case '…':
 				{
 					endTag = true;
 					gisb.append((char)c);

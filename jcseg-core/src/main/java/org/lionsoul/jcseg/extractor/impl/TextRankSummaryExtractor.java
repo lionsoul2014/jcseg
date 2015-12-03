@@ -364,7 +364,23 @@ public class TextRankSummaryExtractor extends SummaryExtractor
 		return isb.toString();
 	}
 	
-	
+	public int getSentenceNum() {
+		return sentenceNum;
+	}
+
+	public void setSentenceNum(int sentenceNum) {
+		this.sentenceNum = sentenceNum;
+	}
+
+	public int getMaxIterateNum() {
+		return maxIterateNum;
+	}
+
+	public void setMaxIterateNum(int maxIterateNum) {
+		this.maxIterateNum = maxIterateNum;
+	}
+
+
 	/**
 	 * summary document inner class
 	 * 
