@@ -11,6 +11,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.lionsoul.jcseg.server.GlobalResourcePool;
 import org.lionsoul.jcseg.server.GlobalProjectSetting;
+import org.lionsoul.jcseg.server.JcsegServerConfig;
 
 /**
  * jcseg server router handler
@@ -19,6 +20,11 @@ import org.lionsoul.jcseg.server.GlobalProjectSetting;
 */
 public class StandardHandler extends AbstractHandler
 {
+	/**
+	 * server config 
+	*/
+	private JcsegServerConfig serverConfig = null;
+	
 	/**
 	 * project global setting
 	*/
@@ -41,9 +47,11 @@ public class StandardHandler extends AbstractHandler
 	 * @param	router
 	*/
 	public StandardHandler(
+			JcsegServerConfig serverConfig,
 			GlobalProjectSetting setting,
 			GlobalResourcePool resourcePool, AbstractRouter router)
 	{
+		this.serverConfig = serverConfig;
 		this.setting = setting;
 		this.resourcePool = resourcePool;
 		this.router = router;
@@ -55,44 +63,68 @@ public class StandardHandler extends AbstractHandler
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException 
 	{
+		String requestUri = request.getRequestURI();
 		/*
-		 * parse the current request uri to get the UriEntry 
-		 * then pass the UriEntry to the router to define the Controller handler class
+		 * @Note: all the request that with point the in the path
+		 * will consider to a resource request and will be handler by 
+		 * the default resource handler from jetty. 
 		*/
-		UriEntry uriEntry = UriEntry.parseRequestUri(request.getRequestURI());
-		Class<? extends Controller> _class = router.getController(uriEntry);
-		//System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
-		
-		try {
-			/*
-			 * create the controller and do the basic initialize work 
-			 * and invoke the run method to process the request.
-			*/
-			Class<?>[] paramType = new Class[]{
-					GlobalProjectSetting.class,
-					GlobalResourcePool.class,
-					UriEntry.class, 
-					Request.class, 
-					HttpServletRequest.class, 
-					HttpServletResponse.class
-			};
-			Constructor<?> constructor = _class.getConstructor(paramType);
+		if ( requestUri.length() > 1 && requestUri.indexOf('.') > -1 ) {
+			//intercept the request for /favicon.ico
+			if ( requestUri.equals("/favicon.ico") 
+					&& serverConfig.getFavicon() != null ) 
+			{
+				byte[] favicon = serverConfig.getFavicon();
+				response.setContentType("image/jpg");
+				response.setContentLength(favicon.length);
+				response.getOutputStream().write(favicon);
+				baseRequest.setHandled(true);
+			}
 			
-			Object[] arguments = new Object[]{
-					setting,
-					resourcePool, 
-					uriEntry, 
-					baseRequest, 
-					request, 
-					response
-			};
-			Controller controller = (Controller)constructor.newInstance(arguments);
-			controller.run(uriEntry.getMethod());
-		} catch (Exception e) {
-			e.printStackTrace();
+			//resource handler will handle it...
+		} else {
+			/*
+			 * parse the current request uri to get the UriEntry 
+			 * then pass the UriEntry to the router to define the Controller handler class
+			*/
+			UriEntry uriEntry = UriEntry.parseRequestUri(request.getRequestURI());
+			Class<? extends Controller> _class = router.getController(uriEntry);
+			//System.out.println(uriEntry.getController()+"#"+uriEntry.getMethod());
+			
+			try {
+				/*
+				 * create the controller and do the basic initialize work 
+				 * and invoke the run method to process the request.
+				*/
+				Class<?>[] paramType = new Class[]{
+						GlobalProjectSetting.class,
+						GlobalResourcePool.class,
+						UriEntry.class, 
+						Request.class, 
+						HttpServletRequest.class, 
+						HttpServletResponse.class
+				};
+				Constructor<?> constructor = _class.getConstructor(paramType);
+				
+				Object[] arguments = new Object[]{
+						setting,
+						resourcePool, 
+						uriEntry, 
+						baseRequest, 
+						request, 
+						response
+				};
+				Controller controller = (Controller)constructor.newInstance(arguments);
+				controller.run(uriEntry.getMethod());
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+			
+			/*
+			 * mark the request has bean handler,
+			 * so the request won't be handler by the other handler again 
+			*/
+			baseRequest.setHandled(true);
 		}
-		
-		//mark the request has bean handler
-		baseRequest.setHandled(true);
 	}
 }

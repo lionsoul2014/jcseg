@@ -1,5 +1,12 @@
 package org.lionsoul.jcseg.server;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 /**
  * jcseg server configuration class
  * 
@@ -47,10 +54,47 @@ public class JcsegServerConfig
 	*/
 	private int threadIdleTimeout = 60000;
 	
+	/**
+	 * static resouce base path 
+	*/
+	private String appBasePath = null;
 	
-	public JcsegServerConfig()
+	/**
+	 * default charset 
+	*/
+	private String charset = null;
+	
+	/**
+	 * favicon ico bytes 
+	*/
+	private byte[] favicon = null;
+	
+	/**
+	 * create and initialize the server config
+	 * 
+	 * @return	JcsegServerConfig
+	*/
+	public static JcsegServerConfig create()
 	{
+		JcsegServerConfig self = new JcsegServerConfig();
+		try {
+			URL imageUrl = self.getClass().getResource("/res/logo.jpg");
+			if ( imageUrl != null ) {
+				BufferedImage image = ImageIO.read(imageUrl);
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				ImageIO.write(image, "jpg", bos);
+				self.setFavicon(bos.toByteArray());
+			}
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
 		
+		return self;
+	}
+	
+	private JcsegServerConfig()
+	{
+		this.charset = "utf-8";
 	}
 
 	public String getHost() {
@@ -115,6 +159,30 @@ public class JcsegServerConfig
 
 	public void setThreadIdleTimeout(int maxThreadIdleTimeout) {
 		this.threadIdleTimeout = maxThreadIdleTimeout;
+	}
+
+	public String getAppBasePath() {
+		return appBasePath;
+	}
+
+	public void setAppBasePath(String appBasePath) {
+		this.appBasePath = appBasePath;
+	}
+
+	public String getCharset() {
+		return charset;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
+
+	public byte[] getFavicon() {
+		return favicon;
+	}
+
+	public void setFavicon(byte[] favicon) {
+		this.favicon = favicon;
 	}
 	
 }

@@ -249,4 +249,16 @@ public abstract class Controller
 		return getBoolean(name);
 	}
 	
+	/**
+	 * redirect to the specifield controller/method
+	 * 
+	 * @param	path
+	 * @throws IOException 
+	*/
+	public void redirect(String path) throws IOException
+	{
+		//response.setHeader("Location", path.charAt(0)=='/' ? path : "/"+path);
+		response.sendRedirect(path.charAt(0)=='/' ? path : "/"+path);
+		output.close();
+	}
 }

@@ -1,9 +1,13 @@
 package org.lionsoul.jcseg.server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.lionsoul.jcseg.server.controller.MainController;
 import org.lionsoul.jcseg.server.controller.KeyphraseController;
@@ -104,13 +108,33 @@ public class JcsegServer
 		 * project global setting instance 
 		*/
 		GlobalProjectSetting setting = new GlobalProjectSetting();
-		setting.setCharset("utf-8");
+		setting.setCharset(config.getCharset());
+		
+		/*
+		 * prepare standard handler
+		*/
+		StandardHandler stdHandler = new StandardHandler(
+				config, setting, resourcePool, router);
+		
+		/*
+		 * prepare the resource handler 
+		*/
+		ResourceHandler resourceHandler = new ResourceHandler();
+		resourceHandler.setDirectoriesListed(true);
+		resourceHandler.setWelcomeFiles(new String[]{"index.html"});
+		if ( config.getAppBasePath() != null ) {
+			resourceHandler.setResourceBase(config.getAppBasePath());
+		}
 		
 		/*
 		 * yet, i am going to rewrite the path to handler mapping mechanism
 		 * check the Router handler for more info 
 		*/
-		server.setHandler(new StandardHandler(setting, resourcePool, router));
+		GzipHandler gzipHandler = new GzipHandler();
+		HandlerList handlers = new HandlerList();
+		handlers.setHandlers(new Handler[]{stdHandler, resourceHandler});
+		gzipHandler.setHandler(handlers);
+		server.setHandler(gzipHandler);
 		
 		return this;
 	}
@@ -173,7 +197,7 @@ public class JcsegServer
 
 	public static void main(String[] args) 
 	{
-		JcsegServerConfig config = new JcsegServerConfig();
+		JcsegServerConfig config = JcsegServerConfig.create();
 		JcsegServer server = new JcsegServer(config);
 		
 		try {

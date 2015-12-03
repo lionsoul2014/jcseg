@@ -36,7 +36,7 @@ public class JcsegController extends Controller
 	 * @param	data
 	*/
 	protected void response(boolean status, int errcode, String data )
-	{		
+	{	
 		/*
 		 * send the json content type and the charset 
 		*/
@@ -55,6 +55,7 @@ public class JcsegController extends Controller
 		sb.append("}\n");
 		
 		output.println(sb.toString());
+		output.flush();
 		
 		//let the gc do its work
 		sb = null;
