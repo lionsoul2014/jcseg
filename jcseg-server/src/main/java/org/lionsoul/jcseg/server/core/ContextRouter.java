@@ -28,7 +28,7 @@ public class ContextRouter extends AbstractRouter
 	
 	
 	/** 
-	 *  path enter class
+	 *  path entry class
 	 * */
 	private class PathEntry 
 	{
@@ -36,8 +36,8 @@ public class ContextRouter extends AbstractRouter
 		public String key 	= null;
 		public HashMap<String, String> params = null;
 		
-		
 		public PathEntry(){}
+		
 		public PathEntry(int _type, String _key)
 		{
 			this.type = _type;
@@ -92,13 +92,13 @@ public class ContextRouter extends AbstractRouter
 		
 		return pathEntry;
 	}
+
 	
 	@Override
 	public void addMapping(String path, Class<? extends Controller> _class) 
 	{
 		UriEntry uri = new UriEntry(path);
 		PathEntry entry = this.getPathEntry(uri);
-		
 		
 		if ( entry.type == ContextRouter.MAP_PATH_TYPE) {
 			if (entry.key.equals("default"))
@@ -143,9 +143,29 @@ public class ContextRouter extends AbstractRouter
 		{
 			controller = maps.get(pathEntry.key);
 		}
-		else if ( pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
+		
+		// if cannot find the controller from maps.  
+		// we try it from matches, even if its type is MAP_PATH_TYPE
+		// and of course type of MATCH_PATH_TYPE should get controller from matches too.
+		if ( controller == null ||  pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
 		{
-			// @TODO path match handle
+			int len    = uriEntry.getLength();
+			String key = uriEntry.getRequestUri();
+			
+			int lastPosition = key.lastIndexOf('/');
+			
+			while( lastPosition != -1)
+			{
+				key 		= key.substring(0, lastPosition);
+				controller 	= matches.get(key + '/');
+				
+				if (controller != null) {
+					// @note maybe we can store the result key and controller
+					//  to another map to improve performance
+					break;
+				}
+				lastPosition = key.lastIndexOf('/');
+			}
 		}
 
 		return controller != null ? controller : defaultController;
