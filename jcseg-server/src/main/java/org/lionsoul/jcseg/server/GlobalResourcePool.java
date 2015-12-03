@@ -62,6 +62,18 @@ public class GlobalResourcePool
 	{
 	    tokenizerPool.remove( name );
 	}
+
+	
+	/**
+	 * get tokenizer entry with specified name
+	 * 
+	 * @param  name
+	 * @return TokenizerEntry
+	 * */
+	public TokenizerEntry getTokenizerEntry( String name)
+	{
+	    return tokenizerPool.get(name);
+	}
 	
 	
 	/**
