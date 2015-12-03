@@ -11,7 +11,7 @@ import org.lionsoul.jcseg.server.controller.KeywordsController;
 import org.lionsoul.jcseg.server.controller.SentenceController;
 import org.lionsoul.jcseg.server.controller.SummaryController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
-import org.lionsoul.jcseg.server.core.ContextRouter;
+//import org.lionsoul.jcseg.server.core.ContextRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.StandardHandler;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
@@ -110,10 +110,16 @@ public class JcsegServer
 		//router.addMapping("/tokenizer/default", TokenizerController.class);
 		
 		/*
+		 * project global setting instance 
+		*/
+		GlobalProjectSetting setting = new GlobalProjectSetting();
+		setting.setCharset("utf-8");
+		
+		/*
 		 * yet, i am going to rewrite the path to handler mapping mechanism
 		 * check the Router handler for more info 
 		*/
-		server.setHandler(new StandardHandler(resourcePool, router));
+		server.setHandler(new StandardHandler(setting, resourcePool, router));
 		
 		return this;
 	}
