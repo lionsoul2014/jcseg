@@ -57,7 +57,8 @@ public class SummaryController extends JcsegController
 		
 		try {
 			ISegment seg = SegmentFactory
-					.createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
+					.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
+							new Object[]{config, dic});
 			long s_time = System.nanoTime();
 			SummaryExtractor extractor = new TextRankSummaryExtractor(seg, new SentenceSeg());
 			

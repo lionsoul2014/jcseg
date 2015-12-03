@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.server.core.Controller;
+import org.lionsoul.jcseg.server.core.JsonUtil;
 import org.lionsoul.jcseg.server.core.UriEntry;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
@@ -68,19 +69,7 @@ public class JcsegController extends Controller
 	*/
 	protected void response(boolean status, int errcode, List<Object> data)
 	{
-		IStringBuffer sb = new IStringBuffer();
-		sb.append('[');
-		for ( Object o : data )
-		{
-			sb.append('"').append(o.toString()).append("\",");
-		}
-		sb.deleteCharAt(sb.length()-1);
-		sb.append(']');
-		
-		response(status, errcode, sb.toString());
-		
-		//let the gc do its work
-		sb = null;
+		response(status, errcode, JsonUtil.list2JsonArrayString(data));
 	}
 	
 	/**
@@ -92,19 +81,7 @@ public class JcsegController extends Controller
 	*/
 	protected void response(boolean status, int errcode, Object[] data)
 	{
-		IStringBuffer sb = new IStringBuffer();
-		sb.append('[');
-		for ( Object o : data )
-		{
-			sb.append('"').append(o.toString()).append("\",");
-		}
-		sb.deleteCharAt(sb.length()-1);
-		sb.append(']');
-		
-		response(status, errcode, sb.toString());
-		
-		//let the gc do its work
-		sb = null;
+		response(status, errcode, JsonUtil.vector2JsonArrayString(data));
 	}
 	
 	/**
@@ -114,21 +91,33 @@ public class JcsegController extends Controller
 	 * @param	errcode
 	 * @param	data
 	*/
+	@SuppressWarnings("unchecked")
 	protected void response(boolean status, int errcode, Map<String, Object> data)
 	{
 		IStringBuffer sb = new IStringBuffer();
 		sb.append('{');
 		for ( Map.Entry<String, Object> entry : data.entrySet() )
 		{
-			String value = entry.getValue().toString();
-			sb.append('"').append(entry.getKey()).append("\": ");
-			if ( value.charAt(0) == '{' || value.charAt(0) == '[' ) {
-				sb.append(value).append(',');
+			String v = null;
+			Object value = entry.getValue();
+			if (value instanceof List<?>) {
+				v = JsonUtil.list2JsonArrayString((List<Object>)value);
+			} else if (value instanceof Object[]) {
+				v = JsonUtil.vector2JsonArrayString((Object[])value);
 			} else {
-				sb.append('"').append(value).append("\",");
+				v = entry.getValue().toString();
+			}
+			
+			sb.append('"').append(entry.getKey()).append("\": ");
+			if ( v.charAt(0) == '{' || v.charAt(0) == '[' ) {
+				sb.append(v).append(',');
+			} else {
+				sb.append('"').append(v).append("\",");
 			}
 		}
-		sb.deleteCharAt(sb.length()-1);
+		if ( sb.length() > 1 ) {
+			sb.deleteCharAt(sb.length()-1);
+		}
 		sb.append('}');
 		
 		response(status, errcode, sb.toString());
