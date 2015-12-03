@@ -46,34 +46,34 @@ public class DynamicRestRouter extends AbstractRouter
 	@SuppressWarnings("unchecked")
 	public Class<? extends Controller> getController(UriEntry uriEntry) 
 	{
+		Class<? extends Controller> controller = null;
+		
 		/*
 		 * check the global mapping first 
 		*/
 		String requireUri = uriEntry.getRequestUri();
 		if ( mapping.containsKey(requireUri) ) {
-			return mapping.get(requireUri);
-		}
-		
-		/*
-		 * uriEntry.getController to define the Controller class
-		 * and the uriEntry.getMethod to define which method to invoke 
-		*/
-		String cClass = uriEntry.getController();
-		String method = uriEntry.getMethod();
-		if ( cClass == null || method == null ) {
-			return defaultController;
-		}
-		
-		//build the class pacakge path
-		String _clsname = basePath + "." + cClass + "Controller";
-		try {
-			Class<?> _class = Class.forName(_clsname);
-			if ( Controller.class.isAssignableFrom(_class) ) {
-				return (Class<? extends Controller>) _class;
+			controller = mapping.get(requireUri);
+		} else {
+			/*
+			 * uriEntry.getController to define the Controller class
+			 * and the uriEntry.getMethod to define which method to invoke 
+			*/
+			String cClass = uriEntry.getController();
+			String method = uriEntry.getMethod();
+			if ( cClass != null && method != null ) {
+				//build the class pacakge path
+				String _clsname = basePath + "." + cClass + "Controller";
+				try {
+					Class<?> _class = Class.forName(_clsname);
+					if ( Controller.class.isAssignableFrom(_class) ) {
+						controller = (Class<? extends Controller>) _class;
+					}
+				} catch (ClassNotFoundException e) {}
 			}
-		} catch (ClassNotFoundException e) {}
+		}
 		
-		return defaultController;
+		return controller == null ? defaultController : controller;
 	}
 
 }

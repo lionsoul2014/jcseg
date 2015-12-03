@@ -2,11 +2,13 @@ package org.lionsoul.jcseg.server.core;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
+import org.lionsoul.jcseg.server.GlobalProjectSetting;
 import org.lionsoul.jcseg.server.GlobalResourcePool;
 
 /**
@@ -16,6 +18,11 @@ import org.lionsoul.jcseg.server.GlobalResourcePool;
 */
 public abstract class Controller 
 {
+	/**
+	 * global project setting 
+	*/
+	protected GlobalProjectSetting setting;
+	
 	/**
 	 * global resource pool
 	*/
@@ -37,6 +44,11 @@ public abstract class Controller
 	protected HttpServletResponse response;
 	
 	/**
+	 * 
+	*/
+	protected PrintWriter output = null;
+	
+	/**
 	 * request UriEntry
 	*/
 	protected UriEntry uri;
@@ -51,15 +63,36 @@ public abstract class Controller
 	 * @throws	IOException 
 	*/
 	public Controller(
-			GlobalResourcePool resourcePool, UriEntry uriEntry, 
-			Request baseRequest, HttpServletRequest request, 
+			GlobalProjectSetting setting,
+			GlobalResourcePool resourcePool, 
+			UriEntry uriEntry, 
+			Request baseRequest, 
+			HttpServletRequest request, 
 			HttpServletResponse response) throws IOException
 	{
+		this.setting = setting;
 		this.resourcePool = resourcePool;
 		this.uri = uriEntry;
 		this.baseRequest = baseRequest;
 		this.request = request;
 		this.response = response;
+		
+		init();
+		/*
+		 * @Note: this line should after the init invoke 
+		*/
+		this.output = response.getWriter();
+	}
+	
+	/**
+	 * request initialize work
+	*/
+	private void init()
+	{
+		//request.setCharacterEncoding(setting.getCharset());
+		response.setCharacterEncoding(setting.getCharset());
+		response.setContentType("text/html;charset="+setting.getCharset());
+		response.setStatus(HttpServletResponse.SC_OK);
 	}
 	
 	/**
@@ -74,7 +107,8 @@ public abstract class Controller
 	}
 	
 	/**
-	 * get a String argument
+	 * get a String argument, 
+	 * encoding will be check and Re-encode maybe.
 	 * 
 	 * @param	name
 	 * @return	String
@@ -82,6 +116,22 @@ public abstract class Controller
 	public String getString(String name)
 	{
 		return request.getParameter(name);
+	}
+	
+	public String getEncodeString(String name)
+	{
+		String v = request.getParameter(name);
+		if ( ! setting.isDefaultCharset() ) {
+			try {
+				v = new String(
+					v.getBytes(GlobalProjectSetting.JETTY_DEFAULT_CHASET), 
+					setting.getCharset());
+			} catch (UnsupportedEncodingException e) {
+				//e.printStackTrace();
+			}
+		}
+		
+		return v;
 	}
 	
 	/**
@@ -197,33 +247,6 @@ public abstract class Controller
 		String v = request.getParameter(name);
 		if ( v == null ) return val;
 		return getBoolean(name);
-	}
-	
-	/**
-	 * global output protocol
-	 * 
-	 * @param	status
-	 * @param	errcode
-	 * @param	data
-	 * @param	quote
-	 * @throws  IOException 
-	*/
-	protected void response(
-			boolean status, int errcode, String data, 
-			boolean quote) throws IOException
-	{
-		PrintWriter output = response.getWriter();
-		output.println("{");
-		output.println("\"status\": " + status + ",");
-		output.println("\"errcode\": " + errcode + ",");
-		if (quote) output.println("\"data\": \"" + data + "\"");
-		else output.println("\"data\": " + data);
-		output.println("}");
-	}
-	
-	protected void response(boolean status, int errcode, String data) throws IOException
-	{
-		response(status, errcode, data, true);
 	}
 	
 }

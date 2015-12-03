@@ -2,7 +2,6 @@ package org.lionsoul.jcseg.server.core;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.lionsoul.jcseg.server.GlobalResourcePool;
+import org.lionsoul.jcseg.server.GlobalProjectSetting;
 
 /**
  * jcseg server router handler
@@ -19,6 +19,11 @@ import org.lionsoul.jcseg.server.GlobalResourcePool;
 */
 public class StandardHandler extends AbstractHandler
 {
+	/**
+	 * project global setting
+	*/
+	private GlobalProjectSetting setting = null;
+	
 	/**
 	 * global resource pool
 	*/
@@ -35,15 +40,19 @@ public class StandardHandler extends AbstractHandler
 	 * @param	resourcePool
 	 * @param	router
 	*/
-	public StandardHandler(GlobalResourcePool resourcePool, AbstractRouter router)
+	public StandardHandler(
+			GlobalProjectSetting setting,
+			GlobalResourcePool resourcePool, AbstractRouter router)
 	{
+		this.setting = setting;
 		this.resourcePool = resourcePool;
 		this.router = router;
 	}
 	
 	@Override
 	public void handle(
-			String target, Request baseRequest, HttpServletRequest request,
+			String target, Request baseRequest, 
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException 
 	{
 		/*
@@ -60,6 +69,7 @@ public class StandardHandler extends AbstractHandler
 			 * and invoke the run method to process the request.
 			*/
 			Class<?>[] paramType = new Class[]{
+					GlobalProjectSetting.class,
 					GlobalResourcePool.class,
 					UriEntry.class, 
 					Request.class, 
@@ -69,6 +79,7 @@ public class StandardHandler extends AbstractHandler
 			Constructor<?> constructor = _class.getConstructor(paramType);
 			
 			Object[] arguments = new Object[]{
+					setting,
 					resourcePool, 
 					uriEntry, 
 					baseRequest, 
@@ -77,17 +88,7 @@ public class StandardHandler extends AbstractHandler
 			};
 			Controller controller = (Controller)constructor.newInstance(arguments);
 			controller.run(uriEntry.getMethod());
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
