@@ -14,6 +14,7 @@ import org.lionsoul.jcseg.server.controller.KeyphraseController;
 import org.lionsoul.jcseg.server.controller.KeywordsController;
 import org.lionsoul.jcseg.server.controller.SentenceController;
 import org.lionsoul.jcseg.server.controller.SummaryController;
+import org.lionsoul.jcseg.server.controller.TokenizerController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.StandardHandler;
@@ -98,6 +99,7 @@ public class JcsegServer
 		router.addMapping("/extractor/keyphrase", KeyphraseController.class);
 		router.addMapping("/extractor/sentence", SentenceController.class);
 		router.addMapping("/extractor/summary", SummaryController.class);
+		router.addMapping("/tokenizer/default", TokenizerController.class);
 		
 		/*
 		 * the rest of path and dynamic rest checking will handler it 
@@ -165,6 +167,13 @@ public class JcsegServer
 		resourcePool.addDict("main", dic);
 		resourcePool.addConfig("default", tokenizerConfig);
 		resourcePool.addConfig("extractor", extractorConfig);
+		
+		/*
+		 * register tokenizer entry
+		 * */
+		TokenizerEntry defaultTokenizer = new TokenizerEntry( tokenizerConfig, dic);
+		resourcePool.addTokenizerEntry("default", defaultTokenizer);
+		resourcePool.addTokenizerEntry("sensitive", defaultTokenizer);
 		
 		return this;
 	}

@@ -34,10 +34,10 @@ public class ContextRouter extends AbstractRouter
 	{
 		public int type 	= 0; // 1 - 100% match for map, 2 - pattern match for matches
 		public String key 	= null;
-		public HashMap<String, String> params = null;
-		
-		public PathEntry(){}
-		
+//		public HashMap<String, String> params = null;
+//		
+//		public PathEntry(){}
+//		
 		public PathEntry(int _type, String _key)
 		{
 			this.type = _type;
@@ -149,7 +149,6 @@ public class ContextRouter extends AbstractRouter
 		// and of course type of MATCH_PATH_TYPE should get controller from matches too.
 		if ( controller == null ||  pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
 		{
-			int len    = uriEntry.getLength();
 			String key = uriEntry.getRequestUri();
 			
 			int lastPosition = key.lastIndexOf('/');

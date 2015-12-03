@@ -24,6 +24,11 @@ public class GlobalResourcePool
 	*/
 	private Map<String, JcsegTaskConfig> configPool = null;
 	
+	/**
+	 *  TokenizerEntry pool
+	 * */
+	private Map<String, TokenizerEntry> tokenizerPool = null;
+	
 	
 	/**
 	 * construct method 
@@ -32,7 +37,44 @@ public class GlobalResourcePool
 	{
 		dicPool = new HashMap<String, ADictionary>();
 		configPool = new HashMap<String, JcsegTaskConfig>();
+		tokenizerPool = new HashMap<String, TokenizerEntry>();
 	}
+	
+	
+	/**
+	 * add a new tokenizer entry to entry pool
+	 * 
+	 * @param name
+	 * @param entry
+	 * */
+	public void addTokenizerEntry( String name, TokenizerEntry entry)
+	{
+	    tokenizerPool.put(name, entry);
+	}
+	
+	
+	/**
+	 *  remove a tokenizer entry from Tokenizer pool with specified name
+	 * 
+	 * @param name
+	 * */
+	public void removeTokonizerEntry(String name)
+	{
+	    tokenizerPool.remove( name );
+	}
+
+	
+	/**
+	 * get tokenizer entry with specified name
+	 * 
+	 * @param  name
+	 * @return TokenizerEntry
+	 * */
+	public TokenizerEntry getTokenizerEntry( String name)
+	{
+	    return tokenizerPool.get(name);
+	}
+	
 	
 	/**
 	 * add a new Dictionary instance mapping
