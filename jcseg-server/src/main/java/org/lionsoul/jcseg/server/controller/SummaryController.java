@@ -13,11 +13,11 @@ import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.server.JcsegController;
 import org.lionsoul.jcseg.server.JcsegGlobalResource;
+import org.lionsoul.jcseg.server.JcsegTokenizerEntry;
 import org.lionsoul.jcseg.server.core.GlobalResource;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
 import org.lionsoul.jcseg.tokenizer.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
@@ -54,20 +54,28 @@ public class SummaryController extends JcsegController
 		}
 		
 		JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
-		JcsegTaskConfig config = resourcePool.getConfig("extractor");
-		ADictionary dic = resourcePool.getDic("main");
+		JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
+		if ( tokenizerEntry == null ) 
+		{
+			response(false, 1, "can't find tokenizer instance \"extractor\"");
+			return;
+		}
 		
 		try {
 			ISegment seg = SegmentFactory
 					.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
-							new Object[]{config, dic});
-			long s_time = System.nanoTime();
+							new Object[]{tokenizerEntry.getConfig(), tokenizerEntry.getDict()});
+			
 			SummaryExtractor extractor = new TextRankSummaryExtractor(seg, new SentenceSeg());
+			
+			long s_time = System.nanoTime();
+			String summary = extractor.getSummaryFromString(text, length);
+			double c_time = (System.nanoTime() - s_time)/1E9;
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			DecimalFormat df = new DecimalFormat("0.00000"); 
-			map.put("took", Float.valueOf(df.format((System.nanoTime() - s_time)/1E9)));
-			map.put("summary", extractor.getSummaryFromString(text, length));
+			map.put("took", Float.valueOf(df.format(c_time)));
+			map.put("summary", summary);
 			
 			//response the request
 			response(true, 0, map);

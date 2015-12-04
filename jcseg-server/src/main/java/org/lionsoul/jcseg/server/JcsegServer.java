@@ -23,7 +23,6 @@ import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.StandardHandler;
-import org.lionsoul.jcseg.tokenizer.Dictionary;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -247,7 +246,19 @@ public class JcsegServer
 					throw new JcsegException("Missing config setting for tokenizer " + name);
 				}
 				
-				 
+				ADictionary dic = resourcePool.getDict(tokenizerJson.getString("dict"));
+				JcsegTaskConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
+				if ( dic == null ) {
+					throw new JcsegException("Unknow dict instance " 
+						+ tokenizerJson.getString("dict") + " for tokenizer " + name);
+				}
+				
+				if ( config == null ) {
+					throw new JcsegException("Unknow config instance " 
+						+ tokenizerJson.getString("config") + " for tokenizer " + name);
+				}
+				
+				resourcePool.addTokenizerEntry(name, new JcsegTokenizerEntry(algorithm, config, dic));
 			}
 		}
 		
@@ -333,7 +344,7 @@ public class JcsegServer
 	{
 		try {
 			JcsegServerConfig config = new JcsegServerConfig();
-			config.resetFromFile("/java/JavaSE/jcseg/jcseg-server.properties");
+			config.resetFromFile("/data0/Code/java/JavaSE/jcseg/jcseg-server.properties");
 			JcsegServer server = new JcsegServer(config);
 			System.out.print("+--[Info]: Register handler ... ");
 			server.registerHandler();

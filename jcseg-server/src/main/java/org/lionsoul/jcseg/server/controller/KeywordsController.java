@@ -3,6 +3,7 @@ package org.lionsoul.jcseg.server.controller;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,10 @@ import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
 import org.lionsoul.jcseg.server.JcsegController;
 import org.lionsoul.jcseg.server.JcsegGlobalResource;
+import org.lionsoul.jcseg.server.JcsegTokenizerEntry;
 import org.lionsoul.jcseg.server.core.GlobalResource;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
@@ -53,21 +54,30 @@ public class KeywordsController extends JcsegController
 		}
 		
 		JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
-		JcsegTaskConfig config = resourcePool.getConfig("extractor");
-		ADictionary dic = resourcePool.getDic("main");
+		JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
+		if ( tokenizerEntry == null ) 
+		{
+			response(false, 1, "can't find tokenizer instance \"extractor\"");
+			return;
+		}
 		
 		try {
 			ISegment seg = SegmentFactory
-					.createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
-			long s_time = System.nanoTime();
+					.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
+							new Object[]{tokenizerEntry.getConfig(), tokenizerEntry.getDict()});
+			
 			TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
 			extractor.setKeywordsNum(number);
 			extractor.setAutoFilter(autoFilter);
 			
+			long s_time = System.nanoTime();
+			List<String> keywords = extractor.getKeywordsFromString(text);
+			double c_time = (System.nanoTime() - s_time)/1E9;
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			DecimalFormat df = new DecimalFormat("0.00000"); 
-			map.put("took", Float.valueOf(df.format((System.nanoTime() - s_time)/1E9)));
-			map.put("keywords", extractor.getKeywordsFromString(text));
+			map.put("took", Float.valueOf(df.format(c_time)));
+			map.put("keywords", keywords);
 			
 			//response the request
 			response(true, 0, map);
