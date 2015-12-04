@@ -6,7 +6,6 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.lionsoul.jcseg.server.controller.MainController;
@@ -17,6 +16,7 @@ import org.lionsoul.jcseg.server.controller.SummaryController;
 import org.lionsoul.jcseg.server.controller.TokenizerController;
 import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
+import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.StandardHandler;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
@@ -33,7 +33,7 @@ public class JcsegServer
 	/**
 	 * jcseg server config 
 	*/
-	private JcsegServerConfig config;
+	private ServerConfig config;
 	
 	/**
 	 * jetty server instance 
@@ -43,17 +43,17 @@ public class JcsegServer
 	/**
 	 * global resource pool 
 	*/
-	private GlobalResourcePool resourcePool = null;
+	private JcsegGlobalResource resourcePool = null;
 	
 	/**
 	 * construct method
 	 * 
 	 * @param	config
 	*/
-	public JcsegServer(JcsegServerConfig config)
+	public JcsegServer(ServerConfig config)
 	{
 		this.config = config;
-		resourcePool = new GlobalResourcePool();
+		resourcePool = new JcsegGlobalResource();
 		init();
 	}
 	
@@ -107,29 +107,17 @@ public class JcsegServer
 		//router.addMapping("/tokenizer/default", TokenizerController.class);
 		
 		/*
-		 * project global setting instance 
-		*/
-		GlobalProjectSetting setting = new GlobalProjectSetting();
-		setting.setCharset(config.getCharset());
-		
-		/*
 		 * prepare standard handler
 		*/
-		StandardHandler stdHandler = new StandardHandler(
-				config, setting, resourcePool, router);
+		StandardHandler stdHandler = new StandardHandler(config, resourcePool, router);
 		
 		/*
 		 * prepare the resource handler 
 		*/
-		ResourceHandler resourceHandler = new ResourceHandler();
-		resourceHandler.setDirectoriesListed(true);
-		resourceHandler.setWelcomeFiles(new String[]{"index.html"});
-		if ( config.getAppBasePath() != null ) {
-			resourceHandler.setResourceBase(config.getAppBasePath());
-		}
+		JcsegResourceHandler resourceHandler = new JcsegResourceHandler();
 		
 		/*
-		 * yet, i am going to rewrite the path to handler mapping mechanism
+		 * i am going to rewrite the path to handler mapping mechanism
 		 * check the Router handler for more info 
 		*/
 		GzipHandler gzipHandler = new GzipHandler();
@@ -206,7 +194,7 @@ public class JcsegServer
 
 	public static void main(String[] args) 
 	{
-		JcsegServerConfig config = JcsegServerConfig.create();
+		JcsegServerConfig config = new JcsegServerConfig();
 		JcsegServer server = new JcsegServer(config);
 		
 		try {
