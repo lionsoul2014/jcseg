@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
-import org.lionsoul.jcseg.server.GlobalProjectSetting;
-import org.lionsoul.jcseg.server.GlobalResourcePool;
 
 /**
  * base Contoller class 
@@ -17,16 +15,16 @@ import org.lionsoul.jcseg.server.GlobalResourcePool;
  * @author chenxin<chenxin619315@gmail.com>
 */
 public abstract class Controller 
-{
+{	
 	/**
-	 * global project setting 
+	 * global server configuration 
 	*/
-	protected GlobalProjectSetting setting;
+	protected ServerConfig config;
 	
 	/**
 	 * global resource pool
 	*/
-	protected GlobalResourcePool resourcePool;
+	protected GlobalResource globalResource;
 	
 	/**
 	 * original base request 
@@ -44,7 +42,7 @@ public abstract class Controller
 	protected HttpServletResponse response;
 	
 	/**
-	 * 
+	 * output
 	*/
 	protected PrintWriter output = null;
 	
@@ -57,21 +55,24 @@ public abstract class Controller
 	/**
 	 * contruct method
 	 * 
+	 * @param	config
+	 * @param	resourcePool
+	 * @param	uriEntry
 	 * @param	baseRequest
 	 * @param	request
 	 * @param	response
 	 * @throws	IOException 
 	*/
 	public Controller(
-			GlobalProjectSetting setting,
-			GlobalResourcePool resourcePool, 
+			ServerConfig config,
+			GlobalResource globalResource, 
 			UriEntry uriEntry, 
 			Request baseRequest, 
 			HttpServletRequest request, 
 			HttpServletResponse response) throws IOException
 	{
-		this.setting = setting;
-		this.resourcePool = resourcePool;
+		this.config = config;
+		this.globalResource = globalResource;
 		this.uri = uriEntry;
 		this.baseRequest = baseRequest;
 		this.request = request;
@@ -90,8 +91,8 @@ public abstract class Controller
 	private void init()
 	{
 		//request.setCharacterEncoding(setting.getCharset());
-		response.setCharacterEncoding(setting.getCharset());
-		response.setContentType("text/html;charset="+setting.getCharset());
+		response.setCharacterEncoding(config.getCharset());
+		response.setContentType("text/html;charset="+config.getCharset());
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 	
@@ -121,11 +122,11 @@ public abstract class Controller
 	public String getEncodeString(String name)
 	{
 		String v = request.getParameter(name);
-		if ( ! setting.isDefaultCharset() ) {
+		if ( ! config.isDefaultCharset() ) {
 			try {
 				v = new String(
-					v.getBytes(GlobalProjectSetting.JETTY_DEFAULT_CHASET), 
-					setting.getCharset());
+					v.getBytes(ServerConfig.JETTY_DEFAULT_CHARSET), 
+					config.getCharset());
 			} catch (UnsupportedEncodingException e) {
 				//e.printStackTrace();
 			}
@@ -252,7 +253,7 @@ public abstract class Controller
 	/**
 	 * redirect to the specifield controller/method
 	 * 
-	 * @param	path
+	 * @param	pathresponse
 	 * @throws IOException 
 	*/
 	public void redirect(String path) throws IOException
