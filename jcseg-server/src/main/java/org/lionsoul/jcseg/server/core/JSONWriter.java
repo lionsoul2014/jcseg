@@ -97,7 +97,8 @@ public class JSONWriter
 				sb.append(o.toString()).append(',');
 			} else {
 				String v = o.toString();
-				if ( v.charAt(0) == '{' || v.charAt(0) == '[' ) {
+				if ( v.length() > 1 
+						&& (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
 					sb.append(v).append(',');
 				} else {
 					sb.append('"').append(v).append("\",");
@@ -139,7 +140,8 @@ public class JSONWriter
 				sb.append(o.toString()).append(',');
 			} else {
 				String v = o.toString();
-				if ( v.charAt(0) == '{' || v.charAt(0) == '[' ) {
+				if ( v.length() > 1 
+						&& (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
 					sb.append(v).append(',');
 				} else {
 					sb.append('"').append(v).append("\",");
@@ -184,7 +186,8 @@ public class JSONWriter
 				sb.append(obj.toString()).append(',');
 			} else {
 				String v = obj.toString();
-				if ( v.charAt(0) == '{' || v.charAt(0) == '[' ) {
+				if ( v.length() > 1 
+						&& (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
 					sb.append(v).append(',');
 				} else {
 					sb.append('"').append(v).append("\",");
