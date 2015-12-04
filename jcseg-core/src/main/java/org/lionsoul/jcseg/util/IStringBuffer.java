@@ -144,6 +144,26 @@ public class IStringBuffer {
 	}
 	
 	/**
+	 * append a short value
+	 * 
+	 * @param	shortv
+	*/
+	public IStringBuffer append(short shortv)
+	{
+		return append(String.valueOf(shortv));
+	}
+	
+	/**
+	 * append a int value
+	 * 
+	 * @param	intv
+	*/
+	public IStringBuffer append(int intv)
+	{
+		return append(String.valueOf(intv));
+	}
+	
+	/**
 	 * append a long value
 	 * 
 	 * @param	longv
@@ -151,6 +171,16 @@ public class IStringBuffer {
 	public IStringBuffer append(long longv)
 	{
 		return append(String.valueOf(longv));
+	}
+	
+	/**
+	 * append a float value
+	 * 
+	 * @param	doublev
+	*/
+	public IStringBuffer append(float floatv)
+	{
+		return append(String.valueOf(floatv));
 	}
 	
 	/**
