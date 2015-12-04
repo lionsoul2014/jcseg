@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.lionsoul.jcseg.server.GlobalResourcePool;
-import org.lionsoul.jcseg.server.GlobalProjectSetting;
-import org.lionsoul.jcseg.server.JcsegServerConfig;
 
 /**
  * jcseg server router handler
@@ -23,17 +20,12 @@ public class StandardHandler extends AbstractHandler
 	/**
 	 * server config 
 	*/
-	private JcsegServerConfig serverConfig = null;
-	
-	/**
-	 * project global setting
-	*/
-	private GlobalProjectSetting setting = null;
+	private ServerConfig serverConfig = null;
 	
 	/**
 	 * global resource pool
 	*/
-	private GlobalResourcePool resourcePool = null;
+	private GlobalResource resourcePool = null;
 	
 	/**
 	 * router 
@@ -47,12 +39,10 @@ public class StandardHandler extends AbstractHandler
 	 * @param	router
 	*/
 	public StandardHandler(
-			JcsegServerConfig serverConfig,
-			GlobalProjectSetting setting,
-			GlobalResourcePool resourcePool, AbstractRouter router)
+			ServerConfig serverConfig,
+			GlobalResource resourcePool, AbstractRouter router)
 	{
 		this.serverConfig = serverConfig;
-		this.setting = setting;
 		this.resourcePool = resourcePool;
 		this.router = router;
 	}
@@ -70,17 +60,6 @@ public class StandardHandler extends AbstractHandler
 		 * the default resource handler from jetty. 
 		*/
 		if ( requestUri.length() > 1 && requestUri.indexOf('.') > -1 ) {
-			//intercept the request for /favicon.ico
-			if ( requestUri.equals("/favicon.ico") 
-					&& serverConfig.getFavicon() != null ) 
-			{
-				byte[] favicon = serverConfig.getFavicon();
-				response.setContentType("image/jpg");
-				response.setContentLength(favicon.length);
-				response.getOutputStream().write(favicon);
-				baseRequest.setHandled(true);
-			}
-			
 			//resource handler will handle it...
 		} else {
 			/*
@@ -97,8 +76,8 @@ public class StandardHandler extends AbstractHandler
 				 * and invoke the run method to process the request.
 				*/
 				Class<?>[] paramType = new Class[]{
-						GlobalProjectSetting.class,
-						GlobalResourcePool.class,
+						ServerConfig.class,
+						GlobalResource.class,
 						UriEntry.class, 
 						Request.class, 
 						HttpServletRequest.class, 
@@ -107,7 +86,7 @@ public class StandardHandler extends AbstractHandler
 				Constructor<?> constructor = _class.getConstructor(paramType);
 				
 				Object[] arguments = new Object[]{
-						setting,
+						serverConfig,
 						resourcePool, 
 						uriEntry, 
 						baseRequest, 
