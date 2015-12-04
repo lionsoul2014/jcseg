@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.server.JcsegController;
-import org.lionsoul.jcseg.server.GlobalProjectSetting;
-import org.lionsoul.jcseg.server.GlobalResourcePool;
+import org.lionsoul.jcseg.server.core.GlobalResource;
+import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
 
 /**
@@ -20,14 +20,14 @@ public class MainController extends JcsegController
 {
 
 	public MainController(
-			GlobalProjectSetting setting,
-			GlobalResourcePool resourcePool, 
+			ServerConfig config,
+			GlobalResource resourcePool, 
 			UriEntry uriEntry,
 			Request baseRequest, 
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException
 	{
-		super(setting, resourcePool, uriEntry, baseRequest, request, response);
+		super(config, resourcePool, uriEntry, baseRequest, request, response);
 	}
 
 	@Override

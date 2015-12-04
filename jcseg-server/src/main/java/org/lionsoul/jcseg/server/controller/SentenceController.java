@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.server.JcsegController;
-import org.lionsoul.jcseg.server.GlobalProjectSetting;
-import org.lionsoul.jcseg.server.GlobalResourcePool;
+import org.lionsoul.jcseg.server.JcsegGlobalResource;
+import org.lionsoul.jcseg.server.core.GlobalResource;
+import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
 import org.lionsoul.jcseg.tokenizer.SentenceSeg;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
@@ -30,14 +31,14 @@ public class SentenceController extends JcsegController
 {
 
 	public SentenceController(
-			GlobalProjectSetting setting,
-			GlobalResourcePool resourcePool, 
+			ServerConfig config,
+			GlobalResource globalResource, 
 			UriEntry uriEntry,
 			Request baseRequest, 
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException
 	{
-		super(setting, resourcePool, uriEntry, baseRequest, request, response);
+		super(config, globalResource, uriEntry, baseRequest, request, response);
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class SentenceController extends JcsegController
 			return;
 		}
 		
+		JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
 		JcsegTaskConfig config = resourcePool.getConfig("extractor");
 		ADictionary dic = resourcePool.getDic("main");
 		
@@ -63,7 +65,7 @@ public class SentenceController extends JcsegController
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			DecimalFormat df = new DecimalFormat("0.00000"); 
-			map.put("took", df.format((System.nanoTime() - s_time)/1E9));
+			map.put("took", Float.valueOf(df.format((System.nanoTime() - s_time)/1E9)));
 			map.put("sentence", extractor.getKeySentenceFromString(text));
 			
 			//response the request

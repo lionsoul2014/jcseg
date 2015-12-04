@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.server.JcsegController;
-import org.lionsoul.jcseg.server.GlobalProjectSetting;
-import org.lionsoul.jcseg.server.GlobalResourcePool;
+import org.lionsoul.jcseg.server.JcsegGlobalResource;
 import org.lionsoul.jcseg.server.TokenizerEntry;
+import org.lionsoul.jcseg.server.core.GlobalResource;
+import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
@@ -31,14 +32,14 @@ public class TokenizerController extends JcsegController
 {
 
 	public TokenizerController(
-			GlobalProjectSetting setting,
-			GlobalResourcePool resourcePool, 
+			ServerConfig config,
+			GlobalResource resourcePool, 
 			UriEntry uriEntry,
 			Request baseRequest, 
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException
 	{
-		super(setting, resourcePool, uriEntry, baseRequest, request, response);
+		super(config, resourcePool, uriEntry, baseRequest, request, response);
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class TokenizerController extends JcsegController
 			return;
 		}
 		
-		
+		JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
 		TokenizerEntry entry = resourcePool.getTokenizerEntry(method);
 		
 		if ( entry == null)
@@ -83,7 +84,7 @@ public class TokenizerController extends JcsegController
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			DecimalFormat df = new DecimalFormat("0.00000"); 
-			map.put("took", df.format((System.nanoTime() - s_time)/1E9));
+			map.put("took", Float.valueOf(df.format((System.nanoTime() - s_time)/1E9)));
 			map.put("list", list);
 			
 			//response the request
