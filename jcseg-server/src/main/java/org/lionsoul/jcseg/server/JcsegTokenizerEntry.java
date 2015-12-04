@@ -7,17 +7,20 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  *  TokenizerEntry to save setting for Tokenizer object 
  * 
  * @author dongyado<dongyado@gmail.com>
- * */
-public class TokenizerEntry {
+ * @author chenxin<chenxin619315@gmail.com>
+*/
+public class JcsegTokenizerEntry {
     
+	private int algorithm;
     private JcsegTaskConfig config = null;
-	private ADictionary     dic    = null;
+	private ADictionary dic = null;
 
 	
-	public TokenizerEntry( JcsegTaskConfig _config, ADictionary _dic )
+	public JcsegTokenizerEntry(int algorithm, JcsegTaskConfig config, ADictionary dic )
 	{
-	    this.config = _config;
-	    this.dic    = _dic;
+		this.algorithm = algorithm;
+	    this.config = config;
+	    this.dic = dic;
 	}
 	
     public JcsegTaskConfig getConfig() {
@@ -28,11 +31,20 @@ public class TokenizerEntry {
         this.config = config;
     }
     
-    public ADictionary getDic() {
+    public ADictionary getDict() {
         return dic;
     }
     
-    public void setDic(ADictionary dic) {
+    public void setDict(ADictionary dic) {
         this.dic = dic;
     }
+
+	public int getAlgorithm() {
+		return algorithm;
+	}
+
+	public void setAlgorithm(int algorithm) {
+		this.algorithm = algorithm;
+	}
+    
 }

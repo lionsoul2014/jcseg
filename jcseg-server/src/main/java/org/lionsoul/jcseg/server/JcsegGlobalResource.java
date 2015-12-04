@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.server;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class JcsegGlobalResource extends GlobalResource
 	/**
 	 *  TokenizerEntry pool
 	 * */
-	private Map<String, TokenizerEntry> tokenizerPool = null;
+	private Map<String, JcsegTokenizerEntry> tokenizerPool = null;
 	
 	
 	/**
@@ -30,9 +31,9 @@ public class JcsegGlobalResource extends GlobalResource
 	*/
 	public JcsegGlobalResource()
 	{
-		dicPool = new HashMap<String, ADictionary>();
-		configPool = new HashMap<String, JcsegTaskConfig>();
-		tokenizerPool = new HashMap<String, TokenizerEntry>();
+		dicPool = Collections.synchronizedMap(new HashMap<String, ADictionary>());
+		configPool = Collections.synchronizedMap(new HashMap<String, JcsegTaskConfig>());
+		tokenizerPool = Collections.synchronizedMap(new HashMap<String, JcsegTokenizerEntry>());
 	}
 	
 	
@@ -42,7 +43,7 @@ public class JcsegGlobalResource extends GlobalResource
 	 * @param name
 	 * @param entry
 	 * */
-	public void addTokenizerEntry( String name, TokenizerEntry entry)
+	public void addTokenizerEntry( String name, JcsegTokenizerEntry entry)
 	{
 	    tokenizerPool.put(name, entry);
 	}
@@ -65,7 +66,7 @@ public class JcsegGlobalResource extends GlobalResource
 	 * @param  name
 	 * @return TokenizerEntry
 	 * */
-	public TokenizerEntry getTokenizerEntry( String name)
+	public JcsegTokenizerEntry getTokenizerEntry( String name)
 	{
 	    return tokenizerPool.get(name);
 	}
@@ -98,7 +99,7 @@ public class JcsegGlobalResource extends GlobalResource
 	 * @param	name
 	 * @return	ADictionary
 	*/
-	public ADictionary getDic(String name)
+	public ADictionary getDict(String name)
 	{
 		return dicPool.get(name);
 	}
