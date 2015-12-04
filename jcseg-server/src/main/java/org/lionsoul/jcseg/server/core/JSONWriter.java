@@ -11,7 +11,7 @@ import org.lionsoul.jcseg.util.IStringBuffer;
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
-public class JsonWriter 
+public class JSONWriter 
 {
 	/**
 	 * json data map
@@ -23,15 +23,15 @@ public class JsonWriter
 	 * 
 	 * @return	JsonMaker
 	*/
-	public static JsonWriter create()
+	public static JSONWriter create()
 	{
-		return new JsonWriter();
+		return new JSONWriter();
 	}
 	
 	/**
 	 * construct method 
 	*/
-	public JsonWriter()
+	public JSONWriter()
 	{
 		data = new HashMap<String, Object>();
 	}
@@ -42,7 +42,7 @@ public class JsonWriter
 	 * @param	key
 	 * @param	object
 	*/
-	public JsonWriter put(String key, Object obj)
+	public JSONWriter put(String key, Object obj)
 	{
 		data.put(key, obj);
 		return this;
@@ -54,7 +54,7 @@ public class JsonWriter
 	 * @param	key
 	 * @param	vector
 	*/
-	public JsonWriter put(String key, Object[] vector)
+	public JSONWriter put(String key, Object[] vector)
 	{
 		data.put(key, vector2JsonString(vector));
 		return this;

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.lionsoul.jcseg.server.core.Controller;
 import org.lionsoul.jcseg.server.core.GlobalResource;
-import org.lionsoul.jcseg.server.core.JsonWriter;
+import org.lionsoul.jcseg.server.core.JSONWriter;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
 
@@ -43,7 +43,7 @@ public class JcsegController extends Controller
 		*/
 		response.setContentType("application/json;charset="+config.getCharset());
 		
-		JsonWriter json = JsonWriter.create()
+		JSONWriter json = JSONWriter.create()
 				.put("status", true)
 					.put("errcode", errcode)
 						.put("data", data);
@@ -76,7 +76,7 @@ public class JcsegController extends Controller
 	*/
 	protected void response(boolean status, int errcode, List<Object> data)
 	{
-		response(status, errcode, JsonWriter.list2JsonString(data));
+		response(status, errcode, JSONWriter.list2JsonString(data));
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class JcsegController extends Controller
 	*/
 	protected void response(boolean status, int errcode, Object[] data)
 	{
-		response(status, errcode, JsonWriter.vector2JsonString(data));
+		response(status, errcode, JSONWriter.vector2JsonString(data));
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class JcsegController extends Controller
 	*/
 	protected void response(boolean status, int errcode, Map<String, Object> data)
 	{
-		response(status, errcode, JsonWriter.map2JsonString(data));
+		response(status, errcode, JSONWriter.map2JsonString(data));
 	}
 	
 }
