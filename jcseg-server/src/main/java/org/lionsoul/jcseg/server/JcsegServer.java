@@ -27,6 +27,7 @@ import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.Util;
 
 /**
  * Jcseg RESTful api server
@@ -180,7 +181,11 @@ public class JcsegServer
 				//process the lexPath
 				List<String> dicPath = new ArrayList<String>();
 				for ( int i = 0; i < path.length(); i++ ) {
-					dicPath.add(path.get(i).toString());
+					String filePath = path.get(i).toString();
+					if ( filePath.indexOf("{jar.dir}") > -1 ) {
+						filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
+					}
+					dicPath.add(filePath);
 				}
 				String[] lexPath = new String[dicPath.size()];
 				dicPath.toArray(lexPath);
