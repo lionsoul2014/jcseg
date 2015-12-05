@@ -1,4 +1,6 @@
-package org.elasticsearch.index.analysis;
+package org.lionsoul.jcseg.elasticsearch.index.analysis;
+
+import org.elasticsearch.index.analysis.AnalysisModule;
 
 /**
  * JcsegAnalysisBinderProcessor manager class

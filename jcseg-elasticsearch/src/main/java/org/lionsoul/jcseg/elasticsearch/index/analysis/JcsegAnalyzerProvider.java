@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.elasticsearch.index.analysis;
+package org.lionsoul.jcseg.elasticsearch.index.analysis;
 
 import java.io.File;
 
@@ -26,6 +26,7 @@ import org.elasticsearch.common.inject.assistedinject.Assisted;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
+import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
 import org.elasticsearch.index.settings.IndexSettings;
 import org.lionsoul.jcseg.analyzer.v4x.JcsegAnalyzer4X;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;

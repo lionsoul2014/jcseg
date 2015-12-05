@@ -17,7 +17,7 @@ index:
       jcseg:
         alias:
         - jcseg_analyzer
-        type: org.elasticsearch.index.analysis.JcsegAnalyzerProvider
+        type: org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegAnalyzerProvider
       jcseg_complex:
         type: custom
         filter:

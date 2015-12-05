@@ -1,9 +1,9 @@
-package org.elasticsearch.plugin.analysis.jcseg;
+package org.lionsoul.jcseg.elasticsearch.plugin.analysis.jcseg;
 
 import org.elasticsearch.common.inject.Module;
 import org.elasticsearch.index.analysis.AnalysisModule;
-import org.elasticsearch.index.analysis.JcsegAnalysisBinderProcessor;
 import org.elasticsearch.plugins.AbstractPlugin;
+import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegAnalysisBinderProcessor;
 
 /**
  * elasticsearch jcseg analysis plugin
