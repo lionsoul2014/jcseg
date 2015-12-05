@@ -52,6 +52,7 @@
     	
     	<!--specifal resource to copy-->
     	<copy file="${basedir}/jcseg.properties" todir="${classes}"/>
+    	<copy file="${basedir}/jcseg-server.properties" todir="${classes}"/>
 		<copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
     	<copy todir="${classes}/res">
 			<fileset dir="${basedir}/${server}/${mvn}/res"/>
@@ -74,10 +75,8 @@
     <!--Archive-->
     <target name="dist" depends="build">
 		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" 
-    		includes="org/lionsoul/jcseg/extractor/*,
-				org/lionsoul/jcseg/test/*,
-				org/lionsoul/jcseg/tokenizer/*,
-				org/lionsoul/jcseg/util/*,jcseg.properties">
+			includes="org/lionsoul/jcseg/extractor/**/*,org/lionsoul/jcseg/test/**/*,
+			org/lionsoul/jcseg/tokenizer/**/*,org/lionsoul/jcseg/util/*,jcseg.properties">
 			<!--manifest information setting-->
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
@@ -85,12 +84,17 @@
 			</manifest>
 		</jar>
 		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" 
-			includes="org/lionsoul/jcseg/analyzer/*"/>
+			includes="org/lionsoul/jcseg/analyzer/**/*"/>
 		<jar jarfile="${jars}/jcseg-elasticsearch-${version}.jar" basedir="${classes}" 
-			includes="org/lionsoul/jcseg/elasticsearch/*,es-plugin.properties"/>
+			includes="org/lionsoul/jcseg/elasticsearch/**/*,es-plugin.properties"/>
 		<jar jarfile="${jars}/jcseg-server-${version}.jar" basedir="${classes}" 
-			includes="org/lionsoul/jcseg/server/*,
-				org/lionsoul/jcseg/json/*,res/*,jcseg-server.properties"/>
+			includes="org/lionsoul/jcseg/server/**/*,org/lionsoul/jcseg/json/**/*,res/**/*,jcseg-server.properties">
+			<!--manifest information setting-->
+			<manifest>
+				<attribute name="Main-Class" value="org.lionsoul.jcseg.server.JcsegServer"/>
+				<attribute name="Class-Path" value=""/>
+			</manifest>
+		</jar>
     </target>
 
     <!--Java document-->
