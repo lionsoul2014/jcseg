@@ -5,7 +5,7 @@
 		<echo message="------------------------------------------------------------"/>
 		<echo message="----------BUILDING JCSEG PACKAGE----------------------------"/>
 		<echo message=""/>
-		<property name="bottom" value="jcseg 2012-2014"/>
+		<property name="bottom" value="jcseg 2012-2015"/>
 		<property name="jars" value="${basedir}"/>
 		<property name="sources" value="${basedir}/src"/>
 		<property name="classes" value="${basedir}/classes"/>
@@ -13,39 +13,49 @@
 		<property name="lib.dir" value="${basedir}/lib"/>
 		<property name="api" value="${basedir}/doc"/>
 		
-		<!--maven module-->
+		<!--maven modules-->
 		<property name="mvn" value="src/main/java"/>
 		<property name="core" value="jcseg-core"/>
-		<property name="analyzers" value="jcseg-analyzer"/>
+		<property name="analyzer" value="jcseg-analyzer"/>
 		<property name="elasticsearch" value="jcseg-elasticsearch"/>
+    	<property name="server" value="jcseg-server"/>
 		<property name="jdk.version" value="1.7"/>
 
 		<delete dir="${classes}"/>
-		<delete dir="${api}"/>
 		<delete dir="${sources}"/>
+    	<delete dir="${api}"/>
 
-		<mkdir dir="${jars}"/>
 		<mkdir dir="${sources}"/>
 		<mkdir dir="${classes}"/>
-		<copy file="${basedir}/jcseg.properties" todir="${classes}"/>
+    	<mkdir dir="${api}"/>
+			
 		<!--copy maven sub module sources to the src-->
 		<echo message="Coping sources of ${core} to ${sources}"/>
 		<copy todir="${sources}">
 			<fileset dir="${basedir}/${core}/${mvn}"/>
 		</copy>
 		
-		<echo message="Coping sources of ${analyzers} to ${sources}"/>
+		<echo message="Coping sources of ${analyzer} to ${sources}"/>
 		<copy todir="${sources}">
-			<fileset dir="${basedir}/${analyzers}/${mvn}"/>
+			<fileset dir="${basedir}/${analyzer}/${mvn}"/>
 		</copy>
 		
 		<echo message="Coping sources of ${elasticsearch} to ${sources}"/>
 		<copy todir="${sources}">
 			<fileset dir="${basedir}/${elasticsearch}/${mvn}"/>
 		</copy>
-		<copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
 		
-		<mkdir dir="${api}"/>
+		<echo message="Coping sources of ${server} to ${sources}"/>
+		<copy todir="${sources}">
+			<fileset dir="${basedir}/${server}/${mvn}"/>
+		</copy>
+    	
+    	<!--specifal resource to copy-->
+    	<copy file="${basedir}/jcseg.properties" todir="${classes}"/>
+		<copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
+    	<copy todir="${classes}/res">
+			<fileset dir="${basedir}/${server}/${mvn}/res"/>
+		</copy>
     </target>
 
     <!--Build-->
@@ -63,16 +73,24 @@
 
     <!--Archive-->
     <target name="dist" depends="build">
-		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" includes="**/*" 
-			excludes="org/lionsoul/jcseg/analyzer/*,org/elasticsearch/*,org/lionsoul/jcseg/server/*">
+		<jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" 
+    		includes="org/lionsoul/jcseg/extractor/*,
+				org/lionsoul/jcseg/test/*,
+				org/lionsoul/jcseg/tokenizer/*,
+				org/lionsoul/jcseg/util/*,jcseg.properties">
 			<!--manifest information setting-->
 			<manifest>
 				<attribute name="Main-Class" value="org.lionsoul.jcseg.test.JcsegTest"/>
 				<attribute name="Class-Path" value=""/>
 			</manifest>
 		</jar>
-		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" includes="org/lionsoul/jcseg/analyzer/*"/>
-		<jar jarfile="${jars}/jcseg-elasticsearch-${version}.jar" basedir="${classes}" includes="org/elasticsearch/*,es-plugin.properties"/>
+		<jar jarfile="${jars}/jcseg-analyzer-${version}.jar" basedir="${classes}" 
+			includes="org/lionsoul/jcseg/analyzer/*"/>
+		<jar jarfile="${jars}/jcseg-elasticsearch-${version}.jar" basedir="${classes}" 
+			includes="org/lionsoul/jcseg/elasticsearch/*,es-plugin.properties"/>
+		<jar jarfile="${jars}/jcseg-server-${version}.jar" basedir="${classes}" 
+			includes="org/lionsoul/jcseg/server/*,
+				org/lionsoul/jcseg/json/*,res/*,jcseg-server.properties"/>
     </target>
 
     <!--Java document-->
@@ -99,11 +117,11 @@
     <target name="clean">
 		<echo message="------------Cleaning project------------------"/>
 		<!--clean-->
-		<delete dir="${classes}"/>
-		<delete dir="${api}"/>
+    	<delete dir="${classes}"/>
 		<delete dir="${sources}"/>
+    	<delete dir="${api}"/>
 		<delete>
-			<fileset dir="." includes="*.jar"/>
+			<fileset dir="${basedir}" includes="*.jar"/>
 		</delete>
     </target>
 
