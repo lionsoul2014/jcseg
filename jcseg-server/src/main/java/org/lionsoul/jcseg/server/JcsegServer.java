@@ -27,6 +27,7 @@ import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.Util;
 
 /**
  * Jcseg RESTful api server
@@ -59,7 +60,6 @@ public class JcsegServer
 	{
 		this.config = config;
 		resourcePool = new JcsegGlobalResource();
-		init();
 	}
 	
 	/**
@@ -135,21 +135,51 @@ public class JcsegServer
 	}
 	
 	/**
-	 * register global resource (global resource initialize)
+	 * load configuration.
+	 * 1. initialize the server config
+	 * 2. register global resource (global resource initialize)
 	 * 
-	 * @param	globalConfig
+	 * @param  globalConfig
 	 * @return JcsegServer
 	 * @throws CloneNotSupportedException 
 	 * @throws JcsegException 
 	*/
-	public JcsegServer registerGlobalResource(JSONObject globalConfig) 
+	public JcsegServer initFromGlobalConfig(JSONObject globalConfig) 
 			throws CloneNotSupportedException, JcsegException
 	{
+		/*
+		 * parse and initialize the server according to the global config
+		*/
+		if ( globalConfig.has("server_config") ) 
+		{
+			JSONObject serverSetting = globalConfig.getJSONObject("server_config");
+			if ( serverSetting.has("port") ) {
+				config.setPort(serverSetting.getInt("port"));
+			}
+			if ( serverSetting.has("charset") ) {
+				config.setCharset(serverSetting.getString("charset")); 
+			}
+			if ( serverSetting.has("max_thread_pool_size") ) {
+				config.setMaxThreadPoolSize(serverSetting.getInt("max_thread_pool_size"));
+			}
+			if ( serverSetting.has("thread_idle_timeout") ) {
+				config.setThreadIdleTimeout(serverSetting.getInt("thread_idle_timeout"));
+			}
+			if ( serverSetting.has("htt_output_buffer_size") ) {
+				config.setOutputBufferSize(serverSetting.getInt("htt_output_buffer_size"));
+			}
+			if ( serverSetting.has("http_request_header_size") ) {
+				config.setRequestHeaderSize(serverSetting.getInt("http_request_header_size"));
+			}
+			if ( serverSetting.has("http_response_header_size") ) {
+				config.setResponseHeaderSize(serverSetting.getInt("http_connection_idle_timeout"));
+			}
+		}
 
 		//create a global JcsegTaskConfig and initialize from the global_setting
 		JcsegTaskConfig globalJcsegTaskConfig = new JcsegTaskConfig(null, false);
-		if ( globalConfig.has("global_config") ) {
-			JSONObject globalSetting = globalConfig.getJSONObject("global_config");
+		if ( globalConfig.has("jcseg_global_config") ) {
+			JSONObject globalSetting = globalConfig.getJSONObject("jcseg_global_config");
 			resetJcsegTaskConfig(globalJcsegTaskConfig, globalSetting);
 		}
 		
@@ -161,9 +191,9 @@ public class JcsegServer
 		*/
 		JcsegTaskConfig dictLoadConfig = globalJcsegTaskConfig.clone();
 		dictLoadConfig.setMaxLength(100);
-		if ( globalConfig.has("dict") )
+		if ( globalConfig.has("jcseg_dict") )
 		{
-			JSONObject dictSetting = globalConfig.getJSONObject("dict");
+			JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
 			String[] dictNames = JSONObject.getNames(dictSetting);
 			for ( String name : dictNames )
 			{
@@ -180,7 +210,11 @@ public class JcsegServer
 				//process the lexPath
 				List<String> dicPath = new ArrayList<String>();
 				for ( int i = 0; i < path.length(); i++ ) {
-					dicPath.add(path.get(i).toString());
+					String filePath = path.get(i).toString();
+					if ( filePath.indexOf("{jar.dir}") > -1 ) {
+						filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
+					}
+					dicPath.add(filePath);
 				}
 				String[] lexPath = new String[dicPath.size()];
 				dicPath.toArray(lexPath);
@@ -205,9 +239,9 @@ public class JcsegServer
 		/*
 		 * create the JcsegTaskConfig instance according to the defination config
 		*/
-		if ( globalConfig.has("config") ) 
+		if ( globalConfig.has("jcseg_config") ) 
 		{
-			JSONObject configSetting = globalConfig.getJSONObject("config");
+			JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
 			String[] configNames = JSONObject.getNames(configSetting);
 			for ( String name : configNames ) 
 			{
@@ -228,9 +262,9 @@ public class JcsegServer
 		/*
 		 * create the tokenizer instance according the defination of tokenizer
 		*/
-		if ( globalConfig.has("tokenizer") )
+		if ( globalConfig.has("jcseg_tokenizer") )
 		{
-			JSONObject tokenizerSetting = globalConfig.getJSONObject("tokenizer");
+			JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
 			String[] tokenizerNames = JSONObject.getNames(tokenizerSetting);
 			for ( String name : tokenizerNames )
 			{
@@ -261,6 +295,9 @@ public class JcsegServer
 				resourcePool.addTokenizerEntry(name, new JcsegTokenizerEntry(algorithm, config, dic));
 			}
 		}
+		
+		//now, initialize the server
+		init();
 		
 		return this;
 	}
@@ -346,11 +383,11 @@ public class JcsegServer
 			JcsegServerConfig config = new JcsegServerConfig();
 			config.resetFromFile("/data0/Code/java/JavaSE/jcseg/jcseg-server.properties");
 			JcsegServer server = new JcsegServer(config);
+			System.out.print("+--[Info]: initializing ... ");
+			server.initFromGlobalConfig(config.getGlobalConfig());
+			System.out.println(" --[Ok]");
 			System.out.print("+--[Info]: Register handler ... ");
 			server.registerHandler();
-			System.out.println(" --[Ok]");
-			System.out.print("+--[Info]: Register global resource ... ");
-			server.registerGlobalResource(config.getGlobalConfig());
 			System.out.println(" --[Ok]");
 			server.start();
 		} catch (Exception e) {

@@ -16,9 +16,6 @@ import org.lionsoul.jcseg.util.Util;
  */
 public class JcsegTaskConfig implements Cloneable
 {
-	
-	/**jar home directory.*/
-	public static String JAR_HOME = null;
 	/**default lexicon property file name*/
 	public static final String LEX_PROPERTY_FILE = "jcseg.properties";
 	/**simple algorithm or complex algorithm */
@@ -108,8 +105,6 @@ public class JcsegTaskConfig implements Cloneable
 	
 	public JcsegTaskConfig( String proFile, boolean resetPro ) 
 	{
-		JAR_HOME = Util.getJarHome(this);
-		
 		//reset the properties from the specifield file ?
 		if ( resetPro )
 		{
@@ -133,6 +128,7 @@ public class JcsegTaskConfig implements Cloneable
 	public void resetFromPropertyFile( String proFile ) throws IOException 
 	{
 		Properties lexPro = new Properties();
+		String jarHome = null;
 		/*load the mapping from the default property file.*/
 		if ( proFile == null ) 
 		{
@@ -142,11 +138,12 @@ public class JcsegTaskConfig implements Cloneable
 			 * 3.load the jcseg.properties from the user.home 
 			 */
 			boolean jcseg_properties = false;
-			File pro_file = new File(JAR_HOME+"/"+LEX_PROPERTY_FILE);
+			jarHome = Util.getJarHome(this);
+			File pro_file = new File(jarHome+"/"+LEX_PROPERTY_FILE);
 			if ( pro_file.exists() ) 
 			{
 				lexPro.load(new FileReader(pro_file));
-				pfile = JAR_HOME+"/"+LEX_PROPERTY_FILE;
+				pfile = jarHome+"/"+LEX_PROPERTY_FILE;
 				jcseg_properties = true;
 			}
 			
@@ -200,8 +197,10 @@ public class JcsegTaskConfig implements Cloneable
 		String lexDirs = lexPro.getProperty("lexicon.path");
 		if ( lexDirs == null )
 			throw new IOException("lexicon.path property not find in jcseg.properties file!!!");
-		if ( lexDirs.indexOf("{jar.dir}") > -1 )
-			lexDirs = lexDirs.replace("{jar.dir}", JAR_HOME);
+		if ( lexDirs.indexOf("{jar.dir}") > -1 ) {
+			if ( jarHome == null ) jarHome = Util.getJarHome(this);
+			lexDirs = lexDirs.replace("{jar.dir}", jarHome);
+		}
 		//System.out.println("path: "+lexPath);
 		
 		//Multiple path for lexicon.path.
