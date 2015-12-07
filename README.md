@@ -137,13 +137,13 @@ jcseg~tokenizer>>
 # **Jcseg** elasticsearch接口：
 ------
 
-1. 下载最新版本的**Jcseg**源码。
-2. 使用maven或者ant编译打包得到**Jcseg**的系列jar包。
+1. 下载最新版本的 **Jcseg**源码。
+2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包。
 3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugin/analysis-jcseg目录下(自己建立这个文件夹)。
 4. 拷贝一份jcseg.properties到{ES_HOME}/config/jcseg目录下(自己建立文件夹)。
 5. 配置好jcseg.properties,尤其是配置lexicon.path正想正确的词库(可选,如果身略步骤 4,则jcseg按照先前上面的说自动搜寻jcseg.properties配置文件初始化选项)。
 6. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
-7. 配置elasticsearch.yml或者mapping来使用**Jcseg**分词插件(或者在query中指定)。
+7. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
 8. 可选的analyzer名字：
 
 ```
@@ -153,6 +153,9 @@ jcseg_simple: 对应Jcseg的简易切分算法
 jcseg_detect: 对应Jcseg的检测模式切分算法
 
 ```
+
+也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](http://git.oschina.net/lionsoul/elasticsearch-jcseg)，开封就可以使用。
+
 
 # **Jcseg**分词服务器:
 ------
@@ -361,7 +364,6 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     number: 要提取的关键词个数
     autoFilter: 是否自动过滤掉低分数关键字
     </pre>
-    
 > api返回：
 
 ```
@@ -390,7 +392,6 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     text: post或者get过来的文档文本
     number: 要提取的关键短语个数
     </pre>
-    
 > api返回：
 
 ```
@@ -415,7 +416,6 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     text: post或者get过来的文档文本
     number: 要提取的关键句子个数
     </pre>
-    
 > api返回：
 
 ```
@@ -440,7 +440,6 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     text: post或者get过来的文档文本
     length: 要提取的摘要的长度
     </pre>
-    
 > api返回：
 
 ```
@@ -467,7 +466,6 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     ret_pinyin: 是否在分词结果中返回词条拼音
     ret_pos: 是否在分词结果中返回词条词性
     </pre>
-    
 > api返回：
 
 ```
@@ -510,6 +508,8 @@ JcsegTaskConfig构造方法如下：
 JcsegTaskConfig()
 JcsegTaskConfig(java.lang.String proFile)
 ```
+
+demo代码：
   
 ```java
 
@@ -536,6 +536,8 @@ ADictionary构造方法如下：
     //sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
     //      如果jcseg.properties中autoload=1则会自动创建同步词库
 ```
+
+demo代码：
 
 ```java
 
@@ -576,6 +578,8 @@ ASegment构造方法：
     //dic: 为上述的ADictionary词库对象
     //input: 分词文本源的输入对象
 ```
+
+demo代码：
     
 ```java
 
