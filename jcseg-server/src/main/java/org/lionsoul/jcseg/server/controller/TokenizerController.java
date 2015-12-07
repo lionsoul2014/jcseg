@@ -57,8 +57,7 @@ public class TokenizerController extends JcsegController
         private String  pinYin      = null;
         private String  partSpeech  = null;
         private int     length      = -1;
-        private int     position    = -1;
-        private int     frequency   = -1;    
+        private int     position    = -1;   
        
         public String getWord() {
             return word;
@@ -90,13 +89,6 @@ public class TokenizerController extends JcsegController
         public void setPosition(int position) {
             this.position = position;
         }
-        public int getFrequency() {
-            return frequency;
-        }
-        public void setFrequency(int frequency) {
-            this.frequency = frequency;
-        }
-        
         
         
         public String toString() {
@@ -104,21 +96,19 @@ public class TokenizerController extends JcsegController
             sb.append('{');
             
             sb.append("\"word\":\""+ word +"\"");
-             
-            if (pinYin != null)
-                sb.append(",\"pinyin\":\"" + pinYin + "\"");
-            
-            if (partSpeech != null)
-                sb.append(",\"part_speech\":\"" + partSpeech.toString()+"\"");
             
             if (length != -1)
                 sb.append(",\"length\":" + length);
             
             if (position != -1)
-                sb.append(",\"position\":" + position);
+                sb.append(",\"position\":" + position);    
+             
+            if (pinYin != null)
+                sb.append(",\"pinyin\":\"" + pinYin + "\"");
             
-            if (frequency != -1)
-                sb.append(",\"frequency\":" + frequency);            
+            if (partSpeech != null)
+                sb.append(",\"pos\":\"" + partSpeech.toString()+"\"");
+         
             
             sb.append('}');            
             

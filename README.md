@@ -484,6 +484,10 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
                 "length": 5,
                 //词条在原文中的起始位置
                 "position": 0
+                //词条pinyin，如果指定了ret_pinyin
+                "pinyin": "",
+                //词条词性：如果指定了ret_pos
+                "pos": ""
             }
         ]
     },
