@@ -93,9 +93,9 @@ Jcseg是基于mmseg算法的一个轻量级开源中文分词器，同时集成�
     //非必须(用于修改默认配置): 获取分词任务配置实例
     JcsegAnalyzer4X jcseg = (JcsegAnalyzer4X) analyzer;
     JcsegTaskConfig config = jcseg.getTaskConfig();
-    //追加同义词, 需要在 jcseg.properties 中配置 jcseg.loadsyn=1
+    //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
     config. setAppendCJKSyn (true);
-    //追加拼音, 需要在 jcseg.properties 中配置    jcseg.loadpinyin=1
+    //追加拼音, 需要在 jcseg.properties中配置jcseg.loadpinyin=1
     config. setAppendCJKPinyin ();
     //更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
     
@@ -129,22 +129,32 @@ Jcseg是基于mmseg算法的一个轻量级开源中文分词器，同时集成�
 # elasticsearch集成Jcseg：
 
 1. 下载最新版本的Jcseg源码。
+
 2. 使用maven或者ant编译打包得到jcseg的系列jar包。
+
 3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugin/analysis-jcseg目录下(自己建立这个文件夹)。
+
 4. 拷贝一份jcseg.properties到{ES_HOME}/config/jcseg目录下(自己建立文件
 夹)。
-5. 配置好jcseg.properties,尤其是配置lexicon.path正想正确的词库(可选,如果
-身略步骤 4,则 jcseg按照先前上面的说自动搜寻jcseg.properties配置文件初始化选项)。
+
+5. 配置好jcseg.properties,尤其是配置lexicon.path正想正确的词库(可选,如果身略步骤 4,则 jcseg按照先前上面的说自动搜寻jcseg.properties配置文件初始化选项)。
+
 6. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
+
 7. 配置elasticsearch.yml或者mapping来使用jcseg分词插件(或者在query中指定)。
+
 8. 可选的analyzer名字：
-> jcseg: jcseg 的复杂模式切分算法 
-> jcseg_comple: 对应 jcseg 的复杂模式切分算法 
-> jcseg_simple: 对应 jcseg 的简易切分算法 
-> jcseg_detect: 对应 jcseg 的检测模式切分算法
+
+    jcseg: jcseg的复杂模式切分算法 
+    jcseg_comple: 对应 jcseg 的复杂模式切分算法 
+    jcseg_simple: 对应 jcseg 的简易切分算法 
+    jcseg_detect: 对应 jcseg 的检测模式切分算法
 
 # 联系作者：
 
 欢迎报告各种bug和建议到以下邮箱：
+
 1. 陈鑫&lt;chenxin619315@gmail.com&gt;
+
 2. 张仁芳&lt;dongyado@gmail.com&gt;
+
