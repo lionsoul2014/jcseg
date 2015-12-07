@@ -170,7 +170,7 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 
 懒得翻译了，默默的多念几遍就会了^0^。
 
-```json
+```
 # jcseg server configuration file with standard json syntax
 {
     # jcseg server configuration
