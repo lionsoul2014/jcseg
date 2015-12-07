@@ -43,68 +43,98 @@ public class TokenizerController extends JcsegController
         super(config, resourcePool, uriEntry, baseRequest, request, response);
     }
     
+    
     /**
      *  WordEntry for return data
      *
      * */
     public class WordEntry {
         
-        private String     val     = null;
-        private String     pinyin  = null;
-        private int     len     = 0;
-        private int     pos     = -1;
-        private int     fre     = 0;    
-        private int     type    = -1;
+
+
+        private String  word        = null;
+        private String  pinYin      = null;
+        private String[] partSpeech = null;
+        private int     length      = -1;
+        private int     position    = -1;
+        private int     frequency   = -1;    
+       
+        public String getWord() {
+            return word;
+        }
+        public void setWord(String word) {
+            this.word = word;
+        }
+        public String getPinYin() {
+            return pinYin;
+        }
+        public void setPinYin(String pinYin) {
+            this.pinYin = pinYin;
+        }
+        public String[] getPartSpeech() {
+            return partSpeech;
+        }
+        public void setPartSpeech(String[] partSpeech) {
+            this.partSpeech = partSpeech;
+        }
+        public int getLength() {
+            return length;
+        }
+        public void setLength(int length) {
+            this.length = length;
+        }
+        public int getPosition() {
+            return position;
+        }
+        public void setPosition(int position) {
+            this.position = position;
+        }
+        public int getFrequency() {
+            return frequency;
+        }
+        public void setFrequency(int frequency) {
+            this.frequency = frequency;
+        }
         
-        public int getType() {
-            return type;
-        }
-        public void setType(int type) {
-            this.type = type;
-        }
-        public int getFre() {
-            return fre;
-        }
-        public void setFre(int fre) {
-            this.fre = fre;
-        }
-        public String getVal() {
-            return val;
-        }
-        public void setVal(String val) {
-            this.val = val;
-        }
-        public String getPinyin() {
-            return pinyin;
-        }
-        public void setPinyin(String pinyin) {
-            this.pinyin = pinyin;
-        }
-        public int getLen() {
-            return len;
-        }
-        public void setLen(int len) {
-            this.len = len;
-        }
-        public int getPos() {
-            return pos;
-        }
-        public void setPos(int pos) {
-            this.pos = pos;
-        }
         
+        
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append('{');
+            
+            sb.append("\"word\":\""+ word +"\"");
+             
+            if (pinYin != null)
+                sb.append(",\"pinyin\":\"" + pinYin + "\"");
+            
+            if (partSpeech != null)
+                sb.append(",\"part_speech\":\"" + partSpeech.toString()+"\"");
+            
+            if (length != -1)
+                sb.append(",\"length\":" + length);
+            
+            if (position != -1)
+                sb.append(",\"position\":" + position);
+            
+            if (frequency != -1)
+                sb.append(",\"frequency\":" + frequency);            
+            
+            sb.append('}');            
+            
+            return sb.toString();
+        }
     }
 
 
     @Override
     protected void run(String method) throws IOException
     {
-        String text         = getString("text");
-        String ret_pinyin     = getString("ret_pinyin");
-        String ret_len        = getString("ret_len");
-        String ret_pos      = getString("ret_pos");
-        String ret_fre        = getString("ret_fre");
-        
+        String text             = getString("text");
+        boolean ret_pinyin      = getBoolean("ret_pinyin");
+        boolean ret_len         = getBoolean("ret_len");
+        boolean ret_pos         = getBoolean("ret_pos");
+        boolean ret_fre         = getBoolean("ret_fre");
+        boolean ret_ps          = getBoolean("ret_ps");
         
         if ( text == null || "".equals(text) )
         {
@@ -133,27 +163,26 @@ public class TokenizerController extends JcsegController
             long s_time = System.nanoTime();
             while ( (word = seg.next()) != null ) 
             {
-
-                
                 WordEntry w =  new WordEntry();
-                w.setVal(word.getValue());
+                String value = word.getValue();
+                w.setWord(value == null ? "" : value);
                 
-                if (ret_len.equals("true"))
-                    w.setLen(word.getLength());
+                if (ret_len)
+                    w.setLength(word.getLength());
                 
-                if (ret_pinyin.equals("true"))
-                    w.setPinyin(word.getPinyin());
+                if (ret_pinyin){
+                    String pinyin = word.getPinyin();
+                    w.setPinYin(pinyin == null ? "" : pinyin);
+                }
+                    
+                if (ret_pos)
+                    w.setPosition(word.getPosition());
                 
-                if (ret_pos.equals("true"))
-                    w.setPos(word.getPosition());
+                if (ret_fre)
+                    w.setFrequency(word.getFrequency());
                 
-                if (ret_fre.equals("true"))
-                    w.setFre(word.getFrequency());
-                
-                if (ret_fre.equals("true") )
-                    w.setType(word.getType());
-                
-                
+                if (ret_ps)
+                    w.setPartSpeech(word.getPartSpeech());
                 
                 list.add(w);
                 //clear the allocations of the word.
