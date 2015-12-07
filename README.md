@@ -386,8 +386,10 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 > api地址：http://jcseg_server_host:port/extractor/keyphrase?text=&number=
 
 > api参数：
+    <pre>
     text: post或者get过来的文档文本
     number: 要提取的关键短语个数
+    </pre>
     
 > api返回：
 
@@ -409,8 +411,10 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 > api地址：http://jcseg_server_host:port/extractor/sentence?text=&number=
 
 > api参数：
+    <pre>
     text: post或者get过来的文档文本
     number: 要提取的关键句子个数
+    </pre>
     
 > api返回：
 
@@ -432,8 +436,10 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 > api地址：http://jcseg_server_host:port/extractor/summary?text=&length=
 
 > api参数：
+    <pre>
     text: post或者get过来的文档文本
     length: 要提取的摘要的长度
+    </pre>
     
 > api返回：
 
@@ -455,10 +461,12 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 > api地址：http://jcseg_server_host:port/tokenizer/tokenizer_instance?text=&ret_pinyin=&ret_pos=...
 
 > api参数：
+    <pre>
     tokenizer_instance: 表示在jcseg-server.properties中定义的分词实例名称
     text: post或者get过来的文章文本
     ret_pinyin: 是否在分词结果中返回词条拼音
     ret_pos: 是否在分词结果中返回词条词性
+    </pre>
     
 > api返回：
 
