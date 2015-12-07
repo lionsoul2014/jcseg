@@ -23,6 +23,7 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
+import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
  * tokenize service handler
@@ -54,7 +55,7 @@ public class TokenizerController extends JcsegController
 
         private String  word        = null;
         private String  pinYin      = null;
-        private String[] partSpeech = null;
+        private String  partSpeech  = null;
         private int     length      = -1;
         private int     position    = -1;
         private int     frequency   = -1;    
@@ -71,10 +72,10 @@ public class TokenizerController extends JcsegController
         public void setPinYin(String pinYin) {
             this.pinYin = pinYin;
         }
-        public String[] getPartSpeech() {
+        public String getPartSpeech() {
             return partSpeech;
         }
-        public void setPartSpeech(String[] partSpeech) {
+        public void setPartSpeech(String partSpeech) {
             this.partSpeech = partSpeech;
         }
         public int getLength() {
@@ -98,8 +99,8 @@ public class TokenizerController extends JcsegController
         
         
         
-        public String toString(){
-            StringBuilder sb = new StringBuilder();
+        public String toString() {
+            IStringBuffer sb = new IStringBuffer();
             sb.append('{');
             
             sb.append("\"word\":\""+ word +"\"");
@@ -129,12 +130,9 @@ public class TokenizerController extends JcsegController
     @Override
     protected void run(String method) throws IOException
     {
-        String text             = getString("text");
-        boolean ret_pinyin      = getBoolean("ret_pinyin");
-        boolean ret_len         = getBoolean("ret_len");
-        boolean ret_pos         = getBoolean("ret_pos");
-        boolean ret_fre         = getBoolean("ret_fre");
-        boolean ret_ps          = getBoolean("ret_ps");
+        String text = getString("text");
+        boolean ret_pinyin = getBoolean("ret_pinyin");
+        boolean ret_pos = getBoolean("ret_pos");
         
         if ( text == null || "".equals(text) )
         {
@@ -155,7 +153,6 @@ public class TokenizerController extends JcsegController
                     .createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
                             new Object[]{ tokenizerEntry.getConfig(), tokenizerEntry.getDict()});
             
-            
             IWord word = null;
             List<WordEntry> list = new ArrayList<WordEntry>();
             seg.reset(new StringReader(text));
@@ -164,27 +161,25 @@ public class TokenizerController extends JcsegController
             while ( (word = seg.next()) != null ) 
             {
                 WordEntry w =  new WordEntry();
-                String value = word.getValue();
-                w.setWord(value == null ? "" : value);
-                
-                if (ret_len)
-                    w.setLength(word.getLength());
+                w.setWord(word.getValue());
+                w.setLength(word.getLength());
+                w.setPosition(word.getPosition());
                 
                 if (ret_pinyin){
                     String pinyin = word.getPinyin();
                     w.setPinYin(pinyin == null ? "" : pinyin);
                 }
-                    
-                if (ret_pos)
-                    w.setPosition(word.getPosition());
                 
-                if (ret_fre)
-                    w.setFrequency(word.getFrequency());
-                
-                if (ret_ps)
-                    w.setPartSpeech(word.getPartSpeech());
+                if (ret_pos) {
+                    String pos = "";
+                    String[] poss = word.getPartSpeech();
+                    if ( pos != null ) {
+                        w.setPartSpeech(poss[0]);
+                    }
+                }
                 
                 list.add(w);
+                
                 //clear the allocations of the word.
                 word = null;
             }

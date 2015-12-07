@@ -1,25 +1,30 @@
+
+![Jcseg logo](http://dongyado.github.io/images/logo-x56.png)
+
 # **Jcseg**是什么？
+------
 
-**Jcseg**是基于mmseg算法的一个轻量级开源中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了最新版本的lucene, solr, elasticsearch的分词接口， **Jcseg**自带了一个 jcseg.properties文件用于快速编辑配置而得到适合不同场合的分词应用，例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！
+**Jcseg**是基于mmseg算法的一个轻量级开源中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了最新版本的lucene, solr, elasticsearch的分词接口， **Jcseg**自带了一个 jcseg.properties文件用于快速配置而得到适合不同场合的分词应用，例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！
 
-# **Jcseg**核心功能？
+# **Jcseg**核心功能：
+------
 
-1. 中文分词：mmseg算法 + **Jcseg** 独创的优化算法。
-2. 关键字提取/关键短语：基于textRank算法。
-3. 关键句子提取：基于textRank算法。
-4. 文章自动摘要：基于BM25+textRank算法。
-5. 自动词性标注：目前只是基于词库，效果不是很理想。
-6. Restful api：嵌入jetty提供了一个绝对高性能的server模块，包含全部功能的http接口，方便各种语言客户端直接调用。
+> * 中文分词：mmseg算法 + **Jcseg** 独创的优化算法。
+> * 关键字提取：基于textRank算法。
+> * 关键短语提取：基于textRank算法。
+> * 关键句子提取：基于textRank算法。
+> * 文章自动摘要：基于BM25+textRank算法。
+> * 自动词性标注：目前只是基于词库，效果不是很理想。
+> * Restful api：嵌入jetty提供了一个绝对高性能的server模块，包含全部功能的http接口，方便各种语言客户端直接调用。
 
-# **Jcseg**中文分词特色：
+# **Jcseg**中文分词：
+------
 
 **三种切分模式：**
 
-```
-(1).简易模式：FMM算法，适合速度要求场合。
-(2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
-(3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
-```
+> * (1).简易模式：FMM算法，适合速度要求场合。
+> * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
+> * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -40,11 +45,15 @@
 18. 自动词性标注（目前基于词库）。
 
 # **Jcseg**快速体验：
+------
+
+#### 终端测试：
 
 1. cd到 **Jcseg**根目录。
-2. ant all(或者使用maven编译).
+2. ant all(或者使用maven编译)
 3. 运行：java -jar jcseg-core-{version}.jar
-4. 你将看到如下的终端界面：
+4. 你将看到如下的终端界面
+5. 在光标处输入文本开始测试
 
 ```
 +--------Jcseg chinese word tokenizer demo---------+
@@ -60,70 +69,73 @@
 jcseg~tokenizer>> 
 ```
 
-5. 在光标处输入文本开始测试。
+#### 测试样板：
 
-# **Jcseg**分词demo：
-
-**测试文本:**
+##### 分词文本
 
 ```
 歧义和同义词:研究生命起源，混合词: 做B超检查身体，x射线本质是什么，今天去奇都ktv唱卡拉ok去，哆啦a梦是一个动漫中的主角，单位和全角: 2009年８月６日开始大学之旅，岳阳今天的气温为38.6℃, 也就是101.48℉, 中文数字/分数: 你分三十分之二, 小陈拿三十分之五,剩下的三十分之二十三全部是我的，那是一九九八年前的事了，四川麻辣烫很好吃，五四运动留下的五四精神。笔记本五折包邮亏本大甩卖。人名识别: 我是陈鑫，也是jcseg的作者，三国时期的诸葛亮是个天才，我们一起给刘翔加油，罗志高兴奋极了因为老吴送了他一台笔记本。外文名识别：冰岛时间7月1日，正在当地拍片的汤姆·克鲁斯通过发言人承认，他与第三任妻子凯蒂·赫尔墨斯（第一二任妻子分别为咪咪·罗杰斯、妮可·基德曼）的婚姻即将结束。配对标点: 本次『畅想杯』黑客技术大赛的得主为电信09-2BF的张三，奖励C++程序设计语言一书和【畅想网络】的『PHP教程』一套。特殊字母: 【Ⅰ】（Ⅱ），英文数字: bug report chenxin619315@gmail.com or visit http://code.google.com/p/jcseg, we all admire the hacker spirit!特殊数字: ① ⑩ ⑽ ㈩.
 ```
 
-**分词结果:**
+##### 分词结果：
 
 ```
-歧义/n 和/o 同义词/n :/w 研究/vn 琢磨/vn 研讨/vn 钻研/vn 生命/n 起源/n ，/w 混合词 :/w 做/v b超/n 检查/vn 身体/n ，/w x射线/n x光线/n 本质/n 是/a 什么/n ，/w 今天/t 去/q 奇都ktv/nz 唱/n 卡拉ok/nz 去/q ，/w 哆啦a梦/nz 是/a 一个/q 动漫/n 中/q 的/u 主角/n ，/w 单位/n 和/o 全角/nz :/w 2009年/m 8月/m 6日/m 开始/n 大学/n 之旅 ，/w 岳阳/ns 今天/t 的/u 气温/n 为/u 38.6℃/m ,/w 也就是/v 101.48℉/m ,/w 中文/n 国语/n 数字/n //w 分数/n :/w 你/r 分/h 三十分之二/m ,/w 小陈/nr 拿/nh 三十分之五/m ,/w 剩下/v 的/u 三十分之二十三/m 全部/a 是/a 我的/nt ，/w 那是/c 一九九八年/m 1998年/m 前/v 的/u 事/i 了/i ，/w 四川/ns 麻辣烫/n 很/m 好吃/v ，/w 五四运动/nz 留下/v 的/u 五四/m 54/m 精神/n 。/w 笔记本/n 五折/m 5折/m 包邮 亏本/v 大甩卖 甩卖 。/w 人名/n 识别/v :/w 我/r 是/a 陈鑫/nr ，/w 也/e 是/a jcseg/en 的/u 作者/n ，/w 三国/mq 时期/n 的/u 诸葛亮/nr 是个 天才/n ，/w 我们/r 一起/d 给/v 刘翔/nr 加油/v ，/w 罗志高/nr 兴奋/v 极了/u 因为/c 老吴/nr 送了 他/r 一台 笔记本/n 。/w 外文/n 名/j 识别/v ：/w 冰岛/ns 时间/n 7月/m 1日/m ，/w 正在/u 当地/s 拍片/vi 的/u 汤姆·克鲁斯/nr 阿汤哥/nr 通过/v 发言人/n 承认/v ，/w 他/r 与/u 第三/m 任/q 妻子/n 凯蒂·赫尔墨斯/nr （/w 第一/a 二/j 任/q 妻子/n 分别为 咪咪·罗杰斯/nr 、/w 妮可·基德曼/nr ）/w 的/u 婚姻/n 即将/d 结束/v 。/w 配对/v 标点/n :/w 本次/r 『/w 畅想杯/nz 』/w 黑客/n 技术/n 大赛/vn 的/u 得主/n 为/u 电信/nt 09/en -/w bf/en 2bf/en 的/u 张三/nr ，/w 奖励/vn c++/en 程序设计/gi 语言/n 一书/ns 和/o 【/w 畅想网络/nz 】/w 的/u 『/w PHP教程/nz 』/w 一套/m 。/w 特殊/a 字母/n :/w 【/w Ⅰ/nz 】/w （/w Ⅱ/m ）/w ，/w 英文/n 英语/n 数字/n :/w bug/en report/en chenxin/en 619315/en gmail/en com/en chenxin619315@gmail.com/en or/en visit/en http/en :/w //w //w code/en google/en com/en code.google.com/en //w p/en //w **Jcseg**/en ,/w we/en all/en admire/en appreciate/en like/en love/en enjoy/en the/en hacker/en spirit/en mind/en !/w 特殊/a 数字/n :/w ①/m ⑩/m ⑽/m ㈩/m ./w
+歧义/n 和/o 同义词/n :/w 研究/vn 琢磨/vn 研讨/vn 钻研/vn 生命/n 起源/n ，/w 混合词 :/w 做/v b超/n 检查/vn 身体/n ，/w x射线/n x光线/n 本质/n 是/a 什么/n ，/w 今天/t 去/q 奇都ktv/nz 唱/n 卡拉ok/nz 去/q ，/w 哆啦a梦/nz 是/a 一个/q 动漫/n 中/q 的/u 主角/n ，/w 单位/n 和/o 全角/nz :/w 2009年/m 8月/m 6日/m 开始/n 大学/n 之旅 ，/w 岳阳/ns 今天/t 的/u 气温/n 为/u 38.6℃/m ,/w 也就是/v 101.48℉/m ,/w 中文/n 国语/n 数字/n //w 分数/n :/w 你/r 分/h 三十分之二/m ,/w 小陈/nr 拿/nh 三十分之五/m ,/w 剩下/v 的/u 三十分之二十三/m 全部/a 是/a 我的/nt ，/w 那是/c 一九九八年/m 1998年/m 前/v 的/u 事/i 了/i ，/w 四川/ns 麻辣烫/n 很/m 好吃/v ，/w 五四运动/nz 留下/v 的/u 五四/m 54/m 精神/n 。/w 笔记本/n 五折/m 5折/m 包邮 亏本/v 大甩卖 甩卖 。/w 人名/n 识别/v :/w 我/r 是/a 陈鑫/nr ，/w 也/e 是/a jcseg/en 的/u 作者/n ，/w 三国/mq 时期/n 的/u 诸葛亮/nr 是个 天才/n ，/w 我们/r 一起/d 给/v 刘翔/nr 加油/v ，/w 罗志高/nr 兴奋/v 极了/u 因为/c 老吴/nr 送了 他/r 一台 笔记本/n 。/w 外文/n 名/j 识别/v ：/w 冰岛/ns 时间/n 7月/m 1日/m ，/w 正在/u 当地/s 拍片/vi 的/u 汤姆·克鲁斯/nr 阿汤哥/nr 通过/v 发言人/n 承认/v ，/w 他/r 与/u 第三/m 任/q 妻子/n 凯蒂·赫尔墨斯/nr （/w 第一/a 二/j 任/q 妻子/n 分别为 咪咪·罗杰斯/nr 、/w 妮可·基德曼/nr ）/w 的/u 婚姻/n 即将/d 结束/v 。/w 配对/v 标点/n :/w 本次/r 『/w 畅想杯/nz 』/w 黑客/n 技术/n 大赛/vn 的/u 得主/n 为/u 电信/nt 09/en -/w bf/en 2bf/en 的/u 张三/nr ，/w 奖励/vn c++/en 程序设计/gi 语言/n 一书/ns 和/o 【/w 畅想网络/nz 】/w 的/u 『/w PHP教程/nz 』/w 一套/m 。/w 特殊/a 字母/n :/w 【/w Ⅰ/nz 】/w （/w Ⅱ/m ）/w ，/w 英文/n 英语/n 数字/n :/w bug/en report/en chenxin/en 619315/en gmail/en com/en chenxin619315@gmail.com/en or/en visit/en http/en :/w //w //w code/en google/en com/en code.google.com/en //w p/en //w jcseg/en ,/w we/en all/en admire/en appreciate/en like/en love/en enjoy/en the/en hacker/en spirit/en mind/en !/w 特殊/a 数字/n :/w ①/m ⑩/m ⑽/m ㈩/m ./w
 ```
 
 # **Jcseg** lucene分词接口：
+------
 
 1. 导入jcseg-core-{version}.jar和jcseg-analyzer-{version}.jar
 2. demo代码：
 
 ```java
-Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
-//lucene 5.x版本
-//Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
-//非必须(用于修改默认配置): 获取分词任务配置实例
-JcsegAnalyzer4X jcseg = (JcsegAnalyzer4X) analyzer;
-JcsegTaskConfig config = jcseg.getTaskConfig();
-//追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
-config. setAppendCJKSyn (true);
-//追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1
-config. setAppendCJKPinyin ();
-//更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
+
+    Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
+    //lucene 5.x版本
+    //Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+    //非必须(用于修改默认配置): 获取分词任务配置实例
+    JcsegAnalyzer4X jcseg = (JcsegAnalyzer4X) analyzer;
+    JcsegTaskConfig config = jcseg.getTaskConfig();
+    //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
+    config.setAppendCJKSyn(true);
+    //追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1
+    config.setAppendCJKPinyin();
+    //更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
+
 ```
 
 # **Jcseg** solr分词接口：
+------
 
 1. 将jcseg-core-{version}.jar和jcseg-analyzer-{version}.jar 复制到solr 的类库目录中。
 2. 在solr的scheme.xml加入如下两种配置之一：
 
 ```xml
-<!----复杂模式分词: -->
-<fieldtype name="textComplex" class="solr.TextField">
-    <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="complex"/>
-    </analyzer>
-</fieldtype>
-<!----简易模式分词: -->
-<fieldtype name="textSimple" class="solr.TextField">
-    <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="simple"/>
-    </analyzer>
-</fieldtype>
-<!----检测模式分词: -->
-<fieldtype name="textSimple" class="solr.TextField">
-    <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="detect"/>
-    </analyzer>
-</fieldtype>
+    <!----复杂模式分词: -->
+    <fieldtype name="textComplex" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="complex"/>
+        </analyzer>
+    </fieldtype>
+    <!----简易模式分词: -->
+    <fieldtype name="textSimple" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="simple"/>
+        </analyzer>
+    </fieldtype>
+    <!----检测模式分词: -->
+    <fieldtype name="textSimple" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="detect"/>
+        </analyzer>
+    </fieldtype>
 ```
 
 注：如果使用的是solr-5.x版本，请将org.lionsoul.jcseg.analyzer.5x下的代码反注释，然后编译得到新的jar包导入，再把上面xml配置中的4x改成5x。
 
 # **Jcseg** elasticsearch接口：
+------
 
 1. 下载最新版本的**Jcseg**源码。
 2. 使用maven或者ant编译打包得到**Jcseg**的系列jar包。
@@ -139,12 +151,485 @@ jcseg: Jcseg的复杂模式切分算法
 jcseg_comple: 对应Jcseg的复杂模式切分算法 
 jcseg_simple: 对应Jcseg的简易切分算法 
 jcseg_detect: 对应Jcseg的检测模式切分算法
+
 ```
 
+# **Jcseg**分词服务器:
+------
+
+### 编译jcseg: 
+1. maven编译jcseg，得到jcseg-server-{version}.jar, maven已经将依赖的jar包一起编译进去了，如果是ant编译运行时请将依赖包载入。
+2. 启动jcseg server：
+
+```bash
+    # 在最后传入jcseg-server.properties配置文件的路径
+    java -jar jcseg-server-{version}.jar ./jcseg-server.properties
+```
+
+### jcseg-server.properties:
+
+懒得翻译了，默默的多念几遍就会了^0^。
+
+```json
+# jcseg server configuration file with standard json syntax
+{
+    # jcseg server configuration
+    "server_config": {
+        # server port
+        "port": 1990,
+        
+        # default conmunication charset
+        "charset": "utf-8",
+        
+        # http idle timeout in ms
+        "http_connection_idle_timeout": 60000,
+        
+        # jetty maximum thread pool size
+        "max_thread_pool_size": 200,
+        
+        # thread idle timeout in ms
+        "thread_idle_timeout": 30000,
+        
+        # http output buffer size
+        "htt_output_buffer_size": 32768,
+        
+        # request header size
+        "http_request_header_size": 8192,
+        
+        # response header size
+        "http_response_header_size": 8192
+    },
+    
+    
+    # global setting for jcseg, yet another copy of the old 
+    # configuration file jcseg.properties
+    "jcseg_global_setting": {
+        # maximum match length. (5-7)
+        "jcseg_maxlen": 7,
+        
+        # recognized the chinese name.
+        # (true to open and false to close it)
+        "jcseg_icnname": true,
+        
+        # maximum chinese word number of english chinese mixed word. 
+        "jcseg_mixcnlen": 3,
+        
+        # maximum length for pair punctuation text.
+        # set it to 0 to close this function
+        "jcseg_pptmaxlen": 7,
+        
+        # maximum length for chinese last name andron.
+        "jcseg_cnmaxlnadron": 1,
+        
+        # Wether to clear the stopwords.
+        # (set true to clear stopwords and false to close it)
+        "jcseg_clearstopword": false,
+        
+        # Wether to convert the chinese numeric to arabic number. 
+        # (set to true open it and false to close it) like '\u4E09\u4E07' to 30000.
+        "jcseg_cnnumtoarabic": true,
+        
+        # Wether to convert the chinese fraction to arabic fraction.
+        # @Note: for lucene,solr,elasticsearch eg.. close it.
+        "jcseg_cnfratoarabic": false,
+        
+        # Wether to keep the unrecognized word. 
+        # (set true to keep unrecognized word and false to clear it)
+        "jcseg_keepunregword": true,
+        
+        # Wether to start the secondary segmentation for the complex english words.
+        "jcseg_ensencondseg": true,
+        
+        # min length of the secondary simple token. 
+        # (better larger than 1)
+        "jcseg_stokenminlen": 2,
+        
+        #thrshold for chinese name recognize.
+        # better not change it before you know what you are doing.
+        "jcseg_nsthreshold": 1000000,
+        
+        #The punctuations that will be keep in an token.
+        # (Not the end of the token).
+        "jcseg_keeppunctuations": "@#%.&+"
+    },
+    
+    # dictionary instance setting.
+    # add yours here with standard json syntax
+    "jcseg_dict": {
+        "master": {
+            "path": [
+                "{jar.dir}/lexicon"
+                # absolute path here
+                # "/data0/Code/java/JavaSE/jcseg/lexicon"
+            ],
+                    
+            # Wether to load the modified lexicon file auto.
+            "autoload": true,
+        
+            # Poll time for auto load. (in seconds)
+            "polltime": 300
+        }
+        
+        # add more of yours here
+        # ,"name" : {
+        #   "path": [
+        #       "absolute jcseg standard lexicon path 1",
+        #       "absolute jcseg standard lexicon path 2"
+        #       ...
+        #   ],
+        #   "autoload": 0,
+        #   "polltime": 300
+        # }
+    },
+    
+    # JcsegTaskConfig instance setting.
+    # @Note: 
+    # All the config instance here is extends from the global_setting above.
+    # do nothing will extends all the setting from global_setting
+    "jcseg_config": {
+        "master": {
+            # extends and Override the global setting
+            "jcseg_pptmaxlen": 0,
+            "jcseg_cnfratoarabic": true,
+            "jcseg_keepunregword": false
+        }
+        
+        # this one is for keywords,keyphrase,sentence,summary extract
+        # @Note: do not delete this instance if u want jcseg to
+        # offset u extractor service
+        ,"extractor": {
+            "jcseg_pptmaxlen": 0,
+            "jcseg_clearstopword": true,
+            "jcseg_cnnumtoarabic": false,
+            "jcseg_cnfratoarabic": false,
+            "jcseg_keepunregword": false,
+            "jcseg_ensencondseg": false
+        }
+        
+        # add more of yours here
+        # ,"name": {
+        #   ...
+        # }
+    },
+    
+    # jcseg tokenizer instance setting.
+    # Your could let the instance service for you by access:
+    # http://jcseg_server_host:port/tokenizer/instance_name
+    # instance_name is the name of instance you define here.
+    "jcseg_tokenizer": {
+        "master": {
+            # jcseg tokenizer algorithm, could be:
+            # 1: SIMPLE_MODE
+            # 2: COMPLEX_MODE
+            # 3: DETECT_MODE
+            # see org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig for more info
+            "algorithm": 2,
+            
+            # dictionary instance name
+            # choose one of your defines above in the dict scope
+            "dict": "master",
+            
+            # JcsegTaskConfig instance name
+            # choose one of your defines above in the config scope
+            "config": "master"
+        }
+        
+        # this tokenizer instance is for extractor service
+        # do not delete it if you want jcseg to offset you extractor service
+        ,"extractor": {
+            "algorithm": 2,
+            "dict": "master",
+            "config": "extractor"
+        }
+        
+        # add more of your here
+        # ,"name": {
+        #   ...
+        # }
+    }
+}
+```
+
+### restful api:
+
+##### 1. 关键字提取：
+> api地址：http://jcseg_server_host:port/extractor/keywords?text=&number=&autoFilter=true|false
+
+> api参数：
+    <pre>
+    text: post或者get过来的文档文本
+    number: 要提取的关键词个数
+    autoFilter: 是否自动过滤掉低分数关键字
+    </pre>
+    
+> api返回：
+
+```
+{
+    //api执行状态, true：成功, false：失败。
+    "status": true,
+    //api返回数据
+    "data": {
+        //关键字数组
+        "keywords": [],
+        //操作耗时
+        "took": 0.001
+    },
+    //api错误代号，0正常，1参数错误
+    "errcode": 0
+}
+```
+    
+更多配置请参考：org.lionsoul.jcseg.server.controller.KeywordsController
+
+##### 2. 关键短语提取：
+> api地址：http://jcseg_server_host:port/extractor/keyphrase?text=&number=
+
+> api参数：
+    text: post或者get过来的文档文本
+    number: 要提取的关键短语个数
+    
+> api返回：
+
+```
+{
+    "status": true,
+    "data": {
+        "took": 0.0277,
+        //关键短语数组
+        "keyphrase": []
+    },
+    "errcode": 0
+}
+```
+    
+更多配置请参考：org.lionsoul.jcseg.server.controller.KeyphraseController
+
+##### 3. 关键句子提取：
+> api地址：http://jcseg_server_host:port/extractor/sentence?text=&number=
+
+> api参数：
+    text: post或者get过来的文档文本
+    number: 要提取的关键句子个数
+    
+> api返回：
+
+```
+{
+    "status": true,
+    "data": {
+        "took": 0.0277,
+        //关键句子数组
+        "sentence": []
+    },
+    "errcode": 0
+}
+```
+    
+更多配置请参考：org.lionsoul.jcseg.server.controller.SentenceController
+
+##### 4. 文章摘要提取：
+> api地址：http://jcseg_server_host:port/extractor/summary?text=&length=
+
+> api参数：
+    text: post或者get过来的文档文本
+    length: 要提取的摘要的长度
+    
+> api返回：
+
+```
+{
+    "status": true,
+    "data": {
+        "took": 0.0277,
+        //文章摘要
+        "summary": ""
+    },
+    "errcode": 0
+}
+```
+    
+更多配置请参考：org.lionsoul.jcseg.server.controller.SummaryController
+
+##### 5. 文章自动分词：
+> api地址：http://jcseg_server_host:port/tokenizer/tokenizer_instance?text=&ret_pinyin=&ret_pos=...
+
+> api参数：
+    tokenizer_instance: 表示在jcseg-server.properties中定义的分词实例名称
+    text: post或者get过来的文章文本
+    ret_pinyin: 是否在分词结果中返回词条拼音
+    ret_pos: 是否在分词结果中返回词条词性
+    
+> api返回：
+
+```
+{
+    "status": true,
+    "data": {
+        "took": 0.00885,
+        //词条对象数组
+        "list": [
+            {
+                //词条内容
+                "word": "jcseg",
+                //词条字符个数
+                "length": 5,
+                //词条在原文中的起始位置
+                "position": 0
+            }
+        ]
+    },
+    "errcode": 0
+}
+```
+
+更多配置请参考：org.lionsoul.jcseg.server.controller.TokenizerController
+
+# *Jcseg*二次开发:
+------
+
+### 1. Jcseg中文分词Api: 
+
+##### (1). 创建JcsegTaskConfig配置对象：
+
+JcsegTaskConfig构造方法如下：
+
+```java
+JcsegTaskConfig()
+JcsegTaskConfig(java.lang.String proFile)
+```
+  
+```java
+
+    //该方法会自动查找jcseg.properties配置文件
+    //然后依据jcseg.properties中的选项初始化JcsegTaskConfig.
+    JcsegTaskConfig config = new JcsegTaskConfig();
+    
+    //依据给定的jcseg.properties文件创建 JcsegTaskConfig.
+    JcsegTaskConfig config = new JcsegTaskConfig("/java/jcseg/jcseg.properties");
+    
+    //从指定的jcseg.properties配置文件中重置JcsegTaskConfig选项
+    //通常第一种方式实例化JcsegTaskConfig时使用
+    config.resetFromPropertyFile("/java/jcseg/jcseg.properties");
+
+```
+
+##### (2). 创建ADictionary词库对象：
+
+ADictionary构造方法如下：
+
+```java
+    ADictionary(JcsegTaskConfig config, java.lang.Boolean sync)
+    //config：上述的JcsegTaskConfig实例
+    //sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
+    //      如果jcseg.properties中autoload=1则会自动创建同步词库
+```
+
+```java
+
+    //config为上面创建的JcsegTaskConfig对象.
+    //如果给定的JcsegTaskConfig里面的词库路径信息正确(是从jcseg.properties中初始化的就对了),
+    //Adictionary会依据config里面的词库信息加载全部有效的词库.
+    //并且该方法会依据config.isAutoload()来决定词库的同步性还是非同步性.
+    //config.isAutoload()为true就创建同步词库, 反之就创建非同步词库.
+    //config.isAutoload()对应jcseg.properties中的lexicon.autoload
+    ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
+    
+    
+    //创建一个非同步的ADictioanry.
+    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, false);
+    //创建一个同步的 ADictioanry.
+    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, true);
+    //依据 config.isAutoload()来决定同步性
+    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, config.isAutoload());
+    
+    //指定ADictionary加载给定目录下的所有词库文件的词条.
+    //config.getLexiconPath为词库文件存放有效目录.
+    dic.loadFromLexiconDirectory(config.getLexiconPath());
+    
+    //指定ADictionary加载给定词库的词条.
+    //config 为上面创建的JcsegTaskConfig实例.
+    dic.loadFromLexiconFile(config, "/java/lex-main.lex");
+
+```
+
+##### (3). 创建ISegment或者ASegment分词实例：
+
+ASegment构造方法：
+
+```java
+    Asegment(JcsegTaskConfig config, Adictionary dic)
+    Asegment(Reader input, JcsegTaskConfig config, Adictionary dic)
+    //config: 为上述的JcsegTaskConfig配置对象
+    //dic: 为上述的ADictionary词库对象
+    //input: 分词文本源的输入对象
+```
+    
+```java
+
+    //依据给定的ADictionary和JcsegTaskConfig来创建ISegment
+    //通常使用SegmentFactory#createJcseg来创建ISegment对象
+    //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
+    //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
+    //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+    ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
+        new Object[]{config, dic});
+        
+    //设置要分词的内容
+    String str = "研究生命起源。";
+    seg.reset(new StringReader(str));
+        
+    //获取分词结果
+    IWord word = null;
+    while ( (word = seg.next()) != null ) {
+        System.out.println(word.getValue());
+    }
+
+```
+
+##### (4). 一个完整的例子：
+
+```java
+
+    //创建JcsegTaskConfig分词任务实例
+    //即从jcseg.properties配置文件中初始化的配置
+    JcsegTaskConfig config = new JcsegTaskConfig();
+    
+    / /创建默认词库实现
+    ADictionary dic = DictionaryFactory.createDefaultDictionary();
+    //依据 JcsegTaskConfig 配置中的信息加载全部jcseg词库.
+    dic.loadFromLexiconDirectory(config, config.getLexiconPath());
+    
+    //依据给定的ADictionary和JcsegTaskConfig来创建ISegment
+    //通常使用SegmentFactory来创建ISegment对象
+    //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
+    //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
+    //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+    ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
+        new Object[]{new StringReader(str), config, dic});
+    
+    //设置要被分词的文本
+    String str = "研究生命起源。";
+    seg.reset(new StringReader(str));
+    
+    //获取分词结果
+    IWord word = null;
+    while ( (word = seg.next()) != null ) {
+        System.out.println(word.getValue());
+    }
+
+```
+
+### Jcseg提取器Api：
+
+1. 关键字提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
+2. 关键短语提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
+3. 关键句子和摘要提取：参考 org.lionsoul.jcseg.extractor.TextRankSummaryExtractor
 
 # 联系作者：
+------
 
-欢迎报告各种bug和建议到以下邮箱：
+欢迎报告各种bug和建议到以下开发者邮箱：
 
 1. 陈鑫&lt;chenxin619315@gmail.com&gt;
 2. 张仁芳&lt;dongyado@gmail.com&gt;

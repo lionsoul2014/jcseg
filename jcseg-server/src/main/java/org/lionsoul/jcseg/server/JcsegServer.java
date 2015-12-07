@@ -394,9 +394,14 @@ public class JcsegServer
          * not specified, check the properties file in the jar dir 
         */
         if ( proFile == null ) {
-            File pFile = new File(Util.getJarHome(config)+"/jcseg-server.properties");
-            if ( pFile.exists() ) {
-                proFile = pFile.getAbsolutePath();
+            String[] rPaths = {"jcseg-server.properties", "classes/jcseg-server.properties"};
+            String jarHome = Util.getJarHome(config);
+            for ( String path : rPaths ) {
+                File pFile = new File(jarHome + "/" + path);
+                if ( pFile.exists() ) {
+                    proFile = pFile.getAbsolutePath();
+                    break;
+                }
             }
         }
         
