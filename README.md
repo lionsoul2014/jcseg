@@ -161,9 +161,9 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 1. maven编译jcseg，得到jcseg-server-{version}.jar, maven已经将依赖的jar包一起编译进去了，如果是ant编译运行时请将依赖包载入。
 2. 启动jcseg server：
 
-```shell
-# 在最后传入jcseg-server.properties配置文件的路径
-java -jar jcseg-server-{version}.jar ./jcseg-server.properties
+```bash
+    # 在最后传入jcseg-server.properties配置文件的路径
+    java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 ```
 
 ### jcseg-server.properties:
@@ -356,9 +356,11 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/extractor/keywords?text=&number=&autoFilter=true|false
 
 > api参数：
+    <pre>
     text: post或者get过来的文档文本
     number: 要提取的关键词个数
     autoFilter: 是否自动过滤掉低分数关键字
+    </pre>
     
 > api返回：
 
