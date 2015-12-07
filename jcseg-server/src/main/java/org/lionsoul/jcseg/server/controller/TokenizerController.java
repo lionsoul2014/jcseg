@@ -50,19 +50,20 @@ public class TokenizerController extends JcsegController
      * */
     public class WordEntry {
         
-        private String  val         = null;
+
+
+        private String  word        = null;
         private String  pinYin      = null;
         private String[] partSpeech = null;
         private int     length      = -1;
         private int     position    = -1;
         private int     frequency   = -1;    
        
-     
-        public String getVal() {
-            return val;
+        public String getWord() {
+            return word;
         }
-        public void setVal(String val) {
-            this.val = val;
+        public void setWord(String word) {
+            this.word = word;
         }
         public String getPinYin() {
             return pinYin;
@@ -101,7 +102,7 @@ public class TokenizerController extends JcsegController
             StringBuilder sb = new StringBuilder();
             sb.append('{');
             
-            sb.append("\"val\":\""+val+"\"");
+            sb.append("\"word\":\""+ word +"\"");
              
             if (pinYin != null)
                 sb.append(",\"pinyin\":\"" + pinYin + "\"");
@@ -164,7 +165,7 @@ public class TokenizerController extends JcsegController
             {
                 WordEntry w =  new WordEntry();
                 String value = word.getValue();
-                w.setVal(value == null ? "" : value);
+                w.setWord(value == null ? "" : value);
                 
                 if (ret_len)
                     w.setLength(word.getLength());
@@ -174,7 +175,6 @@ public class TokenizerController extends JcsegController
                     w.setPinYin(pinyin == null ? "" : pinyin);
                 }
                     
-                
                 if (ret_pos)
                     w.setPosition(word.getPosition());
                 
