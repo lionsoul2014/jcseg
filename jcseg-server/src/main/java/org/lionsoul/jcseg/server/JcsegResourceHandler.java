@@ -51,6 +51,11 @@ public class JcsegResourceHandler extends AbstractHandler
         int pos = requestUri.lastIndexOf('.');
         if ( pos > -1 )
         {
+            //interception for favicon.ico
+            if ( requestUri.indexOf("favicon.ico") > -1 ) {
+                requestUri = "/images/logo-x32.png";
+            }
+            
             /*
              * check the exitstence of the request resource 
             */

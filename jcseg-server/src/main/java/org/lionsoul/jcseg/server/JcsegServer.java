@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -379,9 +380,35 @@ public class JcsegServer
 
     public static void main(String[] args) 
     {
+        JcsegServerConfig config = new JcsegServerConfig();
+        
+        /*
+         * get the jcseg-server.properties from the command line 
+        */
+        String proFile = null;
+        if ( args.length > 0 ) {
+            proFile = args[0];
+        }
+        
+        /*
+         * not specified, check the properties file in the jar dir 
+        */
+        if ( proFile == null ) {
+            File pFile = new File(Util.getJarHome(config)+"/jcseg-server.properties");
+            if ( pFile.exists() ) {
+                proFile = pFile.getAbsolutePath();
+            }
+        }
+        
+        //still not found, print an error and stop it right here
+        if ( proFile == null ) {
+            System.out.println("Usage: java -jar jcseg-server-{version}.jar "
+                    + "\"path of file jcseg-server properties\"");
+            return;
+        }
+        
         try {
-            JcsegServerConfig config = new JcsegServerConfig();
-            config.resetFromFile("/data0/Code/java/JavaSE/jcseg/jcseg-server.properties");
+            config.resetFromFile(proFile);
             JcsegServer server = new JcsegServer(config);
             System.out.print("+--[Info]: initializing ... ");
             server.initFromGlobalConfig(config.getGlobalConfig());

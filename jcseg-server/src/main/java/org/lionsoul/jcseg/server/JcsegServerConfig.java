@@ -35,9 +35,8 @@ public class JcsegServerConfig extends ServerConfig
         }
     }
     
-    public JcsegServerConfig() throws IOException
+    public JcsegServerConfig()
     {
-        this(null);
     }
     
     /**
