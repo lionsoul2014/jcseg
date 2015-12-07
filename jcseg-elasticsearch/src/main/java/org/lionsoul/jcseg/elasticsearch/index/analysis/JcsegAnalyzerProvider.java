@@ -38,12 +38,12 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  */
 public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAnalyzer4X>
 {
-	/**default Jcseg tokenizer instance*/
+    /**default Jcseg tokenizer instance*/
     private final JcsegAnalyzer4X analyzer;
     
     @Inject
     public JcsegAnalyzerProvider(Index index, @IndexSettings Settings indexSettings, 
-    		Environment env, @Assisted String name, @Assisted Settings settings) 
+            Environment env, @Assisted String name, @Assisted Settings settings) 
     {
         super(index, indexSettings, name, settings);
         //System.out.println("###Analyzer: "+env.configFile()+"###");
@@ -54,12 +54,12 @@ public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAn
         if( seg_mode.equals("complex") )
             mode = JcsegTaskConfig.COMPLEX_MODE;
         else if ( seg_mode.equals("simple") )
-        	mode = JcsegTaskConfig.SIMPLE_MODE;
+            mode = JcsegTaskConfig.SIMPLE_MODE;
         else if( seg_mode.equals("detect") )
-        	mode = JcsegTaskConfig.DETECT_MODE;
+            mode = JcsegTaskConfig.DETECT_MODE;
         
         analyzer = proFile.exists() ? 
-        	new JcsegAnalyzer4X(mode, proFile.getPath()) : new JcsegAnalyzer4X(mode);
+            new JcsegAnalyzer4X(mode, proFile.getPath()) : new JcsegAnalyzer4X(mode);
     }
     
     @Override public JcsegAnalyzer4X get() 

@@ -11,27 +11,27 @@ import java.util.Map;
 */
 public abstract class GlobalResource 
 {
-	/**
-	 * global resource mapping  
-	*/
-	protected Map<Object, Object> resource = null;
-	
-	public GlobalResource()
-	{
-		resource = Collections.synchronizedMap(new HashMap<Object, Object>());
-	}
+    /**
+     * global resource mapping  
+    */
+    protected Map<Object, Object> resource = null;
+    
+    public GlobalResource()
+    {
+        resource = Collections.synchronizedMap(new HashMap<Object, Object>());
+    }
 
-	public Object getResource(String name) {
-		return resource.get(name);
-	}
+    public Object getResource(String name) {
+        return resource.get(name);
+    }
 
-	public void addResource(Object key, Object value) {
-		resource.put(key, value);
-	}
-	
-	public void removeResource(Object key)
-	{
-		resource.remove(key);
-	}
-	
+    public void addResource(Object key, Object value) {
+        resource.put(key, value);
+    }
+    
+    public void removeResource(Object key)
+    {
+        resource.remove(key);
+    }
+    
 }

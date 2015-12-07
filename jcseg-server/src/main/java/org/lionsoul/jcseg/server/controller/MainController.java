@@ -19,24 +19,24 @@ import org.lionsoul.jcseg.server.core.UriEntry;
 public class MainController extends JcsegController
 {
 
-	public MainController(
-			ServerConfig config,
-			GlobalResource resourcePool, 
-			UriEntry uriEntry,
-			Request baseRequest, 
-			HttpServletRequest request,
-			HttpServletResponse response) throws IOException
-	{
-		super(config, resourcePool, uriEntry, baseRequest, request, response);
-	}
+    public MainController(
+            ServerConfig config,
+            GlobalResource resourcePool, 
+            UriEntry uriEntry,
+            Request baseRequest, 
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException
+    {
+        super(config, resourcePool, uriEntry, baseRequest, request, response);
+    }
 
-	@Override
-	protected void run(String method) throws IOException
-	{
-		this.response(
-				false, 
-				-1, 
-				"No such controller found for " + request.getRequestURI()
-		);
-	}
+    @Override
+    protected void run(String method) throws IOException
+    {
+        this.response(
+                false, 
+                -1, 
+                "No such controller found for " + request.getRequestURI()
+        );
+    }
 }

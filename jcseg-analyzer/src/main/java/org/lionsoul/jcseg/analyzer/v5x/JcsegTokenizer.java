@@ -36,53 +36,53 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;*/
  * 
  * <p>jcseg tokennizer for lucene on or after 5.1.0</p>
  * 
- * @author	chenxin<chenxin619315@gmail.com>
+ * @author    chenxin<chenxin619315@gmail.com>
  */
 /*public class JcsegTokenizer extends Tokenizer 
 {
-	//the default jcseg segmentor
-	private ISegment segmentor;
+    //the default jcseg segmentor
+    private ISegment segmentor;
 
-	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
-	private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
-	private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
-	
-	public JcsegTokenizer(
-		int mode,
-		JcsegTaskConfig config,
-		ADictionary dic ) throws JcsegException, IOException 
-	{
-		segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
-		segmentor.reset(input);
-	}
+    private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+    private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
+    private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
+    
+    public JcsegTokenizer(
+        int mode,
+        JcsegTaskConfig config,
+        ADictionary dic ) throws JcsegException, IOException 
+    {
+        segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
+        segmentor.reset(input);
+    }
 
-	@Override
-	final public boolean incrementToken() throws IOException 
-	{
-		clearAttributes();
-		IWord word = segmentor.next();
-		
-		if ( word == null )
-		{
-			end();
-			return false;
-		}
-		
-		//termAtt.append(word.getValue());
-		//termAtt.setLength(word.getLength());
-		
-		char[] token = word.getValue().toCharArray();
-		termAtt.copyBuffer(token, 0, token.length);
-		offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
-		typeAtt.setType("word");
-		
-		return true;
-	}
-	
-	@Override
-	public void reset() throws IOException 
-	{
-		super.reset();
-		segmentor.reset(input);
-	}
+    @Override
+    final public boolean incrementToken() throws IOException 
+    {
+        clearAttributes();
+        IWord word = segmentor.next();
+        
+        if ( word == null )
+        {
+            end();
+            return false;
+        }
+        
+        //termAtt.append(word.getValue());
+        //termAtt.setLength(word.getLength());
+        
+        char[] token = word.getValue().toCharArray();
+        termAtt.copyBuffer(token, 0, token.length);
+        offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
+        typeAtt.setType("word");
+        
+        return true;
+    }
+    
+    @Override
+    public void reset() throws IOException 
+    {
+        super.reset();
+        segmentor.reset(input);
+    }
 }*/

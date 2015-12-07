@@ -297,7 +297,7 @@ public class JSONObject {
      *            from the object.
      */
     @SuppressWarnings("rawtypes")
-	public JSONObject(Object object, String names[]) {
+    public JSONObject(Object object, String names[]) {
         this();
         Class c = object.getClass();
         for (int i = 0; i < names.length; i += 1) {
@@ -629,7 +629,7 @@ public class JSONObject {
      * @return An array of field names, or null if there are no names.
      */
     @SuppressWarnings("rawtypes")
-	public static String[] getNames(Object object) {
+    public static String[] getNames(Object object) {
         if (object == null) {
             return null;
         }
@@ -983,7 +983,7 @@ public class JSONObject {
     }
 
     @SuppressWarnings("rawtypes")
-	private void populateMap(Object bean) {
+    private void populateMap(Object bean) {
         Class klass = bean.getClass();
 
 // If klass is a System class then set includeSuperClass to false.
@@ -1492,7 +1492,7 @@ public class JSONObject {
      *             If the value is or contains an invalid number.
      */
     @SuppressWarnings("unchecked")
-	public static String valueToString(Object value) throws JSONException {
+    public static String valueToString(Object value) throws JSONException {
         if (value == null || value.equals(null)) {
             return "null";
         }
@@ -1540,7 +1540,7 @@ public class JSONObject {
      * @return The wrapped value
      */
     @SuppressWarnings("unchecked")
-	public static Object wrap(Object object) {
+    public static Object wrap(Object object) {
         try {
             if (object == null) {
                 return NULL;
@@ -1592,7 +1592,7 @@ public class JSONObject {
     }
 
     @SuppressWarnings("unchecked")
-	static final Writer writeValue(Writer writer, Object value,
+    static final Writer writeValue(Writer writer, Object value,
             int indentFactor, int indent) throws JSONException, IOException {
         if (value == null || value.equals(null)) {
             writer.write("null");

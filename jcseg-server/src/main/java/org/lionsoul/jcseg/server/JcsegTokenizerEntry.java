@@ -11,18 +11,18 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 */
 public class JcsegTokenizerEntry {
     
-	private int algorithm;
+    private int algorithm;
     private JcsegTaskConfig config = null;
-	private ADictionary dic = null;
+    private ADictionary dic = null;
 
-	
-	public JcsegTokenizerEntry(int algorithm, JcsegTaskConfig config, ADictionary dic )
-	{
-		this.algorithm = algorithm;
-	    this.config = config;
-	    this.dic = dic;
-	}
-	
+    
+    public JcsegTokenizerEntry(int algorithm, JcsegTaskConfig config, ADictionary dic )
+    {
+        this.algorithm = algorithm;
+        this.config = config;
+        this.dic = dic;
+    }
+    
     public JcsegTaskConfig getConfig() {
         return config;
     }
@@ -39,12 +39,12 @@ public class JcsegTokenizerEntry {
         this.dic = dic;
     }
 
-	public int getAlgorithm() {
-		return algorithm;
-	}
+    public int getAlgorithm() {
+        return algorithm;
+    }
 
-	public void setAlgorithm(int algorithm) {
-		this.algorithm = algorithm;
-	}
+    public void setAlgorithm(int algorithm) {
+        this.algorithm = algorithm;
+    }
     
 }
