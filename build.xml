@@ -9,7 +9,7 @@
         <property name="jars" value="${basedir}"/>
         <property name="sources" value="${basedir}/src"/>
         <property name="classes" value="${basedir}/classes"/>
-        <property name="version" value="1.9.7-SNAPSHOT"/>
+        <property name="version" value="1.9.7-RC0"/>
         <property name="lib.dir" value="${basedir}/lib"/>
         <property name="api" value="${basedir}/doc"/>
         

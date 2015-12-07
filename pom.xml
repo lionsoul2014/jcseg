@@ -14,7 +14,7 @@
   <packaging>pom</packaging>
 
   <name>jcseg</name>
-  <url>http://code.google.com/p/jcseg/</url>
+  <url>http://git.oschina.net/lionsoul/jcseg/</url>
   <description>Lightweight open source chinese tokenizer with lucene,solr,elasticsearch support.</description>
   
   <licenses>
@@ -24,11 +24,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
-  <organization>
-      <url>http://www.lionsoul.org/</url>
-      <name>lionsoul</name>
-  </organization>
   
   <scm>
       <url>http://git.oschina.net/lionsoul/jcseg</url>
@@ -42,16 +37,21 @@
           <name>chenxin</name>
           <email>chenxin619315@gmail.com</email>
       </developer>
+      <developer>
+          <id>dongyado</id>
+          <name>dongyado</name>
+          <email>dongyado@gmail.com</email>
+      </developer>
   </developers>
   
   <issueManagement>
-      <url>http://code.google.com/p/jcseg/issues</url>
+      <url>http://git.oschina.net/lionsoul/jcseg/issues</url>
       <system>google code issues</system>
   </issueManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcseg.version>1.9.7-SNAPSHOT</jcseg.version>
+    <jcseg.version>1.9.7-RC0</jcseg.version>
   </properties>
 
   <dependencies>
