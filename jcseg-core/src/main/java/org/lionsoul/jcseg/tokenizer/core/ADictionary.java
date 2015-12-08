@@ -109,12 +109,12 @@ public abstract class ADictionary
                     
                     //check the update of all the reload todo files
                     File f            = null;
-                    AutoLoadFile af    = null;
+                    AutoLoadFile af   = null;
                     
                     for ( int i = 0; i < files.length; i++ )
                     {
-                        af    = files[i];
-                        f    = files[i].getFile();
+                        af  = files[i];
+                        f   = files[i].getFile();
                         
                         if ( ! f.exists() ) continue;
                         if ( f.lastModified() <= af.getLastUpdateTime() ) 

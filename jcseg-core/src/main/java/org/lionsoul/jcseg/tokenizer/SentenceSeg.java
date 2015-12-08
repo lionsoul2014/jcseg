@@ -133,6 +133,18 @@ public class SentenceSeg
                 case '【': gisb.append('【'); readUntil('】'); break;
                 case '《': gisb.append('《'); readUntil('》'); break;
                 case '.':
+                {
+                    int chr = readNext();
+                    gisb.append((char)c);
+                    if ( ENSCFilter.isEnLetter(chr) )  {
+                        reader.unread(chr);
+                        continue;
+                    } else {
+                        endTag = true;
+                    }
+                    
+                    break;
+                }
                 case '。':
                 case ';':
                 case '；':
