@@ -33,6 +33,12 @@ public class MainController extends JcsegController
     @Override
     protected void run(String method) throws IOException
     {
+        //interception for '/' to index.html
+        if ( uri.getRequestUri().equals("/") ) {
+            redirect("index.html");
+            return;
+        }
+       
         this.response(
                 false, 
                 -1, 

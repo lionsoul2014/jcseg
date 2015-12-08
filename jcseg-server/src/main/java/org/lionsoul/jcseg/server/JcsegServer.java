@@ -166,8 +166,8 @@ public class JcsegServer
             if ( serverSetting.has("thread_idle_timeout") ) {
                 config.setThreadIdleTimeout(serverSetting.getInt("thread_idle_timeout"));
             }
-            if ( serverSetting.has("htt_output_buffer_size") ) {
-                config.setOutputBufferSize(serverSetting.getInt("htt_output_buffer_size"));
+            if ( serverSetting.has("http_output_buffer_size") ) {
+                config.setOutputBufferSize(serverSetting.getInt("http_output_buffer_size"));
             }
             if ( serverSetting.has("http_request_header_size") ) {
                 config.setRequestHeaderSize(serverSetting.getInt("http_request_header_size"));
@@ -221,10 +221,20 @@ public class JcsegServer
                 dicPath.toArray(lexPath);
                 dicPath.clear(); dicPath = null;
                 
+                boolean loadpos = dicJson.has("loadpos") 
+                        ? dicJson.getBoolean("loadpos") : true;
+                boolean loadpinyin = dicJson.has("loadpinyin") 
+                        ? dicJson.getBoolean("loadpinyin") : true;
+                boolean loadsyn = dicJson.has("loadsyn") 
+                        ? dicJson.getBoolean("loadsyn") : true;
                 boolean autoload = dicJson.has("autoload") 
                         ? dicJson.getBoolean("autoload") : false;
                 int polltime = dicJson.has("polltime") 
                         ? dicJson.getInt("polltime") : 300;
+                        
+                dictLoadConfig.setLoadCJKPinyin(loadpinyin);
+                dictLoadConfig.setLoadCJKPos(loadpos);
+                dictLoadConfig.setLoadCJKSyn(loadsyn);
                 dictLoadConfig.setAutoload(autoload);
                 dictLoadConfig.setPollTime(polltime);
                 dictLoadConfig.setLexiconPath(lexPath);

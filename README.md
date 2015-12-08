@@ -168,7 +168,7 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 
 ### jcseg-server.properties:
 
-懒得翻译了，默默的多念几遍就会了^0^。
+懒得翻译了，默默的多念几遍就会了！
 
 ```
 # jcseg server configuration file with standard json syntax
@@ -191,7 +191,7 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
         "thread_idle_timeout": 30000,
         
         # http output buffer size
-        "htt_output_buffer_size": 32768,
+        "http_output_buffer_size": 32768,
         
         # request header size
         "http_request_header_size": 8192,
@@ -258,10 +258,19 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
     "jcseg_dict": {
         "master": {
             "path": [
-                "{jar.dir}/lexicon"
+                # "{jar.dir}/lexicon"
                 # absolute path here
-                # "/data0/Code/java/JavaSE/jcseg/lexicon"
+                "/java/JavaSE/jcseg/lexicon"
             ],
+            
+            # wether to load the part of speech of the words
+            "loadpos": true,
+
+            # Wether to load the pinyin of the words.
+            "loadpinyin": true,
+
+            # Wether to load the synoyms words of the words.
+            "loadsyn": true,
                     
             # Wether to load the modified lexicon file auto.
             "autoload": true,
