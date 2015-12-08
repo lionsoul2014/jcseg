@@ -69,19 +69,23 @@ public class LRU<E, T> {
      * @return value
      * */
     public T get( E key ) {
-        Entry<E, T> entry = map.get(key);
         
-        if (map.get(key) == null)
-            return null;
-    
-        entry.prev.next = entry.next;
-        entry.next.prev = entry.prev;
+        Entry<E, T> entry = null;
+        synchronized(this) 
+        {
+            entry = map.get(key);
+            
+            if (map.get(key) == null)
+                return null;
         
-        entry.prev = this.head;
-        entry.next = this.head.next;
-        this.head.next.prev = entry;
-        this.head.next = entry;
-        
+            entry.prev.next = entry.next;
+            entry.next.prev = entry.prev;
+            
+            entry.prev = this.head;
+            entry.next = this.head.next;
+            this.head.next.prev = entry;
+            this.head.next = entry;
+        }
         return entry.value;
     }
     
@@ -93,37 +97,36 @@ public class LRU<E, T> {
      * */
     public void set(E key, T value) 
     {
+        Entry<E, T> entry = new Entry<E, T>(key, value, null, null);
         
-        if (map.get(key) == null) {
-            Entry<E, T> entry = new Entry<E, T>(key, value, null, null);
-            
-            synchronized(this) {
-                if (this.length >= this.capacity) {
-                    this.removeLeasedUsedElements();
-                }
-            }
+        synchronized(this) {
+            if (map.get(key) == null) {
                 
-            entry.prev = this.head;
-            entry.next = this.head.next;
-            this.head.next.prev = entry;
-            this.head.next = entry;
-            
-            this.length++;
-            map.put(key, entry);
-            
-            
-        } else {
-            Entry<E, T> entry = map.get(key);
-            
-            entry.value = value;
-            
-            entry.prev.next = entry.next;
-            entry.next.prev = entry.prev;
-            
-            entry.prev = this.head;
-            entry.next = this.head.next;
-            this.head.next.prev = entry;
-            this.head.next = entry;
+                if (this.length >= this.capacity) 
+                    this.removeLeasedUsedElements();
+
+                entry.prev = this.head;
+                entry.next = this.head.next;
+                this.head.next.prev = entry;
+                this.head.next = entry;
+                
+                this.length++;
+                map.put(key, entry);
+                
+                
+            } else {
+                entry = map.get(key);
+                
+                entry.value = value;
+                
+                entry.prev.next = entry.next;
+                entry.next.prev = entry.prev;
+                
+                entry.prev = this.head;
+                entry.next = this.head.next;
+                this.head.next.prev = entry;
+                this.head.next = entry;
+            }
         }
     }
     
@@ -133,21 +136,17 @@ public class LRU<E, T> {
      * 
      * @param key
      * */
-    public void remove(E key) {
+    public synchronized void remove(E key) {
         
-        Entry<E, T> entry = map.get(key);
-        
-        synchronized(this) {
+           Entry<E, T> entry = map.get(key);
            this.tail.prev = entry.prev;
            entry.prev.next = this.tail;
            map.remove(entry.key);
            this.length--;   
-        }
-
     }
     
     // remove least used elements
-    public void removeLeasedUsedElements(){
+    public synchronized void removeLeasedUsedElements(){
         
         int rows    = this.removePercent / 100 *  this.capacity;
         rows        = rows == 0 ? 1 : rows;
