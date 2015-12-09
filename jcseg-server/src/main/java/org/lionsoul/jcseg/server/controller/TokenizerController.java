@@ -21,13 +21,13 @@ import org.lionsoul.jcseg.server.core.UriEntry;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
  * tokenize service handler
  * 
+ * @author dongyado<dongyado@gmail.com>
  * @author chenxin<chenxin619315@gmail.com>
 */
 public class TokenizerController extends JcsegController
@@ -140,7 +140,7 @@ public class TokenizerController extends JcsegController
         
         try {
             ISegment seg = SegmentFactory
-                    .createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
+                    .createJcseg(tokenizerEntry.getAlgorithm(),
                             new Object[]{ tokenizerEntry.getConfig(), tokenizerEntry.getDict()});
             
             IWord word = null;
