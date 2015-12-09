@@ -3,6 +3,8 @@ package org.lionsoul.jcseg.server.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lionsoul.jcseg.server.util.LRUCache;
+
 /**
  * context router - only when it perfect match 
  *     this router implements paths map a/b, a/b/* to a controller class
@@ -12,7 +14,8 @@ import java.util.Map;
 public class ContextRouter extends AbstractRouter
 {
     private Map<String, Class<? extends Controller>> maps         = null;
-    private Map<String, Class<? extends Controller>> matches     = null;
+    private Map<String, Class<? extends Controller>> matches      = null;
+    private LRUCache<String, Class<? extends Controller>> cache   = null;
     
     
     private static int MAP_PATH_TYPE = 1;
@@ -23,7 +26,8 @@ public class ContextRouter extends AbstractRouter
         super(defaultController);
         
         maps     = new HashMap<String, Class<? extends Controller>>();
-        matches = new HashMap<String, Class<? extends Controller>>();
+        matches  = new HashMap<String, Class<? extends Controller>>();
+        cache    = new LRUCache<String, Class<? extends Controller>>( 128, 10);
     }
     
     
@@ -33,11 +37,8 @@ public class ContextRouter extends AbstractRouter
     private class PathEntry 
     {
         public int type     = 0; // 1 - 100% match for map, 2 - pattern match for matches
-        public String key     = null;
-//        public HashMap<String, String> params = null;
-//        
-//        public PathEntry(){}
-//        
+        public String key   = null;
+        
         public PathEntry(int _type, String _key)
         {
             this.type = _type;
@@ -138,35 +139,47 @@ public class ContextRouter extends AbstractRouter
         PathEntry pathEntry = this.getPathEntry(uriEntry);
         Class<? extends Controller> controller = null;
         
+        String uri = uriEntry.getRequestUri();
+        
         
         if ( pathEntry.type == ContextRouter.MAP_PATH_TYPE)
         {
             controller = maps.get(pathEntry.key);
         }
+
         
-        // if cannot find the controller from maps.  
+        // try to get controller from lru cache
+        controller  = cache.get(uri);
+
+        
+        // if cannot find the controller in maps or cache .  
         // we try it from matches, even if its type is MAP_PATH_TYPE
         // and of course type of MATCH_PATH_TYPE should get controller from matches too.
+        
         if ( controller == null ||  pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
         {
-            String key = uriEntry.getRequestUri();
+            String key = uri;
             
             int lastPosition = key.lastIndexOf('/');
             
             while( lastPosition != -1)
             {
                 key         = key.substring(0, lastPosition);
-                controller     = matches.get(key + '/');
+                controller  = matches.get(key + '/');
                 
                 if (controller != null) {
-                    // @note maybe we can store the result key and controller
-                    //  to another map to improve performance
+                    // store the result to cache
+                    cache.set(uri, controller);
                     break;
                 }
-                lastPosition = key.lastIndexOf('/');
+                lastPosition = key.lastIndexOf('/');     
             }
-        }
-
+        } 
+        
+//        cache.printList();
+//        System.out.println("@--cache length: " + cache.getLength() + " \n");
+        
+        
         return controller != null ? controller : defaultController;
     }
 }

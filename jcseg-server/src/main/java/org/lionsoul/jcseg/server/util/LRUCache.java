@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.server.util.lru;
+package org.lionsoul.jcseg.server.util;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
  * 
  * @author dongyado<dongyado@gmail.com>
  * */
-public class LRU<E, T> {
+public class LRUCache<E, T> {
 
     @SuppressWarnings("hiding")
     private class Entry<E, T> {
@@ -34,22 +34,18 @@ public class LRU<E, T> {
     private Entry<E, T> head;
     private Entry<E, T> tail;
     
-    public LRU(int capacity)
+    public LRUCache(int capacity)
     {
         this.capacity = capacity;
-        
         this.init();
-
     }
     
     
-    public LRU(int capacity, int percentToRemove)
+    public LRUCache(int capacity, int percentToRemove)
     {
         this.capacity       = capacity;
         this.removePercent  = percentToRemove;
-        
         this.init();
-
     }
     
     
@@ -74,7 +70,6 @@ public class LRU<E, T> {
         synchronized(this) 
         {
             entry = map.get(key);
-            
             if (map.get(key) == null)
                 return null;
         
@@ -103,7 +98,7 @@ public class LRU<E, T> {
             if (map.get(key) == null) {
                 
                 if (this.length >= this.capacity) 
-                    this.removeLeasedUsedElements();
+                    this.removeLeastUsedElements();
 
                 entry.prev = this.head;
                 entry.next = this.head.next;
@@ -146,12 +141,12 @@ public class LRU<E, T> {
     }
     
     // remove least used elements
-    public synchronized void removeLeasedUsedElements(){
+    public synchronized void removeLeastUsedElements(){
         
-        int rows    = this.removePercent / 100 *  this.capacity;
+        int rows    = this.removePercent / 100 *  this.length;
         rows        = rows == 0 ? 1 : rows;
         
-        while(rows > 0 & this.length > 0) {
+        while(rows > 0 && this.length > 0) {
             // remove the last element
             Entry<E, T> entry = this.tail.prev;
             
@@ -159,6 +154,35 @@ public class LRU<E, T> {
             entry.prev.next = this.tail;
             map.remove(entry.key);
             this.length--;
+            rows--;
         }
+    }
+   
+    
+    /**
+     * return the length of list
+     * 
+     * @return int
+     * */
+    public synchronized int  getLength(){
+        return this.length;
+    }
+    
+    
+    /**
+     * print the list 
+     * 
+     * @NOTE for test
+     * */
+    public synchronized void printList(){
+        Entry<E, T> entry = this.head.next;
+        
+        System.out.println("\n|----- key list----|");
+        while( entry != this.tail)
+        {
+            System.out.println(" -> " + entry.key );
+            entry = entry.next;
+        }
+        System.out.println("|------- end --------|\n");
     }
 }
