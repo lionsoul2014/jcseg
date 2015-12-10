@@ -15,7 +15,7 @@
 > * 关键句子提取：基于textRank算法。
 > * 文章自动摘要：基于BM25+textRank算法。
 > * 自动词性标注：目前只是基于词库，效果不是很理想。
-> * Restful api：嵌入jetty提供了一个绝对高性能的server模块，包含全部功能的http接口，方便各种语言客户端直接调用。
+> * Restful api：嵌入jetty提供了一个绝对高性能的server模块，包含全部功能的http接口，标准化json输出格式，方便各种语言客户端直接调用。
 
 # **Jcseg**中文分词：
 ------
@@ -159,6 +159,8 @@ jcseg_detect: 对应Jcseg的检测模式切分算法
 
 # **Jcseg**分词服务器:
 ------
+
+jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，给jcseg的全部功能都加上了restful接口，并且标准化了api结果的json输出格式，各大语言直接使用http客户端调用即可。
 
 ### 编译jcseg: 
 1. maven编译jcseg，得到jcseg-server-{version}.jar, maven已经将依赖的jar包一起编译进去了，如果是ant编译运行时请将依赖包载入。
