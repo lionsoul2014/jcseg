@@ -1,6 +1,6 @@
 package org.lionsoul.jcseg.analyzer.v5x;
 
-/*import java.io.IOException;
+import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -11,7 +11,7 @@ import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;*/
+import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 
 /**
@@ -38,7 +38,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;*/
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-/*public class JcsegTokenizer extends Tokenizer 
+public class JcsegTokenizer extends Tokenizer 
 {
     //the default jcseg segmentor
     private ISegment segmentor;
@@ -85,4 +85,4 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;*/
         super.reset();
         segmentor.reset(input);
     }
-}*/
+}

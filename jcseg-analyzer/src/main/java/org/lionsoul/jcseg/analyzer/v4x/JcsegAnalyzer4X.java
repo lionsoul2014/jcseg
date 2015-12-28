@@ -1,5 +1,5 @@
 package org.lionsoul.jcseg.analyzer.v4x;
-
+/*
 import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -9,11 +9,11 @@ import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 
-/**
+*//**
  * jcseg analyzer for lucene 4.x.x
  * 
  * @author    chenxin<chenxin619315@gmail.com>
- */
+ *//*
 public class JcsegAnalyzer4X extends Analyzer 
 {
     
@@ -67,4 +67,4 @@ public class JcsegAnalyzer4X extends Analyzer
         
         return null;
     }
-}
+}*/

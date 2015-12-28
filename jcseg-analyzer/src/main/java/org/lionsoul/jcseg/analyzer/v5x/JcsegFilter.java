@@ -1,9 +1,9 @@
 package org.lionsoul.jcseg.analyzer.v5x;
 
-/*import java.io.IOException;
+import java.io.IOException;
 
 import org.apache.lucene.analysis.TokenFilter;
-import org.apache.lucene.analysis.TokenStream;*/
+import org.apache.lucene.analysis.TokenStream;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import org.apache.lucene.analysis.TokenStream;*/
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
-/*public class JcsegFilter extends TokenFilter 
+public class JcsegFilter extends TokenFilter 
 {
     
     //private CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
@@ -34,4 +34,4 @@ import org.apache.lucene.analysis.TokenStream;*/
         
         return false;
     }
-}*/
+}

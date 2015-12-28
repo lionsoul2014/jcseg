@@ -8,7 +8,7 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
 import org.elasticsearch.index.settings.IndexSettings;
-import org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizer;
+import org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizer;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -55,7 +55,7 @@ public class JcsegTokenizerFactory extends AbstractTokenizerFactory
             mode = JcsegTaskConfig.DETECT_MODE;
         
         try {
-            return new JcsegTokenizer(reader, mode, config, dic);
+            return new JcsegTokenizer(mode, config, dic);
         } catch (JcsegException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

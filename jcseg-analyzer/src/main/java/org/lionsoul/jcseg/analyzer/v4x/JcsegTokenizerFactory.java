@@ -1,5 +1,5 @@
 package org.lionsoul.jcseg.analyzer.v4x;
-
+/*
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
@@ -12,11 +12,11 @@ import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
-/**
+*//**
  * jcseg tokenizer factory class for solr
  * 
  * @author chenxin<chenxin619315@gmail.com>
- */
+ *//*
 public class JcsegTokenizerFactory extends TokenizerFactory 
 {
     
@@ -24,12 +24,12 @@ public class JcsegTokenizerFactory extends TokenizerFactory
     private JcsegTaskConfig config = null;
     private ADictionary dic = null;
 
-    /**
+    *//**
      * set the mode arguments in the schema.xml 
      *     configuration file to change the segment mode for jcseg
      * 
      * @see TokenizerFactory#TokenizerFactory(Map<String, String)
-     */
+     *//*
     public JcsegTokenizerFactory(Map<String, String> args)
     {
         super(args);
@@ -86,4 +86,4 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         
         return null;
     }
-}
+}*/

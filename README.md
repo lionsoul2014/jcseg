@@ -115,24 +115,24 @@ jcseg~tokenizer>>
     <!----复杂模式分词: -->
     <fieldtype name="textComplex" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="complex"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="complex"/>
         </analyzer>
     </fieldtype>
     <!----简易模式分词: -->
     <fieldtype name="textSimple" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="simple"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="simple"/>
         </analyzer>
     </fieldtype>
     <!----检测模式分词: -->
     <fieldtype name="textSimple" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.4x.JcsegTokenizerFactory" mode="detect"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="detect"/>
         </analyzer>
     </fieldtype>
 ```
 
-注：如果使用的是solr-5.x版本，请将org.lionsoul.jcseg.analyzer.5x下的代码反注释，然后编译得到新的jar包导入，再把上面xml配置中的4x改成5x。
+注：如果使用的是solr-5.x版本，请将org.lionsoul.jcseg.analyzer.v5x下的代码反注释，然后编译得到新的jar包导入，再把上面xml配置中的v4x改成v5x。
 
 # **Jcseg** elasticsearch接口：
 ------

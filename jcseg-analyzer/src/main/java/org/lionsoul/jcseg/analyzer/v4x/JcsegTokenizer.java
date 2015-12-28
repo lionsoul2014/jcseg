@@ -1,5 +1,5 @@
 package org.lionsoul.jcseg.analyzer.v4x;
-
+/*
 import java.io.IOException;
 import java.io.Reader;
 
@@ -14,7 +14,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 
-/**
+*//**
  * <p>
  * here is the documentation from {@link org.apache.lucene.analysis.tokenizer}
  * A Tokenizer is a TokenStream whose input is a Reader.
@@ -37,7 +37,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  * <p>jcseg tokennizer for lucene 4.x.x</p>
  * 
  * @author    chenxin<chenxin619315@gmail.com>
- */
+ *//*
 public class JcsegTokenizer extends Tokenizer 
 {
     private ISegment segmentor;
@@ -80,4 +80,4 @@ public class JcsegTokenizer extends Tokenizer
         super.reset();
         segmentor.reset(input);
     }
-}
+}*/

@@ -1,17 +1,17 @@
 package org.lionsoul.jcseg.analyzer.v4x;
-
+/*
 import java.io.IOException;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 
-/**
+*//**
  * <p>
  * token filter class according the to lucene API, this will be remove in in Lucene 5.0
  * </p>
  * 
  * @author chenxin<chenxin619315@gmail.com>
- */
+ *//*
 public class JcsegFilter extends TokenFilter 
 {
     
@@ -34,4 +34,4 @@ public class JcsegFilter extends TokenFilter
         
         return false;
     }
-}
+}*/
