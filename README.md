@@ -95,7 +95,7 @@ jcseg~tokenizer>>
     //lucene 5.x版本
     //Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
     //非必须(用于修改默认配置): 获取分词任务配置实例
-    JcsegAnalyzer4X jcseg = (JcsegAnalyzer4X) analyzer;
+    JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
     JcsegTaskConfig config = jcseg.getTaskConfig();
     //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
     config.setAppendCJKSyn(true);
@@ -115,24 +115,24 @@ jcseg~tokenizer>>
     <!----复杂模式分词: -->
     <fieldtype name="textComplex" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="complex"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="complex"/>
         </analyzer>
     </fieldtype>
     <!----简易模式分词: -->
     <fieldtype name="textSimple" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="simple"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="simple"/>
         </analyzer>
     </fieldtype>
     <!----检测模式分词: -->
     <fieldtype name="textSimple" class="solr.TextField">
         <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v4x.JcsegTokenizerFactory" mode="detect"/>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
         </analyzer>
     </fieldtype>
 ```
 
-注：如果使用的是solr-5.x版本，请将org.lionsoul.jcseg.analyzer.v5x下的代码反注释，然后编译得到新的jar包导入，再把上面xml配置中的v4x改成v5x。
+注：如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
 
 # **Jcseg** elasticsearch接口：
 ------
