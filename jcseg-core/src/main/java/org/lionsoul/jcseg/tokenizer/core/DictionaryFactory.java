@@ -13,7 +13,18 @@ import org.lionsoul.jcseg.tokenizer.Dictionary;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class DictionaryFactory {
+public class DictionaryFactory 
+{
+    /**
+     * singleton lock 
+    */
+    private final static Object LOCK = new Object();
+    
+    /**
+     * singleton dictionary object 
+    */
+    private static ADictionary singletonDic = null;
+    
     
     private DictionaryFactory() {}
     
@@ -68,7 +79,21 @@ public class DictionaryFactory {
         return dic;
     }
     
-    public static ADictionary createDefaultDictionary( JcsegTaskConfig config ) {
+    public static ADictionary createDefaultDictionary(JcsegTaskConfig config) {
         return createDefaultDictionary(config, config.isAutoload());
+    }
+    
+    /**
+     * create a singleton ADictionary object
+     * 
+     * @return  ADictionary
+    */
+    public static ADictionary createSingletonDictionary(JcsegTaskConfig config) {
+        synchronized (LOCK) {
+            if ( singletonDic == null ) {
+                singletonDic = createDefaultDictionary(config);
+            }
+        }
+        return singletonDic;
     }
 }
