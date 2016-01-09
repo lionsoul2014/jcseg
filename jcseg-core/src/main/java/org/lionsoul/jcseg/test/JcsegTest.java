@@ -45,7 +45,8 @@ public class JcsegTest
         //reset the options from a property file.
         //config.resetFromPropertyFile("/java/JavaSE/jcseg/jcseg.properties");
         
-        ADictionary dic = DictionaryFactory.createDefaultDictionary(tokenizerConfig);
+        //ADictionary dic = DictionaryFactory.createDefaultDictionary(tokenizerConfig);
+        ADictionary dic = DictionaryFactory.createSingletonDictionary(tokenizerConfig);
         
         //two ways to reload lexicons
         //for ( String lpath : config.getLexiconPath() )
