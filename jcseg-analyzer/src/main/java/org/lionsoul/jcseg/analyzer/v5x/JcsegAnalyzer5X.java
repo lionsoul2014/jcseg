@@ -27,7 +27,7 @@ public class JcsegAnalyzer5X extends Analyzer
         
         //initialize the task config and the dictionary
         config = new JcsegTaskConfig();
-        dic = DictionaryFactory.createDefaultDictionary(config);
+        dic = DictionaryFactory.createSingletonDictionary(config);
     }
     
     public JcsegAnalyzer5X( int mode, String proFile )
@@ -35,7 +35,7 @@ public class JcsegAnalyzer5X extends Analyzer
         this.mode = mode;
         
         config = new JcsegTaskConfig(proFile);
-        dic = DictionaryFactory.createDefaultDictionary(config);
+        dic = DictionaryFactory.createSingletonDictionary(config);
     }
     
     public void setConfig( JcsegTaskConfig config ) 
