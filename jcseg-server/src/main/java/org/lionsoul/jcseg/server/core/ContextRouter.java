@@ -149,7 +149,8 @@ public class ContextRouter extends AbstractRouter
 
         
         // try to get controller from lru cache
-        controller  = cache.get(uri);
+        if (controller == null)
+            controller  = cache.get(uri);
 
         
         // if cannot find the controller in maps or cache .  
