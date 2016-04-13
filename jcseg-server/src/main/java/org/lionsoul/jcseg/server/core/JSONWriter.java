@@ -97,8 +97,14 @@ public class JSONWriter
                 sb.append(o.toString()).append(',');
             } else {
                 String v = o.toString();
+                int last = v.length() - 1;
+                
+                // Avoid string like "[Error] there is a problem" treat as a array 
+                // and "{error}: there is a problem" treat as object
                 if ( v.length() > 1 
-                        && (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
+                        && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
+                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                ) {
                     sb.append(v).append(',');
                 } else {
                     sb.append('"').append(v).append("\",");
@@ -140,8 +146,12 @@ public class JSONWriter
                 sb.append(o.toString()).append(',');
             } else {
                 String v = o.toString();
+                int last = v.length() - 1;
+                
                 if ( v.length() > 1 
-                        && (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
+                        && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
+                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                ) {
                     sb.append(v).append(',');
                 } else {
                     sb.append('"').append(v).append("\",");
@@ -186,8 +196,12 @@ public class JSONWriter
                 sb.append(obj.toString()).append(',');
             } else {
                 String v = obj.toString();
+                int last = v.length() - 1;
+                
                 if ( v.length() > 1 
-                        && (v.charAt(0) == '{' || v.charAt(0) == '[') ) {
+                        && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
+                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                ) {
                     sb.append(v).append(',');
                 } else {
                     sb.append('"').append(v).append("\",");
