@@ -103,7 +103,7 @@ public class JSONWriter
                 // and "{error}: there is a problem" treat as object
                 if ( v.length() > 1 
                         && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
-                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                                || (v.charAt(0) == '[' && v.charAt(last) == ']' ) ) 
                 ) {
                     sb.append(v).append(',');
                 } else {
@@ -150,7 +150,7 @@ public class JSONWriter
                 
                 if ( v.length() > 1 
                         && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
-                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                                || (v.charAt(0) == '[' && v.charAt(last) == ']' ) ) 
                 ) {
                     sb.append(v).append(',');
                 } else {
@@ -200,7 +200,7 @@ public class JSONWriter
                 
                 if ( v.length() > 1 
                         && ( (v.charAt(0) == '{' && v.charAt(last) == '}' )
-                                || (v.charAt(0) == '[' && v.charAt(last) == '}' ) ) 
+                                || (v.charAt(0) == '[' && v.charAt(last) == ']' ) ) 
                 ) {
                     sb.append(v).append(',');
                 } else {
