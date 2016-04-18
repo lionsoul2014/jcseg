@@ -161,9 +161,9 @@ public class TokenizerController extends JcsegController
                 }
                 
                 if (ret_pos) {
-                    String pos = "";
                     String[] poss = word.getPartSpeech();
-                    if ( pos != null ) {
+
+                    if ( poss != null ) {
                         w.setPartSpeech(poss[0]);
                     }
                 }

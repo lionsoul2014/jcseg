@@ -79,7 +79,7 @@ public class JcsegServer
         HttpConfiguration http_config = new HttpConfiguration();
         http_config.setOutputBufferSize(config.getOutputBufferSize());
         http_config.setRequestHeaderSize(config.getRequestHeaderSize());
-        http_config.setResponseHeaderSize(config.getRequestHeaderSize());
+        http_config.setResponseHeaderSize(config.getResponseHeaderSize());
         http_config.setSendServerVersion(false);
         http_config.setSendDateHeader(false);
         
