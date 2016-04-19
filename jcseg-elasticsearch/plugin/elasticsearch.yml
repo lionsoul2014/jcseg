@@ -1,4 +1,7 @@
-#append the following setting to you elasticsearch.yml
+# @Note: 
+# append the following setting to you elasticsearch.yml
+# -----------------------------------------------------
+# setting for jcseg analysis
 index:
   analysis:
   
@@ -6,18 +9,17 @@ index:
       jcseg_complex:
         type: jcseg
         seg_mode: complex
+        # config_file: self define jcseg.properties file path [optional]
       jcseg_simple:
         type: jcseg
         seg_mode: simple
+        # config_file: optional self define jcseg.properties file path [optional]
       jcseg_detect:
         type: jcseg
         seg_mode: detect
+        # config_file: self define jcseg.properties file path [optional]
         
     analyzer:
-      jcseg:
-        alias:
-        - jcseg_analyzer
-        type: org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegAnalyzerProvider
       jcseg_complex:
         type: custom
         filter:

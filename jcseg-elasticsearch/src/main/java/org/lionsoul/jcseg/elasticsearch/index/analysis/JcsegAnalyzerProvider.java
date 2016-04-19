@@ -27,7 +27,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
-import org.elasticsearch.index.settings.IndexSettings;
+import org.elasticsearch.index.settings.IndexSettingsService;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
@@ -42,21 +42,22 @@ public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAn
     private final JcsegAnalyzer5X analyzer;
     
     @Inject
-    public JcsegAnalyzerProvider(Index index, @IndexSettings Settings indexSettings, 
+    public JcsegAnalyzerProvider(Index index, IndexSettingsService indexSettingsService, 
             Environment env, @Assisted String name, @Assisted Settings settings) 
     {
-        super(index, indexSettings, name, settings);
-        //System.out.println("###Analyzer: "+env.configFile()+"###");
-        File proFile = new File(env.configFile()+"/jcseg/jcseg.properties");
+        super(index, indexSettingsService.getSettings(), name, settings);
+        
+        File proFile = new File(settings.get("config_file", "plugins/jcseg/jcseg.properties"));
         String seg_mode = settings.get("seg_mode", "complex");
         
         int mode = JcsegTaskConfig.COMPLEX_MODE;
-        if( seg_mode.equals("complex") )
+        if( seg_mode.equals("complex") ) {
             mode = JcsegTaskConfig.COMPLEX_MODE;
-        else if ( seg_mode.equals("simple") )
+        } else if ( seg_mode.equals("simple") ) {
             mode = JcsegTaskConfig.SIMPLE_MODE;
-        else if( seg_mode.equals("detect") )
+        } else if( seg_mode.equals("detect") ) {
             mode = JcsegTaskConfig.DETECT_MODE;
+        }
         
         analyzer = proFile.exists() ? 
             new JcsegAnalyzer5X(mode, proFile.getPath()) : new JcsegAnalyzer5X(mode);
@@ -66,4 +67,5 @@ public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAn
     {
         return this.analyzer;
     }
+    
 }
