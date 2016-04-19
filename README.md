@@ -137,8 +137,8 @@ jcseg~tokenizer>>
 # **Jcseg** elasticsearch接口：
 ------
 
-```
-if ( elasticsearch.version < 2.x (Not Sure) ) {
+##### elasticsearch.version < 2.x (Not sure)
+
 1. 下载最新版本的 **Jcseg**源码。
 2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包（建议使用maven，ant需要自己下载对应的依赖包）。
 3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugins/analysis-jcseg目录下（自己建立该文件夹，如果不存在）。
@@ -146,7 +146,9 @@ if ( elasticsearch.version < 2.x (Not Sure) ) {
 5. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
 6. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
 7. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
-} else {
+
+##### elasticsearch.version >= 2.x
+
 1. 下载最新版本的 **Jcseg**源码。
 2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包（建议使用maven，ant需要自己下载对应的依赖包）。
 3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
@@ -155,8 +157,7 @@ if ( elasticsearch.version < 2.x (Not Sure) ) {
 6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
 7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
 8. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
-}
-```
+
 
 可选的analyzer名字：
 
