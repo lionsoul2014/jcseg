@@ -62,8 +62,7 @@ public class JcsegTokenizer extends Tokenizer
         clearAttributes();
         IWord word = segmentor.next();
         
-        if ( word == null )
-        {
+        if ( word == null ) {
             end();
             return false;
         }

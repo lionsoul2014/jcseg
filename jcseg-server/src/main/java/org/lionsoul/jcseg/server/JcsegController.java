@@ -44,7 +44,7 @@ public class JcsegController extends Controller
         response.setContentType("application/json;charset="+config.getCharset());
         
         JSONWriter json = JSONWriter.create()
-                .put("status", true)
+                .put("status", status)
                     .put("errcode", errcode)
                         .put("data", data);
         

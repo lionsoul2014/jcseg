@@ -137,20 +137,34 @@ jcseg~tokenizer>>
 # **Jcseg** elasticsearch接口：
 ------
 
+##### elasticsearch.version < 2.x (Not sure)
+
 1. 下载最新版本的 **Jcseg**源码。
-2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包。
-3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugin/analysis-jcseg目录下(自己建立这个文件夹)。
-4. 拷贝一份jcseg.properties到{ES_HOME}/config/jcseg目录下(自己建立文件夹)。
-5. 配置好jcseg.properties,尤其是配置lexicon.path正想正确的词库(可选,如果身略步骤 4,则jcseg按照先前上面的说自动搜寻jcseg.properties配置文件初始化选项)。
+2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包（建议使用maven，ant需要自己下载对应的依赖包）。
+3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugins/analysis-jcseg目录下（自己建立该文件夹，如果不存在）。
+4. 拷贝一份jcseg.properties到{ES_HOME}/config/jcseg目录下（自己建立该文件夹，如果不存在）。
+5. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
 6. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
 7. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
-8. 可选的analyzer名字：
+
+##### elasticsearch.version >= 2.x
+
+1. 下载最新版本的 **Jcseg**源码。
+2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包（建议使用maven，ant需要自己下载对应的依赖包）。
+3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+4. 拷贝一份jcseg.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
+7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
+8. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
+
+
+可选的analyzer名字：
 
 ```
-jcseg: Jcseg的复杂模式切分算法
-jcseg_comple: 对应Jcseg的复杂模式切分算法 
-jcseg_simple: 对应Jcseg的简易切分算法 
-jcseg_detect: 对应Jcseg的检测模式切分算法
+jcseg_complex: 对应Jcseg的复杂模式切分算法 
+jcseg_simple : 对应Jcseg的简易切分算法 
+jcseg_detect : 对应Jcseg的检测模式切分算法
 
 ```
 

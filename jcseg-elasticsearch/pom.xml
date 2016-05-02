@@ -14,7 +14,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <es.version>1.7.3</es.version>
+    <es.version>2.3.1</es.version>
   </properties>
   
   <dependencies>
