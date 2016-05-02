@@ -43,15 +43,18 @@ public class JcsegAnalyzer4X extends Analyzer
         this.config = config;
     }
     
-    public void setDict( ADictionary dic ) {
+    public void setDict( ADictionary dic )
+    {
         this.dic = dic;
     }
     
-    public JcsegTaskConfig getTaskConfig() {
+    public JcsegTaskConfig getTaskConfig()
+    {
         return config;
     }
     
-    public ADictionary getDict() {
+    public ADictionary getDict()
+    {
         return dic;
     }
 

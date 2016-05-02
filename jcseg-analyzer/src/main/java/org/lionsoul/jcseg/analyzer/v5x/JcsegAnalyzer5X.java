@@ -43,24 +43,26 @@ public class JcsegAnalyzer5X extends Analyzer
         this.config = config;
     }
     
-    public void setDict( ADictionary dic ) {
+    public void setDict( ADictionary dic )
+    {
         this.dic = dic;
     }
     
-    public JcsegTaskConfig getTaskConfig() {
+    public JcsegTaskConfig getTaskConfig()
+    {
         return config;
     }
     
-    public ADictionary getDict() {
+    public ADictionary getDict()
+    {
         return dic;
     }
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName) 
     {
-        Tokenizer tokenizer;
         try {
-            tokenizer = new JcsegTokenizer(mode, config, dic);
+        	Tokenizer tokenizer = new JcsegTokenizer(mode, config, dic);
             return new TokenStreamComponents(tokenizer, new JcsegFilter(tokenizer));
         } catch (JcsegException e) {
             e.printStackTrace();
