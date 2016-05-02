@@ -29,14 +29,16 @@ import org.lionsoul.jcseg.tokenizer.filter.MMSegFilter;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class ComplexSeg extends ASegment {
-    
-    public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException {
+public class ComplexSeg extends ASegment
+{
+    public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    {
         super(config, dic);
     }
     
     public ComplexSeg( Reader input, 
-            JcsegTaskConfig config, ADictionary dic ) throws IOException {
+            JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    {
         super(input, config, dic);
     }
 
@@ -46,7 +48,6 @@ public class ComplexSeg extends ASegment {
     @Override
     public IChunk getBestCJKChunk(char chars[], int index) 
     {
-        
         IWord[] mwords = getNextMatch(chars, index), mword2, mword3;
         if ( mwords.length == 1 
                 && mwords[0].getType() == ILexicon.UNMATCH_CJK_WORD ) {
@@ -56,12 +57,10 @@ public class ComplexSeg extends ASegment {
         int idx_2, idx_3;
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
         
-        for ( int x = 0; x < mwords.length; x++ ) 
-        {
+        for ( int x = 0; x < mwords.length; x++ ) {
             //the second layer
             idx_2 = index + mwords[x].getLength();
-            if ( idx_2 < chars.length ) 
-            {
+            if ( idx_2 < chars.length ) {
                 mword2 = getNextMatch(chars, idx_2);
                 /*
                  * the first try for the second layer
@@ -74,14 +73,12 @@ public class ComplexSeg extends ASegment {
                     return new Chunk(new IWord[]{mwords[mwords.length - 1]});
                 }
                 
-                for ( int y = 0; y < mword2.length; y++ ) 
-                {
+                for ( int y = 0; y < mword2.length; y++ ) {
                     //the third layer
                     idx_3 = idx_2 + mword2[y].getLength();
                     if ( idx_3 < chars.length ) {
                         mword3 = getNextMatch(chars, idx_3);
-                        for ( int z = 0; z < mword3.length; z++ ) 
-                        {
+                        for ( int z = 0; z < mword3.length; z++ ) {
                             ArrayList<IWord> wArr = new ArrayList<IWord>(3);
                             wArr.add(mwords[x]);
                             wArr.add(mword2[y]);
@@ -103,8 +100,7 @@ public class ComplexSeg extends ASegment {
             }
         }
         
-        if ( chunkArr.size() == 1 ) 
-        {
+        if ( chunkArr.size() == 1 ) {
             return chunkArr.get(0);
         }
         
@@ -135,29 +131,25 @@ public class ComplexSeg extends ASegment {
     {
         //call the maximum match rule.
         IChunk[] afterChunks = MMSegFilter.getMaximumMatchChunks(chunks);
-        if ( afterChunks.length == 1 )
-        {
+        if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
         //call the largest average rule.
         afterChunks = MMSegFilter.getLargestAverageWordLengthChunks(afterChunks);
-        if ( afterChunks.length == 1 )
-        {
+        if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
         //call the smallest variance rule.
         afterChunks = MMSegFilter.getSmallestVarianceWordLengthChunks(afterChunks);
-        if ( afterChunks.length == 1 )
-        {
+        if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
         //call the largest sum of degree of morphemic freedom rule.
         afterChunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(afterChunks);
-        if ( afterChunks.length == 1 )
-        {
+        if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         

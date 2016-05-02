@@ -165,8 +165,9 @@ public class Word implements IWord,Cloneable
             String[] bak = partspeech;
             partspeech = new String[partspeech.length + 1];
             int j;
-            for ( j = 0; j < bak.length; j++ )
-                partspeech[j] = bak[j];
+            for ( j = 0; j < bak.length; j++ ) {
+            	partspeech[j] = bak[j];
+            }
             partspeech[j] = ps;
             bak = null;
         }
@@ -185,8 +186,9 @@ public class Word implements IWord,Cloneable
             String[] tycA = syn;
             syn = new String[syn.length + 1];
             int j;
-            for ( j = 0; j < tycA.length; j++ )
-                syn[j] = tycA[j];
+            for ( j = 0; j < tycA.length; j++ ) {
+            	syn[j] = tycA[j];
+            }
             syn[j] = s;
             tycA = null;
         }
@@ -198,10 +200,9 @@ public class Word implements IWord,Cloneable
      */
     public boolean equals( Object o ) 
     {
-        if ( this == o )     return true;
+        if ( this == o ) return true;
         
-        if ( o instanceof IWord )  
-        {
+        if ( o instanceof IWord ) {
             IWord word = (IWord) o;
             boolean bool = word.getValue().equalsIgnoreCase(this.getValue());
             /*
@@ -245,28 +246,33 @@ public class Word implements IWord,Cloneable
         //append the cx
         if ( partspeech != null ) {
             for ( int j = 0; j < partspeech.length; j++ ) {
-                if ( j == 0 ) sb.append(partspeech[j]);
-                else {
+                if ( j == 0 ) {
+                	sb.append(partspeech[j]);
+                } else {
                     sb.append(',');
                     sb.append(partspeech[j]);
                 }
             }
-        } else 
-            sb.append("null");
+        } else {
+        	sb.append("null");
+        }
+        
         sb.append('/');
         sb.append(pinyin);
         sb.append('/');
         //append the tyc
         if ( syn != null ) {
             for ( int j = 0; j < syn.length; j++ ) {
-                if ( j == 0 ) sb.append(syn[j]);
-                else {
+                if ( j == 0 ) {
+                	sb.append(syn[j]);
+                } else {
                     sb.append(',');
                     sb.append(syn[j]);
                 }
             }
-        } else 
-            sb.append("null");
+        } else {
+        	sb.append("null");
+        }
         
         if ( value.length() == 1 ) {
             sb.append('/');
@@ -285,8 +291,7 @@ public class Word implements IWord,Cloneable
     @Override
     public int hashCode()
     {
-        if ( h == -1 )
-        {
+        if ( h == -1 ) {
             /*
              * DJB hash algorithm 2
              * invented by doctor Daniel J. Bernstein.

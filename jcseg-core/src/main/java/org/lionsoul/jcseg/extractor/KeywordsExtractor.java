@@ -26,7 +26,8 @@ public abstract class KeywordsExtractor
      * 
      * @param    seg
     */
-    public KeywordsExtractor( ISegment seg ) {
+    public KeywordsExtractor( ISegment seg )
+    {
         this.seg = seg;
     }
     
@@ -41,21 +42,18 @@ public abstract class KeywordsExtractor
          * normally word with length less than 2 will
          * be something, well could be ignored 
         */
-        if ( word.getValue().length() < 2 ) 
-        {
+        if ( word.getValue().length() < 2 ) {
             return false;
         }
         
         //type check
-        switch ( word.getType() )
-        {
+        switch ( word.getType() ) {
             //case IWord.T_BASIC_LATIN:
             case IWord.T_LETTER_NUMBER:
             case IWord.T_OTHER_NUMBER:
             case IWord.T_CJK_PINYIN:
             case IWord.T_PUNCTUATION:
-            case IWord.T_UNRECOGNIZE_WORD:
-            {
+            case IWord.T_UNRECOGNIZE_WORD: {
                 return false;
             }
         }
@@ -65,15 +63,12 @@ public abstract class KeywordsExtractor
         if ( poss == null ) return true;
         
         char pos = poss[0].charAt(0);
-        switch ( pos )
-        {
-             case 'e':
-             {
-                 if ( poss[0].equals("en") ) return true;
-                 return false;
-             }
-            case 'm':
-            {
+        switch ( pos ) {
+			case 'e': {
+				if ( poss[0].equals("en") ) return true;
+				return false;
+			}
+            case 'm': {
                 if ( poss[0].equals("mix") ) return true;
                 return false;
             }
@@ -91,8 +86,7 @@ public abstract class KeywordsExtractor
             case 'k':
             case 'g':
             case 'x':
-            case 'w':
-            {
+            case 'w': {
                 return false;
             }
             
@@ -143,11 +137,13 @@ public abstract class KeywordsExtractor
     public abstract List<String> getKeywords(Reader reader) throws IOException;
 
     
-    public ISegment getSeg() {
+    public ISegment getSeg()
+    {
         return seg;
     }
 
-    public void setSeg(ISegment seg) {
+    public void setSeg(ISegment seg)
+    {
         this.seg = seg;
     }
 }

@@ -18,10 +18,11 @@ public class JcsegTaskConfig implements Cloneable
 {
     /**default lexicon property file name*/
     public static final String LEX_PROPERTY_FILE = "jcseg.properties";
+    
     /**simple algorithm or complex algorithm */
-    public static final int SIMPLE_MODE     = 1;
-    public static final int COMPLEX_MODE     = 2;
-    public static final int DETECT_MODE        = 3;
+    public static final int SIMPLE_MODE	= 1;
+    public static final int COMPLEX_MODE	= 2;
+    public static final int DETECT_MODE	= 3;
     
     /**maximum length for maximum match(5-7)*/
     public int MAX_LENGTH = 5;
@@ -106,8 +107,7 @@ public class JcsegTaskConfig implements Cloneable
     public JcsegTaskConfig( String proFile, boolean resetPro ) 
     {
         //reset the properties from the specifield file ?
-        if ( resetPro )
-        {
+        if ( resetPro ) {
             try {
                 resetFromPropertyFile(proFile);
             } catch (IOException e) {
@@ -130,8 +130,7 @@ public class JcsegTaskConfig implements Cloneable
         Properties lexPro = new Properties();
         String jarHome = null;
         /*load the mapping from the default property file.*/
-        if ( proFile == null ) 
-        {
+        if ( proFile == null ) {
             /*
              * 1.load the the jcseg.properties located with the jar file.
              * 2.load the jcseg.propertiess from the classpath.
@@ -140,15 +139,13 @@ public class JcsegTaskConfig implements Cloneable
             boolean jcseg_properties = false;
             jarHome = Util.getJarHome(this);
             File pro_file = new File(jarHome+"/"+LEX_PROPERTY_FILE);
-            if ( pro_file.exists() ) 
-            {
+            if ( pro_file.exists() ) {
                 lexPro.load(new FileReader(pro_file));
                 pfile = jarHome+"/"+LEX_PROPERTY_FILE;
                 jcseg_properties = true;
             }
             
-            if ( ! jcseg_properties ) 
-            {
+            if ( ! jcseg_properties ) {
                 InputStream is = DictionaryFactory.class.getResourceAsStream("/"+LEX_PROPERTY_FILE);
                 if ( is != null ) {
                     lexPro.load(new BufferedInputStream( is )); 
@@ -157,8 +154,7 @@ public class JcsegTaskConfig implements Cloneable
                 }
             }
             
-            if ( ! jcseg_properties ) 
-            {
+            if ( ! jcseg_properties ) {
                 pro_file = new File(System.getProperty("user.home")+"/"+LEX_PROPERTY_FILE);
                 if ( pro_file.exists() ) {
                     lexPro.load(new FileReader(pro_file));
@@ -173,8 +169,7 @@ public class JcsegTaskConfig implements Cloneable
              * 
              * @date    2013-07-06
              */
-            if ( ! jcseg_properties ) 
-            {
+            if ( ! jcseg_properties ) {
                 String _report = "jcseg properties[jcseg.properties] file loading error: \n";
                 _report += "try the follwing ways to solve the problem: \n";
                 _report += "1. put jcseg.properties into the classpath.\n";
@@ -184,11 +179,9 @@ public class JcsegTaskConfig implements Cloneable
             }
         } 
         /*load the  mapping from the specified property file.*/
-        else 
-        {
+        else {
             File pro_file = new File(proFile);
-            if ( ! pro_file.exists() ) 
-                throw new IOException("property file ["+proFile+"] not found!");
+            if ( ! pro_file.exists() ) throw new IOException("property file ["+proFile+"] not found!");
             lexPro.load(new FileReader(pro_file));
         }
         
@@ -206,8 +199,7 @@ public class JcsegTaskConfig implements Cloneable
         //Multiple path for lexicon.path.
         lexPath = lexDirs.split(";");
         File f = null;
-        for ( int i = 0; i < lexPath.length; i++ ) 
-        {
+        for ( int i = 0; i < lexPath.length; i++ ) {
             lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
             f = new File(lexPath[i]);
             if ( ! f.exists() ) 
@@ -276,185 +268,230 @@ public class JcsegTaskConfig implements Cloneable
     }
     
     /**property about lexicon file.*/
-    public String getLexiconFilePrefix() {
+    public String getLexiconFilePrefix()
+    {
         return prefix;
     }
     
-    public String getLexiconFileSuffix() {
+    public String getLexiconFileSuffix()
+    {
         return suffix;
     }
     
     /**return the lexicon directory path*/
-    public String[] getLexiconPath() {
+    public String[] getLexiconPath()
+    {
         return lexPath;
     }
     
-    public void setLexiconPath( String[] lexPath ) {
+    public void setLexiconPath( String[] lexPath )
+    {
         this.lexPath = lexPath;
     }
     
     /**about lexicon autoload*/
-    public boolean isAutoload() {
+    public boolean isAutoload()
+    {
         return lexAutoload;
     }
     
-    public void setAutoload( boolean autoload ) {
+    public void setAutoload( boolean autoload )
+    {
         lexAutoload = autoload;
     }
     
-    public int getPollTime() {
+    public int getPollTime()
+    {
         return polltime;
     }
     
-    public void setPollTime( int polltime ) {
+    public void setPollTime( int polltime )
+    {
         this.polltime = polltime;
     }
 
-    public int getMaxLength() {
+    public int getMaxLength()
+    {
         return MAX_LENGTH;
     }
 
-    public void setMaxLength( int maxLength ) {
+    public void setMaxLength( int maxLength )
+    {
         MAX_LENGTH = maxLength;
     }
 
-    public int getMixCnLength() {
+    public int getMixCnLength()
+    {
         return MIX_CN_LENGTH;
     }
 
-    public void setMixCnLength( int mixCnLength ) {
+    public void setMixCnLength( int mixCnLength )
+    {
         MIX_CN_LENGTH = mixCnLength;
     }
 
-    public boolean identifyCnName() {
+    public boolean identifyCnName()
+    {
         return I_CN_NAME;
     }
 
-    public void setICnName( boolean iCnName ) {
+    public void setICnName( boolean iCnName )
+    {
         I_CN_NAME = iCnName;
     }
 
-    public int getMaxCnLnadron() {
+    public int getMaxCnLnadron()
+    {
         return MAX_CN_LNADRON;
     }
 
-    public void setMaxCnLnadron( int maxCnLnadron ) {
+    public void setMaxCnLnadron( int maxCnLnadron )
+    {
         MAX_CN_LNADRON = maxCnLnadron;
     }
 
-    public boolean loadCJKPinyin() {
+    public boolean loadCJKPinyin()
+    {
         return LOAD_CJK_PINYIN;
     }
 
-    public void setLoadCJKPinyin( boolean loadCJKPinyin ) {
+    public void setLoadCJKPinyin( boolean loadCJKPinyin )
+    {
         LOAD_CJK_PINYIN = loadCJKPinyin;
     }
     
-    public void setAppendPartOfSpeech( boolean partOfSpeech ) {
+    public void setAppendPartOfSpeech( boolean partOfSpeech )
+    {
         APPEND_PART_OF_SPEECH = partOfSpeech;
     }
 
-    public boolean appendCJKPinyin() {
+    public boolean appendCJKPinyin()
+    {
         return APPEND_CJK_PINYIN;
     }
 
-    public void setAppendCJKPinyin( boolean appendCJKPinyin ) {
+    public void setAppendCJKPinyin( boolean appendCJKPinyin )
+    {
         APPEND_CJK_PINYIN = appendCJKPinyin;
     }
 
-    public boolean loadCJKSyn() {
+    public boolean loadCJKSyn()
+    {
         return LOAD_CJK_SYN;
     }
 
-    public void setLoadCJKSyn( boolean loadCJKSyn ) {
+    public void setLoadCJKSyn( boolean loadCJKSyn )
+    {
         LOAD_CJK_SYN = loadCJKSyn;
     }
 
-    public boolean appendCJKSyn() {
+    public boolean appendCJKSyn()
+    {
         return APPEND_CJK_SYN;
     }
 
-    public void setAppendCJKSyn( boolean appendCJKPinyin ) {
+    public void setAppendCJKSyn( boolean appendCJKPinyin )
+    {
         APPEND_CJK_SYN = appendCJKPinyin;
     }
 
-    public boolean ladCJKPos() {
+    public boolean ladCJKPos()
+    {
         return LOAD_CJK_POS;
     }
 
-    public void setLoadCJKPos( boolean loadCJKPos ) {
+    public void setLoadCJKPos( boolean loadCJKPos )
+    {
         LOAD_CJK_POS = loadCJKPos;
     }
 
-    public int getNameSingleThreshold() {
+    public int getNameSingleThreshold()
+    {
         return NAME_SINGLE_THRESHOLD;
     }
 
-    public void setNameSingleThreshold( int thresold ) {
+    public void setNameSingleThreshold( int thresold )
+    {
         NAME_SINGLE_THRESHOLD = thresold;
     }
 
-    public int getPPTMaxLength() {
+    public int getPPTMaxLength()
+    {
         return PPT_MAX_LENGTH;
     }
 
-    public void setPPT_MAX_LENGTH( int pptMaxLength ) {
+    public void setPPT_MAX_LENGTH( int pptMaxLength )
+    {
         PPT_MAX_LENGTH = pptMaxLength;
     }
 
-    public boolean clearStopwords() {
+    public boolean clearStopwords()
+    {
         return CLEAR_STOPWORD;
     }
 
-    public void setClearStopwords( boolean clearstopwords ) {
+    public void setClearStopwords( boolean clearstopwords )
+    {
         CLEAR_STOPWORD = clearstopwords;
     }
 
-    public boolean cnNumToArabic() {
+    public boolean cnNumToArabic()
+    {
         return CNNUM_TO_ARABIC;
     }
 
-    public void setCnNumToArabic( boolean cnNumToArabic ) {
+    public void setCnNumToArabic( boolean cnNumToArabic )
+    {
         CNNUM_TO_ARABIC = cnNumToArabic;
     }
 
-    public boolean cnFractionToArabic() {
+    public boolean cnFractionToArabic()
+    {
         return CNFRA_TO_ARABIC;
     }
 
-    public void setCnFactionToArabic( boolean cnFractionToArabic ) {
+    public void setCnFactionToArabic( boolean cnFractionToArabic )
+    {
         CNFRA_TO_ARABIC = cnFractionToArabic;
     }
     
-    public boolean getEnSecondSeg() {
+    public boolean getEnSecondSeg()
+    {
         return EN_SECOND_SEG;
     }
     
-    public void setEnSecondSeg( boolean enSecondSeg ) {
+    public void setEnSecondSeg( boolean enSecondSeg )
+    {
         this.EN_SECOND_SEG = enSecondSeg;
     }
     
-    public int getSTokenMinLen() {
+    public int getSTokenMinLen()
+    {
         return STOKEN_MIN_LEN;
     }
     
-    public void setSTokenMinLen( int len ) {
+    public void setSTokenMinLen( int len )
+    {
         STOKEN_MIN_LEN = len;
     }
     
-    public void setKeepPunctuations( String keepPunctuations ) {
+    public void setKeepPunctuations( String keepPunctuations )
+    {
         KEEP_PUNCTUATIONS = keepPunctuations;
     }
     
-    public boolean isKeepPunctuation( char c ) {
+    public boolean isKeepPunctuation( char c )
+    {
         return (KEEP_PUNCTUATIONS.indexOf(c) > -1);
     }
     
-    public boolean keepUnregWords() {
+    public boolean keepUnregWords()
+    {
         return KEEP_UNREG_WORDS;
     }
     
-    public void setKeepUnregWords( boolean keepUnregWords ) {
+    public void setKeepUnregWords( boolean keepUnregWords )
+    {
         KEEP_UNREG_WORDS = keepUnregWords;
     }
     

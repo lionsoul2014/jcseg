@@ -5,8 +5,8 @@ package org.lionsoul.jcseg.tokenizer.core;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public interface ILexicon {
-    
+public interface ILexicon
+{
     public static final int T_LEN = 12;
     
     /**

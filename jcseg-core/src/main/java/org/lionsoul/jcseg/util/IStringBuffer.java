@@ -5,7 +5,8 @@ package org.lionsoul.jcseg.util;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class IStringBuffer {
+public class IStringBuffer
+{
     
     /**
      * buffer char array. 
@@ -16,7 +17,8 @@ public class IStringBuffer {
     /**
      * create a buffer with a default length 16
      */
-    public IStringBuffer() {
+    public IStringBuffer()
+    {
         buff = new char[16];
         count = 0;
     }
@@ -26,7 +28,8 @@ public class IStringBuffer {
      * 
      * @param    length
      */
-    public IStringBuffer( int length ) {
+    public IStringBuffer( int length )
+    {
         if ( length <= 0 )
             throw new IllegalArgumentException("length <= 0");
         buff = new char[length];
@@ -38,7 +41,8 @@ public class IStringBuffer {
      * 
      * @param    str
      */
-    public IStringBuffer( String str ) {
+    public IStringBuffer( String str )
+    {
         if ( str == null )
             throw new NullPointerException();
         
@@ -51,9 +55,11 @@ public class IStringBuffer {
      * resize the buffer
      * this will have to copy the old chars from the old buffer to the new buffer
      */
-    private void resizeTo( int length ) {
+    private void resizeTo( int length )
+    {
         if ( length <= 0 )
             throw new IllegalArgumentException("length <= 0");
+        
         if ( length != buff.length ) {
             int len = ( length > buff.length ) ? buff.length : length;
             //System.out.println("resize:"+length);
@@ -69,14 +75,17 @@ public class IStringBuffer {
     /**
      * append a string to the buffer
      * 
-     * @param    str    string to append to
+     * @param	str string to append to
      */
-    public IStringBuffer append( String str ) {
+    public IStringBuffer append( String str )
+    {
         if ( str == null )
             throw new NullPointerException();
         //check the necessary to resize the buffer.
-        if ( count + str.length() > buff.length )
-            resizeTo( (count + str.length()) * 2 + 1 );
+        if ( count + str.length() > buff.length ) {
+        	resizeTo( (count + str.length()) * 2 + 1 );
+        }
+        
         for ( int j = 0; j < str.length(); j++ ) {
             buff[count++] = str.charAt(j);
         }
@@ -91,7 +100,8 @@ public class IStringBuffer {
      * @param    start    the start index
      * @param    length    length of chars to append to
      */
-    public IStringBuffer append( char[] chars, int start, int length ) {
+    public IStringBuffer append( char[] chars, int start, int length )
+    {
         if ( chars == null )
             throw new NullPointerException();
         if ( start < 0 )
@@ -102,8 +112,10 @@ public class IStringBuffer {
             throw new IndexOutOfBoundsException();
         
         //check the necessary to resize the buffer.
-        if ( count + length > buff.length ) 
-            resizeTo( (count + length) * 2 + 1 );
+        if ( count + length > buff.length ) {
+        	resizeTo( (count + length) * 2 + 1 );
+        }
+        
         for ( int j = 0; j < length; j++ ) {
             buff[count++] = chars[start+j];
         }
@@ -116,7 +128,8 @@ public class IStringBuffer {
      * 
      * @param    chars
      */
-    public IStringBuffer append( char[] chars ) {
+    public IStringBuffer append( char[] chars )
+    {
         return append(chars, 0, chars.length);
     }
     
@@ -125,8 +138,12 @@ public class IStringBuffer {
      * 
      * @param    c the char to append to
      */
-    public IStringBuffer append( char c ) {
-        if ( count == buff.length ) resizeTo( buff.length * 2 + 1 );
+    public IStringBuffer append( char c )
+    {
+        if ( count == buff.length ) {
+        	resizeTo( buff.length * 2 + 1 );
+        }
+        
         buff[count++] = c;
         
         return this;
@@ -198,14 +215,16 @@ public class IStringBuffer {
      * 
      * @return    int    the length of the buffer
      */
-    public int length() {
+    public int length()
+    {
         return count;
     }
     
     /**
      * get the char at a specified position in the buffer
      */
-    public char charAt( int idx ) {
+    public char charAt( int idx )
+    {
         if ( idx < 0 )
             throw new IndexOutOfBoundsException("idx{"+idx+"} < 0");
         if ( idx >= count )
@@ -216,7 +235,8 @@ public class IStringBuffer {
     /**
      * delete the char at the specified position
      */
-    public IStringBuffer deleteCharAt( int idx ) {
+    public IStringBuffer deleteCharAt( int idx )
+    {
         if ( idx < 0 )
             throw new IndexOutOfBoundsException("idx < 0");
         if ( idx >= count )
@@ -255,14 +275,16 @@ public class IStringBuffer {
      * 
      * @return    char[]
      */
-    public char[] buffer() {
+    public char[] buffer()
+    {
         return buff;
     }
     
     /**
      * clear the buffer by reset the count to 0
      */
-    public IStringBuffer clear() {
+    public IStringBuffer clear()
+    {
         count = 0;
         
         return this;
@@ -274,7 +296,8 @@ public class IStringBuffer {
      * @return    String
      * @see Object#toString() 
      */
-    public String toString() {
+    public String toString()
+    {
         return new String(buff, 0, count);
     }
 }

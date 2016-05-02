@@ -35,24 +35,29 @@ public class ENSCFilter
      * @param    c
      * @return    boolean
      */
-    public static boolean isENKeepPunctuaton( char c ) {
+    public static boolean isENKeepPunctuaton( char c )
+    {
         return (EN_KEEP_CHARS.indexOf(c) > -1);
         //return enKeepChar.containsKey(c);
     }
     
-    public static boolean isUpperCaseLetter( int u ) {
+    public static boolean isUpperCaseLetter( int u )
+    {
         return ( u >= 65 && u <= 90 ); 
     }
     
-    public static boolean isLowerCaseLetter( int u ) {
+    public static boolean isLowerCaseLetter( int u )
+    {
         return ( u >= 97 && u <= 122 );
     }
     
-    public static int toLowerCase( int u ) {
+    public static int toLowerCase( int u )
+    {
         return ( u + 32 );
     }
     
-    public static int toUpperCase( int u ) {
+    public static int toUpperCase( int u )
+    {
         return ( u - 32 );
     }
     
@@ -61,7 +66,8 @@ public class ENSCFilter
      * 
      * @param    u
      */
-    public static boolean isEnLetter( int u ) {
+    public static boolean isEnLetter( int u )
+    {
         if ( u > 65280 ) u -= 65248;            //make full-with half-width
         return ( (u >= 65 && u <= 90) || ( u >= 97 && u <= 122 ) );
     }
@@ -70,7 +76,7 @@ public class ENSCFilter
      * check the specifield char is an english numeric(48-57)
      * including the full-width char
      *  
-     * @param     u
+     * @param	u
      */
     public static boolean isEnNumeric( int u )
     {
@@ -82,16 +88,17 @@ public class ENSCFilter
      * get the type of the english char
      * defined in this class and start with EN_. (only half-width)
      * 
-     * @param    u    char to identity
-     * @return    int    type keywords
+     * @param	u   char to identity
+     * @return	int	type keywords
      */
-    public static int getEnCharType( int u ) {
+    public static int getEnCharType( int u )
+    {
         //if ( u > 65280 ) u -= 65248;            //make full-with half-width
-        if ( u > 126 )                return EN_UNKNOW;
-        if ( u == 32 )                return EN_WHITESPACE;
-        if ( u >= 48 && u <= 57 )    return EN_NUMERIC;
-        if ( u >= 65 && u <= 90 )    return EN_LETTER;
-        if ( u >= 97 && u <= 122 )    return EN_LETTER;
+        if ( u > 126 )				return EN_UNKNOW;
+        if ( u == 32 )  			return EN_WHITESPACE;
+        if ( u >= 48 && u <= 57 )	return EN_NUMERIC;
+        if ( u >= 65 && u <= 90 )	return EN_LETTER;
+        if ( u >= 97 && u <= 122 )	return EN_LETTER;
         return EN_PUNCTUATION;
     }
     
@@ -114,7 +121,8 @@ public class ENSCFilter
      * @param c
      * @return boolean
      */
-    public static boolean isHWEnChar( int c ) {
+    public static boolean isHWEnChar( int c )
+    {
         return (c >= 32 && c <= 126);
     }
     
@@ -125,7 +133,8 @@ public class ENSCFilter
      * @param c
      * @return boolean
      */
-    public static boolean isFWEnChar( int c ) {
+    public static boolean isFWEnChar( int c )
+    {
         return ( ( c >= 65296 && c <= 65305 )
                 || ( c >= 65313 && c <= 65338 )
                 || ( c >= 65345 && c < 65370 ) );
@@ -137,21 +146,25 @@ public class ENSCFilter
      * @param c
      * @return boolean
      */
-    public static boolean isEnPunctuation( int c ) {
+    public static boolean isEnPunctuation( int c )
+    {
         return ( (c > 32 && c < 48) 
                 || ( c > 57 && c < 65 )
                 || ( c > 90 && c < 97 ) 
-                || ( c > 122 && c < 127 ));
+                || ( c > 122 && c < 127 )
+        );
     }
     
-    public static boolean isCnPunctuation( int c ) {
+    public static boolean isCnPunctuation( int c )
+    {
         return ( (c > 65280 && c < 65296) 
                 || ( c > 65305 && c < 65312 )
                 || ( c > 65338 && c < 65345 ) 
                 || ( c > 65370 && c < 65382 )
                 //CJK symbol and punctuations (added 2013-09-06)
                 //from http://www.unicode.org/charts/PDF/U3000.pdf
-                || ( c >= 12289 && c <= 12319 ) );
+                || ( c >= 12289 && c <= 12319 )
+         );
     }
     
     /**
@@ -160,7 +173,8 @@ public class ENSCFilter
      * @param c
      * @return boolean
      */
-    public static boolean isWhitespace( int c ) {
+    public static boolean isWhitespace( int c )
+    {
         return ( c == 32 || c == 12288 );
     }
     
@@ -174,13 +188,13 @@ public class ENSCFilter
     public static boolean isDigit( String str ) 
     {
         char c;
-        for ( int j = 0; j < str.length(); j++ ) 
-        {
+        for ( int j = 0; j < str.length(); j++ ) {
             c = str.charAt(j);
             //make full-width char half-width
             if ( c > 65280 ) c -= 65248;
             if ( c < 48 || c > 57 ) return false;
         }
+        
         return true;
     }
     
@@ -193,15 +207,17 @@ public class ENSCFilter
     public static boolean isDecimal( String str ) 
     {
         if ( str.charAt(str.length() - 1) == '.' 
-                || str.charAt(0) == '.' ) return false;
+                || str.charAt(0) == '.' ) {
+        	return false;
+        }
+        
         char c;
         int p= 0;        //number of point
-        for ( int j = 1; j < str.length(); j++ ) 
-        {
+        for ( int j = 1; j < str.length(); j++ ) {
             c = str.charAt(j);
-            if ( c == '.' ) p++;
-            else 
-            {
+            if ( c == '.' ) {
+            	p++;
+            } else {
                 //make full-width half-width
                 if ( c > 65280 ) c -= 65248;
                 if ( c < 48 || c > 57 ) return false;
@@ -218,7 +234,8 @@ public class ENSCFilter
      * @param str
      * @return String the new String after the replace.
      */
-    public static String fwsTohws( String str ) {
+    public static String fwsTohws( String str )
+    {
         char[] chars = str.toCharArray();
         for ( int j = 0; j < chars.length; j++ ) {
             if ( chars[j] == '\u3000' )
@@ -235,7 +252,8 @@ public class ENSCFilter
      * @param str
      * @return String the new String after the replace
      */
-    public static String hwsTofws( String str ) {
+    public static String hwsTofws( String str )
+    {
         char[] chars = str.toCharArray();
         for ( int j = 0; j < chars.length; j++ ) {
             if ( chars[j] == '\u0020' ) 

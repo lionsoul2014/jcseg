@@ -8,7 +8,8 @@ import java.util.Map;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class PPTFilter {
+public class PPTFilter
+{
     
     private static final Character[] PAIR_PUNCTUATION = {
         /*'“', '”', '‘', '’',*/ '《', '》', '『', '』', '【', '】'};
@@ -18,8 +19,9 @@ public class PPTFilter {
     static {
         pairPunctuation = new HashMap<Character, Character>( 
                 ( int )(PAIR_PUNCTUATION.length / 1.7) + 1, 0.85f);
-        for ( int j = 0; j < PAIR_PUNCTUATION.length; j += 2 )
-            pairPunctuation.put(PAIR_PUNCTUATION[j], PAIR_PUNCTUATION[j+1]);
+        for ( int j = 0; j < PAIR_PUNCTUATION.length; j += 2 ) {
+        	pairPunctuation.put(PAIR_PUNCTUATION[j], PAIR_PUNCTUATION[j+1]);
+        }     
     }
     
     /**
@@ -28,7 +30,8 @@ public class PPTFilter {
      * @param c
      * @return boolean true for it is and false for not
      */
-    public static boolean isPairPunctuation( char c ) {
+    public static boolean isPairPunctuation( char c )
+    {
         return pairPunctuation.containsKey(c);
     }
     
@@ -38,7 +41,8 @@ public class PPTFilter {
      * @param c
      * @return char
      */
-    public static char getPunctuationPair( char c ) {
+    public static char getPunctuationPair( char c )
+    {
         return pairPunctuation.get(c);
     }
 }

@@ -35,7 +35,8 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     protected int maxIterateNum = 120;
     
 
-    public TextRankSummaryExtractor(ISegment wordSeg, SentenceSeg sentenceSeg) {
+    public TextRankSummaryExtractor(ISegment wordSeg, SentenceSeg sentenceSeg)
+    {
         super(wordSeg, sentenceSeg);
     }
     
@@ -52,8 +53,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         Sentence sen = null;
         sentenceSeg.reset(reader);
-        while ( (sen = sentenceSeg.next()) != null )
-        {
+        while ( (sen = sentenceSeg.next()) != null ) {
             sentence.add(sen);
         }
         
@@ -70,13 +70,11 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     List<List<IWord>> sentenceTokenize(List<Sentence> sentence) throws IOException
     {
         List<List<IWord>> senWords = new ArrayList<List<IWord>>();
-        for ( Sentence sen : sentence )
-        {
+        for ( Sentence sen : sentence ) {
             List<IWord> words = new ArrayList<IWord>();
             wordSeg.reset(new StringReader(sen.getValue()));
             IWord word = null;
-            while ( (word = wordSeg.next()) != null )
-            {
+            while ( (word = wordSeg.next()) != null ) {
                 words.add(word);
             }
             
@@ -114,23 +112,20 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         //word and the number of document thats contains this word mapping 
         Map<IWord, Integer> df = new HashMap<IWord, Integer>();
         int index = 0;
-        for ( List<IWord> words : senWords )
-        {
+        for ( List<IWord> words : senWords ) {
             Map<IWord, Integer> f = new HashMap<IWord, Integer>();
-            for ( IWord word : words )
-            {
+            for ( IWord word : words ) {
                 f.put(word, f.containsKey(word) ? f.get(word) + 1 : 1);
             }
             
             tf[index++] = f;
             
             /*
-             * the logic inner the folling loop could not merge in the above one
-             * is becase that same word may appear more than one time in a document,
+             * the logic inner the following loop could not merge in the above one
+             * is because that same word may appear more than one time in a document,
              * well, map will clear up the duplicate. 
             */
-            for ( Map.Entry<IWord, Integer> entry : f.entrySet() )
-            {
+            for ( Map.Entry<IWord, Integer> entry : f.entrySet() ) {
                 IWord key = entry.getKey();
                 df.put(key, df.containsKey(key) ? df.get(key) + 1 : 1);
             }
@@ -138,8 +133,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         //3. count the words idf
         Map<IWord, Double> idf = new HashMap<IWord, Double>();
-        for ( Map.Entry<IWord, Integer> entry : df.entrySet() )
-        {
+        for ( Map.Entry<IWord, Integer> entry : df.entrySet() ) {
             IWord key = entry.getKey();
             int nq = df.get(key).intValue();
             idf.put(key, Math.log((docNum - nq + 0.5) / (nq + 0.5)) );
@@ -147,8 +141,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         //4. build the relevance score matrix
         double[][] scores = new double[docNum][docNum];
-        for ( int i = 0; i < docNum; i++ )
-        {
+        for ( int i = 0; i < docNum; i++ ) {
             int j = 0;
             int dl = senWords.get(i).size();
             double dlRelative = K1 * (1 - B + B * dl / avgdl);
@@ -157,11 +150,9 @@ public class TextRankSummaryExtractor extends SummaryExtractor
              * count the relevance for document sentence[i]
              * with all the queries setence[i]  
             */
-            for ( List<IWord> query : senWords )
-            {
+            for ( List<IWord> query : senWords ) {
                 double score = 0F;
-                for ( IWord q : query )
-                {
+                for ( IWord q : query ) {
                     /*
                      * count the relevance of q with document sentence[i] 
                     */
@@ -219,20 +210,16 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         double[] score = new double[docNum];
         double[] weight_sum = new double[docNum];
-        for ( int i = 0; i < docNum; i++ )
-        {
+        for ( int i = 0; i < docNum; i++ ) {
             weight_sum[i] = sum(relevance[i]) - relevance[i][i];
             score[i] = 0;
         }
         
         //do the textrank score iteration
-        for ( int c = 0; c < maxIterateNum; c++ )
-        {
-            for ( int i = 0; i < docNum; i++ )
-            {
+        for ( int c = 0; c < maxIterateNum; c++ ) {
+            for ( int i = 0; i < docNum; i++ ) {
                 double sigema = 0D;
-                for ( int j = 0; j < docNum; j++ )
-                {
+                for ( int j = 0; j < docNum; j++ ) {
                     if ( i == j || weight_sum[j] == 0 ) continue;
                     /*
                      * ws(vj) * wji / sigema(wjk) with k in Out(Vj) 
@@ -270,8 +257,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     {
         //build the documents
         List<Sentence> sentence = textToSentence(reader);
-        if ( sentence.size() == 1 ) 
-        {
+        if ( sentence.size() == 1 ) {
             List<String> list = new ArrayList<String>(1);
             list.add(sentence.get(0).getValue());
             return list;
@@ -304,8 +290,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     {
         //build the documents
         List<Sentence> sentence = textToSentence(reader);
-        if ( sentence.size() == 1 )
-        {
+        if ( sentence.size() == 1 ) {
             String summary = sentence.get(0).getValue();
             return length >= summary.length() 
                     ? summary.substring(0) : summary.substring(0, length);
@@ -323,15 +308,13 @@ public class TextRankSummaryExtractor extends SummaryExtractor
          * if still not enought start ahead of it...
         */
         int less = length, sIdx = docs[0].getIndex();
-        for ( int i = docs[0].getIndex(); i < docNum; i++ )
-        {
+        for ( int i = docs[0].getIndex(); i < docNum; i++ ) {
             less -= sentence.get(i).getLength();
             if ( less <= 0 ) break;
         }
         
         //not enought: check the sentence ahead of it
-        if ( less > 0 )
-        {
+        if ( less > 0 ) {
             for ( int i = docs[0].getIndex() - 1; i >= 0; i-- ) {
                 less -= sentence.get(i).getLength();
                 if ( less <= 0 ) {
@@ -344,8 +327,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         }
         
         IStringBuffer isb = new IStringBuffer();
-        for ( int i = sIdx; i < docNum; i++ )
-        {
+        for ( int i = sIdx; i < docNum; i++ ) {
             int senLen = isb.length() + sentence.get(i).getLength();
             if ( senLen < length ) {
                 isb.append(sentence.get(i).getValue());
@@ -364,19 +346,23 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         return isb.toString();
     }
     
-    public int getSentenceNum() {
+    public int getSentenceNum()
+    {
         return sentenceNum;
     }
 
-    public void setSentenceNum(int sentenceNum) {
+    public void setSentenceNum(int sentenceNum)
+    {
         this.sentenceNum = sentenceNum;
     }
 
-    public int getMaxIterateNum() {
+    public int getMaxIterateNum()
+    {
         return maxIterateNum;
     }
 
-    public void setMaxIterateNum(int maxIterateNum) {
+    public void setMaxIterateNum(int maxIterateNum)
+    {
         this.maxIterateNum = maxIterateNum;
     }
 
@@ -424,35 +410,43 @@ public class TextRankSummaryExtractor extends SummaryExtractor
             this.score = score;
         }
 
-        public double getScore() {
+        public double getScore()
+        {
             return score;
         }
 
-        public void setScore(double score) {
+        public void setScore(double score)
+        {
             this.score = score;
         }
         
-        public int getIndex() {
+        public int getIndex()
+        {
             return index;
         }
 
-        public void setIndex(int index) {
+        public void setIndex(int index)
+        {
             this.index = index;
         }
 
-        public Sentence getSentence() {
+        public Sentence getSentence()
+        {
             return sentence;
         }
 
-        public void setSentence(Sentence sentence) {
+        public void setSentence(Sentence sentence)
+        {
             this.sentence = sentence;
         }
 
-        public List<IWord> getWords() {
+        public List<IWord> getWords()
+        {
             return words;
         }
 
-        public void setWords(List<IWord> words) {
+        public void setWords(List<IWord> words)
+        {
             this.words = words;
         }
 

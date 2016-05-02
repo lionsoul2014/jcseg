@@ -8,7 +8,8 @@ import java.util.Map;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class CNNMFilter {
+public class CNNMFilter
+{
     /**
      * chinese numeric chars
      * i have put the chars into the lexicon file lex-cn-numeric.lex for the old version
@@ -76,13 +77,13 @@ public class CNNMFilter {
         int yi = -1, wan = -1, qian = -1, bai = -1, shi = -1;
         int val = 0;
         yi = cnn.lastIndexOf('亿');
-        if ( yi > -1 ) 
-        {
+        if ( yi > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, yi), false ) * 100000000;
-            if ( yi < cnn.length() - 1 )
-                cnn = cnn.substring(yi + 1, cnn.length());
-            else 
+            if ( yi < cnn.length() - 1 ) {
+            	cnn = cnn.substring(yi + 1, cnn.length());
+            } else {
                 cnn = "";
+            }
             
             if ( cnn.length() == 1 ) {
                 int arbic = isCNNumeric(cnn.charAt(0));
@@ -93,13 +94,14 @@ public class CNNMFilter {
         }
         
         wan = cnn.lastIndexOf('万');
-        if ( wan > -1 ) 
-        {
+        if ( wan > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, wan), false ) * 10000;
-            if ( wan < cnn.length() - 1 )
-                cnn = cnn.substring(wan + 1, cnn.length());
-            else 
-                cnn = "";
+            if ( wan < cnn.length() - 1 ) {
+            	cnn = cnn.substring(wan + 1, cnn.length());
+            } else {
+            	cnn = "";
+            }
+            
             if ( cnn.length() == 1 ) {
                 int arbic = isCNNumeric(cnn.charAt(0));
                 if ( arbic <= 10 )
@@ -109,13 +111,14 @@ public class CNNMFilter {
         }
         
         qian = cnn.lastIndexOf('千'); 
-        if ( qian > -1 ) 
-        {
+        if ( qian > -1 ) {
             val +=  cnNumericToArabic( cnn.substring(0, qian), false ) * 1000;
-            if ( qian < cnn.length() - 1 )
-                cnn = cnn.substring(qian + 1, cnn.length());
-            else 
+            if ( qian < cnn.length() - 1 ) {
+            	 cnn = cnn.substring(qian + 1, cnn.length());
+            } else {
                 cnn = "";
+            }
+            
             if ( cnn.length() == 1 ) {
                 int arbic = isCNNumeric(cnn.charAt(0));
                 if ( arbic <= 10 )
@@ -125,13 +128,14 @@ public class CNNMFilter {
         }
         
         bai = cnn.lastIndexOf('百');
-        if ( bai > -1 ) 
-        {
+        if ( bai > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, bai), false ) * 100;
-            if ( bai < cnn.length() - 1 )
-                cnn = cnn.substring(bai + 1, cnn.length());
-            else 
-                cnn = "";
+            if ( bai < cnn.length() - 1 ) {
+            	cnn = cnn.substring(bai + 1, cnn.length());
+            } else {
+            	cnn = "";
+            }
+            
             if ( cnn.length() == 1 ) {
                 int arbic = isCNNumeric(cnn.charAt(0));
                 if ( arbic <= 10 )
@@ -141,32 +145,38 @@ public class CNNMFilter {
         }
         
         shi = cnn.lastIndexOf('十');
-        if ( shi > -1 ) 
-        {
-            if ( shi == 0 )
-                val += 1 * 10;
-            else 
-                val += cnNumericToArabic( cnn.substring(0, shi), false ) * 10;
-            if ( shi < cnn.length() - 1 )
-                cnn = cnn.substring(shi + 1, cnn.length());
-            else 
-                cnn = "";
+        if ( shi > -1 ) {
+            if ( shi == 0 ) {
+            	 val += 1 * 10;
+            } else {
+            	val += cnNumericToArabic( cnn.substring(0, shi), false ) * 10;
+            }
+            
+            if ( shi < cnn.length() - 1 ){
+            	cnn = cnn.substring(shi + 1, cnn.length());
+            } else {
+            	cnn = "";
+            }   
         }
         
         cnn = cnn.trim();
-        for ( int j = 0; j < cnn.length(); j++ )
-            val += isCNNumeric(cnn.charAt(j))
-                * Math.pow(10, cnn.length() - j - 1);
+        for ( int j = 0; j < cnn.length(); j++ ) {
+        	val += isCNNumeric(cnn.charAt(j))
+                    * Math.pow(10, cnn.length() - j - 1);
+        }
         
         return val;
     }
     
-    public static int qCNNumericToArabic( String cnn ) {
+    public static int qCNNumericToArabic( String cnn )
+    {
         int val = 0;
         cnn = cnn.trim();
-        for ( int j = 0; j < cnn.length(); j++ )
-            val += isCNNumeric(cnn.charAt(j))
-                * Math.pow(10, cnn.length() - j - 1);
+        for ( int j = 0; j < cnn.length(); j++ ) {
+        	val += isCNNumeric(cnn.charAt(j))
+                    * Math.pow(10, cnn.length() - j - 1);
+        }
+        
         return val;
     }
     

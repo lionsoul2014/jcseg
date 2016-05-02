@@ -45,6 +45,7 @@ public class DictionaryFactory
                     "with classpath ["+_class.getName()+"]");
             e.printStackTrace();
         }
+        
         return null;
     }
     
@@ -79,7 +80,8 @@ public class DictionaryFactory
         return dic;
     }
     
-    public static ADictionary createDefaultDictionary(JcsegTaskConfig config) {
+    public static ADictionary createDefaultDictionary(JcsegTaskConfig config)
+    {
         return createDefaultDictionary(config, config.isAutoload());
     }
     
@@ -88,12 +90,14 @@ public class DictionaryFactory
      * 
      * @return  ADictionary
     */
-    public static ADictionary createSingletonDictionary(JcsegTaskConfig config) {
+    public static ADictionary createSingletonDictionary(JcsegTaskConfig config)
+    {
         synchronized (LOCK) {
             if ( singletonDic == null ) {
                 singletonDic = createDefaultDictionary(config);
             }
         }
+        
         return singletonDic;
     }
 }

@@ -33,7 +33,9 @@ public class IPushbackReader
     public int read() throws IOException
     {
         //check the queue first
-        if ( queue.size() > 0 ) return queue.deQueue();
+        if ( queue.size() > 0 ) {
+        	return queue.deQueue();
+        }
         
         //load from the normal reader
         return reader.read();
@@ -50,8 +52,7 @@ public class IPushbackReader
     {
         //check the buffer queue
         int size = queue.size();
-        if ( size > 0 )
-        {
+        if ( size > 0 ) {
             //TODO
             //int num = size <= len ? size : len;
             //System.arraycopy(src, srcPos, dest, destPos, length)
@@ -87,7 +88,8 @@ public class IPushbackReader
      */
     public void unread( char[] cbuf, int off, int len )
     {
-        for ( int i = 0; i < len; i++ )
-            queue.enQueue(cbuf[off+i]);
+        for ( int i = 0; i < len; i++ ) {
+        	queue.enQueue(cbuf[off+i]);
+        }
     }
 }

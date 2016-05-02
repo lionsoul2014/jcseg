@@ -51,20 +51,24 @@ public class Sentence
         return this;
     }
 
-    public String getValue() {
+    public String getValue()
+    {
         return value;
     }
 
-    public Sentence setValue(String value) {
+    public Sentence setValue(String value)
+    {
         this.value = value;
         return this;
     }
 
-    public int getLength() {
+    public int getLength()
+    {
         return length;
     }
 
-    public Sentence setLength(int length) {
+    public Sentence setLength(int length)
+    {
         this.length = length;
         return this;
     }

@@ -46,14 +46,16 @@ public class IIntQueue
      */
     public int deQueue()
     {
-        if ( size == 0 ) return -1;
+        if ( size == 0 ) {
+        	return -1;
+        }
         
         //remove the first element
         Entry o = head.next;
         head.next = o.next;
         o.next.prev = head;
         
-        //bakup the data
+        //backup the data
         int v = o.data;
         size--;
         o = null;        //Let gc do its work

@@ -35,11 +35,13 @@ public abstract class ADictionary
         this.sync = sync.booleanValue();
     }
     
-    public JcsegTaskConfig getConfig() {
+    public JcsegTaskConfig getConfig()
+    {
         return config;
     }
     
-    public void setConfig( JcsegTaskConfig config ) {
+    public void setConfig( JcsegTaskConfig config )
+    {
         this.config = config;
     }
     
@@ -48,11 +50,13 @@ public abstract class ADictionary
      * 
      * @param    file
      */
-    public void loadFromLexiconFile( File file ) {
+    public void loadFromLexiconFile( File file )
+    {
         loadWordsFromFile(config, this, file, "UTF-8");
     }
     
-    public void loadFromLexiconFile( String file ) {
+    public void loadFromLexiconFile( String file )
+    {
         loadWordsFromFile(config, this, new File(file), "UTF-8");
     }
     
@@ -63,8 +67,8 @@ public abstract class ADictionary
      * 
      * @throws IOException
      */
-    public void loadFromLexiconDirectory( String lexDir ) throws IOException {
-        
+    public void loadFromLexiconDirectory( String lexDir ) throws IOException
+    {
         File[] files = getLexiconFiles(lexDir, 
                 config.getLexiconFilePrefix(), config.getLexiconFileSuffix());
         if ( files == null ) return;
@@ -80,27 +84,22 @@ public abstract class ADictionary
     public void startAutoload() 
     {
         if ( config.getLexiconPath() == null 
-                || autoloadThread != null ) 
-        {
+                || autoloadThread != null ) {
             return;
         }
         
         //create a start the lexicon auto load thread
         autoloadThread = new Thread(new Runnable() {
-            
             @Override
-            public void run() 
-            {
+            public void run() {
                 String[] paths = config.getLexiconPath();
                 AutoLoadFile[] files = new AutoLoadFile[paths.length];
-                for ( int i = 0; i < files.length; i++ )
-                {
+                for ( int i = 0; i < files.length; i++ ) {
                     files[i] = new AutoLoadFile(paths[i] + "/" + AL_TODO_FILE);
                     files[i].setLastUpdateTime(files[i].getFile().lastModified());
                 }
                 
-                while ( true ) 
-                {
+                while ( true ) {
                     //sleep for some time (seconds)
                     try {
                         Thread.sleep(config.getPollTime() * 1000);
@@ -111,14 +110,12 @@ public abstract class ADictionary
                     File f            = null;
                     AutoLoadFile af   = null;
                     
-                    for ( int i = 0; i < files.length; i++ )
-                    {
+                    for ( int i = 0; i < files.length; i++ ) {
                         af  = files[i];
                         f   = files[i].getFile();
                         
                         if ( ! f.exists() ) continue;
-                        if ( f.lastModified() <= af.getLastUpdateTime() ) 
-                        {
+                        if ( f.lastModified() <= af.getLastUpdateTime() ) {
                             continue;
                         }
                         
@@ -126,8 +123,7 @@ public abstract class ADictionary
                         try {
                             BufferedReader reader = new BufferedReader(new FileReader(f));
                             String line = null;
-                            while ( ( line = reader.readLine() ) != null ) 
-                            {
+                            while ( ( line = reader.readLine() ) != null ) {
                                 line = line.trim();
                                 if ( line.indexOf('#') != -1 ) continue;
                                 if ( "".equals(line) ) continue; 
@@ -163,8 +159,7 @@ public abstract class ADictionary
     
     public void stopAutoload() 
     {
-        if ( autoloadThread != null ) 
-        {
+        if ( autoloadThread != null ) {
             autoloadThread.interrupt();
             autoloadThread = null;
         }
@@ -277,8 +272,7 @@ public abstract class ADictionary
     {
         
         File path = new File(lexDir);
-        if ( path.exists() == false )
-        {
+        if ( path.exists() == false ) {
             throw new IOException("Lexicon directory ["+lexDir+"] does'n exists.");
         }
         
@@ -311,7 +305,6 @@ public abstract class ADictionary
             JcsegTaskConfig config, 
             ADictionary dic, File file, String charset ) 
     {
-        
         InputStreamReader ir = null;
         BufferedReader br = null;
         
@@ -337,8 +330,7 @@ public abstract class ADictionary
                 }
                 
                 //handle the stopwords
-                if ( t == ILexicon.STOP_WORD ) 
-                {
+                if ( t == ILexicon.STOP_WORD ) {
                     if ( line.charAt(0) <= 127 || ( line.charAt(0) > 127 
                             && line.length() <= config.MAX_LENGTH) ) 
                     {
@@ -348,8 +340,7 @@ public abstract class ADictionary
                 }
                 
                 //special lexicon
-                if ( line.indexOf('/') == -1 ) 
-                {
+                if ( line.indexOf('/') == -1 ) {
                     /*
                      * Here:
                      *  1. english and chinese mixed words,
@@ -365,8 +356,7 @@ public abstract class ADictionary
                     }
                 }
                 //normal words lexicon file
-                else 
-                {
+                else {
                     String[] wd = line.split("/");
                     
                     if ( wd.length < 4 ) {    //format check
@@ -374,6 +364,7 @@ public abstract class ADictionary
                                 + "#" + wd[0] + " format error. -ignored");
                         continue;
                     }
+                    
                     if ( wd.length == 5 ) {    //single word degree check.
                         if ( ! ENSCFilter.isDigit(wd[4]) ) {
                             System.out.println("Lexicon File: " + file.getAbsolutePath()
@@ -385,13 +376,16 @@ public abstract class ADictionary
                     
                     //length limit(CJK_WORD only)
                     if ( ( t == ILexicon.CJK_WORD ) 
-                            && wd[0].length() > config.MAX_LENGTH ) continue;
+                            && wd[0].length() > config.MAX_LENGTH ) {
+                    	continue;
+                    }
                     
                     if ( dic.get(t, wd[0]) == null ) {
-                        if ( wd.length > 4 ) 
-                            dic.add(t, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
-                        else
-                            dic.add(t, wd[0], IWord.T_CJK_WORD);
+                        if ( wd.length > 4 ) {
+                        	dic.add(t, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                        } else {
+                        	dic.add(t, wd[0], IWord.T_CJK_WORD);
+                        }
                     }
                     
                     IWord w = dic.get(t, wd[0]);

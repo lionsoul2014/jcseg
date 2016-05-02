@@ -7,7 +7,8 @@ import java.io.File;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class Util {
+public class Util
+{
     
     /**
      * get the absolute parent path for the jar file. 
@@ -15,7 +16,8 @@ public class Util {
      * @param o
      * @return String
      */
-    public static String getJarHome(Object o) {
+    public static String getJarHome(Object o)
+    {
         String path = o.getClass().getProtectionDomain()
                     .getCodeSource().getLocation().getFile();
         File jarFile = new File(path);
@@ -31,10 +33,8 @@ public class Util {
     {
         StringBuffer sb = new StringBuffer();
         sb.append('[').append('\n');
-        for ( double[] line : matrix )
-        {
-            for ( double column : line ) 
-            {
+        for ( double[] line : matrix ) {
+            for ( double column : line ) {
                 sb.append(column).append(", ");
             }
             sb.append('\n');

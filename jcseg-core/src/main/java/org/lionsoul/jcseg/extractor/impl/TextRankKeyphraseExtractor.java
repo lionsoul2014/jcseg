@@ -59,11 +59,9 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         ///document segment
         IWord w = null;
         seg.reset(reader);
-        while ( (w = seg.next()) != null ) 
-        {
+        while ( (w = seg.next()) != null ) {
             if ( filter(w) == false ) continue;
-            if ( ! winMap.containsKey(w) ) 
-            {
+            if ( ! winMap.containsKey(w) ) {
                 winMap.put(w, new LinkedList<IWord>());
             }
             
@@ -71,16 +69,14 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         }
         
         ///neighbour define
-        for ( int i = 0; i < wordsPool.size(); i++ )
-        {
+        for ( int i = 0; i < wordsPool.size(); i++ ) {
             IWord word = wordsPool.get(i);
             List<IWord> support = winMap.get(word);
             
             int sIdx = Math.max(0, i - windowSize);
             int eIdx = Math.min(i + windowSize, wordsPool.size() - 1);
             
-            for ( int j = sIdx; j <= eIdx; j++ )
-            {
+            for ( int j = sIdx; j <= eIdx; j++ ) {
                 if ( j == i ) continue;
                 support.add(wordsPool.get(j));
             }
@@ -88,16 +84,13 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         
         ///do the page rank socres count
         Map<IWord, Float> score = new HashMap<IWord, Float>();
-        for ( int c = 0; c < maxIterateNum; c++ )
-        {
-            for ( Map.Entry<IWord, List<IWord>> entry : winMap.entrySet() )
-            {
+        for ( int c = 0; c < maxIterateNum; c++ ) {
+            for ( Map.Entry<IWord, List<IWord>> entry : winMap.entrySet() ) {
                 IWord key = entry.getKey();
                 List<IWord> value = entry.getValue();
                 
                 float sigema = 0F;
-                for ( IWord ele : value )
-                {
+                for ( IWord ele : value ) {
                     int size = winMap.get(ele).size();
                     if ( size == 0 
                             || ele.getValue().equals(key.getValue()) ) {
@@ -126,14 +119,12 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
             }
         });
         
-        if ( entryList.size() == 0 )
-        {
+        if ( entryList.size() == 0 ) {
             return new ArrayList<String>(1);
         }
         
         float tScores = 0F, avgScores = 0F, stdScores = 0F;
-        for ( Map.Entry<IWord, Float> entry : entryList )
-        {
+        for ( Map.Entry<IWord, Float> entry : entryList ) {
             tScores += entry.getValue();
             //System.out.println(entry.getKey().getValue()+"="+entry.getValue());
         }
@@ -147,12 +138,10 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         */
         IStringBuffer isb = new IStringBuffer();
         List<String> phraseList = new LinkedList<String>();
-        for ( int i = 0; i < entryList.size(); )
-        {
+        for ( int i = 0; i < entryList.size(); ) {
             Map.Entry<IWord, Float> entry = entryList.get(i);
             IWord seed = entry.getKey();
-            if ( entry.getValue() < stdScores ) 
-            {
+            if ( entry.getValue() < stdScores ) {
                 i++;
                 continue;
             }
@@ -163,15 +152,13 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
             listQueue.add(seed);
             
             //make a chunk
-            for ( int j = 1; j < maxWordsNum; j++ )
-            {
+            for ( int j = 1; j < maxWordsNum; j++ ) {
                 int idx = i + j;
                 if ( idx >= entryList.size() ) break;
                 listQueue.add(entryList.get(idx).getKey());
             }
             
-            for ( ; listQueue.size() > 1 ; )
-            {
+            for ( ; listQueue.size() > 1 ; ) {
                 /*
                  * sort the sort queue and check all the words could
                  * make a phrase by its original position
@@ -187,8 +174,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                 IWord t = sortQueue.get(0);
                 int pos = t.getPosition() + t.getLength() - 1;
                 boolean match = true;
-                for ( int k = 1; k < sortQueue.size(); k++ ) 
-                {
+                for ( int k = 1; k < sortQueue.size(); k++ ) {
                     IWord kw = sortQueue.get(k);
                     if ( kw.getPosition() - pos != 1  ) {
                         match = false;
@@ -203,8 +189,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                  * not matched, remove the last word item
                  * from the list queue and continue the next match check ... 
                 */
-                if ( match == false )
-                {
+                if ( match == false ) {
                     //let gc do its work
                     sortQueue.clear();
                     sortQueue = null;
@@ -217,8 +202,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
             }
             
             //no matching
-            if ( len == 0 ) 
-            {
+            if ( len == 0 ) {
                 //return the mix words
                 if ( seed.getType() == IWord.T_MIXED_WORD ) {
                     phraseList.add(seed.getValue());
@@ -244,43 +228,53 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         return phraseList;
     }
 
-    public int getKeywordsNum() {
+    public int getKeywordsNum()
+    {
         return keywordsNum;
     }
 
-    public void setKeywordsNum(int keywordsNum) {
+    public void setKeywordsNum(int keywordsNum)
+    {
         this.keywordsNum = keywordsNum;
     }
 
-    public int getMaxIterateNum() {
+    public int getMaxIterateNum()
+    {
         return maxIterateNum;
     }
 
-    public void setMaxIterateNum(int maxIterateNum) {
+    public void setMaxIterateNum(int maxIterateNum)
+    {
         this.maxIterateNum = maxIterateNum;
     }
 
-    public int getWindowSize() {
+    public int getWindowSize()
+    {
         return windowSize;
     }
 
-    public void setWindowSize(int windowSize) {
+    public void setWindowSize(int windowSize)
+    {
         this.windowSize = windowSize;
     }
 
-    public int getAutoMinLength() {
+    public int getAutoMinLength()
+    {
         return autoMinLength;
     }
 
-    public void setAutoMinLength(int autoMinLength) {
+    public void setAutoMinLength(int autoMinLength)
+    {
         this.autoMinLength = autoMinLength;
     }
     
-    public int getMaxWordsNum() {
+    public int getMaxWordsNum()
+    {
         return maxWordsNum;
     }
 
-    public void setMaxWordsNum(int maxPhraseLength) {
+    public void setMaxWordsNum(int maxPhraseLength)
+    {
         this.maxWordsNum = maxPhraseLength;
     }
 }

@@ -10,8 +10,8 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class Chunk implements IChunk {
-    
+public class Chunk implements IChunk
+{
     /**
      * the word array 
      */
@@ -38,7 +38,8 @@ public class Chunk implements IChunk {
     private int length = -1;
     
     
-    public Chunk( IWord[] words ) {
+    public Chunk( IWord[] words )
+    {
         this.words = words;
     }
 
@@ -46,7 +47,8 @@ public class Chunk implements IChunk {
      * @see IChunk#getWords() 
      */
     @Override
-    public IWord[] getWords() {
+    public IWord[] getWords()
+    {
         return words;
     }
 
@@ -54,10 +56,12 @@ public class Chunk implements IChunk {
      * @see IChunk#getAverageWordsLength() 
      */
     @Override
-    public double getAverageWordsLength() {
+    public double getAverageWordsLength()
+    {
         if ( averageWordsLength == -1D ) {
             averageWordsLength = (double) getLength() / (double) words.length;
         }
+        
         return averageWordsLength;
     }
 
@@ -65,7 +69,8 @@ public class Chunk implements IChunk {
      * @see IChunk#getWordsVariance() 
      */
     @Override
-    public double getWordsVariance() {
+    public double getWordsVariance()
+    {
         if ( wordsVariance == -1D ) {
             double variance = 0D, temp;
             for ( int j = 0; j < words.length; j++ ) {
@@ -75,6 +80,7 @@ public class Chunk implements IChunk {
             //wordsVariance = Math.sqrt( variance / (double) words.length );
             wordsVariance = variance / words.length;
         }
+        
         return wordsVariance;
     }
 
@@ -82,7 +88,8 @@ public class Chunk implements IChunk {
      * @see IChunk#getSingleWordsMorphemicFreedom()
      */
     @Override
-    public double getSingleWordsMorphemicFreedom() {
+    public double getSingleWordsMorphemicFreedom()
+    {
         if ( singleWordMorphemicFreedom == -1D ) {
             singleWordMorphemicFreedom = 0;
             for ( int j = 0; j < words.length; j++ ) {
@@ -94,6 +101,7 @@ public class Chunk implements IChunk {
                 }
             }
         } 
+        
         return singleWordMorphemicFreedom;
     }
 
@@ -101,25 +109,29 @@ public class Chunk implements IChunk {
      * @see IChunk#getLength() 
      */
     @Override
-    public int getLength() {
+    public int getLength()
+    {
         if ( length == -1 ) {
             length = 0;
             for ( int j = 0; j < words.length; j++ ) {
                 length = length + words[j].getLength();
             }
         } 
+        
         return length;
     }
     
     /**
      * @see Object#toString() 
      */
-    public String toString() {
+    public String toString()
+    {
         StringBuilder sb = new StringBuilder();
         sb.append("chunk: ");
         for ( int j = 0; j < words.length; j++ ) {
             sb.append(words[j]+"/");
         }
+        
         return sb.toString();
     }
 }

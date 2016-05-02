@@ -36,8 +36,9 @@ import org.lionsoul.jcseg.util.Sort;
 public class DicMerge {
     
     private static boolean inArray( String[] arr, String item ) {
-        for ( int j = 0; j < arr.length; j++ )
-            if ( arr[j].equals(item) ) return true;
+        for ( int j = 0; j < arr.length; j++ ) {
+        	if ( arr[j].equals(item) ) return true;
+        }
         return false;
     }
     

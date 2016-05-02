@@ -82,15 +82,12 @@ public class SentenceSeg
         gisb.clear();
         int c, pos = -1;
         
-        while ( (c = readNext()) != -1 ) 
-        {
+        while ( (c = readNext()) != -1 ) {
             //clear the whitespace of the begainning
             if ( ENSCFilter.isWhitespace(c) ) continue;
             if ( c == '\n' || c == '\t' || c == '…' ) continue;
-            if ( ENSCFilter.isCnPunctuation(c) ) 
-            {
-                switch ( (char)c )
-                {
+            if ( ENSCFilter.isCnPunctuation(c) ) {
+                switch ( (char)c ) {
                 case '“':
                 case '【':
                 case '（':
@@ -100,10 +97,9 @@ public class SentenceSeg
                 default: continue;
                 }
             }
-            if ( ENSCFilter.isEnPunctuation(c)) 
-            {
-                switch ( (char)c )
-                {
+            
+            if ( ENSCFilter.isEnPunctuation(c)) {
+                switch ( (char)c ) {
                 case '"':
                 /*case '[':
                 case '(':
@@ -117,8 +113,7 @@ public class SentenceSeg
             pos = idx;
             gisb.clear().append((char)c);
             
-            while ( (c = readNext()) != -1 )
-            {
+            while ( (c = readNext()) != -1 ) {
                 boolean endTag = false;
                 
                 /*
@@ -126,14 +121,12 @@ public class SentenceSeg
                  * punctuation like the following:
                  * .。\n;；?？!！:： 
                 */
-                switch ((char)c)
-                {
+                switch ((char)c) {
                 case '"': gisb.append('"'); readUntil('"');  break;
                 case '“': gisb.append('“'); readUntil('”');  break;
                 case '【': gisb.append('【'); readUntil('】'); break;
                 case '《': gisb.append('《'); readUntil('》'); break;
-                case '.':
-                {
+                case '.': {
                     int chr = readNext();
                     gisb.append((char)c);
                     if ( ENSCFilter.isEnLetter(chr) )  {
@@ -152,16 +145,14 @@ public class SentenceSeg
                 case '？':
                 case '!':
                 case '！':
-                case '…':
-                {
+                case '…': {
                     endTag = true;
                     gisb.append((char)c);
                     break;
                 }
                 case ':':
                 case '：':
-                case '\n':
-                {
+                case '\n': {
                     endTag = true;
                     break;
                 }
@@ -196,10 +187,8 @@ public class SentenceSeg
     {
         int ch, i = 0;
         IStringBuffer sb = new IStringBuffer();
-        while ( (ch = readNext()) != -1 )
-        {
-            if ( ++i >= MAX_QUOTE_LENGTH ) 
-            {
+        while ( (ch = readNext()) != -1 ) {
+            if ( ++i >= MAX_QUOTE_LENGTH ) {
                 /*
                  * push back the readed chars
                  * and reset the global idx value. 
@@ -212,8 +201,7 @@ public class SentenceSeg
             }
             
             sb.append((char)ch);
-            if ( ch == echar ) 
-            {
+            if ( ch == echar ) {
                 gisb.append(sb.toString());
                 break;
             }

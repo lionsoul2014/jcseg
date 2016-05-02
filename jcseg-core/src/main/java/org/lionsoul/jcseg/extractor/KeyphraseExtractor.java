@@ -26,7 +26,8 @@ public abstract class KeyphraseExtractor
      * 
      * @param    seg
     */
-    public KeyphraseExtractor( ISegment seg ) {
+    public KeyphraseExtractor( ISegment seg )
+    {
         this.seg = seg;
     }
     
@@ -48,15 +49,13 @@ public abstract class KeyphraseExtractor
         }*/
         
         //type check
-        switch ( word.getType() )
-        {
+        switch ( word.getType() ) {
             case IWord.T_BASIC_LATIN:
             case IWord.T_LETTER_NUMBER:
             case IWord.T_OTHER_NUMBER:
             case IWord.T_CJK_PINYIN:
             case IWord.T_PUNCTUATION:
-            case IWord.T_UNRECOGNIZE_WORD:
-            {
+            case IWord.T_UNRECOGNIZE_WORD: {
                 return false;
             }
         }
@@ -66,10 +65,8 @@ public abstract class KeyphraseExtractor
         if ( poss == null ) return true;
         
         char pos = poss[0].charAt(0);
-        switch ( pos )
-        {
-             case 'e':
-             {
+        switch ( pos ) {
+             case 'e': {
                  if ( poss[0].equals("en") ) return true;
                  return false;
              }
@@ -92,8 +89,7 @@ public abstract class KeyphraseExtractor
             //case 'k':
             case 'g':
             case 'x':
-            case 'w':
-            {
+            case 'w': {
                 return false;
             }
         }
@@ -134,11 +130,13 @@ public abstract class KeyphraseExtractor
     public abstract List<String> getKeyphrase(Reader reader) throws IOException;
 
     
-    public ISegment getSeg() {
+    public ISegment getSeg()
+    {
         return seg;
     }
 
-    public void setSeg(ISegment seg) {
+    public void setSeg(ISegment seg)
+    {
         this.seg = seg;
     }
 }

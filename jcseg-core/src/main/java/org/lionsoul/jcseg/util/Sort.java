@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.util;
 
 /**
- * All kind of Sort alogrithm implemented method use the default compare method
+ * All kind of Sort algorithm implemented method use the default compare method
  * 
  * @author chenxin <chenxin619315@gmail.com>
  */
@@ -43,13 +43,15 @@ public class Sort
      * 
      * @param arr an array of a comparable items
      */
-    public static <T extends Comparable<? super T>> void insertionSort( T[] arr ) {
+    public static <T extends Comparable<? super T>> void insertionSort( T[] arr )
+    {
         int j;
         for ( int i = 1; i < arr.length; i++ ) {
             T tmp = arr[i];
             for ( j = i; j > 0 && tmp.compareTo(arr[j-1]) < 0; j--) {
                 arr[j] = arr[j-1];
             }
+            
             if ( j < i ) arr[j] = tmp; 
         }
     }
@@ -59,7 +61,8 @@ public class Sort
      * 
      * @param arr an array of Comparable items
      */
-    public static <T extends Comparable<? super T>> void shellSort( T[] arr ) {
+    public static <T extends Comparable<? super T>> void shellSort( T[] arr )
+    {
         int j, k = 0, gap;
         for ( ; GAPS[k] < arr.length; k++ ) ;
         
@@ -85,7 +88,8 @@ public class Sort
      * @param arr an array of Comparable item
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<? super T>> void mergeSort( T[] arr ) {
+    public static <T extends Comparable<? super T>> void mergeSort( T[] arr )
+    {
         /*if ( arr.length < 15 ) {
             insertionSort( arr );
             return;
@@ -105,7 +109,8 @@ public class Sort
      * @param right right-most index of the subarray
      */
     private static <T extends Comparable<? super T>> 
-    void mergeSort( T[] arr, T[] tmpArr, int left, int right ) {
+    void mergeSort( T[] arr, T[] tmpArr, int left, int right )
+    {
         //recursive way
         if ( left < right ) {
             int center = ( left + right ) / 2;
@@ -146,28 +151,34 @@ public class Sort
      * @param endPos right-most index of the subarray
      */
     private static <T extends Comparable<? super T>>
-    void merge( T[] arr, T[] tmpArr, int lPos, int rPos, int rEnd ) {
+    void merge( T[] arr, T[] tmpArr, int lPos, int rPos, int rEnd )
+    {
         int lEnd = rPos - 1;
         int tPos = lPos;
         int leftTmp = lPos;
         
         while ( lPos <= lEnd && rPos <= rEnd  ) {
-            if ( arr[lPos].compareTo( arr[rPos] ) <= 0 )
-                tmpArr[ tPos++ ] = arr[ lPos++ ];
-            else 
-                tmpArr[ tPos++ ] = arr[ rPos++ ];
+            if ( arr[lPos].compareTo( arr[rPos] ) <= 0 ) {
+            	tmpArr[ tPos++ ] = arr[ lPos++ ];
+            } else {
+            	tmpArr[ tPos++ ] = arr[ rPos++ ];
+            }
         }
         
         //copy the rest element of the left half subarray.
-        while ( lPos <= lEnd ) 
-            tmpArr[ tPos++ ] = arr[ lPos++ ];
+        while ( lPos <= lEnd ) {
+        	tmpArr[ tPos++ ] = arr[ lPos++ ];
+        }
+        
         //copy the rest elements of the right half subarray. (only one loop will be execute)
-        while ( rPos <= rEnd ) 
-            tmpArr[ tPos++ ] = arr[ rPos++ ];
+        while ( rPos <= rEnd ) {
+        	tmpArr[ tPos++ ] = arr[ rPos++ ];
+        }
         
         //copy the tmpArr back cause we need to change the arr array items.
-        for ( ; rEnd >= leftTmp; rEnd-- )
-            arr[rEnd] = tmpArr[rEnd];
+        for ( ; rEnd >= leftTmp; rEnd-- ) {
+        	arr[rEnd] = tmpArr[rEnd];
+        }
     }
     
     
@@ -180,7 +191,8 @@ public class Sort
      * @param idx1 the index of the first element
      * @param idx2 the index of the second element
      */
-    private static <T> void swapReferences( T[] arr, int idx1, int idx2 ) {
+    private static <T> void swapReferences( T[] arr, int idx1, int idx2 )
+    {
         T tmp = arr[idx1];
         arr[idx1] = arr[idx2];
         arr[idx2] = tmp;
@@ -192,7 +204,8 @@ public class Sort
      * 
      * @param arr an array of Comparable items
      */
-    public static <T extends Comparable<? super T>> void quicksort( T[] arr ) {
+    public static <T extends Comparable<? super T>> void quicksort( T[] arr )
+    {
         quicksort( arr, 0, arr.length - 1 );
     }
     
@@ -208,8 +221,8 @@ public class Sort
      * @return T
      */
     private static <T extends Comparable<? super T>>
-    T median( T[] arr, int left, int right ) {
-        
+    T median( T[] arr, int left, int right )
+    {
         int center = ( left + right ) / 2;
         
         if ( arr[left].compareTo( arr[center] ) > 0 )
@@ -231,7 +244,8 @@ public class Sort
      * @param end the end position
      */
     public static <T extends Comparable<? super T>> 
-    void insertionSort( T[] arr, int start, int end ) {
+    void insertionSort( T[] arr, int start, int end )
+    {
         int i;
         for ( int j = start + 1; j <= end; j++ ) {
             T tmp = arr[j];
@@ -250,7 +264,8 @@ public class Sort
      * @param right the right-most index of the subarray
      */
     private static <T extends Comparable<? super T>> 
-    void quicksort( T[] arr, int left, int right ) {
+    void quicksort( T[] arr, int left, int right )
+    {
         if ( left + CUTOFF <= right  ) {
             //find the pivot
             T pivot = median( arr, left, right );
@@ -260,10 +275,11 @@ public class Sort
             for ( ; ; ) {
                 while ( arr[++i].compareTo( pivot ) < 0 ) ;
                 while ( arr[--j].compareTo( pivot ) > 0 ) ;
-                if ( i < j )
-                    swapReferences( arr, i, j );
-                else
+                if ( i < j ) {
+                	swapReferences( arr, i, j );
+                } else {
                     break;
+                }
             }
             
             //swap the pivot reference back to the small collection.
@@ -288,7 +304,8 @@ public class Sort
      * @param k the k-th small index
      */
     public static <T extends Comparable<? super T>>
-    void quickSelect( T[] arr, int k ) {
+    void quickSelect( T[] arr, int k )
+    {
         quickSelect( arr, 0, arr.length - 1, k );
     }
     
@@ -301,7 +318,8 @@ public class Sort
      * @param k the k-th small element
      */
     private static <T extends Comparable<? super T>> 
-    void quickSelect( T[] arr, int left, int right, int k ) {
+    void quickSelect( T[] arr, int left, int right, int k )
+    {
         if ( left + CUTOFF <= right ) {
             //find the pivot
             T pivot = median( arr, left, right );
@@ -335,18 +353,21 @@ public class Sort
      * @param arr an int array
      * @param m the large-most one for all the Integers in arr
      */
-    public static void bucketSort( int[] arr, int m ) {
+    public static void bucketSort( int[] arr, int m )
+    {
         int[] count = new int[m];
         int j, i = 0;
         //System.out.println(count[0]==0?"true":"false");
-        for ( j = 0; j < arr.length; j++ ) 
-            count[ arr[j] ]++;
+        for ( j = 0; j < arr.length; j++ ) {
+        	count[ arr[j] ]++;
+        }
         
         //loop and filter the elements
         for ( j = 0; j < m; j++ ) {
             if ( count[j] > 0 ) {
-                while ( count[j]-- > 0 ) 
-                    arr[i++] = j;
+                while ( count[j]-- > 0 ) {
+                	arr[i++] = j;
+                }
             }
         }
     }
@@ -357,17 +378,20 @@ public class Sort
      * @param arr an array of Integer items
      * @param m the large-most one for all the Integers in arr
      */
-    public static void bucketSort( Integer[] arr, int m ) {
+    public static void bucketSort( Integer[] arr, int m )
+    {
         int[] count = new int[m];
         int j, i = 0;
-        for ( j = 0; j < arr.length; j++ ) 
-            count[ arr[j] ]++;
+        for ( j = 0; j < arr.length; j++ )  {
+        	count[ arr[j] ]++;
+        }
         
         //loop and filter the elements
         for ( j = 0; j < m; j++ ) {
             if ( count[j] > 0 ) {
-                while ( count[j]-- > 0 )
-                    arr[i++] = new Integer(j);
+                while ( count[j]-- > 0 ) {
+                	arr[i++] = new Integer(j);
+                }
             }
         }
     }

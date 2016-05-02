@@ -39,7 +39,8 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
     protected boolean autoFilter = false;
 
 
-    public TextRankKeywordsExtractor(ISegment seg) {
+    public TextRankKeywordsExtractor(ISegment seg)
+    {
         super(seg);
     }
 
@@ -52,13 +53,11 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         //document segment
         IWord w = null;
         seg.reset(reader);
-        while ( (w = seg.next()) != null )
-        {
+        while ( (w = seg.next()) != null ) {
             if ( filter(w) == false ) continue;
             
             String word = w.getValue();
-            if ( ! winMap.containsKey(word) ) 
-            {
+            if ( ! winMap.containsKey(word) ) {
                 winMap.put(word, new LinkedList<String>());
             }
             
@@ -66,16 +65,14 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         }
         
         //count the neighbour
-        for ( int i = 0; i < words.size(); i++ )
-        {
+        for ( int i = 0; i < words.size(); i++ ) {
             String word = words.get(i);
             List<String> support = winMap.get(word);
             
             int sIdx = Math.max(0, i - windowSize);
             int eIdx = Math.min(i + windowSize, words.size() - 1);
             
-            for ( int j = sIdx; j <= eIdx; j++ )
-            {
+            for ( int j = sIdx; j <= eIdx; j++ ) {
                 if ( j == i ) continue;
                 support.add(words.get(j));
             }
@@ -83,16 +80,13 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         
         //do the page rank scores caculate
         HashMap<String, Float> score = new HashMap<String, Float>();
-        for ( int c = 0; c < maxIterateNum; c++ )
-        {
-            for ( Map.Entry<String, List<String>> entry : winMap.entrySet() )
-            {
+        for ( int c = 0; c < maxIterateNum; c++ ) {
+            for ( Map.Entry<String, List<String>> entry : winMap.entrySet() ) {
                 String key = entry.getKey();
                 List<String> value = entry.getValue();
                 
                 float sigema = 0F;
-                for ( String ele : value )
-                {
+                for ( String ele : value ) {
                     int size = winMap.get(ele).size();
                     if ( ele.equals(key) || size == 0 ) {
                         continue;
@@ -115,15 +109,13 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         List<Map.Entry<String, Float>> entryList = new ArrayList<Map.Entry<String, Float>>(score.entrySet());
         Collections.sort(entryList, new Comparator<Map.Entry<String, Float>>(){
             @Override
-            public int compare(Map.Entry<String, Float> o1, 
-                    Map.Entry<String, Float> o2) {
+            public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
         
         float tScores = 0F, avgScores = 0F, stdScores = 0F;
-        for ( Map.Entry<String, Float> entry : entryList )
-        {
+        for ( Map.Entry<String, Float> entry : entryList ) {
             tScores += entry.getValue();
             //System.out.println(entry.getKey()+"="+entry.getValue());
         }
@@ -134,8 +126,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         //return the sublist as the final result
         int len = Math.min(keywordsNum, entryList.size());
         List<String> keywords = new ArrayList<String>(len);
-        for ( int i = 0; i < entryList.size(); i++ )
-        {
+        for ( int i = 0; i < entryList.size(); i++ ) {
             Map.Entry<String, Float> e = entryList.get(i);
             if ( i >= len ) break;
             if ( autoFilter && e.getValue() < stdScores ) break;
@@ -151,35 +142,43 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         return keywords;
     }
 
-    public int getKeywordsNum() {
+    public int getKeywordsNum()
+    {
         return keywordsNum;
     }
 
-    public void setKeywordsNum(int keywordsNum) {
+    public void setKeywordsNum(int keywordsNum)
+    {
         this.keywordsNum = keywordsNum;
     }
 
-    public int getMaxIterateNum() {
+    public int getMaxIterateNum()
+    {
         return maxIterateNum;
     }
 
-    public void setMaxIterateNum(int maxIterateNum) {
+    public void setMaxIterateNum(int maxIterateNum)
+    {
         this.maxIterateNum = maxIterateNum;
     }
 
-    public int getWindowSize() {
+    public int getWindowSize()
+    {
         return windowSize;
     }
 
-    public void setWindowSize(int windowSize) {
+    public void setWindowSize(int windowSize)
+    {
         this.windowSize = windowSize;
     }
 
-    public boolean isAutoFilter() {
+    public boolean isAutoFilter()
+    {
         return autoFilter;
     }
 
-    public void setAutoFilter(boolean autoFilter) {
+    public void setAutoFilter(boolean autoFilter)
+    {
         this.autoFilter = autoFilter;
     }
     

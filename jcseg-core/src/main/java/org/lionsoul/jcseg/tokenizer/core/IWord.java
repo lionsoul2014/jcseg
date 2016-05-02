@@ -5,8 +5,8 @@ package org.lionsoul.jcseg.tokenizer.core;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public interface IWord extends Cloneable {
-    
+public interface IWord extends Cloneable
+{    
     public static final String[] NAME_POSPEECH = {"nr"};
     public static final String[] NUMERIC_POSPEECH = {"m"};
     public static final String[] EN_POSPEECH = {"en"};

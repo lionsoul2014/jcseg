@@ -109,19 +109,24 @@ public abstract class SummaryExtractor
     */
     public abstract String getSummary(Reader reader, int length) throws IOException;
 
-    public ISegment getWordSeg() {
+    
+    public ISegment getWordSeg()
+    {
         return wordSeg;
     }
 
-    public void setWordSeg(ISegment wordSeg) {
+    public void setWordSeg(ISegment wordSeg)
+    {
         this.wordSeg = wordSeg;
     }
 
-    public SentenceSeg getSentenceSeg() {
+    public SentenceSeg getSentenceSeg()
+    {
         return sentenceSeg;
     }
 
-    public void setSentenceSeg(SentenceSeg sentenceSeg) {
+    public void setSentenceSeg(SentenceSeg sentenceSeg)
+    {
         this.sentenceSeg = sentenceSeg;
     }
     

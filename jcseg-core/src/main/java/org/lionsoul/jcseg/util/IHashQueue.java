@@ -23,9 +23,9 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 public class IHashQueue<T extends IWord> 
 {
-    private int             size;            //size of the current queue
-    private Entry<T>         head;            //head of the queue
-    private Entry<T>         tail;            //tail of the queue
+    private int		size;            //size of the current queue
+    private Entry<T>	head;            //head of the queue
+    private Entry<T>	tail;            //tail of the queue
     
     private Map<String, T>    index;            //hash index layer
     
@@ -77,11 +77,13 @@ public class IHashQueue<T extends IWord>
      */
     public T remove()
     {
-        if ( size == 0 ) return null;
+        if ( size == 0 ) {
+        	return null;
+        }
         
         //remove the first element
-        Entry<T> o     = head.next;
-        head.next     = o.next;
+        Entry<T> o	= head.next;
+        head.next   = o.next;
         o.next.prev = head;
         
         //bakup the data
@@ -111,7 +113,7 @@ public class IHashQueue<T extends IWord>
      */
     public static class Entry<T>
     {
-        public T             data;            //data of the current node
+        public T            data;            //data of the current node
         public Entry<T>     prev;            //prev entry quote
         public Entry<T>     next;            //next entry quote
         

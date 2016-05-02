@@ -21,8 +21,7 @@ public class MMSegFilter
         int maxLength = chunks[0].getLength();
         int j;
         //find the maximum word length
-        for ( j = 1; j < chunks.length; j++ ) 
-        {
+        for ( j = 1; j < chunks.length; j++ ) {
             if ( chunks[j].getLength() > maxLength ) 
                 maxLength = chunks[j].getLength();
         }
@@ -30,10 +29,10 @@ public class MMSegFilter
         //get the items that the word length equals to
         //the max's length.
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
-        for ( j = 0; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getLength() == maxLength)
-                chunkArr.add(chunks[j]);
+        for ( j = 0; j < chunks.length; j++ ) {
+            if ( chunks[j].getLength() == maxLength) {
+            	chunkArr.add(chunks[j]);
+            }
         }
         
         IChunk[] lchunk = new IChunk[chunkArr.size()];
@@ -54,19 +53,19 @@ public class MMSegFilter
         int j;
         
         //find the largest average word length
-        for ( j = 1; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getAverageWordsLength() > largetAverage ) 
-                largetAverage = chunks[j].getAverageWordsLength();
+        for ( j = 1; j < chunks.length; j++ ) {
+            if ( chunks[j].getAverageWordsLength() > largetAverage ) {
+            	largetAverage = chunks[j].getAverageWordsLength();
+            }
         }
         
         //get the items that the average word length equals to
         //the max's.
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
-        for ( j = 0; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getAverageWordsLength() == largetAverage)
-                chunkArr.add(chunks[j]);
+        for ( j = 0; j < chunks.length; j++ ) {
+            if ( chunks[j].getAverageWordsLength() == largetAverage) {
+            	chunkArr.add(chunks[j]);
+            }
         }
         
         IChunk[] lchunk = new IChunk[chunkArr.size()];
@@ -86,19 +85,19 @@ public class MMSegFilter
         int j;
         
         //find the smallest variance word length
-        for ( j = 1; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getWordsVariance() < smallestVariance ) 
-                smallestVariance = chunks[j].getWordsVariance();
+        for ( j = 1; j < chunks.length; j++ ) {
+            if ( chunks[j].getWordsVariance() < smallestVariance ) {
+            	smallestVariance = chunks[j].getWordsVariance();
+            }
         }
         
         //get the items that the variance word length equals to
         //the max's.
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
-        for ( j = 0; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getWordsVariance() == smallestVariance)
-                chunkArr.add(chunks[j]);
+        for ( j = 0; j < chunks.length; j++ ) {
+            if ( chunks[j].getWordsVariance() == smallestVariance) {
+            	chunkArr.add(chunks[j]);
+            }
         }
         
         IChunk[] lchunk = new IChunk[chunkArr.size()];
@@ -120,19 +119,19 @@ public class MMSegFilter
         int j;
         
         //find the maximum sum of single morphemic freedom
-        for ( j = 1; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getSingleWordsMorphemicFreedom() > largestFreedom ) 
-                largestFreedom = chunks[j].getSingleWordsMorphemicFreedom();
+        for ( j = 1; j < chunks.length; j++ ) {
+            if ( chunks[j].getSingleWordsMorphemicFreedom() > largestFreedom ) {
+            	largestFreedom = chunks[j].getSingleWordsMorphemicFreedom();
+            }
         }
         
         //get the items that the word length equals to
         //the max's length.
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
-        for ( j = 0; j < chunks.length; j++ ) 
-        {
-            if ( chunks[j].getSingleWordsMorphemicFreedom() == largestFreedom)
-                chunkArr.add(chunks[j]);
+        for ( j = 0; j < chunks.length; j++ ) {
+            if ( chunks[j].getSingleWordsMorphemicFreedom() == largestFreedom) {
+            	 chunkArr.add(chunks[j]);
+            }
         }
         
         IChunk[] lchunk = new IChunk[chunkArr.size()];
