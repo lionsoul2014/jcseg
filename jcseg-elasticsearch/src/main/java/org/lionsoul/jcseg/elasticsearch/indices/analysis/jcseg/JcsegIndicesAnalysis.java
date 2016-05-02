@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.elasticsearch.indices.analysis.jcseg;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.TokenStream;
@@ -48,7 +49,13 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             @Override
             public Tokenizer create() {
                 try {
-                    JcsegTaskConfig config = new JcsegTaskConfig();
+                	/*
+                	 * @Added at 2016-05-02
+                	 * default to load the jcseg.properties configuration file
+                	 * in the jcseg plugin base directory {ES_HOME}/plugins/jcseg/
+                	*/
+                    File proFile = new File("plugins/jcseg/jcseg.properties");
+                    JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
                     return new JcsegTokenizer(
                         JcsegTaskConfig.COMPLEX_MODE,
                         config,
