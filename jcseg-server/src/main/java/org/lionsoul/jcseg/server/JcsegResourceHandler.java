@@ -49,8 +49,7 @@ public class JcsegResourceHandler extends AbstractHandler
     {
         String requestUri = request.getRequestURI();
         int pos = requestUri.lastIndexOf('.');
-        if ( pos > -1 )
-        {
+        if ( pos > -1 ) {
             //interception for favicon.ico
             if ( requestUri.indexOf("favicon.ico") > -1 ) {
                 requestUri = "/images/logo-x32.png";
@@ -60,8 +59,7 @@ public class JcsegResourceHandler extends AbstractHandler
              * check the exitstence of the request resource 
             */
             InputStream is = this.getClass().getResourceAsStream("/res"+requestUri);
-            if ( is == null )
-            {
+            if ( is == null ) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
@@ -82,8 +80,7 @@ public class JcsegResourceHandler extends AbstractHandler
             
             int len = 0;
             byte[] b = new byte[4096];
-            while ( (len = bis.read(b)) > 0 ) 
-            {
+            while ( (len = bis.read(b)) > 0 ) {
                 sos.write(b, 0, len);
             }
             

@@ -64,83 +64,103 @@ public class ServerConfig
         charset = "utf-8";
     }
 
-    public String getHost() {
+    public String getHost()
+    {
         return host;
     }
 
-    public void setHost(String host) {
+    public void setHost(String host)
+    {
         this.host = host;
     }
 
-    public int getPort() {
+    public int getPort()
+    {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(int port)
+    {
         this.port = port;
     }
 
-    public long getHttpIdleTimeout() {
+    public long getHttpIdleTimeout()
+    {
         return httpIdleTimeout;
     }
 
-    public void setHttpIdleTimeout(long idleTimeOut) {
+    public void setHttpIdleTimeout(long idleTimeOut)
+    {
         this.httpIdleTimeout = idleTimeOut;
     }
 
-    public int getOutputBufferSize() {
+    public int getOutputBufferSize()
+    {
         return outputBufferSize;
     }
 
-    public void setOutputBufferSize(int outputBufferSize) {
+    public void setOutputBufferSize(int outputBufferSize)
+    {
         this.outputBufferSize = outputBufferSize;
     }
 
-    public int getRequestHeaderSize() {
+    public int getRequestHeaderSize()
+    {
         return requestHeaderSize;
     }
 
-    public void setRequestHeaderSize(int requestHeaderSize) {
+    public void setRequestHeaderSize(int requestHeaderSize)
+    {
         this.requestHeaderSize = requestHeaderSize;
     }
 
-    public int getResponseHeaderSize() {
+    public int getResponseHeaderSize()
+    {
         return responseHeaderSize;
     }
 
-    public void setResponseHeaderSize(int responseHeaderSize) {
+    public void setResponseHeaderSize(int responseHeaderSize)
+    {
         this.responseHeaderSize = responseHeaderSize;
     }
 
-    public int getMaxThreadPoolSize() {
+    public int getMaxThreadPoolSize()
+    {
         return maxThreadPoolSize;
     }
 
-    public void setMaxThreadPoolSize(int maxThreadPoolSize) {
+    public void setMaxThreadPoolSize(int maxThreadPoolSize)
+    {
         this.maxThreadPoolSize = maxThreadPoolSize;
     }
 
-    public int getThreadIdleTimeout() {
+    public int getThreadIdleTimeout()
+    {
         return threadIdleTimeout;
     }
 
-    public void setThreadIdleTimeout(int maxThreadIdleTimeout) {
+    public void setThreadIdleTimeout(int maxThreadIdleTimeout)
+    {
         this.threadIdleTimeout = maxThreadIdleTimeout;
     }
 
-    public String getAppBasePath() {
+    public String getAppBasePath()
+    {
         return appBasePath;
     }
 
-    public void setAppBasePath(String appBasePath) {
+    public void setAppBasePath(String appBasePath)
+    {
         this.appBasePath = appBasePath;
     }
 
-    public String getCharset() {
+    public String getCharset()
+    {
         return charset;
     }
 
-    public void setCharset(String charset) {
+    public void setCharset(String charset)
+    {
         this.charset = charset;
     }
     

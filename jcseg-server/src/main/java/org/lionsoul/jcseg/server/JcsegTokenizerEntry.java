@@ -14,7 +14,6 @@ public class JcsegTokenizerEntry {
     private int algorithm;
     private JcsegTaskConfig config = null;
     private ADictionary dic = null;
-
     
     public JcsegTokenizerEntry(int algorithm, JcsegTaskConfig config, ADictionary dic )
     {
@@ -23,27 +22,33 @@ public class JcsegTokenizerEntry {
         this.dic = dic;
     }
     
-    public JcsegTaskConfig getConfig() {
+    public JcsegTaskConfig getConfig()
+    {
         return config;
     }
     
-    public void setConfig(JcsegTaskConfig config) {
+    public void setConfig(JcsegTaskConfig config)
+    {
         this.config = config;
     }
     
-    public ADictionary getDict() {
+    public ADictionary getDict()
+    {
         return dic;
     }
     
-    public void setDict(ADictionary dic) {
+    public void setDict(ADictionary dic)
+    {
         this.dic = dic;
     }
 
-    public int getAlgorithm() {
+    public int getAlgorithm()
+    {
         return algorithm;
     }
 
-    public void setAlgorithm(int algorithm) {
+    public void setAlgorithm(int algorithm)
+    {
         this.algorithm = algorithm;
     }
     

@@ -47,16 +47,14 @@ public class KeywordsController extends JcsegController
         String text = getString("text");
         int number = getInt("number", 10);
         boolean autoFilter = getBoolean("autoFilter", false);
-        if ( text == null || "".equals(text) )
-        {
+        if ( text == null || "".equals(text) ) {
             response(false, 1, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
-        if ( tokenizerEntry == null ) 
-        {
+        if ( tokenizerEntry == null ) {
             response(false, 1, "can't find tokenizer instance \"extractor\"");
             return;
         }

@@ -39,8 +39,7 @@ public class ContextRouter extends AbstractRouter
         public int type     = 0; // 1 - 100% match for map, 2 - pattern match for matches
         public String key   = null;
         
-        public PathEntry(int _type, String _key)
-        {
+        public PathEntry(int _type, String _key) {
             this.type = _type;
             this.key  = _key;
         }
@@ -70,8 +69,7 @@ public class ContextRouter extends AbstractRouter
         String requestUri = uri.getRequestUri();
         
         String last_str = uri.get( length - 1 );
-        if ( last_str.equals("*") || last_str.equals("") )
-        {
+        if ( last_str.equals("*") || last_str.equals("") ) {
 //            StringBuffer buffer = new StringBuffer();
 //            buffer.append('/');
 //            
@@ -104,11 +102,8 @@ public class ContextRouter extends AbstractRouter
         if ( entry.type == ContextRouter.MAP_PATH_TYPE) {
             if (entry.key.equals("default"))
                 _class = defaultController;
-            
             maps.put( entry.key, _class );
-        } 
-        else if ( entry.type == ContextRouter.MATCH_PATH_TYPE) 
-        {
+        } else if ( entry.type == ContextRouter.MATCH_PATH_TYPE) {
             matches.put( entry.key, _class );
         }
         
@@ -122,12 +117,9 @@ public class ContextRouter extends AbstractRouter
         UriEntry uri = new UriEntry(path);
         PathEntry pathEntry = this.getPathEntry(uri);
         
-        if ( pathEntry.type == ContextRouter.MAP_PATH_TYPE)
-        {
+        if ( pathEntry.type == ContextRouter.MAP_PATH_TYPE) {
             maps.remove(pathEntry.key);
-        }
-        else if ( pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
-        {
+        } else if ( pathEntry.type == ContextRouter.MATCH_PATH_TYPE) {
             matches.remove(pathEntry.key);
         }
     }
@@ -140,33 +132,27 @@ public class ContextRouter extends AbstractRouter
         Class<? extends Controller> controller = null;
         
         String uri = uriEntry.getRequestUri();
-        
-        
-        if ( pathEntry.type == ContextRouter.MAP_PATH_TYPE)
-        {
+        if ( pathEntry.type == ContextRouter.MAP_PATH_TYPE) {
             controller = maps.get(pathEntry.key);
         }
-
         
         // try to get controller from lru cache
-        if (controller == null)
-            controller  = cache.get(uri);
-
+        if (controller == null) {
+        	controller  = cache.get(uri);
+        }
         
         // if cannot find the controller in maps or cache .  
         // we try it from matches, even if its type is MAP_PATH_TYPE
         // and of course type of MATCH_PATH_TYPE should get controller from matches too.
         
-        if ( controller == null ||  pathEntry.type == ContextRouter.MATCH_PATH_TYPE)
-        {
+        if ( controller == null ||  pathEntry.type == ContextRouter.MATCH_PATH_TYPE) {
             String key = uri;
             
             int lastPosition = key.lastIndexOf('/');
             
-            while( lastPosition != -1)
-            {
-                key         = key.substring(0, lastPosition);
-                controller  = matches.get(key + '/');
+            while( lastPosition != -1) {
+                key        = key.substring(0, lastPosition);
+                controller = matches.get(key + '/');
                 
                 if (controller != null) {
                     // store the result to cache

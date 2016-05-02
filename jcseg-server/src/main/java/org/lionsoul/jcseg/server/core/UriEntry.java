@@ -55,17 +55,14 @@ public class UriEntry
     */
     private void process()
     {
-        if (requestUri.length() > 1)
-        {
+        if (requestUri.length() > 1) {
             parts = new ArrayList<String>(10);
-            for ( int i = 1; i < requestUri.length(); )
-            {
+            for ( int i = 1; i < requestUri.length(); ) {
                 int sIdx = i;
                 int eIdx = requestUri.indexOf('/', sIdx + 1);
                 
                 //not matched or reach the end
-                if ( eIdx == -1 ) 
-                {
+                if ( eIdx == -1 ) {
                     parts.add(requestUri.substring(sIdx));
                     break;
                 } 
@@ -78,18 +75,14 @@ public class UriEntry
              * check and add a empty method name
              * with request style like /tokenizer/
             */
-            if ( requestUri.charAt(requestUri.length()-1) == '/' )
-            {
+            if ( requestUri.charAt(requestUri.length()-1) == '/' ) {
                 parts.add("");
             }
             
             int length = parts.size();
-            
-            if ( length > 1 ) 
-            {
+            if ( length > 1 ) {
                 IStringBuffer sb = new IStringBuffer();
-                for ( int i = 0; i < length - 1; i++ ) 
-                {
+                for ( int i = 0; i < length - 1; i++ ) {
                     int l = sb.length();
                     sb.append(parts.get(i));
                     
@@ -132,27 +125,33 @@ public class UriEntry
         return parts == null ? 0 : parts.size();
     }
 
-    public String getController() {
+    public String getController()
+    {
         return controller;
     }
 
-    public void setController(String controller) {
+    public void setController(String controller)
+    {
         this.controller = controller;
     }
 
-    public String getMethod() {
+    public String getMethod()
+    {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(String method)
+    {
         this.method = method;
     }
 
-    public String getRequestUri() {
+    public String getRequestUri()
+    {
         return requestUri;
     }
 
-    public void setRequestUri(String requestUri) {
+    public void setRequestUri(String requestUri)
+    {
         this.requestUri = requestUri;
     }
     

@@ -43,8 +43,8 @@ public class LRUCache<E, T> {
     
     public LRUCache(int capacity, int percentToRemove)
     {
-        this.capacity       = capacity;
-        this.removePercent  = percentToRemove;
+        this.capacity      = capacity;
+        this.removePercent = percentToRemove;
         this.init();
     }
     
@@ -64,11 +64,10 @@ public class LRUCache<E, T> {
      * @param  key
      * @return value
      * */
-    public T get( E key ) {
-        
+    public T get( E key )
+    {
         Entry<E, T> entry = null;
-        synchronized(this) 
-        {
+        synchronized(this) {
             entry = map.get(key);
             if (map.get(key) == null)
                 return null;
@@ -81,6 +80,7 @@ public class LRUCache<E, T> {
             this.head.next.prev = entry;
             this.head.next = entry;
         }
+        
         return entry.value;
     }
     
@@ -107,8 +107,6 @@ public class LRUCache<E, T> {
                 
                 this.length++;
                 map.put(key, entry);
-                
-                
             } else {
                 entry = map.get(key);
                 
@@ -131,20 +129,20 @@ public class LRUCache<E, T> {
      * 
      * @param key
      * */
-    public synchronized void remove(E key) {
-        
-           Entry<E, T> entry = map.get(key);
-           this.tail.prev = entry.prev;
-           entry.prev.next = this.tail;
-           map.remove(entry.key);
-           this.length--;   
+    public synchronized void remove(E key)
+    {    
+		Entry<E, T> entry = map.get(key);
+		this.tail.prev = entry.prev;
+		entry.prev.next = this.tail;
+		map.remove(entry.key);
+		this.length--;   
     }
     
     // remove least used elements
-    public synchronized void removeLeastUsedElements(){
-        
-        int rows    = this.removePercent / 100 *  this.length;
-        rows        = rows == 0 ? 1 : rows;
+    public synchronized void removeLeastUsedElements()
+    {    
+        int rows = this.removePercent / 100 *  this.length;
+        rows     = rows == 0 ? 1 : rows;
         
         while(rows > 0 && this.length > 0) {
             // remove the last element
@@ -158,7 +156,6 @@ public class LRUCache<E, T> {
         }
     }
    
-    
     /**
      * return the length of list
      * 
@@ -167,7 +164,6 @@ public class LRUCache<E, T> {
     public synchronized int  getLength(){
         return this.length;
     }
-    
     
     /**
      * print the list 

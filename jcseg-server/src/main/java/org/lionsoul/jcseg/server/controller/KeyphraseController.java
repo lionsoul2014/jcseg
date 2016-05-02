@@ -48,16 +48,14 @@ public class KeyphraseController extends JcsegController
         int number = getInt("number", 10), 
                 maxCombineLength = getInt("maxCombineLength", 4), 
                 autoMinLength = getInt("autoMinLength", 4);
-        if ( text == null || "".equals(text) )
-        {
+        if ( text == null || "".equals(text) ) {
             response(false, 1, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
-        if ( tokenizerEntry == null ) 
-        {
+        if ( tokenizerEntry == null ) {
             response(false, 1, "can't find tokenizer instance \"extractor\"");
             return;
         }

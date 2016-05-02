@@ -51,47 +51,64 @@ public class TokenizerController extends JcsegController
      * */
     public class WordEntry {
         
-
-
         private String  word        = null;
         private String  pinYin      = null;
         private String  partSpeech  = null;
         private int     length      = -1;
         private int     position    = -1;   
        
-        public String getWord() {
+        public String getWord()
+        {
             return word;
         }
-        public void setWord(String word) {
+        
+        public void setWord(String word)
+        {
             this.word = word;
         }
-        public String getPinYin() {
+        
+        public String getPinYin()
+        {
             return pinYin;
         }
-        public void setPinYin(String pinYin) {
+        
+        public void setPinYin(String pinYin)
+        {
             this.pinYin = pinYin;
         }
-        public String getPartSpeech() {
+        
+        public String getPartSpeech()
+        {
             return partSpeech;
         }
-        public void setPartSpeech(String partSpeech) {
+        
+        public void setPartSpeech(String partSpeech)
+        {
             this.partSpeech = partSpeech;
         }
-        public int getLength() {
+        
+        public int getLength()
+        {
             return length;
         }
-        public void setLength(int length) {
+        
+        public void setLength(int length)
+        {
             this.length = length;
         }
-        public int getPosition() {
+        
+        public int getPosition()
+        {
             return position;
         }
-        public void setPosition(int position) {
+        
+        public void setPosition(int position)
+        {
             this.position = position;
         }
         
-        
-        public String toString() {
+        public String toString() 
+        {
             IStringBuffer sb = new IStringBuffer();
             sb.append('{');
             
@@ -109,7 +126,6 @@ public class TokenizerController extends JcsegController
             if (partSpeech != null)
                 sb.append(",\"pos\":\"" + partSpeech.toString()+"\"");
          
-            
             sb.append('}');            
             
             return sb.toString();
@@ -124,16 +140,14 @@ public class TokenizerController extends JcsegController
         boolean ret_pinyin = getBoolean("ret_pinyin");
         boolean ret_pos = getBoolean("ret_pos");
         
-        if ( text == null || "".equals(text) )
-        {
+        if ( text == null || "".equals(text) ) {
             response(false, 1, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry(method);
-        if ( tokenizerEntry == null ) 
-        {
+        if ( tokenizerEntry == null ) {
             response(false, 1, "can't find tokenizer instance [" + method + "]");
             return;
         }
@@ -148,8 +162,7 @@ public class TokenizerController extends JcsegController
             seg.reset(new StringReader(text));
             
             long s_time = System.nanoTime();
-            while ( (word = seg.next()) != null ) 
-            {
+            while ( (word = seg.next()) != null ) {
                 WordEntry w =  new WordEntry();
                 w.setWord(word.getValue());
                 w.setLength(word.getLength());
@@ -173,8 +186,8 @@ public class TokenizerController extends JcsegController
                 //clear the allocations of the word.
                 word = null;
             }
-            double c_time = (System.nanoTime() - s_time)/1E9;
             
+            double c_time = (System.nanoTime() - s_time)/1E9;
             Map<String, Object> map = new HashMap<String, Object>();
             DecimalFormat df = new DecimalFormat("0.00000"); 
             map.put("took", Float.valueOf(df.format(c_time)));

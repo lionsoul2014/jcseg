@@ -28,8 +28,7 @@ public class JcsegServerConfig extends ServerConfig
     */
     public JcsegServerConfig(String configFile) throws IOException
     {
-        if ( configFile != null ) 
-        {
+        if ( configFile != null ) {
             this.configFile = configFile;
             resetFromFile(configFile);
         }
@@ -50,8 +49,7 @@ public class JcsegServerConfig extends ServerConfig
         IStringBuffer isb = new IStringBuffer();
         String line = null;
         BufferedReader reader = new BufferedReader(new FileReader(configFile));
-        while ( (line = reader.readLine()) != null ) 
-        {
+        while ( (line = reader.readLine()) != null ) {
             line = line.trim();
             if (line.equals("")) continue;
             if (line.charAt(0) == '#') continue;

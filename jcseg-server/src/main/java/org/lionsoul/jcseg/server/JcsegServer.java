@@ -151,8 +151,7 @@ public class JcsegServer
         /*
          * parse and initialize the server according to the global config
         */
-        if ( globalConfig.has("server_config") ) 
-        {
+        if ( globalConfig.has("server_config") ) {
             JSONObject serverSetting = globalConfig.getJSONObject("server_config");
             if ( serverSetting.has("port") ) {
                 config.setPort(serverSetting.getInt("port"));
@@ -192,12 +191,10 @@ public class JcsegServer
         */
         JcsegTaskConfig dictLoadConfig = globalJcsegTaskConfig.clone();
         dictLoadConfig.setMaxLength(100);
-        if ( globalConfig.has("jcseg_dict") )
-        {
+        if ( globalConfig.has("jcseg_dict") ) {
             JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
             String[] dictNames = JSONObject.getNames(dictSetting);
-            for ( String name : dictNames )
-            {
+            for ( String name : dictNames ) {
                 JSONObject dicJson = dictSetting.getJSONObject(name);
                 if ( ! dicJson.has("path") ) {
                     throw new JcsegException("Missing path for dict instance " + name);
@@ -250,12 +247,10 @@ public class JcsegServer
         /*
          * create the JcsegTaskConfig instance according to the defination config
         */
-        if ( globalConfig.has("jcseg_config") ) 
-        {
+        if ( globalConfig.has("jcseg_config") ) {
             JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
             String[] configNames = JSONObject.getNames(configSetting);
-            for ( String name : configNames ) 
-            {
+            for ( String name : configNames ) {
                 JSONObject configJson = configSetting.getJSONObject(name);
                 
                 //clone the globalJcsegTaskConfig
@@ -273,12 +268,10 @@ public class JcsegServer
         /*
          * create the tokenizer instance according the defination of tokenizer
         */
-        if ( globalConfig.has("jcseg_tokenizer") )
-        {
+        if ( globalConfig.has("jcseg_tokenizer") ) {
             JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
             String[] tokenizerNames = JSONObject.getNames(tokenizerSetting);
-            for ( String name : tokenizerNames )
-            {
+            for ( String name : tokenizerNames ) {
                 JSONObject tokenizerJson = tokenizerSetting.getJSONObject(name);
                 
                 int algorithm = tokenizerJson.has("algorithm") 
