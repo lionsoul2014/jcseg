@@ -76,7 +76,7 @@ public class ENSCFilter
      * check the specifield char is an english numeric(48-57)
      * including the full-width char
      *  
-     * @param	u
+     * @param    u
      */
     public static boolean isEnNumeric( int u )
     {
@@ -88,17 +88,17 @@ public class ENSCFilter
      * get the type of the english char
      * defined in this class and start with EN_. (only half-width)
      * 
-     * @param	u   char to identity
-     * @return	int	type keywords
+     * @param    u   char to identity
+     * @return    int    type keywords
      */
     public static int getEnCharType( int u )
     {
         //if ( u > 65280 ) u -= 65248;            //make full-with half-width
-        if ( u > 126 )				return EN_UNKNOW;
-        if ( u == 32 )  			return EN_WHITESPACE;
-        if ( u >= 48 && u <= 57 )	return EN_NUMERIC;
-        if ( u >= 65 && u <= 90 )	return EN_LETTER;
-        if ( u >= 97 && u <= 122 )	return EN_LETTER;
+        if ( u > 126 )                return EN_UNKNOW;
+        if ( u == 32 )              return EN_WHITESPACE;
+        if ( u >= 48 && u <= 57 )    return EN_NUMERIC;
+        if ( u >= 65 && u <= 90 )    return EN_LETTER;
+        if ( u >= 97 && u <= 122 )    return EN_LETTER;
         return EN_PUNCTUATION;
     }
     
@@ -208,7 +208,7 @@ public class ENSCFilter
     {
         if ( str.charAt(str.length() - 1) == '.' 
                 || str.charAt(0) == '.' ) {
-        	return false;
+            return false;
         }
         
         char c;
@@ -216,7 +216,7 @@ public class ENSCFilter
         for ( int j = 1; j < str.length(); j++ ) {
             c = str.charAt(j);
             if ( c == '.' ) {
-            	p++;
+                p++;
             } else {
                 //make full-width half-width
                 if ( c > 65280 ) c -= 65248;

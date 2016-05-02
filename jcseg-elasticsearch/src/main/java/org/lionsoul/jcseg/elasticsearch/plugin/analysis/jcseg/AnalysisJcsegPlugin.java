@@ -12,7 +12,7 @@ import org.lionsoul.jcseg.elasticsearch.indices.analysis.jcseg.JcsegIndicesAnaly
 /**
  * elasticsearch jcseg analysis plugin
  * 
- * @author	chenxin<chenxin619315@gmail.com>
+ * @author    chenxin<chenxin619315@gmail.com>
  */
 public class AnalysisJcsegPlugin extends Plugin {
 

@@ -159,25 +159,25 @@ public class Sort
         
         while ( lPos <= lEnd && rPos <= rEnd  ) {
             if ( arr[lPos].compareTo( arr[rPos] ) <= 0 ) {
-            	tmpArr[ tPos++ ] = arr[ lPos++ ];
+                tmpArr[ tPos++ ] = arr[ lPos++ ];
             } else {
-            	tmpArr[ tPos++ ] = arr[ rPos++ ];
+                tmpArr[ tPos++ ] = arr[ rPos++ ];
             }
         }
         
         //copy the rest element of the left half subarray.
         while ( lPos <= lEnd ) {
-        	tmpArr[ tPos++ ] = arr[ lPos++ ];
+            tmpArr[ tPos++ ] = arr[ lPos++ ];
         }
         
         //copy the rest elements of the right half subarray. (only one loop will be execute)
         while ( rPos <= rEnd ) {
-        	tmpArr[ tPos++ ] = arr[ rPos++ ];
+            tmpArr[ tPos++ ] = arr[ rPos++ ];
         }
         
         //copy the tmpArr back cause we need to change the arr array items.
         for ( ; rEnd >= leftTmp; rEnd-- ) {
-        	arr[rEnd] = tmpArr[rEnd];
+            arr[rEnd] = tmpArr[rEnd];
         }
     }
     
@@ -276,7 +276,7 @@ public class Sort
                 while ( arr[++i].compareTo( pivot ) < 0 ) ;
                 while ( arr[--j].compareTo( pivot ) > 0 ) ;
                 if ( i < j ) {
-                	swapReferences( arr, i, j );
+                    swapReferences( arr, i, j );
                 } else {
                     break;
                 }
@@ -359,14 +359,14 @@ public class Sort
         int j, i = 0;
         //System.out.println(count[0]==0?"true":"false");
         for ( j = 0; j < arr.length; j++ ) {
-        	count[ arr[j] ]++;
+            count[ arr[j] ]++;
         }
         
         //loop and filter the elements
         for ( j = 0; j < m; j++ ) {
             if ( count[j] > 0 ) {
                 while ( count[j]-- > 0 ) {
-                	arr[i++] = j;
+                    arr[i++] = j;
                 }
             }
         }
@@ -383,14 +383,14 @@ public class Sort
         int[] count = new int[m];
         int j, i = 0;
         for ( j = 0; j < arr.length; j++ )  {
-        	count[ arr[j] ]++;
+            count[ arr[j] ]++;
         }
         
         //loop and filter the elements
         for ( j = 0; j < m; j++ ) {
             if ( count[j] > 0 ) {
                 while ( count[j]-- > 0 ) {
-                	arr[i++] = new Integer(j);
+                    arr[i++] = new Integer(j);
                 }
             }
         }

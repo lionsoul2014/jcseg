@@ -57,9 +57,9 @@ public abstract class ASegment implements ISegment
     
     public ASegment( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
-        this.config	= config;
-        this.dic	= dic;
-        wordPool	= new IHashQueue<IWord>();
+        this.config    = config;
+        this.dic    = dic;
+        wordPool    = new IHashQueue<IWord>();
         isb         = new IStringBuffer(64);
         ialist      = new IntArrayList(15);
         reset(input);
@@ -74,7 +74,7 @@ public abstract class ASegment implements ISegment
     public void reset( Reader input ) throws IOException
     { 
         if ( input != null ) {
-        	reader = new IPushbackReader(new BufferedReader(input));
+            reader = new IPushbackReader(new BufferedReader(input));
         }
         
         idx = -1;
@@ -164,7 +164,7 @@ public abstract class ASegment implements ISegment
          * @added: 2014-04-11
          */
         if ( wordPool.size() > 0 ) {
-        	return wordPool.remove();
+            return wordPool.remove();
         }
         
         int c, pos;
@@ -537,7 +537,7 @@ public abstract class ASegment implements ISegment
                      * */
                     if ( config.EN_SECOND_SEG
                             && ( ctrlMask & ISegment.START_SS_MASK ) != 0 ) {
-                    	sword = enSecondSeg(w, true);
+                        sword = enSecondSeg(w, true);
                     }
                     
                     //clear the stopwords
@@ -595,7 +595,7 @@ public abstract class ASegment implements ISegment
                  * @date 2013-09-06
                  */
                 if ( w == null && w2 == null ) {
-                	continue;
+                    continue;
                 }
                 
                 return w;
@@ -671,7 +671,7 @@ public abstract class ASegment implements ISegment
          *     and make sure it is not a EC_MIX_WORD then check the EN_WORD 
          */
         if ( w.getSyn() == null ) {
-        	ew = dic.get(ILexicon.EN_WORD, w.getValue());
+            ew = dic.get(ILexicon.EN_WORD, w.getValue());
         } else {
             ew = w;
         }
@@ -702,9 +702,9 @@ public abstract class ASegment implements ISegment
      * You should check the config.EN_SECOND_SEG before invoke this method
      * </p>
      * 
-     * @param	w
-     * @param	retfw   Wether to return the fword.
-     * @return	IWord - the first sub token for the secondary segment.
+     * @param    w
+     * @param    retfw   Wether to return the fword.
+     * @return    IWord - the first sub token for the secondary segment.
      */
     public IWord enSecondSeg( IWord w, boolean retfw ) 
     {
@@ -731,7 +731,7 @@ public abstract class ASegment implements ISegment
             }
             
             if ( _ctype == _TYPE ) {
-            	isb.append(chars[j]);
+                isb.append(chars[j]);
             } else {
                 start = j - isb.length() - p;
                 
@@ -795,7 +795,7 @@ public abstract class ASegment implements ISegment
         */
         if ( c == 183 
                 || Character.getType(c) == Character.OTHER_LETTER )
-        	return true;
+            return true;
         return false;
     }
     
@@ -959,7 +959,7 @@ public abstract class ASegment implements ISegment
                 return null;
             }
         } else {
-        	/*three IWords in the chunk */
+            /*three IWords in the chunk */
             IWord w1 = chunk.getWords()[1];
             IWord w2 = chunk.getWords()[2];
             switch ( w1.getLength() ) {
@@ -1090,7 +1090,7 @@ public abstract class ASegment implements ISegment
                 if ( dic.match(ILexicon.CN_DNAME_2, d1)
                         && (_w == null 
                         || _w.getFrequency() >= config.NAME_SINGLE_THRESHOLD ) ) {
-                	return true;
+                    return true;
                 }
             }
         }
@@ -1148,7 +1148,7 @@ public abstract class ASegment implements ISegment
         
         isb.clear();
         if ( c > 65280 )            c -= 65248;
-        if ( c >= 65 && c <= 90 )	c += 32; 
+        if ( c >= 65 && c <= 90 )    c += 32; 
         isb.append((char)c);
         
         int ch;
@@ -1281,7 +1281,7 @@ public abstract class ASegment implements ISegment
                     w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
                     w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                 } else {
-                	pushBack(ch);
+                    pushBack(ch);
                 }
             }
             
@@ -1358,7 +1358,7 @@ public abstract class ASegment implements ISegment
                     w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
                     w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                 } else {
-                	pushBack(ch);
+                    pushBack(ch);
                 }
             }
         }
@@ -1476,7 +1476,7 @@ public abstract class ASegment implements ISegment
                     ctrlMask |= ISegment.CHECK_CF_MASK;
                     continue;
                 } else {
-                	break;
+                    break;
                 }
             }
             

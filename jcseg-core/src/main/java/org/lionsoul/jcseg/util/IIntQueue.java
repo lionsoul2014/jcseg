@@ -47,7 +47,7 @@ public class IIntQueue
     public int deQueue()
     {
         if ( size == 0 ) {
-        	return -1;
+            return -1;
         }
         
         //remove the first element

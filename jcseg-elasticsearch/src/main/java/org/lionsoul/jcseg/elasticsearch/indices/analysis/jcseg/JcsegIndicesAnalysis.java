@@ -49,11 +49,11 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             @Override
             public Tokenizer create() {
                 try {
-                	/*
-                	 * @Added at 2016-05-02
-                	 * default to load the jcseg.properties configuration file
-                	 * in the jcseg plugin base directory {ES_HOME}/plugins/jcseg/
-                	*/
+                    /*
+                     * @Added at 2016-05-02
+                     * default to load the jcseg.properties configuration file
+                     * in the jcseg plugin base directory {ES_HOME}/plugins/jcseg/
+                    */
                     File proFile = new File("plugins/jcseg/jcseg.properties");
                     JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
                     return new JcsegTokenizer(

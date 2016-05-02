@@ -36,14 +36,14 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         
         String _mode = args.get("mode");
         if ( _mode == null ) {
-        	mode = JcsegTaskConfig.COMPLEX_MODE;
+            mode = JcsegTaskConfig.COMPLEX_MODE;
         } else {
             _mode = _mode.toLowerCase();
             if ( "simple".equals(_mode) ) {
-            	mode = JcsegTaskConfig.SIMPLE_MODE;
+                mode = JcsegTaskConfig.SIMPLE_MODE;
             } else if ( "detect".equals(_mode) ) {
                 mode = JcsegTaskConfig.DETECT_MODE;
-           	} else {
+               } else {
                 mode = JcsegTaskConfig.COMPLEX_MODE;
             }
         }

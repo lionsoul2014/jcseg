@@ -20,7 +20,7 @@ public class PPTFilter
         pairPunctuation = new HashMap<Character, Character>( 
                 ( int )(PAIR_PUNCTUATION.length / 1.7) + 1, 0.85f);
         for ( int j = 0; j < PAIR_PUNCTUATION.length; j += 2 ) {
-        	pairPunctuation.put(PAIR_PUNCTUATION[j], PAIR_PUNCTUATION[j+1]);
+            pairPunctuation.put(PAIR_PUNCTUATION[j], PAIR_PUNCTUATION[j+1]);
         }     
     }
     

@@ -75,7 +75,7 @@ public class IStringBuffer
     /**
      * append a string to the buffer
      * 
-     * @param	str string to append to
+     * @param    str string to append to
      */
     public IStringBuffer append( String str )
     {
@@ -83,7 +83,7 @@ public class IStringBuffer
             throw new NullPointerException();
         //check the necessary to resize the buffer.
         if ( count + str.length() > buff.length ) {
-        	resizeTo( (count + str.length()) * 2 + 1 );
+            resizeTo( (count + str.length()) * 2 + 1 );
         }
         
         for ( int j = 0; j < str.length(); j++ ) {
@@ -113,7 +113,7 @@ public class IStringBuffer
         
         //check the necessary to resize the buffer.
         if ( count + length > buff.length ) {
-        	resizeTo( (count + length) * 2 + 1 );
+            resizeTo( (count + length) * 2 + 1 );
         }
         
         for ( int j = 0; j < length; j++ ) {
@@ -141,7 +141,7 @@ public class IStringBuffer
     public IStringBuffer append( char c )
     {
         if ( count == buff.length ) {
-        	resizeTo( buff.length * 2 + 1 );
+            resizeTo( buff.length * 2 + 1 );
         }
         
         buff[count++] = c;

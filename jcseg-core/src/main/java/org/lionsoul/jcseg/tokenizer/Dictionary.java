@@ -30,11 +30,11 @@ public class Dictionary extends ADictionary
         dics = new Map[ILexicon.T_LEN];
         if ( this.sync ) {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-            	dics[j] = new ConcurrentHashMap<String, IWord>(16, 0.80F);
+                dics[j] = new ConcurrentHashMap<String, IWord>(16, 0.80F);
             }
         } else {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-            	dics[j] = new HashMap<String, IWord>(16, 0.80F);
+                dics[j] = new HashMap<String, IWord>(16, 0.80F);
             }
         }
     }
@@ -57,7 +57,7 @@ public class Dictionary extends ADictionary
     {
         if ( t < 0 || t >= ILexicon.T_LEN ) return; 
         if ( dics[t].get(key) == null ) {
-        	dics[t].put(key, new Word(key, type));
+            dics[t].put(key, new Word(key, type));
         }
     }
 
@@ -69,7 +69,7 @@ public class Dictionary extends ADictionary
     {
         if (  t < 0 || t >= ILexicon.T_LEN  ) return;
         if ( dics[t].get(key) == null ) {
-        	dics[t].put(key, new Word(key, fre, type));
+            dics[t].put(key, new Word(key, fre, type));
         }
     }
 

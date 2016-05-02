@@ -80,7 +80,7 @@ public class CNNMFilter
         if ( yi > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, yi), false ) * 100000000;
             if ( yi < cnn.length() - 1 ) {
-            	cnn = cnn.substring(yi + 1, cnn.length());
+                cnn = cnn.substring(yi + 1, cnn.length());
             } else {
                 cnn = "";
             }
@@ -97,9 +97,9 @@ public class CNNMFilter
         if ( wan > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, wan), false ) * 10000;
             if ( wan < cnn.length() - 1 ) {
-            	cnn = cnn.substring(wan + 1, cnn.length());
+                cnn = cnn.substring(wan + 1, cnn.length());
             } else {
-            	cnn = "";
+                cnn = "";
             }
             
             if ( cnn.length() == 1 ) {
@@ -114,7 +114,7 @@ public class CNNMFilter
         if ( qian > -1 ) {
             val +=  cnNumericToArabic( cnn.substring(0, qian), false ) * 1000;
             if ( qian < cnn.length() - 1 ) {
-            	 cnn = cnn.substring(qian + 1, cnn.length());
+                 cnn = cnn.substring(qian + 1, cnn.length());
             } else {
                 cnn = "";
             }
@@ -131,9 +131,9 @@ public class CNNMFilter
         if ( bai > -1 ) {
             val += cnNumericToArabic( cnn.substring(0, bai), false ) * 100;
             if ( bai < cnn.length() - 1 ) {
-            	cnn = cnn.substring(bai + 1, cnn.length());
+                cnn = cnn.substring(bai + 1, cnn.length());
             } else {
-            	cnn = "";
+                cnn = "";
             }
             
             if ( cnn.length() == 1 ) {
@@ -147,22 +147,21 @@ public class CNNMFilter
         shi = cnn.lastIndexOf('十');
         if ( shi > -1 ) {
             if ( shi == 0 ) {
-            	 val += 1 * 10;
+                 val += 1 * 10;
             } else {
-            	val += cnNumericToArabic( cnn.substring(0, shi), false ) * 10;
+                val += cnNumericToArabic( cnn.substring(0, shi), false ) * 10;
             }
             
             if ( shi < cnn.length() - 1 ){
-            	cnn = cnn.substring(shi + 1, cnn.length());
+                cnn = cnn.substring(shi + 1, cnn.length());
             } else {
-            	cnn = "";
+                cnn = "";
             }   
         }
         
         cnn = cnn.trim();
         for ( int j = 0; j < cnn.length(); j++ ) {
-        	val += isCNNumeric(cnn.charAt(j))
-                    * Math.pow(10, cnn.length() - j - 1);
+            val += isCNNumeric(cnn.charAt(j)) * Math.pow(10, cnn.length() - j - 1);
         }
         
         return val;
@@ -173,8 +172,7 @@ public class CNNMFilter
         int val = 0;
         cnn = cnn.trim();
         for ( int j = 0; j < cnn.length(); j++ ) {
-        	val += isCNNumeric(cnn.charAt(j))
-                    * Math.pow(10, cnn.length() - j - 1);
+            val += isCNNumeric(cnn.charAt(j)) * Math.pow(10, cnn.length() - j - 1);
         }
         
         return val;

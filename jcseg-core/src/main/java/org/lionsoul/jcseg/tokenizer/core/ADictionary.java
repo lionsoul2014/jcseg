@@ -377,14 +377,14 @@ public abstract class ADictionary
                     //length limit(CJK_WORD only)
                     if ( ( t == ILexicon.CJK_WORD ) 
                             && wd[0].length() > config.MAX_LENGTH ) {
-                    	continue;
+                        continue;
                     }
                     
                     if ( dic.get(t, wd[0]) == null ) {
                         if ( wd.length > 4 ) {
-                        	dic.add(t, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                            dic.add(t, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
                         } else {
-                        	dic.add(t, wd[0], IWord.T_CJK_WORD);
+                            dic.add(t, wd[0], IWord.T_CJK_WORD);
                         }
                     }
                     

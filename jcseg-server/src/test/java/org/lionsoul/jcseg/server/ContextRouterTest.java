@@ -15,7 +15,7 @@ public class ContextRouterTest {
         
          //test for contextRouter
         AbstractRouter router = new ContextRouter( MainController.class); 
-		router.addMapping("/extractor/keywords", KeywordsController.class);
+        router.addMapping("/extractor/keywords", KeywordsController.class);
         router.addMapping("/extractor/keyphrase", KeyphraseController.class);
         router.addMapping("/extractor/sentence/a", SentenceController.class);
         router.addMapping("/extractor/sentence/*", SentenceController.class);

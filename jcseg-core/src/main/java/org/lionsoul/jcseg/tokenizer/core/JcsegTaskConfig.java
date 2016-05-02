@@ -20,9 +20,9 @@ public class JcsegTaskConfig implements Cloneable
     public static final String LEX_PROPERTY_FILE = "jcseg.properties";
     
     /**simple algorithm or complex algorithm */
-    public static final int SIMPLE_MODE	= 1;
-    public static final int COMPLEX_MODE	= 2;
-    public static final int DETECT_MODE	= 3;
+    public static final int SIMPLE_MODE    = 1;
+    public static final int COMPLEX_MODE   = 2;
+    public static final int DETECT_MODE    = 3;
     
     /**maximum length for maximum match(5-7)*/
     public int MAX_LENGTH = 5;

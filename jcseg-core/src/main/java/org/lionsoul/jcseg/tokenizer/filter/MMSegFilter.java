@@ -31,7 +31,7 @@ public class MMSegFilter
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
         for ( j = 0; j < chunks.length; j++ ) {
             if ( chunks[j].getLength() == maxLength) {
-            	chunkArr.add(chunks[j]);
+                chunkArr.add(chunks[j]);
             }
         }
         
@@ -55,7 +55,7 @@ public class MMSegFilter
         //find the largest average word length
         for ( j = 1; j < chunks.length; j++ ) {
             if ( chunks[j].getAverageWordsLength() > largetAverage ) {
-            	largetAverage = chunks[j].getAverageWordsLength();
+                largetAverage = chunks[j].getAverageWordsLength();
             }
         }
         
@@ -64,7 +64,7 @@ public class MMSegFilter
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
         for ( j = 0; j < chunks.length; j++ ) {
             if ( chunks[j].getAverageWordsLength() == largetAverage) {
-            	chunkArr.add(chunks[j]);
+                chunkArr.add(chunks[j]);
             }
         }
         
@@ -87,7 +87,7 @@ public class MMSegFilter
         //find the smallest variance word length
         for ( j = 1; j < chunks.length; j++ ) {
             if ( chunks[j].getWordsVariance() < smallestVariance ) {
-            	smallestVariance = chunks[j].getWordsVariance();
+                smallestVariance = chunks[j].getWordsVariance();
             }
         }
         
@@ -96,7 +96,7 @@ public class MMSegFilter
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
         for ( j = 0; j < chunks.length; j++ ) {
             if ( chunks[j].getWordsVariance() == smallestVariance) {
-            	chunkArr.add(chunks[j]);
+                chunkArr.add(chunks[j]);
             }
         }
         
@@ -121,7 +121,7 @@ public class MMSegFilter
         //find the maximum sum of single morphemic freedom
         for ( j = 1; j < chunks.length; j++ ) {
             if ( chunks[j].getSingleWordsMorphemicFreedom() > largestFreedom ) {
-            	largestFreedom = chunks[j].getSingleWordsMorphemicFreedom();
+                largestFreedom = chunks[j].getSingleWordsMorphemicFreedom();
             }
         }
         
@@ -130,7 +130,7 @@ public class MMSegFilter
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>(chunks.length);
         for ( j = 0; j < chunks.length; j++ ) {
             if ( chunks[j].getSingleWordsMorphemicFreedom() == largestFreedom) {
-            	 chunkArr.add(chunks[j]);
+                chunkArr.add(chunks[j]);
             }
         }
         

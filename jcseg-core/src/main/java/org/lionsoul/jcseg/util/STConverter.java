@@ -31,9 +31,9 @@ public class STConverter
         int idx;
         for ( int j = 0; j < str.length(); j++ ) {
             if ( (idx = SIMSTR.indexOf(str.charAt(j))) != -1 ) {
-            	sb.append(TRASTR.charAt(idx));
+                sb.append(TRASTR.charAt(idx));
             } else {
-            	sb.append(str.charAt(j));
+                sb.append(str.charAt(j));
             }
         }
         
@@ -45,9 +45,9 @@ public class STConverter
         int idx;
         for ( int j = 0; j < str.length(); j++ ) {
             if ( (idx = SIMSTR.indexOf(str.charAt(j))) != -1 ) {
-            	isb.append(TRASTR.charAt(idx));
+                isb.append(TRASTR.charAt(idx));
             } else {
-            	isb.append(str.charAt(j));
+                isb.append(str.charAt(j));
             }
         }
     }
@@ -65,9 +65,9 @@ public class STConverter
         int idx;
         for ( int j = 0; j < str.length(); j++ ) {
             if ( (idx = TRASTR.indexOf(str.charAt(j))) != -1 ) {
-            	sb.append(SIMSTR.charAt(idx));
+                sb.append(SIMSTR.charAt(idx));
             } else {
-            	sb.append(str.charAt(j));
+                sb.append(str.charAt(j));
             }
         }
         return sb.toString();
@@ -78,9 +78,9 @@ public class STConverter
         int idx;
         for ( int j = 0; j < str.length(); j++ ) {
             if ( (idx = TRASTR.indexOf(str.charAt(j))) != -1 ) {
-            	isb.append(SIMSTR.charAt(idx));
+                isb.append(SIMSTR.charAt(idx));
             } else {
-            	isb.append(str.charAt(j));
+                isb.append(str.charAt(j));
             }
         }
     }

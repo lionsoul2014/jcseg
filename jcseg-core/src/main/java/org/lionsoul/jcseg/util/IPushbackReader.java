@@ -34,7 +34,7 @@ public class IPushbackReader
     {
         //check the queue first
         if ( queue.size() > 0 ) {
-        	return queue.deQueue();
+            return queue.deQueue();
         }
         
         //load from the normal reader
@@ -89,7 +89,7 @@ public class IPushbackReader
     public void unread( char[] cbuf, int off, int len )
     {
         for ( int i = 0; i < len; i++ ) {
-        	queue.enQueue(cbuf[off+i]);
+            queue.enQueue(cbuf[off+i]);
         }
     }
 }

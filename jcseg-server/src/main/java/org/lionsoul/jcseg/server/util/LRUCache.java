@@ -131,11 +131,11 @@ public class LRUCache<E, T> {
      * */
     public synchronized void remove(E key)
     {    
-		Entry<E, T> entry = map.get(key);
-		this.tail.prev = entry.prev;
-		entry.prev.next = this.tail;
-		map.remove(entry.key);
-		this.length--;   
+        Entry<E, T> entry = map.get(key);
+        this.tail.prev = entry.prev;
+        entry.prev.next = this.tail;
+        map.remove(entry.key);
+        this.length--;   
     }
     
     // remove least used elements

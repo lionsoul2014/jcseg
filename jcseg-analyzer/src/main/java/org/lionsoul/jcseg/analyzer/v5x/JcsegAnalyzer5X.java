@@ -62,7 +62,7 @@ public class JcsegAnalyzer5X extends Analyzer
     protected TokenStreamComponents createComponents(String fieldName) 
     {
         try {
-        	Tokenizer tokenizer = new JcsegTokenizer(mode, config, dic);
+            Tokenizer tokenizer = new JcsegTokenizer(mode, config, dic);
             return new TokenStreamComponents(tokenizer, new JcsegFilter(tokenizer));
         } catch (JcsegException e) {
             e.printStackTrace();

@@ -166,7 +166,7 @@ public class Word implements IWord,Cloneable
             partspeech = new String[partspeech.length + 1];
             int j;
             for ( j = 0; j < bak.length; j++ ) {
-            	partspeech[j] = bak[j];
+                partspeech[j] = bak[j];
             }
             partspeech[j] = ps;
             bak = null;
@@ -187,7 +187,7 @@ public class Word implements IWord,Cloneable
             syn = new String[syn.length + 1];
             int j;
             for ( j = 0; j < tycA.length; j++ ) {
-            	syn[j] = tycA[j];
+                syn[j] = tycA[j];
             }
             syn[j] = s;
             tycA = null;
@@ -247,14 +247,14 @@ public class Word implements IWord,Cloneable
         if ( partspeech != null ) {
             for ( int j = 0; j < partspeech.length; j++ ) {
                 if ( j == 0 ) {
-                	sb.append(partspeech[j]);
+                    sb.append(partspeech[j]);
                 } else {
                     sb.append(',');
                     sb.append(partspeech[j]);
                 }
             }
         } else {
-        	sb.append("null");
+            sb.append("null");
         }
         
         sb.append('/');
@@ -264,14 +264,14 @@ public class Word implements IWord,Cloneable
         if ( syn != null ) {
             for ( int j = 0; j < syn.length; j++ ) {
                 if ( j == 0 ) {
-                	sb.append(syn[j]);
+                    sb.append(syn[j]);
                 } else {
                     sb.append(',');
                     sb.append(syn[j]);
                 }
             }
         } else {
-        	sb.append("null");
+            sb.append("null");
         }
         
         if ( value.length() == 1 ) {

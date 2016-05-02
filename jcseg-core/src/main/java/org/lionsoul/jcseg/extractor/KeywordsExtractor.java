@@ -64,10 +64,10 @@ public abstract class KeywordsExtractor
         
         char pos = poss[0].charAt(0);
         switch ( pos ) {
-			case 'e': {
-				if ( poss[0].equals("en") ) return true;
-				return false;
-			}
+            case 'e': {
+                if ( poss[0].equals("en") ) return true;
+                return false;
+            }
             case 'm': {
                 if ( poss[0].equals("mix") ) return true;
                 return false;

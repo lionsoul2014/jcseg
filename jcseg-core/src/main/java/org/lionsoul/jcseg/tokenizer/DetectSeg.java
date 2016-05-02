@@ -20,7 +20,7 @@ import org.lionsoul.jcseg.util.IStringBuffer;
  * or continue to find the next word in the dictionary
  * </p>
  * 
- * @author	chenxin <chenxin619315@gmail.com>
+ * @author    chenxin <chenxin619315@gmail.com>
  * @since   1.9.4
  */
 
