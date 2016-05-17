@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import java.util.Arrays;
+
 import org.lionsoul.jcseg.tokenizer.filter.ENSCFilter;
 
 
@@ -93,6 +95,7 @@ public abstract class ADictionary
             @Override
             public void run() {
                 String[] paths = config.getLexiconPath();
+                System.out.println(this.getClass().getName()+":"+Arrays.toString(paths));
                 AutoLoadFile[] files = new AutoLoadFile[paths.length];
                 for ( int i = 0; i < files.length; i++ ) {
                     files[i] = new AutoLoadFile(paths[i] + "/" + AL_TODO_FILE);
@@ -114,7 +117,11 @@ public abstract class ADictionary
                         af  = files[i];
                         f   = files[i].getFile();
                         
-                        if ( ! f.exists() ) continue;
+                        if ( ! f.exists() ) {
+
+                        	continue;
+
+                        } 
                         if ( f.lastModified() <= af.getLastUpdateTime() ) {
                             continue;
                         }

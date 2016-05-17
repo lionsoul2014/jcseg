@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.tokenizer.core;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 import org.lionsoul.jcseg.tokenizer.Dictionary;
 
@@ -73,6 +74,7 @@ public class DictionaryFactory
             for ( String lpath : lexpath )
                 dic.loadFromLexiconDirectory(lpath);
             if ( dic.getConfig().isAutoload() ) dic.startAutoload();
+            System.out.println(DictionaryFactory.class+":"+Arrays.toString(dic.getConfig().getLexiconPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }

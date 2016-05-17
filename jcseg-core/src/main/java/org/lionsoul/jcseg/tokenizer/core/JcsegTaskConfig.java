@@ -194,7 +194,6 @@ public class JcsegTaskConfig implements Cloneable
             if ( jarHome == null ) jarHome = Util.getJarHome(this);
             lexDirs = lexDirs.replace("{jar.dir}", jarHome);
         }
-        //System.out.println("path: "+lexPath);
         
         //Multiple path for lexicon.path.
         lexPath = lexDirs.split(";");
