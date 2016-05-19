@@ -112,20 +112,20 @@ jcseg~tokenizer>>
 2. 在solr的scheme.xml加入如下两种配置之一：
 
 ```xml
-    <!----复杂模式分词: -->
+    <!-- 复杂模式分词: -->
     <fieldtype name="textComplex" class="solr.TextField">
         <analyzer>
             <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="complex"/>
         </analyzer>
     </fieldtype>
-    <!----简易模式分词: -->
+    <!-- 简易模式分词: -->
     <fieldtype name="textSimple" class="solr.TextField">
         <analyzer>
             <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="simple"/>
         </analyzer>
     </fieldtype>
-    <!----检测模式分词: -->
-    <fieldtype name="textSimple" class="solr.TextField">
+    <!-- 检测模式分词: -->
+    <fieldtype name="textDetect" class="solr.TextField">
         <analyzer>
             <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
         </analyzer>
