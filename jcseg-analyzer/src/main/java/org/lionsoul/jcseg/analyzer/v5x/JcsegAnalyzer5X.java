@@ -11,7 +11,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
- * jcseg analyzer for lucene with version on or after 5.0
+ * Jcseg analyzer for lucene with version on or after 5.0
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
@@ -53,9 +53,21 @@ public class JcsegAnalyzer5X extends Analyzer
     */
     public JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
     {
+        this(mode, config, DictionaryFactory.createSingletonDictionary(config));
+    }
+    
+    /**
+     * initialize the analyzer with the specifiled mode, configuration, dictionary
+     * 
+     * @param   mode
+     * @param   config
+     * @param   dic
+    */
+    public JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
+    {
         this.mode   = mode;
         this.config = config;
-        this.dic    = DictionaryFactory.createSingletonDictionary(config);
+        this.dic    = dic;
     }
     
     public void setConfig( JcsegTaskConfig config ) 

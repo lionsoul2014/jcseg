@@ -88,7 +88,7 @@ public abstract class ADictionary
             return;
         }
         
-        //create a start the lexicon auto load thread
+        //create and start the lexicon auto load thread
         autoloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
