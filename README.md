@@ -155,7 +155,50 @@ jcseg~tokenizer>>
 4. 拷贝一份jcseg.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
-7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
+7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去，以下配置可以不用了：
+
+```
+index:
+  analysis:
+  
+    tokenizer:   
+      jcseg_complex:
+        type: jcseg
+        seg_mode: complex
+        config_file: config/jcseg/jcseg.properties
+      jcseg_simple:
+        type: jcseg
+        seg_mode: simple
+        config_file: config/jcseg/jcseg.properties
+      jcseg_detect:
+        type: jcseg
+        seg_mode: detect
+        config_file: config/jcseg/jcseg.properties
+        
+    analyzer:
+      jcseg_complex:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_complex
+      jcseg_simple:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_simple
+      jcseg_detect:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_detect
+```
+
+指定如下配置，配置jcseg为默认es的默认分词：
+
+```
+index.analysis.analyzer.default.type : "jcseg"
+```
+
 8. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
 
 
