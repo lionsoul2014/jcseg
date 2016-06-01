@@ -17,6 +17,7 @@ import org.elasticsearch.index.analysis.TokenizerFactory;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizer;
+import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
@@ -33,9 +34,48 @@ public class JcsegIndicesAnalysis extends AbstractComponent
         super(settings);
 
         // Register jcseg analyzer
+        File proFile = new File("plugins/jcseg/jcseg.properties");
+        JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
+        ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+        
+        //default
         indicesAnalysisService.analyzerProviderFactories().put(
             "jcseg", 
-            new PreBuiltAnalyzerProviderFactory("jcseg", AnalyzerScope.INDICES, new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE))
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.INDICES, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE, config, dic)
+            )
+        );
+        
+        //complex mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_complex", 
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.INDICES, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE, config, dic)
+            )
+        );
+        
+        //simple mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_simple",
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.INDICES, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.SIMPLE_MODE, config, dic)
+            )
+        );
+        
+        //detect mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_detect",
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.INDICES, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.DETECT_MODE, config, dic)
+            )
         );
 
         // Register jcseg_tokenizer tokenizer
