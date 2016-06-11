@@ -112,13 +112,11 @@ public class JcsegTest
         boolean isFirst = true;
         int counter = 0;
         tokenizerSeg.reset(new StringReader(str));
-        while ( (word = tokenizerSeg.next()) != null ) 
-        {
+        while ( (word = tokenizerSeg.next()) != null ) {
             if ( isFirst ) {
                 sb.append(word.getValue());
                 isFirst = false;
-            }
-            else {
+            } else {
                 sb.append(" ");
                 sb.append(word.getValue());
             }
@@ -195,8 +193,7 @@ public class JcsegTest
         //System.out.println(sentence);
         System.out.println("+-Key sentence: ");
         int count = 1;
-        for ( String sen : sentence )
-        {
+        for ( String sen : sentence ) {
             System.out.println(count + ": " + sen);
             count++;
         }
@@ -261,8 +258,7 @@ public class JcsegTest
                 if ( "".equals(cmd) ) continue;
                 
                 //module switch
-                if ( cmd.charAt(0) == ':' ) 
-                {
+                if ( cmd.charAt(0) == ':' ) {
                     if (":tokenizer".equals(cmd)) {
                         module = "tokenizer";
                         action = 0;

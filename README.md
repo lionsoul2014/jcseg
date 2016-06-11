@@ -9,7 +9,7 @@
 # **Jcseg**核心功能：
 ------
 
-> * 中文分词：mmseg算法 + **Jcseg** 独创的优化算法。
+> * 中文分词：mmseg算法 + **Jcseg** 独创的优化算法，四种切分模式。
 > * 关键字提取：基于textRank算法。
 > * 关键短语提取：基于textRank算法。
 > * 关键句子提取：基于textRank算法。
@@ -25,6 +25,7 @@
 > * (1).简易模式：FMM算法，适合速度要求场合。
 > * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
+> * (4).检索模式：细粒度切分，将尽可能多的词条组合返回，专为检索而生，其他与复杂模式一致。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -130,6 +131,12 @@ jcseg~tokenizer>>
             <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
         </analyzer>
     </fieldtype>
+    <!-- 最多模式分词: -->
+    <fieldtype name="textSearch" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="search"/>
+        </analyzer>
+    </fieldtype>
 ```
 
 注：如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
@@ -174,6 +181,10 @@ index:
         type: jcseg
         seg_mode: detect
         config_file: config/jcseg/jcseg.properties
+      jcseg_search:
+        type: jcseg
+        seg_mode: search
+        config_file: config/jcseg/jcseg.properties
         
     analyzer:
       jcseg_complex:
@@ -191,6 +202,11 @@ index:
         filter:
         - lowercase
         tokenizer: jcseg_detect
+      jcseg_search:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_search
 ```
 
 指定如下配置，配置jcseg为默认es的默认分词：
@@ -208,6 +224,7 @@ index.analysis.analyzer.default.type : "jcseg"
 jcseg_complex: 对应Jcseg的复杂模式切分算法 
 jcseg_simple : 对应Jcseg的简易切分算法 
 jcseg_detect : 对应Jcseg的检测模式切分算法
+jcseg_search : 对应Jcseg的检索模式切分算法
 
 ```
 
@@ -393,6 +410,7 @@ jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，
             # 1: SIMPLE_MODE
             # 2: COMPLEX_MODE
             # 3: DETECT_MODE
+            # 4: SEARCH_MODE
             # see org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig for more info
             "algorithm": 2,
             
@@ -689,6 +707,8 @@ demo代码：
     //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
     //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
     //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+    //JcsegTaskConfig.DETECT_MODE表示创建DetectSeg简易Isegmengt分词对象.
+    //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg简易Isegmengt分词对象.
     ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
         new Object[]{new StringReader(str), config, dic});
     

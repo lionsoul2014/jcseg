@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.lionsoul.jcseg.tokenizer.filter.ENSCFilter;
+import org.lionsoul.jcseg.util.StringUtil;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
@@ -84,9 +84,9 @@ public class SentenceSeg
         
         while ( (c = readNext()) != -1 ) {
             //clear the whitespace of the begainning
-            if ( ENSCFilter.isWhitespace(c) ) continue;
+            if ( StringUtil.isWhitespace(c) ) continue;
             if ( c == '\n' || c == '\t' || c == '…' ) continue;
-            if ( ENSCFilter.isCnPunctuation(c) ) {
+            if ( StringUtil.isCnPunctuation(c) ) {
                 switch ( (char)c ) {
                 case '“':
                 case '【':
@@ -98,7 +98,7 @@ public class SentenceSeg
                 }
             }
             
-            if ( ENSCFilter.isEnPunctuation(c)) {
+            if ( StringUtil.isEnPunctuation(c)) {
                 switch ( (char)c ) {
                 case '"':
                 /*case '[':
@@ -129,7 +129,7 @@ public class SentenceSeg
                 case '.': {
                     int chr = readNext();
                     gisb.append((char)c);
-                    if ( ENSCFilter.isEnLetter(chr) )  {
+                    if ( StringUtil.isEnLetter(chr) )  {
                         reader.unread(chr);
                         continue;
                     } else {

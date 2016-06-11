@@ -42,12 +42,14 @@ public class JcsegTokenizerFactory extends TokenizerFactory
                 mode = JcsegTaskConfig.SIMPLE_MODE;
             } else if ( "detect".equals(_mode) ) {
                 mode = JcsegTaskConfig.DETECT_MODE;
+            } else if ( "search".equals(_mode) ) {
+                mode = JcsegTaskConfig.SEARCH_MODE;
             } else {
                 mode = JcsegTaskConfig.COMPLEX_MODE;
             }
         }
         
-        //initialize the task config and the dictionary
+        //initialize the task configuration and the dictionary
         config = new JcsegTaskConfig();
         dic = DictionaryFactory.createSingletonDictionary(config);
     }

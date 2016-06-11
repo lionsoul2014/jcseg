@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 //import java.util.Iterator;
 
+
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
 import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.filter.MMSegFilter;
 
 
 /**
  * <p>
- * Complex segment for JCSeg, has implements the ASegment class 
- * this will need the filter work of four filter rule: 
+ * Jcseg complex segmentation implements extended from the ASegment class 
+ * this will need the filter works of the four MMSeg rules: 
  * </p>
  * 
  * <ul>
@@ -27,17 +27,17 @@ import org.lionsoul.jcseg.tokenizer.filter.MMSegFilter;
  * <li>4.largest sum of degree of morphemic freedom of one-character words.</li>
  * </ul>
  * 
- * @author    chenxin<chenxin619315@gmail.com>
- */
+ * @author  chenxin<chenxin619315@gmail.com>
+*/
 public class ComplexSeg extends ASegment
 {
+    
     public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
         super(config, dic);
     }
     
-    public ComplexSeg( Reader input, 
-            JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public ComplexSeg( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
         super(input, config, dic);
     }
@@ -46,7 +46,7 @@ public class ComplexSeg extends ASegment
      * @see ASegment#getBestCJKChunk(char[], int) 
      */
     @Override
-    public IChunk getBestCJKChunk(char chars[], int index) 
+    public IChunk getBestCJKChunk(char chars[], int index) throws IOException
     {
         IWord[] mwords = getNextMatch(chars, index), mword2, mword3;
         if ( mwords.length == 1 
@@ -118,41 +118,35 @@ public class ComplexSeg extends ASegment
         mword2 = null;
         mword3 = null;
         
-        return filterChunks(chunks);
-    }
-    
-    /**
-     * filter the chunks with the four rule
-     * 
-     * @param chunks
-     * @return IWord
-     */
-    private IChunk filterChunks(IChunk[] chunks) 
-    {
-        //call the maximum match rule.
+        
+        //-------------------------MMSeg core invoke------------------------
+        
+        //filter the maximum match rule.
         IChunk[] afterChunks = MMSegFilter.getMaximumMatchChunks(chunks);
         if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
-        //call the largest average rule.
+        //filter the largest average rule.
         afterChunks = MMSegFilter.getLargestAverageWordLengthChunks(afterChunks);
         if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
-        //call the smallest variance rule.
+        //filter the smallest variance rule.
         afterChunks = MMSegFilter.getSmallestVarianceWordLengthChunks(afterChunks);
         if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
-        //call the largest sum of degree of morphemic freedom rule.
+        //filter the largest sum of degree of morphemic freedom rule.
         afterChunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(afterChunks);
         if ( afterChunks.length == 1 ) {
             return afterChunks[0];
         }
         
+        //consider this as the final rule
         return afterChunks[0];
     }
+    
 }

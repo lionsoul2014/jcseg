@@ -77,6 +77,16 @@ public class JcsegIndicesAnalysis extends AbstractComponent
                 new JcsegAnalyzer5X(JcsegTaskConfig.DETECT_MODE, config, dic)
             )
         );
+        
+        //most mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_search",
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.INDICES, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.SEARCH_MODE, config, dic)
+            )
+        );
 
         // Register jcseg_tokenizer tokenizer
         indicesAnalysisService.tokenizerFactories().put("jcseg_tokenizer", 

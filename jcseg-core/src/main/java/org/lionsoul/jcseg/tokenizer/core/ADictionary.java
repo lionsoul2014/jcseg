@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import org.lionsoul.jcseg.tokenizer.filter.ENSCFilter;
+import org.lionsoul.jcseg.util.StringUtil;
 
 
 /**
@@ -366,7 +366,7 @@ public abstract class ADictionary
                     }
                     
                     if ( wd.length == 5 ) {    //single word degree check.
-                        if ( ! ENSCFilter.isDigit(wd[4]) ) {
+                        if ( ! StringUtil.isDigit(wd[4]) ) {
                             System.out.println("Lexicon File: " + file.getAbsolutePath()
                                     + "#" + wd[0] + " format error(single word " +
                                     "degree should be an integer). -ignored");

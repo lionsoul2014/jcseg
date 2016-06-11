@@ -10,9 +10,9 @@ import java.util.Properties;
 import org.lionsoul.jcseg.util.Util;
 
 /**
- * <p>Jcseg segmentation task config class</p>
+ * <p>Jcseg segmentation task configuration class</p>
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
  */
 public class JcsegTaskConfig implements Cloneable
 {
@@ -20,9 +20,10 @@ public class JcsegTaskConfig implements Cloneable
     public static final String LEX_PROPERTY_FILE = "jcseg.properties";
     
     /**simple algorithm or complex algorithm */
-    public static final int SIMPLE_MODE    = 1;
-    public static final int COMPLEX_MODE   = 2;
-    public static final int DETECT_MODE    = 3;
+    public static final int SIMPLE_MODE  = 1;
+    public static final int COMPLEX_MODE = 2;
+    public static final int DETECT_MODE  = 3;
+    public static final int SEARCH_MODE  = 4;
     
     /**maximum length for maximum match(5-7)*/
     public int MAX_LENGTH = 5;

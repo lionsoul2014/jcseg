@@ -46,12 +46,12 @@
   
   <issueManagement>
       <url>http://git.oschina.net/lionsoul/jcseg/issues</url>
-      <system>google code issues</system>
+      <system>mayun issues</system>
   </issueManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcseg.version>1.9.7</jcseg.version>
+    <jcseg.version>1.9.8</jcseg.version>
   </properties>
 
   <dependencies>
