@@ -122,7 +122,7 @@ public class JcsegTest
             }
             
             //----for testing append word position and length
-/*            sb.append("[");
+            /*sb.append("[");
             sb.append(word.getPosition());
             sb.append("/");
             sb.append(word.getLength());

@@ -57,6 +57,7 @@ public class SearchSeg extends ASegment
                     mnum   = 1;
                     ignidx = Math.max(ignidx, cjkidx + j);
                     word = dic.get(ILexicon.CJK_WORD, key);
+                    word.setPosition(pos+cjkidx);
                     wordPool.add(word);
                     appendWordFeatures(word);
                 }
@@ -70,9 +71,12 @@ public class SearchSeg extends ASegment
             if ( mnum == 0 && (cjkidx == 0 || cjkidx > ignidx) ) {
                 String temp = String.valueOf(chars[cjkidx]);
                 if ( dic.match(ILexicon.CJK_WORD, temp) == false ) {
+                    word = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
+                    word.setPosition(pos+cjkidx);
                     wordPool.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
                 } else {
                     word = dic.get(ILexicon.CJK_WORD, temp);
+                    word.setPosition(pos+cjkidx);
                     wordPool.add(word);
                     appendWordFeatures(word);
                 }
