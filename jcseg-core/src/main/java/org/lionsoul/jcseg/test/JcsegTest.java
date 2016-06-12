@@ -100,7 +100,7 @@ public class JcsegTest
     /**
      * string tokenize handler
      * 
-     * @param    str
+     * @param str
     */
     public void tokenize(String str) throws IOException 
     {
@@ -149,8 +149,8 @@ public class JcsegTest
     /**
      * keywords extractor
      * 
-     * @param    str
-     * @throws IOException 
+     * @param   str
+     * @throws  IOException 
     */
     public void keywords(String str) throws IOException
     {
@@ -165,8 +165,8 @@ public class JcsegTest
     /**
      * keyphrase extractor
      * 
-     * @param    str
-     * @throws IOException 
+     * @param   str
+     * @throws  IOException 
     */
     public void keyphrase(String str) throws IOException
     {
@@ -181,8 +181,8 @@ public class JcsegTest
     /**
      * key sentence extractor
      * 
-     * @param    str
-     * @throws IOException 
+     * @param   str
+     * @throws  IOException 
     */
     public void sentence(String str) throws IOException
     {
@@ -203,8 +203,8 @@ public class JcsegTest
     /**
      * summary extractor
      * 
-     * @param    str
-     * @throws IOException 
+     * @param   str
+     * @throws  IOException 
     */
     public void summary(String str) throws IOException
     {
@@ -217,7 +217,7 @@ public class JcsegTest
     }
 
     /**
-     * @param args
+     * @param  args
      * @throws JcsegException 
      * @throws IOException
      * @throws CloneNotSupportedException 
