@@ -13,10 +13,14 @@ index:
       jcseg_simple:
         type: jcseg
         seg_mode: simple
-        # config_file: optional self define jcseg.properties file path [optional]
+        # config_file: self define jcseg.properties file path [optional]
       jcseg_detect:
         type: jcseg
         seg_mode: detect
+        # config_file: self define jcseg.properties file path [optional]
+      jcseg_search:
+        type: jcseg
+        seg_mode: search
         # config_file: self define jcseg.properties file path [optional]
         
     analyzer:
@@ -35,5 +39,11 @@ index:
         filter:
         - lowercase
         tokenizer: jcseg_detect
+      jcseg_search:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_search
         
+# set Jcseg as the default analyzer
 index.analysis.analyzer.default.type : "jcseg"

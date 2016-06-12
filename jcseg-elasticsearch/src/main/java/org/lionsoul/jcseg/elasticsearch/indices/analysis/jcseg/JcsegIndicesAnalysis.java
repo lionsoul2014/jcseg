@@ -17,6 +17,7 @@ import org.elasticsearch.index.analysis.TokenizerFactory;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizer;
+import org.lionsoul.jcseg.elasticsearch.util.CommonUtil;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -43,8 +44,8 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             "jcseg", 
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
-                AnalyzerScope.INDICES, 
-                new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE, config, dic)
+                AnalyzerScope.GLOBAL, 
+                new JcsegAnalyzer5X(CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE), config, dic)
             )
         );
         
@@ -53,7 +54,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             "jcseg_complex", 
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
-                AnalyzerScope.INDICES, 
+                AnalyzerScope.GLOBAL, 
                 new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE, config, dic)
             )
         );
@@ -63,7 +64,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             "jcseg_simple",
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
-                AnalyzerScope.INDICES, 
+                AnalyzerScope.GLOBAL, 
                 new JcsegAnalyzer5X(JcsegTaskConfig.SIMPLE_MODE, config, dic)
             )
         );
@@ -73,7 +74,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             "jcseg_detect",
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
-                AnalyzerScope.INDICES, 
+                AnalyzerScope.GLOBAL, 
                 new JcsegAnalyzer5X(JcsegTaskConfig.DETECT_MODE, config, dic)
             )
         );
@@ -83,7 +84,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             "jcseg_search",
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
-                AnalyzerScope.INDICES, 
+                AnalyzerScope.GLOBAL, 
                 new JcsegAnalyzer5X(JcsegTaskConfig.SEARCH_MODE, config, dic)
             )
         );

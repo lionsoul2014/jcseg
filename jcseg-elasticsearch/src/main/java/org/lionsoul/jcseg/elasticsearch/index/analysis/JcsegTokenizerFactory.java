@@ -8,6 +8,7 @@ import org.elasticsearch.index.Index;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
 import org.elasticsearch.index.settings.IndexSettingsService;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizer;
+import org.lionsoul.jcseg.elasticsearch.util.CommonUtil;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -23,9 +24,9 @@ import java.io.IOException;
  */
 public class JcsegTokenizerFactory extends AbstractTokenizerFactory 
 {
-    private String seg_mode;
     private JcsegTaskConfig config;
     private ADictionary dic;
+    private int mode;
 
     @Inject
     public JcsegTokenizerFactory(Index index, 
@@ -34,22 +35,13 @@ public class JcsegTokenizerFactory extends AbstractTokenizerFactory
         super(index, indexSettingsService.getSettings(), name, settings);
         
         File proFile = new File(settings.get("config_file", "plugins/jcseg/jcseg.properties"));
-        seg_mode = settings.get("seg_mode", "complex");
         config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
+        mode = CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE);
         dic = DictionaryFactory.createSingletonDictionary(config);
     }
     
     @Override public Tokenizer create() 
-    {
-        int mode = JcsegTaskConfig.COMPLEX_MODE;
-        if( seg_mode.equals("complex") ) {
-            mode = JcsegTaskConfig.COMPLEX_MODE;
-        } else if ( seg_mode.equals("simple") ) {
-            mode = JcsegTaskConfig.SIMPLE_MODE;
-        } else if( seg_mode.equals("detect") ) {
-            mode = JcsegTaskConfig.DETECT_MODE;
-        }
-        
+    { 
         try {
             return new JcsegTokenizer(mode, config, dic);
         } catch (JcsegException e) {
