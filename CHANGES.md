@@ -1,12 +1,12 @@
 # Jcseg versions change histories
 
-### 1.9.9: (next version)
+### jcseg-1.9.9: (next version)
 
 1. 复杂模式，复杂中文的二次切分
 2. 文本自动分类
 
 
-### jcseg-1.9.8:
+### jcseg-1.9.8: (current version)
 
 1. 增加检索切分模式（SEARCH_MODE），实现细粒度切分，专业为搜索。
 2. 增加DictionaryFactory#createSingletonDictionary，用于创建单例词库。
