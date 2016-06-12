@@ -25,7 +25,7 @@
 > * (1).简易模式：FMM算法，适合速度要求场合。
 > * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
-> * (4).检索模式：细粒度切分，将尽可能多的词条组合返回，专为检索而生，其他与复杂模式一致（不具备人民识别等智能功能）。
+> * (4).检索模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -236,7 +236,7 @@ jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，
     
     # global setting for jcseg, yet another copy of the old 
     # configuration file jcseg.properties
-    "jcseg_global_setting": {
+    "jcseg_global_config": {
         # maximum match length. (5-7)
         "jcseg_maxlen": 7,
         
