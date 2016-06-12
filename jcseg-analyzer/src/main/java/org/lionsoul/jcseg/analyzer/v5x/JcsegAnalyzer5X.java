@@ -28,7 +28,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   mode tokenizer mode
      * @see     org.lionsoul.jcseg.core.JcsegTaskConfig
     */
-    public JcsegAnalyzer5X( int mode ) 
+    public JcsegAnalyzer5X(int mode) 
     {
         this(mode, new JcsegTaskConfig());
     }
@@ -40,7 +40,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   mode tokenizer mode
      * @param   proFile path of jcseg.properties file
     */
-    public JcsegAnalyzer5X( int mode, String proFile )
+    public JcsegAnalyzer5X(int mode, String proFile)
     {
         this(mode, new JcsegTaskConfig(proFile));
     }

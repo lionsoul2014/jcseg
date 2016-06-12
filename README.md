@@ -25,7 +25,7 @@
 > * (1).简易模式：FMM算法，适合速度要求场合。
 > * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
-> * (4).检索模式：细粒度切分，将尽可能多的词条组合返回，专为检索而生，其他与复杂模式一致。
+> * (4).检索模式：细粒度切分，将尽可能多的词条组合返回，专为检索而生，其他与复杂模式一致（不具备人民识别等智能功能）。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -92,9 +92,15 @@ jcseg~tokenizer>>
 
 ```java
 
-    Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
-    //lucene 5.x版本
-    //Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+    Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+    //available constructor: since 1.9.8
+    //1, JcsegAnalyzer5X(int mode)
+    //2, JcsegAnalyzer5X(int mode, String proFile)
+    //3, JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
+    //4, JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
+
+    //lucene 4.x版本
+    //Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
     //非必须(用于修改默认配置): 获取分词任务配置实例
     JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
     JcsegTaskConfig config = jcseg.getTaskConfig();
@@ -163,58 +169,6 @@ jcseg~tokenizer>>
 5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
 7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去，以下配置可以不用了：
-
-```
-index:
-  analysis:
-  
-    tokenizer:   
-      jcseg_complex:
-        type: jcseg
-        seg_mode: complex
-        config_file: config/jcseg/jcseg.properties
-      jcseg_simple:
-        type: jcseg
-        seg_mode: simple
-        config_file: config/jcseg/jcseg.properties
-      jcseg_detect:
-        type: jcseg
-        seg_mode: detect
-        config_file: config/jcseg/jcseg.properties
-      jcseg_search:
-        type: jcseg
-        seg_mode: search
-        config_file: config/jcseg/jcseg.properties
-        
-    analyzer:
-      jcseg_complex:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_complex
-      jcseg_simple:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_simple
-      jcseg_detect:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_detect
-      jcseg_search:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_search
-```
-
-指定如下配置，配置jcseg为默认es的默认分词：
-
-```
-index.analysis.analyzer.default.type : "jcseg"
-```
-
 8. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
 
 
@@ -337,9 +291,9 @@ jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，
     "jcseg_dict": {
         "master": {
             "path": [
-                # "{jar.dir}/lexicon"
+                "{jar.dir}/lexicon"
                 # absolute path here
-                "/java/JavaSE/jcseg/lexicon"
+                #"/java/JavaSE/jcseg/lexicon"
             ],
             
             # wether to load the part of speech of the words
@@ -674,6 +628,8 @@ demo代码：
     //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
     //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
     //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+    //JcsegTaskConfig.DETECT_MODE表示创建DetectSeg简易Isegmengt分词对象.
+    //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg简易Isegmengt分词对象.
     ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
         new Object[]{config, dic});
         
