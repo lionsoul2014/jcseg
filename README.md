@@ -52,6 +52,7 @@
 
 1. cd到 **Jcseg**根目录。
 2. ant all(或者使用maven编译)
+3. cd ./vendors
 3. 运行：java -jar jcseg-core-{version}.jar
 4. 你将看到如下的终端界面
 5. 在光标处输入文本开始测试
