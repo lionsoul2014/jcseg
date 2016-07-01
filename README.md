@@ -686,12 +686,3 @@ demo代码：
 1. 关键字提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
 2. 关键短语提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
 3. 关键句子和摘要提取：参考 org.lionsoul.jcseg.extractor.TextRankSummaryExtractor
-
-# 联系作者：
-------
-
-欢迎报告各种bug和建议到以下开发者邮箱：
-
-1. 陈鑫&lt;chenxin619315@gmail.com&gt;
-2. 张仁芳&lt;dongyado@gmail.com&gt;
-
