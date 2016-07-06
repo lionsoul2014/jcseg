@@ -23,3 +23,4 @@ CJK_WORDS
 狮子的魂/nz/shi zi de hun/null
 仓老师/nz/cang lao shi/仓井空
 菇凉/n/gu liang/null
+科比/nr/ke bi/null
