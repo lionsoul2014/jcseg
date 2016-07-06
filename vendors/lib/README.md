@@ -22,6 +22,16 @@
 
 ant all编译即可
 
-## 三，其他版本lucene：
+## 三，lucene 6.0.x, elasticsearch-2.3.1：
+
+在该目录下放入如下jar文件即可：
+
+* 1. elasticsearch-2.3.1.jar
+* 2. lucene-analyzers-common-6.0.0.jar
+* 3. lucene-core-6.0.0.jar
+* 4. jetty-server-9.3.0.RC0.jar,jetty-util-9.3.0.RC0.jar
+* 5. javax.servlet-api-3.1.0.jar
+
+## 四，其他版本lucene：
 
 查看对应模块下的pom.xml获取对应依赖包的版本！

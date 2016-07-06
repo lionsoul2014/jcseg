@@ -11,7 +11,7 @@
   
   <artifactId>jcseg-analyzer</artifactId>
   <name>jcseg-analyzer</name>
-  <url>http://code.google.com/p/jcseg</url>
+  <url>http://github.com/lionsoul2014/jcseg</url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

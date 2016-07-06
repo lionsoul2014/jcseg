@@ -11,7 +11,7 @@
   
   <artifactId>jcseg-core</artifactId>
   <name>jcseg-core</name>
-  <url>http://code.google.com/p/jcseg</url>
+  <url>http://github.com/lionsoul2014/jcseg</url>
   
   <dependencies>
     <dependency>

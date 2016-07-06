@@ -14,7 +14,8 @@
         <property name="api" value="${basedir}/doc"/>
         
         <!--maven modules-->
-        <property name="mvn" value="src/main/java"/>
+        <property name="mvn.main" value="src/main/java"/>
+        <property name="mvn.test" value="src/test/java"/>
         <property name="core" value="jcseg-core"/>
         <property name="analyzer" value="jcseg-analyzer"/>
         <property name="elasticsearch" value="jcseg-elasticsearch"/>
@@ -30,24 +31,28 @@
         <mkdir dir="${api}"/>
             
         <!--copy maven sub module sources to the src-->
-        <echo message="Coping sources of ${core} to ${sources}"/>
+        <echo message="Coping sources of ${core}/${mvn.main} to ${sources}"/>
         <copy todir="${sources}">
-            <fileset dir="${basedir}/${core}/${mvn}"/>
+            <fileset dir="${basedir}/${core}/${mvn.main}"/>
         </copy>
+        <!--<echo message="Coping sources of ${core}/{$mvn.test} to ${sources}"/>
+        <copy todir="${sources}">
+            <fileset dir="${basedir}/${core}/${mvn.test}"/>
+        </copy>-->
         
         <echo message="Coping sources of ${analyzer} to ${sources}"/>
         <copy todir="${sources}">
-            <fileset dir="${basedir}/${analyzer}/${mvn}"/>
+            <fileset dir="${basedir}/${analyzer}/${mvn.main}"/>
         </copy>
         
         <echo message="Coping sources of ${elasticsearch} to ${sources}"/>
         <copy todir="${sources}">
-            <fileset dir="${basedir}/${elasticsearch}/${mvn}"/>
+            <fileset dir="${basedir}/${elasticsearch}/${mvn.main}"/>
         </copy>
         
         <echo message="Coping sources of ${server} to ${sources}"/>
         <copy todir="${sources}">
-            <fileset dir="${basedir}/${server}/${mvn}"/>
+            <fileset dir="${basedir}/${server}/${mvn.main}"/>
         </copy>
         
         <!--specifal resource to copy-->
@@ -55,7 +60,7 @@
         <copy file="${basedir}/jcseg-server.properties" todir="${classes}"/>
         <copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
         <copy todir="${classes}/res">
-            <fileset dir="${basedir}/${server}/${mvn}/res"/>
+            <fileset dir="${basedir}/${server}/${mvn.main}/res"/>
         </copy>
     </target>
 
@@ -132,12 +137,12 @@
     <target name="usage">
         <echo message="*** Jcseg ANT Build Script ***"/>
         <echo message="Usage: "/>
-        <echo message="   ant [target]"/>
+        <echo message=" ant [target]"/>
         <echo message=""/>     
-        <echo message="   target : "/>
-        <echo message="            build : Build Application"/>     
-        <echo message="            dist  : Build Application + Archive (JAR)"/>     
-        <echo message="            all   : Build Application + Archive + JavaDoc"/>       
+        <echo message="target : "/>
+        <echo message=" build : Build Application"/>     
+        <echo message=" dist  : Build Application + Archive (JAR)"/>     
+        <echo message=" all   : Build Application + Archive + JavaDoc"/>       
     </target>
 
 </project>
