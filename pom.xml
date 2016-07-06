@@ -8,14 +8,14 @@
     <version>7</version>
   </parent>
 
-  <groupId>org.lionsoul.jcseg</groupId>
+  <groupId>org.lionsoul</groupId>
   <artifactId>jcseg</artifactId>
   <version>${jcseg.version}</version>
   <packaging>pom</packaging>
 
   <name>jcseg</name>
   <url>http://git.oschina.net/lionsoul/jcseg/</url>
-  <description>Lightweight open source chinese tokenizer with lucene,solr,elasticsearch support.</description>
+  <description>A lightweight open source chinese tokenizer with keywords, key sentences, summary extracts support, offered the latest lucene,solr,elasticsearch API.</description>
   
   <licenses>
     <license>

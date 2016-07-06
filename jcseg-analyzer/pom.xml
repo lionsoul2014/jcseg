@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <groupId>org.lionsoul.jcseg</groupId>
+    <groupId>org.lionsoul</groupId>
     <artifactId>jcseg</artifactId>
     <version>${jcseg.version}</version>
   </parent>
@@ -20,7 +20,7 @@
   
   <dependencies>
     <dependency>
-      <groupId>org.lionsoul.jcseg</groupId>
+      <groupId>org.lionsoul</groupId>
       <artifactId>jcseg-core</artifactId>
       <version>${jcseg.version}</version>
     </dependency>
