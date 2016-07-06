@@ -31,7 +31,7 @@ public class SpeedTest {
         if ( seg == null ) 
         {
             long start = System.currentTimeMillis();
-            JcsegTaskConfig  config = new JcsegTaskConfig();
+            JcsegTaskConfig  config = new JcsegTaskConfig(true);
             ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
             //load lexicon
             //for ( String lpath : config.getLexiconPath() )

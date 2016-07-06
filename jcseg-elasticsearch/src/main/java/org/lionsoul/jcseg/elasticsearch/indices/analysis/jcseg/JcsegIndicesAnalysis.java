@@ -36,7 +36,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
 
         // Register jcseg analyzer
         File proFile = new File("plugins/jcseg/jcseg.properties");
-        JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
+        JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig(true);
         ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
         
         //default
@@ -106,7 +106,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
                      * in the jcseg plugin base directory {ES_HOME}/plugins/jcseg/
                     */
                     File proFile = new File("plugins/jcseg/jcseg.properties");
-                    JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
+                    JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig(true);
                     return new JcsegTokenizer(
                         JcsegTaskConfig.COMPLEX_MODE,
                         config,

@@ -2,7 +2,7 @@ package org.lionsoul.jcseg.tokenizer.core;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -93,109 +93,136 @@ public class JcsegTaskConfig implements Cloneable
     private int polltime = 10;
     
     //the currently used lexicon properties file
-    private String pfile = null;
+    private String pFile = null;
     
+    /**
+     * create the config and do nothing about initialize
+     * Note: this may cuz Incompatibility problems for the old version
+     * that has use this construct method
+     * 
+     * @since 1.9.8
+    */
     public JcsegTaskConfig() 
     {
-        this(null, true);
+        //do nothing here
     }
     
-    public JcsegTaskConfig(String proFile)
+    /**
+     * create and initialize the config by auto load
+     * 
+     * @param   autoLoad
+    */
+    public JcsegTaskConfig(boolean autoLoad)
     {
-        this(proFile, true);
-    }
-    
-    public JcsegTaskConfig( String proFile, boolean resetPro ) 
-    {
-        //reset the properties from the specifield file ?
-        if ( resetPro ) {
-            try {
-                resetFromPropertyFile(proFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if ( autoLoad ) {
+            try {autoLoad();} catch (IOException e) {e.printStackTrace();}
         }
     }
     
     /**
-     * reset the value of its options from a propertie file
+     * create and initialize the task config from a properties file
      * 
-     * @param    proFile    path of jcseg.properties file.
-     *         when null is givend, jcseg will look up the
-     *         default jcseg.properties file. <br />
+     * @param   proFile
+    */
+    public JcsegTaskConfig( String proFile) 
+    {
+        try {load(proFile);} catch (IOException e) {e.printStackTrace();}
+    }
+    
+    /**
+     * create and initialize the task config from a InputStream 
      * 
-     * @throws IOException
+     * @param   is
+    */
+    public JcsegTaskConfig( InputStream is ) 
+    {
+        try {load(is);} catch (IOException e) {e.printStackTrace();}
+    }
+    
+    /**
+     * initialize the value of its options from a speicfied 
+     * jcseg.properties propertie file
+     * 
+     * @param   proFile 
+     * @throws  IOException
      */
-    public void resetFromPropertyFile( String proFile ) throws IOException 
+    public void load( String proFile ) throws IOException 
+    {
+        this.load(new FileInputStream(proFile));
+    }
+    
+    /**
+     * initialize the value of its options by auto searching the jcesg.properties file:
+     * 
+     * 1. the path that jcseg-core-{version}.jar located
+     * 2. the classpath - the property file in the jcseg-core-{version}.jar zip file
+     * 3. user home dir
+     * 
+     * @throws  IOException
+    */
+    public void autoLoad() throws IOException 
+    {
+        /*
+         * 1.load the the jcseg.properties located with the jar file.
+         * 2.load the jcseg.propertiess from the classpath.
+         * 3.load the jcseg.properties from the user.home 
+         */
+        
+        File proFile = new File(Util.getJarHome(this)+"/"+LEX_PROPERTY_FILE);
+        if ( proFile.exists() ) {
+            pFile = proFile.getAbsolutePath();
+            load(proFile.getAbsolutePath());
+            return;
+        }
+           
+        InputStream is = DictionaryFactory.class.getResourceAsStream("/"+LEX_PROPERTY_FILE);
+        if ( is != null ) {
+            pFile = "classpath/jcseg.properties";
+            load(is);
+            return;
+        }
+            
+        proFile = new File(System.getProperty("user.home")+"/"+LEX_PROPERTY_FILE);
+        if ( proFile.exists() ) {
+            pFile = proFile.getAbsolutePath();
+            load(proFile.getAbsolutePath());
+        }
+            
+        /*
+         * jcseg properties file loading status report,
+         * show the crorrent properties file location information
+         * 
+         * @date 2013-07-06
+         */
+        String errString = "jcseg properties \"jcseg.properties]\" file auto loaded failed: \n";
+        errString += "try the follwing ways to solve the problem: \n";
+        errString += "1. put jcseg.properties into the classpath.\n";
+        errString += "2. put jcseg.properties together with the jcseg-core-{version}.jar file.\n";
+        errString += "3. put jcseg.properties in directory "+System.getProperty("user.home")+"\n\n";
+        throw new IOException(errString);
+    }
+    
+    /**
+     * initialize the value of its options from a InputStream
+     * of a jcseg.properties prperties file
+     * 
+     * @param   is
+     * @throws  IOException 
+    */
+    public void load( InputStream is ) throws IOException
     {
         Properties lexPro = new Properties();
-        String jarHome = null;
-        /*load the mapping from the default property file.*/
-        if ( proFile == null ) {
-            /*
-             * 1.load the the jcseg.properties located with the jar file.
-             * 2.load the jcseg.propertiess from the classpath.
-             * 3.load the jcseg.properties from the user.home 
-             */
-            boolean jcseg_properties = false;
-            jarHome = Util.getJarHome(this);
-            File pro_file = new File(jarHome+"/"+LEX_PROPERTY_FILE);
-            if ( pro_file.exists() ) {
-                lexPro.load(new FileReader(pro_file));
-                pfile = jarHome+"/"+LEX_PROPERTY_FILE;
-                jcseg_properties = true;
-            }
-            
-            if ( ! jcseg_properties ) {
-                InputStream is = DictionaryFactory.class.getResourceAsStream("/"+LEX_PROPERTY_FILE);
-                if ( is != null ) {
-                    lexPro.load(new BufferedInputStream( is )); 
-                    pfile = "classpath/jcseg.properties";
-                    jcseg_properties = true;
-                }
-            }
-            
-            if ( ! jcseg_properties ) {
-                pro_file = new File(System.getProperty("user.home")+"/"+LEX_PROPERTY_FILE);
-                if ( pro_file.exists() ) {
-                    lexPro.load(new FileReader(pro_file));
-                    pfile = pro_file.getAbsolutePath();
-                    jcseg_properties = true;
-                }
-            }
-            
-            /*
-             * jcseg properties file loading status report,
-             *     show the crorrent properties file location information . <br />
-             * 
-             * @date    2013-07-06
-             */
-            if ( ! jcseg_properties ) {
-                String _report = "jcseg properties[jcseg.properties] file loading error: \n";
-                _report += "try the follwing ways to solve the problem: \n";
-                _report += "1. put jcseg.properties into the classpath.\n";
-                _report += "2. put jcseg.properties together with the jcseg-core-{version}.jar file.\n";
-                _report += "3. put jcseg.properties in directory "+System.getProperty("user.home")+"\n\n";
-                throw new IOException(_report);
-            }
-        } 
-        /*load the  mapping from the specified property file.*/
-        else {
-            File pro_file = new File(proFile);
-            if ( ! pro_file.exists() ) throw new IOException("property file ["+proFile+"] not found!");
-            lexPro.load(new FileReader(pro_file));
+        lexPro.load(new BufferedInputStream(is));
+        
+        //about the lexicon, the lexicon path
+        String lexDirs = lexPro.getProperty("lexicon.path");
+        if ( lexDirs == null ) {
+            throw new IOException("lexicon.path property not find in jcseg.properties file!!!");
         }
         
-        /*about the lexicon*/
-        //the lexicon path
-        String lexDirs = lexPro.getProperty("lexicon.path");
-        if ( lexDirs == null )
-            throw new IOException("lexicon.path property not find in jcseg.properties file!!!");
         if ( lexDirs.indexOf("{jar.dir}") > -1 ) {
-            if ( jarHome == null ) jarHome = Util.getJarHome(this);
-            lexDirs = lexDirs.replace("{jar.dir}", jarHome);
+            lexDirs = lexDirs.replace("{jar.dir}", Util.getJarHome(this));
         }
-        //System.out.println("path: "+lexPath);
         
         //Multiple path for lexicon.path.
         lexPath = lexDirs.split(";");
@@ -203,9 +230,10 @@ public class JcsegTaskConfig implements Cloneable
         for ( int i = 0; i < lexPath.length; i++ ) {
             lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
             f = new File(lexPath[i]);
-            if ( ! f.exists() ) 
+            if ( ! f.exists() ) {
                 throw new IOException("Invalid sub lexicon path " + lexPath[i] 
                         + " for lexicon.path in jcseg.properties");
+            }
             f = null;    //Let gc do its work.
         }
         
@@ -499,13 +527,13 @@ public class JcsegTaskConfig implements Cloneable
     //return the currently use properties file
     public String getPropertieFile()
     {
-        return pfile;
+        return pFile;
     }
     
     /**
      * rewrite the clone method
      * 
-     * @return    JcsegTaskConfig
+     * @return  JcsegTaskConfig
     */
     @Override
     public JcsegTaskConfig clone() throws CloneNotSupportedException

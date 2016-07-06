@@ -39,7 +39,7 @@ public class JcsegTest
     
     public JcsegTest() throws JcsegException, IOException, CloneNotSupportedException {
         
-        JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig();
+        JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig(true);
         JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
         //JcsegTaskConfig config = new JcsegTaskConfig("/java/JavaSE/jcseg/jcseg.properties"); 
         //JcsegTaskConfig config = new JcsegTaskConfig(null);

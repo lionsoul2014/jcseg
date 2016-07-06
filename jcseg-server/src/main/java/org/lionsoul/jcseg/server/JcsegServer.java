@@ -177,7 +177,7 @@ public class JcsegServer
         }
 
         //create a global JcsegTaskConfig and initialize from the global_setting
-        JcsegTaskConfig globalJcsegTaskConfig = new JcsegTaskConfig(null, false);
+        JcsegTaskConfig globalJcsegTaskConfig = new JcsegTaskConfig(false);
         if ( globalConfig.has("jcseg_global_config") ) {
             JSONObject globalSetting = globalConfig.getJSONObject("jcseg_global_config");
             resetJcsegTaskConfig(globalJcsegTaskConfig, globalSetting);

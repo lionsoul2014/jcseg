@@ -50,7 +50,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         }
         
         //initialize the task configuration and the dictionary
-        config = new JcsegTaskConfig();
+        config = new JcsegTaskConfig(true);
         dic = DictionaryFactory.createSingletonDictionary(config);
     }
     

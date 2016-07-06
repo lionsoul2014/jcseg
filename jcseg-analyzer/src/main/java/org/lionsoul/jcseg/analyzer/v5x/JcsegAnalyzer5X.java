@@ -30,7 +30,7 @@ public class JcsegAnalyzer5X extends Analyzer
     */
     public JcsegAnalyzer5X(int mode) 
     {
-        this(mode, new JcsegTaskConfig());
+        this(mode, new JcsegTaskConfig(true));
     }
     
     /**

@@ -35,7 +35,7 @@ public class JcsegTokenizerFactory extends AbstractTokenizerFactory
         super(index, indexSettingsService.getSettings(), name, settings);
         
         File proFile = new File(settings.get("config_file", "plugins/jcseg/jcseg.properties"));
-        config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig();
+        config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig(true);
         mode = CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE);
         dic = DictionaryFactory.createSingletonDictionary(config);
     }
