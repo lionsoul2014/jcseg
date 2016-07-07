@@ -28,25 +28,42 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.5</version>
         <executions>
-        <execution>
-          <id>properties-file-copy</id>
-          <phase>generate-resources</phase>
-          <goals>
-            <goal>copy-resources</goal>
-          </goals>
-          <configuration>
-          <outputDirectory>${basedir}/target/classes</outputDirectory>
-          <resources>          
-             <resource>
-                <directory>../</directory>
-                <includes>
-                    <include>jcseg.properties</include>
-                </includes>
-                <filtering>true</filtering>
-             </resource>
-           </resources>              
-         </configuration>            
-        </execution>
+          <execution>
+            <id>properties-file-copy</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+            <outputDirectory>${basedir}/target/classes</outputDirectory>
+            <resources>          
+               <resource>
+                  <directory>../</directory>
+                  <includes>
+                      <include>jcseg.properties</include>
+                  </includes>
+                  <filtering>true</filtering>
+               </resource>
+             </resources>              
+           </configuration>            
+          </execution>
+          <execution>
+            <id>lexicons-file-copy</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+            <outputDirectory>${basedir}/target/classes/lexicon</outputDirectory>
+            <resources>          
+               <resource>
+                  <directory>../vendors/lexicon</directory>
+ 
+                  <filtering>true</filtering>
+               </resource>
+             </resources>              
+           </configuration>            
+          </execution>
         </executions>
         </plugin>
     

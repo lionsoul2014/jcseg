@@ -174,8 +174,12 @@ public class JcsegTaskConfig implements Cloneable
             load(proFile.getAbsolutePath());
             return;
         }
-           
-        InputStream is = DictionaryFactory.class.getResourceAsStream("/"+LEX_PROPERTY_FILE);
+        
+        /*
+         * by default we have package a jcseg.properties file
+         * with default setting insite the class path
+        */
+        InputStream is = this.getClass().getResourceAsStream("/"+LEX_PROPERTY_FILE);
         if ( is != null ) {
             pFile = "classpath/jcseg.properties";
             load(is);
@@ -217,24 +221,26 @@ public class JcsegTaskConfig implements Cloneable
         //about the lexicon, the lexicon path
         String lexDirs = lexPro.getProperty("lexicon.path");
         if ( lexDirs == null ) {
-            throw new IOException("lexicon.path property not find in jcseg.properties file!!!");
+            throw new IOException("Missing lexicon.path property in jcseg.properties file!!!");
         }
         
-        if ( lexDirs.indexOf("{jar.dir}") > -1 ) {
-            lexDirs = lexDirs.replace("{jar.dir}", Util.getJarHome(this));
-        }
-        
-        //Multiple path for lexicon.path.
-        lexPath = lexDirs.split(";");
-        File f = null;
-        for ( int i = 0; i < lexPath.length; i++ ) {
-            lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
-            f = new File(lexPath[i]);
-            if ( ! f.exists() ) {
-                throw new IOException("Invalid sub lexicon path " + lexPath[i] 
-                        + " for lexicon.path in jcseg.properties");
+        if ( ! "null".equalsIgnoreCase(lexDirs) ) {
+            if ( lexDirs.indexOf("{jar.dir}") > -1 ) {
+                lexDirs = lexDirs.replace("{jar.dir}", Util.getJarHome(this));
             }
-            f = null;    //Let gc do its work.
+            
+            //Multiple path for lexicon.path.
+            lexPath = lexDirs.split(";");
+            File f  = null;
+            for ( int i = 0; i < lexPath.length; i++ ) {
+                lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
+                f = new File(lexPath[i]);
+                if ( ! f.exists() ) {
+                    throw new IOException("Invalid sub lexicon path " + lexPath[i] 
+                            + " for lexicon.path in jcseg.properties");
+                }
+                f = null;    //Let gc do its work.
+            }
         }
         
         //the lexicon file prefix and suffix
@@ -540,4 +546,5 @@ public class JcsegTaskConfig implements Cloneable
     {
         return (JcsegTaskConfig) super.clone();
     }
+    
 }

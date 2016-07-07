@@ -52,27 +52,34 @@ public class DictionaryFactory
     /**
      * create a default ADictionary instance of class com.webssky.jcseg.Dictionary
      * 
-     * @param    config
-     * @param    sync
-     * @return    ADictionary
+     * @param   config
+     * @param   sync
+     * @return  ADictionary
      */
     public static ADictionary createDefaultDictionary( 
             JcsegTaskConfig config, boolean sync ) 
     {
-        ADictionary dic = createDictionary(Dictionary.class,
-                    new Class[]{JcsegTaskConfig.class, Boolean.class},
-                    new Object[]{config, sync});
+        ADictionary dic = createDictionary(
+            Dictionary.class,
+            new Class[]{JcsegTaskConfig.class, Boolean.class},
+            new Object[]{config, sync}
+        );
+        
         try {
-            //load lexicon from more than one path.
+            /*
+             * @Note: updated at 2016/07/07
+             * 
+             * check and load all the lexicons with more than one path
+             * if specified none lexicon paths (config.getLexiconPath() is null)
+             * And we directly load the default lexicons that in the class path
+            */
             String[] lexpath = config.getLexiconPath();
-            if ( lexpath == null ) 
-                throw new IOException("Invalid lexicon path, " +
-                        "make sure the JcsegTaskConfig is initialized.");
-            
-            //load word item from all the directories.
-            for ( String lpath : lexpath )
-                dic.loadFromLexiconDirectory(lpath);
-            if ( dic.getConfig().isAutoload() ) dic.startAutoload();
+            if ( lexpath == null ) {
+                dic.loadClassPath();
+            } else {
+                for ( String lpath : lexpath )      dic.loadDirectory(lpath);
+                if ( dic.getConfig().isAutoload() ) dic.startAutoload();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
