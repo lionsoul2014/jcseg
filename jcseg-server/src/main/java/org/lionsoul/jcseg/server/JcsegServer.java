@@ -200,23 +200,23 @@ public class JcsegServer
                     throw new JcsegException("Missing path for dict instance " + name);
                 }
                 
-                JSONArray path = dicJson.getJSONArray("path");
-                if ( path.length() == 0 ) {
-                    throw new JcsegException("Empty path setting for dict instance " + name);
-                }
-                
-                //process the lexPath
-                List<String> dicPath = new ArrayList<String>();
-                for ( int i = 0; i < path.length(); i++ ) {
-                    String filePath = path.get(i).toString();
-                    if ( filePath.indexOf("{jar.dir}") > -1 ) {
-                        filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
+                String[] lexPath = null;
+                if ( ! dicJson.isNull("path") ) {
+                    //process the lexPath
+                    JSONArray path = dicJson.getJSONArray("path");
+                    List<String> dicPath = new ArrayList<String>();
+                    for ( int i = 0; i < path.length(); i++ ) {
+                        String filePath = path.get(i).toString();
+                        if ( filePath.indexOf("{jar.dir}") > -1 ) {
+                            filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
+                        }
+                        dicPath.add(filePath);
                     }
-                    dicPath.add(filePath);
+                    
+                    lexPath = new String[dicPath.size()];
+                    dicPath.toArray(lexPath);
+                    dicPath.clear(); dicPath = null;
                 }
-                String[] lexPath = new String[dicPath.size()];
-                dicPath.toArray(lexPath);
-                dicPath.clear(); dicPath = null;
                 
                 boolean loadpos = dicJson.has("loadpos") 
                         ? dicJson.getBoolean("loadpos") : true;
