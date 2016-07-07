@@ -86,7 +86,7 @@ jcseg~tokenizer>>
 
 # **Jcseg** Maven仓库：
 
-Jcseg从1.9.8才开始上传到maven仓库！
+Jcseg从1.9.8才开始上传到了maven仓库！
 
 * 1. jcseg (全部模块)
 

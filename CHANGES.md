@@ -9,7 +9,7 @@
 
 1. 上传到了maven中心仓库，依赖地址如下：
 
-* 1. jcseg (全部模块)
+* 1), jcseg (全部模块)
 
 ```xml
 <dependency>
@@ -19,7 +19,7 @@
 </dependency>
 ```
 
-* 2. jcseg-core:
+* 2), jcseg-core:
 
 ```xml
 <dependency>
@@ -30,7 +30,7 @@
 
 ```
 
-* 3. jcseg-analyzer (lucene或者solr):
+* 3), jcseg-analyzer (lucene或者solr):
 
 ```xml
 <dependency>
@@ -40,7 +40,7 @@
 </dependency>
 ```
 
-* 4. jcseg-elasticsearch
+* 4), jcseg-elasticsearch
 
 ```xml
 <dependency>
@@ -50,7 +50,7 @@
 </dependency>
 ```
 
-* 5. jcseg-server (独立的应用服务器)
+* 5), jcseg-server (独立的应用服务器)
 
 2. JcsegTaskConfig更改构造方法如下：
 
