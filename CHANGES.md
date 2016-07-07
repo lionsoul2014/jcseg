@@ -7,7 +7,7 @@
 
 ### jcseg-1.9.9: (current version)
 
-1. 上传到了maven中心仓库，依赖地址如下：
+##### 1, 上传到了maven中心仓库，依赖地址如下：
 
 * 1), jcseg (全部模块)
 
@@ -60,7 +60,7 @@
 </dependency>
 ```
 
-2. JcsegTaskConfig更改构造方法如下：
+##### 2, JcsegTaskConfig更改构造方法如下：
 
 ```java
 JcsegTaskConfig()                   //不做任何内部初始化
@@ -69,8 +69,8 @@ JcsegTaskConfig(String proFile)     //指定配置文件初始化
 JcsegTaskConfig(InputStream is)     //指定输入流初始化
 ```
 
-3. JcsegTaskConfig或者jcseg.properties中的词库路劲支持设置为null
-4. ADictionary词库基类增加如下载入词库方法：
+##### 3, JcsegTaskConfig或者jcseg.properties中的词库路劲支持设置为null
+##### 4, ADictionary词库基类增加如下载入词库方法：
 
 ```java
 load(File file)                 //从File中载入全部词条
@@ -80,9 +80,9 @@ loadDirectory(String lexDir)    //载入一个词库目录下的全部词条
 loadClassPath()                 //从classpath中载入全部词条
 ```
 
-5. jcseg-core-{version}.jar中自动打包了一份jcseg.properties和全部的词库，从此只需要jcseg-core-{version}.jar文件即可运行，无需任何依赖，
+##### 5, jcseg-core-{version}.jar中自动打包了一份jcseg.properties和全部的词库，从此只需要jcseg-core-{version}.jar文件即可运行，无需任何依赖，
     同时也可以在jcseg-core-{version}.jar目录下存放一份jcseg.properties配置文件来自定义全部选项，例如：最大切分长度，自定义词库路径等。
-6. 词库优化，增加一些新词条
+##### 6, 词库优化，增加一些新词条
 
 
 ### jcseg-1.9.8: 
