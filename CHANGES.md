@@ -5,7 +5,7 @@
 1. 复杂模式，复杂中文的二次切分
 2. 文本自动分类
 
-### jcseg-2.0.0: (current version)
+### jcseg-1.9.9: (current version)
 
 1. 上传到了maven中心仓库，依赖地址如下：
 
@@ -51,6 +51,14 @@
 ```
 
 * 5), jcseg-server (独立的应用服务器)
+
+```xml
+<dependency>
+    <groupId>org.lionsoul</groupId>
+    <artifactId>jcseg-server</artifactId>
+    <version>1.9.9</version>
+</dependency>
+```
 
 2. JcsegTaskConfig更改构造方法如下：
 
