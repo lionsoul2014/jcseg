@@ -15,6 +15,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <es.version>2.3.1</es.version>
+    <jcseg.version>1.9.9</jcseg.version>
   </properties>
   
   <dependencies>

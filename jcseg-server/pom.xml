@@ -15,6 +15,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty.version>9.3.0.RC0</jetty.version>
+    <jcseg.version>1.9.9</jcseg.version>
   </properties>
   
   <dependencies>

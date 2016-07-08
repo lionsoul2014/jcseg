@@ -88,17 +88,7 @@ jcseg~tokenizer>>
 
 Jcseg从1.9.8才开始上传到了maven仓库！
 
-* 1. jcseg (全部模块)
-
-```xml
-<dependency>
-    <groupId>org.lionsoul</groupId>
-    <artifactId>jcseg</artifactId>
-    <version>1.9.9</version>
-</dependency>
-```
-
-* 2. jcseg-core:
+* 1. jcseg-core:
 
 ```xml
 <dependency>
@@ -109,7 +99,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 
 ```
 
-* 3. jcseg-analyzer (lucene或者solr):
+* 2. jcseg-analyzer (lucene或者solr):
 
 ```xml
 <dependency>
@@ -119,7 +109,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 </dependency>
 ```
 
-* 4. jcseg-elasticsearch
+* 3. jcseg-elasticsearch
 
 ```xml
 <dependency>
@@ -129,7 +119,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 </dependency>
 ```
 
-* 5. jcseg-server (独立的应用服务器)
+* 4. jcseg-server (独立的应用服务器)
 
 ```xml
 <dependency>
