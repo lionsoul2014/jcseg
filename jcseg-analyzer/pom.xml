@@ -6,36 +6,36 @@
   <parent>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg</artifactId>
-    <version>${jcseg.version}</version>
+    <version>1.9.9</version>
   </parent>
   
   <artifactId>jcseg-analyzer</artifactId>
+  <packaging>jar</packaging>
   <name>jcseg-analyzer</name>
   <url>http://github.com/lionsoul2014/jcseg</url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <lucene.version>6.0.0</lucene.version>
-    <jcseg.version>1.9.9</jcseg.version>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   
   <dependencies>
     <dependency>
       <groupId>org.lionsoul</groupId>
       <artifactId>jcseg-core</artifactId>
-      <version>${jcseg.version}</version>
+      <version>1.9.9</version>
     </dependency>
     
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
-      <version>${lucene.version}</version>
+      <version>6.0.0</version>
     </dependency>
     
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analyzers-common</artifactId>
-      <version>${lucene.version}</version>
+      <version>6.0.0</version>
     </dependency>
     
     <dependency>
@@ -76,7 +76,7 @@
           </execution>
         </executions>
         <configuration>
-             <failOnError>false</failOnError>
+          <failOnError>false</failOnError>
         </configuration>
        </plugin>
     </plugins>
