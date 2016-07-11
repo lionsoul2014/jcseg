@@ -2878,7 +2878,7 @@ CJK_WORDS
 眭/null/sui/null/44
 瞏/null/qiong/null/13
 吪/null/e/null/8
-和/o,nt,nhf,a,n,v,p,c/he/null/333422
+和/o,nt,nhf,a,n,v,p,c/he/null/373422
 衽/null/ren/null/22
 裟/null/sha/null/62
 襁/null/qiang/null/9
