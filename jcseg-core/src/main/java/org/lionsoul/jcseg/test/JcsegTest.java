@@ -29,7 +29,6 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  */
 public class JcsegTest 
 {
-    
     ISegment tokenizerSeg = null;
     ISegment extractorSeg = null;
     
@@ -37,22 +36,22 @@ public class JcsegTest
     KeyphraseExtractor keyphraseExtractor = null;
     SummaryExtractor summaryExtractor = null;
     
-    public JcsegTest() throws JcsegException, IOException, CloneNotSupportedException {
-        
+    public JcsegTest() throws JcsegException, IOException, CloneNotSupportedException 
+    {
         JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig(true);
         JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
         //JcsegTaskConfig config = new JcsegTaskConfig("/java/JavaSE/jcseg/jcseg.properties"); 
         //JcsegTaskConfig config = new JcsegTaskConfig(null);
         //reset the options from a property file.
-        //config.resetFromPropertyFile("/java/JavaSE/jcseg/jcseg.properties");
+        //config.load("/java/JavaSE/jcseg/jcseg.properties");
         
         //ADictionary dic = DictionaryFactory.createDefaultDictionary(tokenizerConfig);
         ADictionary dic = DictionaryFactory.createSingletonDictionary(tokenizerConfig);
         
         //two ways to reload lexicons
         //for ( String lpath : config.getLexiconPath() )
-        //    dic.loadFromLexiconDirectory(lpath);
-        //dic.loadFromLexiconFile("/java/lex-main.lex");
+        //    dic.loadDirectory(lpath);
+        //dic.load("/java/lex-main.lex");
         tokenizerSeg = SegmentFactory
                 .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{tokenizerConfig, dic});
         

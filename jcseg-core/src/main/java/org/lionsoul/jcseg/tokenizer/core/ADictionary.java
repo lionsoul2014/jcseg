@@ -120,7 +120,11 @@ public abstract class ADictionary
     }
     
     /**
-     * load all the words from all the files under the specified class path
+     * load all the words from all the files under the specified class path.
+     * 
+     * added at 2016/07/12:
+     * only in the jar file could the ZipInputStream available
+     * add IDE classpath supported here
      * 
      * @param   lexDir
      * @since   1.9.9
@@ -133,7 +137,12 @@ public abstract class ADictionary
         Class<?> dClass = this.getClass();
         
         CodeSource codeSrc = this.getClass().getProtectionDomain().getCodeSource();
-        if ( codeSrc != null ) {
+        if ( codeSrc == null ) {
+            return;
+        }
+        
+        String codePath = codeSrc.getLocation().getPath();
+        if ( codePath.toLowerCase().endsWith(".jar") ) {
             ZipInputStream zip = new ZipInputStream(codeSrc.getLocation().openStream());
             while ( true ) {
                 ZipEntry e = zip.getNextEntry();
@@ -147,6 +156,10 @@ public abstract class ADictionary
                     load(dClass.getResourceAsStream("/"+fileName));
                 }
             }
+        } else {
+            //now, the classpath is an IDE directory 
+            //  like eclipse ./bin or maven ./target/classes/
+            loadDirectory(codePath+"/lexicon");
         }
     }
     

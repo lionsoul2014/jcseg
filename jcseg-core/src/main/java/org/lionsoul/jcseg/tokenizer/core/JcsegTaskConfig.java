@@ -124,7 +124,7 @@ public class JcsegTaskConfig implements Cloneable
      * 
      * @param   proFile
     */
-    public JcsegTaskConfig( String proFile) 
+    public JcsegTaskConfig( String proFile ) 
     {
         try {load(proFile);} catch (IOException e) {e.printStackTrace();}
     }
