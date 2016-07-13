@@ -785,14 +785,14 @@ dic.loadClassPath();        //加载classpath路径下的全部词库文件的�
 
 ### 2. Jcseg关键字提取Api：
 
-* 1), TextRankKeywordsExtractor构造方法：
+* 1)，TextRankKeywordsExtractor构造方法：
 
 ```java
 TextRankKeywordsExtractor(ISegment seg);
-//seg: Jcseg ISegment中分分词对象
+//seg: Jcseg ISegment分词对象
 ```
 
-* 02), demo代码：
+* 2)，demo代码：
 
 ```java
 //1, 创建Jcseg ISegment分词对象
@@ -820,19 +820,19 @@ List<String> keywords = extractor.getKeywords(new StringReader(str));
 //"分词","方法","分为","标注","相结合","字符串","匹配","过程","大类","单纯"
 ```
 
-* 3), 测试源码参考：org.lionsoul.jcseg.test.KeywordsExtractorTest源码
+* 3)，测试源码参考：org.lionsoul.jcseg.test.KeywordsExtractorTest源码
 
 ### 3. Jcseg自动摘要/关键句子提取Api：
 
-* 1), TextRankSummaryExtractor构造方法：
+* 1)，TextRankSummaryExtractor构造方法：
 
 ```java
 TextRankSummaryExtractor(ISegment seg, SentenceSeg sentenceSeg);
 //seg: Jcseg ISegment分词对象
-//sentenceSeg: Jcseg句子切分对象
+//sentenceSeg: Jcseg SentenceSeg句子切分对象
 ```
 
-* 2), demo代码：
+* 2)，demo代码：
 
 ```java
 //1, 创建Jcseg ISegment分词对象
@@ -865,18 +865,18 @@ extractor.setSentenceNum(6);        //设置返回的关键句子个数
 List<String> keySentences = extractor.getKeySentence(new StringReader(str));
 ```
 
-* 3), 测试源码参考：org.lionsoul.jcseg.test.SummaryExtractorTest源码
+* 3)，测试源码参考：org.lionsoul.jcseg.test.SummaryExtractorTest源码
 
 ### 4. Jcseg关键短语提取Api：
 
-* 1), TextRankKeyphraseExtractor构造方法：
+* 1)，TextRankKeyphraseExtractor构造方法：
 
 ```java
 TextRankKeyphraseExtractor(ISegment seg);
-//seg: Jcseg分词ISegment对象
+//seg: Jcseg ISegment分词对象
 ```
 
-* 2), demo代码：
+* 2)，demo代码：
 
 ```java
 //1, 创建Jcseg ISegment分词对象
@@ -906,4 +906,6 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 //支持向量机, 自动分类
 ```
 
-* 3), 测试源码参考：org.lionsoul.jcseg.test.KeyphraseExtractorTest源码
+* 3)，测试源码参考：org.lionsoul.jcseg.test.KeyphraseExtractorTest源码
+
+> This is the end line and thanks for watching !!!
