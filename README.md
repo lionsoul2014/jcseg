@@ -744,7 +744,7 @@ while ( (word = seg.next()) != null ) {
 }
 ```
 
-##### (5)，如何自定义使用词库：
+##### (5). 如何自定义使用词库：
 
 从1.9.9版本开始，Jcseg已经默认将jcseg.properties和lexicon全部词库打包进了jcseg-core-{version}.jar中，如果是通过JcsegTaskConfig(true)构造的JcsegTaskConfig或者调用了JcsegTaskConfig#autoLoad()方法，在找不到自定义配置文件情况下Jcseg会自动的加载classpath中的配置文件，如果config.getLexiconPath() = null DictionaryFactory默认会自动加载classpath下的词库。
 
@@ -783,8 +783,127 @@ dic.loadDirectory("absolute or relative lexicon directory");       //加载指�
 dic.loadClassPath();        //加载classpath路径下的全部词库文件的全部词条（默认路径/lexicon）
 ```
 
-### Jcseg提取器Api：
+### 2. Jcseg关键字提取Api：
 
-1. 关键字提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
-2. 关键短语提取：参考 org.lionsoul.jcseg.extractor.TextRankKeyphraseExtractor
-3. 关键句子和摘要提取：参考 org.lionsoul.jcseg.extractor.TextRankSummaryExtractor
+* 1), TextRankKeywordsExtractor构造方法：
+
+```java
+TextRankKeywordsExtractor(ISegment seg);
+//seg: Jcseg ISegment中分分词对象
+```
+
+* 02), demo代码：
+
+```java
+//1, 创建Jcseg ISegment分词对象
+JcsegTaskConfig config = new JcsegTaskConfig(true);
+config.setClearStopwords(true);     //设置过滤停止词
+config.setAppendCJKSyn(false);      //设置关闭同义词追加
+config.setKeepUnregWords(false);    //设置去除不识别的词条
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+Segment seg = SegmentFactory.createJcseg(
+    JcsegTaskConfig.COMPLEX_MODE, 
+    new Object[]{config, dic}
+);
+
+//2, 构建TextRankKeywordsExtractor关键字提取器
+TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
+extractor.setMaxIterateNum(100);        //设置pagerank算法最大迭代次数，非必须，使用默认即可
+extractor.setWindowSize(5);             //设置textRank计算窗口大小，非必须，使用默认即可
+extractor.setKeywordsNum(10);           //设置最大返回的关键词个数，默认为10
+
+//3, 从一个输入reader输入流中获取关键字
+String str = "现有的分词算法可分为三大类：基于字符串匹配的分词方法、基于理解的分词方法和基于统计的分词方法。按照是否与词性标注过程相结合，又可以分为单纯分词方法和分词与标注相结合的一体化方法。";
+List<String> keywords = extractor.getKeywords(new StringReader(str));
+
+//4, output:
+//"分词","方法","分为","标注","相结合","字符串","匹配","过程","大类","单纯"
+```
+
+* 3), 测试源码参考：org.lionsoul.jcseg.test.KeywordsExtractorTest源码
+
+### 3. Jcseg自动摘要/关键句子提取Api：
+
+* 1), TextRankSummaryExtractor构造方法：
+
+```java
+TextRankSummaryExtractor(ISegment seg, SentenceSeg sentenceSeg);
+//seg: Jcseg ISegment分词对象
+//sentenceSeg: Jcseg句子切分对象
+```
+
+* 2), demo代码：
+
+```java
+//1, 创建Jcseg ISegment分词对象
+JcsegTaskConfig config = new JcsegTaskConfig(true);
+config.setClearStopwords(true);     //设置过滤停止词
+config.setAppendCJKSyn(false);      //设置关闭同义词追加
+config.setKeepUnregWords(false);    //设置去除不识别的词条
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+Segment seg = SegmentFactory.createJcseg(
+    JcsegTaskConfig.COMPLEX_MODE, 
+    new Object[]{config, dic}
+);
+
+//2, 构造TextRankSummaryExtractor自动摘要提取对象
+SummaryExtractor extractor = new TextRankSummaryExtractor(seg, new SentenceSeg());
+
+
+//3, 从一个Reader输入流中获取length长度的摘要
+String str = "Jcseg是基于mmseg算法的一个轻量级开源中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了最新版本的lucene,%20solr,%20elasticsearch的分词接口。Jcseg自带了一个%20jcseg.properties文件用于快速配置而得到适合不同场合的分词应用。例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！";
+String summary = extractor.getSummary(new StringReader(str), 64);
+
+//4, output:
+//Jcseg是基于mmseg算法的一个轻量级开源中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了最新版本的lucene, solr, elasticsearch的分词接口。
+
+
+//-----------------------------------------------------------------
+//5, 从一个Reader输入流中提取n个关键句子
+String str = "you source string here";
+extractor.setSentenceNum(6);        //设置返回的关键句子个数
+List<String> keySentences = extractor.getKeySentence(new StringReader(str));
+```
+
+* 3), 测试源码参考：org.lionsoul.jcseg.test.SummaryExtractorTest源码
+
+### 4. Jcseg关键短语提取Api：
+
+* 1), TextRankKeyphraseExtractor构造方法：
+
+```java
+TextRankKeyphraseExtractor(ISegment seg);
+//seg: Jcseg分词ISegment对象
+```
+
+* 2), demo代码：
+
+```java
+//1, 创建Jcseg ISegment分词对象
+JcsegTaskConfig config = new JcsegTaskConfig(true);
+config.setClearStopwords(false);    //设置不过滤停止词
+config.setAppendCJKSyn(false);      //设置关闭同义词追加
+config.setKeepUnregWords(false);    //设置去除不识别的词条
+config.setEnSecondSeg(false);       //关闭英文自动二次切分
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+Segment seg = SegmentFactory.createJcseg(
+    JcsegTaskConfig.COMPLEX_MODE, 
+    new Object[]{config, dic}
+);
+
+//2, 构建TextRankKeyphraseExtractor关键短语提取器
+TextRankKeyphraseExtractor extractor = new TextRankKeyphraseExtractor(seg);
+extractor.setMaxIterateNum(100);        //设置pagerank算法最大迭代词库，非必须，使用默认即可
+extractor.setWindowSize(5);             //设置textRank窗口大小，非必须，使用默认即可
+extractor.setKeywordsNum(15);           //设置最大返回的关键词个数，默认为10
+extractor.setMaxWordsNum(4);            //设置最大短语词长，默认为5
+
+//3, 从一个输入reader输入流中获取短语
+String str = "支持向量机广泛应用于文本挖掘，例如，基于支持向量机的文本自动分类技术研究一文中很详细的介绍支持向量机的算法细节，文本自动分类是文本挖掘技术中的一种！";
+List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
+
+//4, output:
+//支持向量机, 自动分类
+```
+
+* 3), 测试源码参考：org.lionsoul.jcseg.test.KeyphraseExtractorTest源码
