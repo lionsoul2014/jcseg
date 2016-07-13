@@ -50,20 +50,28 @@ public class DictionaryFactory
     }
     
     /**
-     * create a default ADictionary instance of class com.webssky.jcseg.Dictionary
+     * create a default ADictionary instance:
+     * 1. check the lexicon path and load the lexicons
+     *  if it is null and default to load the lexicon in the classpath
+     * 2. check and start the autoload of the dictionary
      * 
      * @param   config
      * @param   sync
+     * @param   loadDic wether check and load the lexicon
      * @return  ADictionary
      */
     public static ADictionary createDefaultDictionary( 
-            JcsegTaskConfig config, boolean sync ) 
+            JcsegTaskConfig config, boolean sync, boolean loadDic ) 
     {
         ADictionary dic = createDictionary(
             Dictionary.class,
             new Class[]{JcsegTaskConfig.class, Boolean.class},
             new Object[]{config, sync}
         );
+        
+        if ( loadDic == false ) {
+            return dic;
+        }
         
         try {
             /*
@@ -87,17 +95,50 @@ public class DictionaryFactory
         return dic;
     }
     
+    /**
+     * create the ADictionary according to the JcsegTaskConfig
+     * check and load the lexicon by default
+     * 
+     * @param   config
+     * @return  ADictionary
+    */
     public static ADictionary createDefaultDictionary(JcsegTaskConfig config)
     {
-        return createDefaultDictionary(config, config.isAutoload());
+        return createDefaultDictionary(config, true);
     }
     
     /**
-     * create a singleton ADictionary object
+     * create the ADictionary according to the JcsegTaskConfig
      * 
+     * @param   config
+     * @param   loadDic
+     * @return  ADictionary
+    */
+    public static ADictionary createDefaultDictionary(JcsegTaskConfig config, boolean loadDic)
+    {
+        return createDefaultDictionary(config, config.isAutoload(), loadDic);
+    }
+    
+    /**
+     * create a singleton ADictionary object according to the JcsegTaskConfig
+     * check and load the lexicon by default
+     * 
+     * @param   config
      * @return  ADictionary
     */
     public static ADictionary createSingletonDictionary(JcsegTaskConfig config)
+    {
+        return createSingletonDictionary(config, true);
+    }
+    
+    /**
+     * create a singleton ADictionary object according to the JcsegTaskConfig
+     * 
+     * @param   config
+     * @param   loadDic
+     * @param   ADictionary
+    */
+    public static ADictionary createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
     {
         synchronized (LOCK) {
             if ( singletonDic == null ) {
@@ -107,4 +148,5 @@ public class DictionaryFactory
         
         return singletonDic;
     }
+    
 }
