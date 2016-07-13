@@ -137,25 +137,23 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 2. demo代码：
 
 ```java
+Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+//available constructor: since 1.9.8
+//1, JcsegAnalyzer5X(int mode)
+//2, JcsegAnalyzer5X(int mode, String proFile)
+//3, JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
+//4, JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
 
-    Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
-    //available constructor: since 1.9.8
-    //1, JcsegAnalyzer5X(int mode)
-    //2, JcsegAnalyzer5X(int mode, String proFile)
-    //3, JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
-    //4, JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
-
-    //lucene 4.x版本
-    //Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
-    //非必须(用于修改默认配置): 获取分词任务配置实例
-    JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
-    JcsegTaskConfig config = jcseg.getTaskConfig();
-    //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
-    config.setAppendCJKSyn(true);
-    //追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1
-    config.setAppendCJKPinyin();
-    //更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
-
+//lucene 4.x版本
+//Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
+//非必须(用于修改默认配置): 获取分词任务配置实例
+JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
+JcsegTaskConfig config = jcseg.getTaskConfig();
+//追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
+config.setAppendCJKSyn(true);
+//追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1
+config.setAppendCJKPinyin();
+//更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
 ```
 
 # **Jcseg** solr分词接口：
@@ -165,30 +163,30 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 2. 在solr的scheme.xml加入如下两种配置之一：
 
 ```xml
-    <!-- 复杂模式分词: -->
-    <fieldtype name="textComplex" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="complex"/>
-        </analyzer>
-    </fieldtype>
-    <!-- 简易模式分词: -->
-    <fieldtype name="textSimple" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="simple"/>
-        </analyzer>
-    </fieldtype>
-    <!-- 检测模式分词: -->
-    <fieldtype name="textDetect" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
-        </analyzer>
-    </fieldtype>
-    <!-- 最多模式分词: -->
-    <fieldtype name="textSearch" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="search"/>
-        </analyzer>
-    </fieldtype>
+<!-- 复杂模式分词: -->
+<fieldtype name="textComplex" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="complex"/>
+    </analyzer>
+</fieldtype>
+<!-- 简易模式分词: -->
+<fieldtype name="textSimple" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="simple"/>
+    </analyzer>
+</fieldtype>
+<!-- 检测模式分词: -->
+<fieldtype name="textDetect" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
+    </analyzer>
+</fieldtype>
+<!-- 最多模式分词: -->
+<fieldtype name="textSearch" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="search"/>
+    </analyzer>
+</fieldtype>
 ```
 
 注：如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
@@ -241,8 +239,8 @@ jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，
 2. 启动jcseg server：
 
 ```bash
-    # 在最后传入jcseg-server.properties配置文件的路径
-    java -jar jcseg-server-{version}.jar ./jcseg-server.properties
+# 在最后传入jcseg-server.properties配置文件的路径
+java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 ```
 
 ### jcseg-server.properties:
@@ -673,7 +671,9 @@ dic.load("/java/lex-main.lex");
 dic.load(new File("/java/lex-main.lex"));
 
 //指定ADictionary加载给定输入流的词条
-dic.load(new FileInputStream("/java/lex-main.lex"))
+dic.load(new FileInputStream("/java/lex-main.lex"));
+
+//阅读下面的“如果自定义使用词库”来获取更多信息
 ```
 
 ##### (3). 创建ISegment或者ASegment分词实例：
@@ -758,9 +758,10 @@ JcsegTaskConfig config = new JcsegTaskConfig();
 config.setLexiconPath(new String[]{
     "relative or absolute lexicon path1",
     "relative or absolute lexicon path2"
+    //add more here
 });
 
-//3. 通过config构造词库并且DictionaryFactory会按照设置的词库路径自动加载全部词库
+//3. 通过config构造词库并且DictionaryFactory会按照上述设置的词库路径自动加载全部词库
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 ```
 
