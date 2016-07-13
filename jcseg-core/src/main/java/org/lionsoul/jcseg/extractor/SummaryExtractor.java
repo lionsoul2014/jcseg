@@ -29,8 +29,8 @@ public abstract class SummaryExtractor
     /**
      * construct method
      * 
-     * @param    wordSeg
-     * @param    sentenceSeg
+     * @param   wordSeg
+     * @param   sentenceSeg
     */
     public SummaryExtractor(ISegment wordSeg, SentenceSeg sentenceSeg)
     {
@@ -41,9 +41,9 @@ public abstract class SummaryExtractor
     /**
      * get key sentence from a string
      * 
-     * @param    doc
-     * @return    List<String>
-     * @throws    IOException
+     * @param   doc
+     * @return  List<String>
+     * @throws  IOException
     */
     public List<String> getKeySentenceFromString( String doc ) throws IOException
     {
@@ -53,9 +53,9 @@ public abstract class SummaryExtractor
     /**
      * get key sentence from a file path
      * 
-     * @param    doc
-     * @return    List<String>
-     * @throws    IOException
+     * @param   doc
+     * @return  List<String>
+     * @throws  IOException
     */
     public List<String> getKeySentenceFromFile( String file ) throws IOException
     {
@@ -65,9 +65,9 @@ public abstract class SummaryExtractor
     /**
      * get the key sentence from a reader
      * 
-     * @param    reader
-     * @return    String
-     * @throws    IOException
+     * @param   reader
+     * @return  String
+     * @throws  IOException
     */
     public abstract List<String> getKeySentence( Reader reader ) throws IOException;
     
@@ -75,10 +75,10 @@ public abstract class SummaryExtractor
     /**
      * get document summary from a string
      * 
-     * @param    doc
-     * @param    length
-     * @return    String
-     * @throws    IOException
+     * @param   doc
+     * @param   length
+     * @return  String
+     * @throws  IOException
     */
     public String getSummaryFromString(String doc, int length) throws IOException
     {
@@ -89,10 +89,10 @@ public abstract class SummaryExtractor
     /**
      * get document summary from a file
      * 
-     * @param    file
-     * @param    length
-     * @return    String
-     * @throws    IOException
+     * @param   file
+     * @param   length
+     * @return  String
+     * @throws  IOException
     */
     public String getSummaryFromFile(String file, int length) throws IOException
     {
@@ -102,10 +102,10 @@ public abstract class SummaryExtractor
     /**
      * get summary from a reader
      * 
-     * @param    reader
-     * @param    length
-     * @return    String
-     * @throws    IOException
+     * @param   reader
+     * @param   length
+     * @return  String
+     * @throws  IOException
     */
     public abstract String getSummary(Reader reader, int length) throws IOException;
 

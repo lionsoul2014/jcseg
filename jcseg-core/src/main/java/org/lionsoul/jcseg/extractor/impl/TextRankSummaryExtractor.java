@@ -43,9 +43,9 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     /**
      * text doc to sentence
      * 
-     * @param    reader
-     * @return    List<Sentence>
-     * @throws    IOException 
+     * @param   reader
+     * @return  List<Sentence>
+     * @throws  IOException 
     */
     List<Sentence> textToSentence(Reader reader) throws IOException
     {
@@ -63,9 +63,9 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     /**
      * sentence to words
      * 
-     * @param    sentence
-     * @return    List<List<IWord>>
-     * @throws    IOException 
+     * @param   sentence
+     * @return  List<List<IWord>>
+     * @throws  IOException 
     */
     List<List<IWord>> sentenceTokenize(List<Sentence> sentence) throws IOException
     {
@@ -90,9 +90,9 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * Score(Q,d) = sigema(IDF(qi)*fi(k1+1)/(fi+k1*(1-b+dl/avgdl)))
      * IDF(qi) = log((N-n(qi)+0.5)/(n(qi)+0.5))
      * 
-     * @param    sentence
-     * @param    sendWords
-     * @return    double[]
+     * @param   sentence
+     * @param   sendWords
+     * @return  double[]
     */
     double[][] BM25RelevanceMatixBuild(
             List<Sentence> sentence, List<List<IWord>> senWords)
@@ -182,8 +182,8 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     /**
      * sum the specifield double array
      * 
-     * @param    score
-     * @return    double
+     * @param   score
+     * @return  double
     */
     static double sum(double[] score)
     {
@@ -195,9 +195,9 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     /**
      * get the documents order by relevance score.
      * 
-     * @param    sentence
-     * @param    senWords
-     * @throws    IOException 
+     * @param   sentence
+     * @param   senWords
+     * @throws  IOException 
     */
     protected Document[] textRankSortedDocuments(
             List<Sentence> sentence, List<List<IWord>> senWords) throws IOException
@@ -370,7 +370,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     /**
      * summary document inner class
      * 
-     * @author    chenxin<chenxin619315@gmail.com>
+     * @author  chenxin<chenxin619315@gmail.com>
     */
     public class Document implements Comparable<Document>
     {
@@ -397,10 +397,10 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         /**
          * construct method 
          * 
-         * @param    index
-         * @param    sentence
-         * @param    words
-         * @param    score
+         * @param   index
+         * @param   sentence
+         * @param   words
+         * @param   score
         */
         public Document(int index, Sentence sentence, List<IWord> words, double score)
         {
@@ -454,7 +454,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
          * override the compareTo method
          * compare document with its relevance score
          * 
-         * @param    Document
+         * @param   Document
         */
         @Override
         public int compareTo(Document o) 

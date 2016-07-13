@@ -46,7 +46,8 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
     */
     protected int maxWordsNum = 5;
 
-    public TextRankKeyphraseExtractor(ISegment seg) {
+    public TextRankKeyphraseExtractor(ISegment seg)
+    {
         super(seg);
     }
 

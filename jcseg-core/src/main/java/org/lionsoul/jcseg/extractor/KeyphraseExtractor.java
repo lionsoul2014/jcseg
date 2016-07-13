@@ -34,8 +34,8 @@ public abstract class KeyphraseExtractor
     /**
      * word item filter
      * 
-     * @param    work
-     * @return    boolean
+     * @param   work
+     * @return  boolean
     */
     protected boolean filter(IWord word)
     {
@@ -100,9 +100,9 @@ public abstract class KeyphraseExtractor
     /**
      * get the keyphrase list from a string
      * 
-     * @param    doc
-     * @return List[]
-     * @throws    IOException
+     * @param   doc
+     * @return  List[]
+     * @throws  IOException
     */
     public List<String> getKeyphraseFromString(String doc) throws IOException
     {
@@ -112,9 +112,9 @@ public abstract class KeyphraseExtractor
     /**
      * get the keyphrase list from a file 
      * 
-     * @param    file
-     * @return    List[]
-     * @throws    IOException
+     * @param   file
+     * @return  List[]
+     * @throws  IOException
     */
     public List<String> getKeyphraseFromFile(String file) throws IOException
     {
@@ -124,8 +124,8 @@ public abstract class KeyphraseExtractor
     /**
      * get the keyphrase list from a reader
      * 
-     * @param    reader
-     * @throws    IOException
+     * @param   reader
+     * @throws  IOException
     */
     public abstract List<String> getKeyphrase(Reader reader) throws IOException;
 

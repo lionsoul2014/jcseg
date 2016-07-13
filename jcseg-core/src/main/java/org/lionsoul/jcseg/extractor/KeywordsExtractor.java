@@ -107,9 +107,9 @@ public abstract class KeywordsExtractor
     /**
      * get the keywords list from a string
      * 
-     * @param    doc
+     * @param   doc
      * @return  List[]
-     * @throws    IOException
+     * @throws  IOException
     */
     public List<String> getKeywordsFromString(String doc) throws IOException
     {
@@ -119,9 +119,9 @@ public abstract class KeywordsExtractor
     /**
      * get the keywords list from a file 
      * 
-     * @param    file
-     * @return    List[]
-     * @throws    IOException
+     * @param   file
+     * @return  List[]
+     * @throws  IOException
     */
     public List<String> getKeywordsFromFile(String file) throws IOException
     {
@@ -131,8 +131,8 @@ public abstract class KeywordsExtractor
     /**
      * get the keywords list from a reader
      * 
-     * @param    reader
-     * @throws    IOException
+     * @param   reader
+     * @throws  IOException
     */
     public abstract List<String> getKeywords(Reader reader) throws IOException;
 
