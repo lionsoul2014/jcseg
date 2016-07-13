@@ -588,8 +588,8 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 
 jcseg.properties查找步骤：
 
-* 1, 寻找jcseg-core-{version}.jar目录下的jcseg.properties
-* 2, 如果没找到继续寻找classpath下的jcseg.properties（默认已经打包了）
+* 1，寻找jcseg-core-{version}.jar目录下的jcseg.properties
+* 2，如果没找到继续寻找classpath下的jcseg.properties（默认已经打包了）
 * 3，如果没找到继续寻找user home下的jcseg.properties（除非把classpath下的jcseg.properties删除了，要不然不会到这）
 
 所以，默认情况下可以在jcseg-core-{version}.jar同目录下来放一份jcseg.properties来自定义配置。
@@ -748,7 +748,7 @@ while ( (word = seg.next()) != null ) {
 
 从1.9.9版本开始，Jcseg已经默认将jcseg.properties和lexicon全部词库打包进了jcseg-core-{version}.jar中，如果是通过JcsegTaskConfig(true)构造的JcsegTaskConfig或者调用了JcsegTaskConfig#autoLoad()方法，在找不到自定义配置文件情况下Jcseg会自动的加载classpath中的配置文件，如果config.getLexiconPath() = null DictionaryFactory默认会自动加载classpath下的词库。
 
-* 1), 通过JcsegTaskConfig设置词库路径：
+* 1)，通过JcsegTaskConfig设置词库路径：
 
 ```java
 //1, 默认构造JcsegTaskConfig，不做任何配置文件寻找来初始化
@@ -761,7 +761,7 @@ config.setLexiconPath(new String[]{
     //add more here
 });
 
-//3. 通过config构造词库并且DictionaryFactory会按照上述设置的词库路径自动加载全部词库
+//3, 通过config构造词库并且DictionaryFactory会按照上述设置的词库路径自动加载全部词库
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 ```
 
@@ -771,11 +771,11 @@ ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 //1, 构造默认的JcsegTaskConfig，不做任何配置文件寻找来初始化
 JcsegTaskConfig config = new JcsegTaskConfig();
 
-//2，构造ADictionary词库对象
+//2, 构造ADictionary词库对象
 //注意第二个参数为false，阻止DictionaryFactory自动检测config.getLexiconPath()来加载词库
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config, false);
 
-//3，手动加载词库
+//3, 手动加载词库
 dic.load(new File("absolute or relative lexicon file path"));              //加载指定词库文件下全部词条
 dic.load("absolute or relative lexicon file path");                        //加载指定词库文件下全部词条
 dic.load(new FileInputStream("absolute or relative lexicon file path"));   //加载指定InputStream输入流下的全部词条
