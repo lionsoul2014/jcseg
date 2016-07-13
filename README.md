@@ -591,25 +591,26 @@ jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，
 JcsegTaskConfig构造方法如下：
 
 ```java
-JcsegTaskConfig()
-JcsegTaskConfig(java.lang.String proFile)
+JcsegTaskConfig();                          //不做任何初始化
+JcsegTaskConfig(boolean autoLoad);          //autoLoad=true是使用默认配置（加载classpath下的jcseg.properties和lexicon）
+JcsegTaskConfig(java.lang.String proFile);  //从指定的配置文件中初始化配置对象
+JcsegTaskConfig(InputStream is);            //从指定的输入流中初始化配置对象
 ```
 
 demo代码：
   
 ```java
+//创建JcsegTaskConfig使用默认配置（会自动加载classpath下的词库）
+JcsegTaskConfig config = new JcsegTaskConfig();
 
-    //该方法会自动查找jcseg.properties配置文件
-    //然后依据jcseg.properties中的选项初始化JcsegTaskConfig.
-    JcsegTaskConfig config = new JcsegTaskConfig();
-    
-    //依据给定的jcseg.properties文件创建 JcsegTaskConfig.
-    JcsegTaskConfig config = new JcsegTaskConfig("/java/jcseg/jcseg.properties");
-    
-    //从指定的jcseg.properties配置文件中重置JcsegTaskConfig选项
-    //通常第一种方式实例化JcsegTaskConfig时使用
-    config.resetFromPropertyFile("/java/jcseg/jcseg.properties");
+//该方法会自动加载classpath下的jcseg.properties配置文件和词库
+JcsegTaskConfig config = new JcsegTaskConfig(true);
 
+//依据给定的jcseg.properties文件创建 JcsegTaskConfig.
+JcsegTaskConfig config = new JcsegTaskConfig("/java/jcseg/jcseg.properties");
+
+//从指定配置文件中初始化配置选项
+config.load("/java/jcseg/jcseg.properties");    
 ```
 
 ##### (2). 创建ADictionary词库对象：
@@ -617,40 +618,48 @@ demo代码：
 ADictionary构造方法如下：
 
 ```java
-    ADictionary(JcsegTaskConfig config, java.lang.Boolean sync)
-    //config：上述的JcsegTaskConfig实例
-    //sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
-    //      如果jcseg.properties中autoload=1则会自动创建同步词库
+ADictionary(JcsegTaskConfig config, java.lang.Boolean sync)
+//config：上述的JcsegTaskConfig实例
+//sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
+//      如果jcseg.properties中autoload=1则会自动创建同步词库
 ```
 
 demo代码：
 
 ```java
+//@Note: DictionaryFactory类提供了：
+//DictionaryFactory.createDefaultDictionary,
+//DictionaryFactory.createSingletonDictionary两个方法;
+//建议使用createSingletonDictionary来创建单例词库
 
-    //config为上面创建的JcsegTaskConfig对象.
-    //如果给定的JcsegTaskConfig里面的词库路径信息正确(是从jcseg.properties中初始化的就对了),
-    //Adictionary会依据config里面的词库信息加载全部有效的词库.
-    //并且该方法会依据config.isAutoload()来决定词库的同步性还是非同步性.
-    //config.isAutoload()为true就创建同步词库, 反之就创建非同步词库.
-    //config.isAutoload()对应jcseg.properties中的lexicon.autoload
-    ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
-    
-    
-    //创建一个非同步的ADictioanry.
-    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, false);
-    //创建一个同步的 ADictioanry.
-    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, true);
-    //依据 config.isAutoload()来决定同步性
-    ADictionary dic = DictionaryFactory.createDefaultDictionary(config, config.isAutoload());
-    
-    //指定ADictionary加载给定目录下的所有词库文件的词条.
-    //config.getLexiconPath为词库文件存放有效目录.
-    dic.loadFromLexiconDirectory(config.getLexiconPath());
-    
-    //指定ADictionary加载给定词库的词条.
-    //config 为上面创建的JcsegTaskConfig实例.
-    dic.loadFromLexiconFile(config, "/java/lex-main.lex");
+//config为上面创建的JcsegTaskConfig对象.
+//如果给定的JcsegTaskConfig里面的词库路径信息正确
+//Adictionary会依据config里面的词库信息加载全部有效的词库.
+//并且该方法会依据config.isAutoload()来决定词库的同步性还是非同步性.
+//config.isAutoload()为true就创建同步词库, 反之就创建非同步词库.
+//config.isAutoload()对应jcseg.properties中的lexicon.autoload
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 
+
+//创建一个非同步的ADictioanry.
+ADictionary dic = DictionaryFactory.createDefaultDictionary(config, false);
+//创建一个同步的 ADictioanry.
+ADictionary dic = DictionaryFactory.createDefaultDictionary(config, true);
+//依据 config.isAutoload()来决定同步性
+ADictionary dic = DictionaryFactory.createDefaultDictionary(config, config.isAutoload());
+
+//指定ADictionary加载给定目录下的所有词库文件的词条.
+//config.getLexiconPath为词库文件存放有效目录数组.
+for ( String path : config.getLexiconPath() ) {
+    dic.loadDirectory(path);
+}
+
+//指定ADictionary加载给定词库文件的词条.
+dic.load("/java/lex-main.lex");
+dic.load(new File("/java/lex-main.lex"));
+
+//指定ADictionary加载给定输入流的词条
+dic.load(new FileInputStream("/java/lex-main.lex"))
 ```
 
 ##### (3). 创建ISegment或者ASegment分词实例：
@@ -658,72 +667,107 @@ demo代码：
 ASegment构造方法：
 
 ```java
-    Asegment(JcsegTaskConfig config, Adictionary dic)
-    Asegment(Reader input, JcsegTaskConfig config, Adictionary dic)
-    //config: 为上述的JcsegTaskConfig配置对象
-    //dic: 为上述的ADictionary词库对象
-    //input: 分词文本源的输入对象
+Asegment(JcsegTaskConfig config, Adictionary dic)
+Asegment(Reader input, JcsegTaskConfig config, Adictionary dic)
+//config: 为上述的JcsegTaskConfig配置对象
+//dic: 为上述的ADictionary词库对象
+//input: 分词文本源的输入对象
 ```
 
 demo代码：
     
 ```java
-
-    //依据给定的ADictionary和JcsegTaskConfig来创建ISegment
-    //通常使用SegmentFactory#createJcseg来创建ISegment对象
-    //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
-    //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
-    //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
-    //JcsegTaskConfig.DETECT_MODE表示创建DetectSeg简易Isegmengt分词对象.
-    //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg简易Isegmengt分词对象.
-    ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
-        new Object[]{config, dic});
-        
-    //设置要分词的内容
-    String str = "研究生命起源。";
-    seg.reset(new StringReader(str));
-        
-    //获取分词结果
-    IWord word = null;
-    while ( (word = seg.next()) != null ) {
-        System.out.println(word.getValue());
-    }
-
+//依据给定的ADictionary和JcsegTaskConfig来创建ISegment
+//通常使用SegmentFactory#createJcseg来创建ISegment对象
+//将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
+//JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
+//JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+//JcsegTaskConfig.DETECT_MODE表示创建DetectSeg Isegmengt分词对象.
+//JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
+ASegment seg = SegmentFactory.createJcseg(
+    JcsegTaskConfig.COMPLEX_MODE, 
+    new Object[]{config, dic}
+);
+    
+//设置要分词的内容
+String str = "研究生命起源。";
+seg.reset(new StringReader(str));
+    
+//获取分词结果
+IWord word = null;
+while ( (word = seg.next()) != null ) {
+    System.out.println(word.getValue());
+}
 ```
 
 ##### (4). 一个完整的例子：
 
 ```java
+//创建JcsegTaskConfig分词任务实例
+//即从jcseg.properties配置文件中初始化的配置
+JcsegTaskConfig config = new JcsegTaskConfig(true);
 
-    //创建JcsegTaskConfig分词任务实例
-    //即从jcseg.properties配置文件中初始化的配置
-    JcsegTaskConfig config = new JcsegTaskConfig();
-    
-    / /创建默认词库实现
-    ADictionary dic = DictionaryFactory.createDefaultDictionary();
-    //依据 JcsegTaskConfig 配置中的信息加载全部jcseg词库.
-    dic.loadFromLexiconDirectory(config, config.getLexiconPath());
-    
-    //依据给定的ADictionary和JcsegTaskConfig来创建ISegment
-    //通常使用SegmentFactory来创建ISegment对象
-    //将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
-    //JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
-    //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
-    //JcsegTaskConfig.DETECT_MODE表示创建DetectSeg简易Isegmengt分词对象.
-    //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg简易Isegmengt分词对象.
-    ASegment seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
-        new Object[]{new StringReader(str), config, dic});
-    
-    //设置要被分词的文本
-    String str = "研究生命起源。";
-    seg.reset(new StringReader(str));
-    
-    //获取分词结果
-    IWord word = null;
-    while ( (word = seg.next()) != null ) {
-        System.out.println(word.getValue());
-    }
+//创建默认单例词库实现
+//并且加载默认的词库(classpath中)
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 
+//依据给定的ADictionary和JcsegTaskConfig来创建ISegment
+//为了兼容，建议使用SegmentFactory来创建ISegment对象
+ASegment seg = SegmentFactory.createJcseg(
+    JcsegTaskConfig.COMPLEX_MODE, 
+    new Object[]{new StringReader(str), config, dic}
+);
+
+
+//设置要被分词的文本
+String str = "研究生命起源。";
+seg.reset(new StringReader(str));
+
+//获取分词结果
+IWord word = null;
+while ( (word = seg.next()) != null ) {
+    System.out.println(word.getValue());
+}
+
+//备注：seg.reset后，又可以循环调用seg.next()方法获取切分词条流
+//seg为非线程安全
+```
+
+##### (5)，如何自定义使用词库：
+
+从1.9.9版本开始，Jcseg已经默认将jcseg.properties和lexicon打包进了jcseg-core-{version}.jar中，如果是通过JcsegTaskConfig(true)构造的JcsegTaskConfig或者调用了JcsegTaskConfig#autoLoad()方法，在找不到自定义配置文件和词库情况下，Jcseg会自动的加载classpath中的配置文件和词库。
+
+* 1), 通过JcsegTaskConfig设置词库路径：
+
+```java
+//1, 默认构造JcsegTaskConfig，不做任何配置文件寻找来初始化
+JcsegTaskConfig config = new JcsegTaskConfig();
+
+//2, 设置自定义词库路径集合
+config.setLexiconPath(new String[]{
+    "relative or absolute lexicon path1",
+    "relative or absolute lexicon path2"
+});
+
+//3. 通过config构造词库
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+```
+
+* 2)，通过ADictionary手动加载词库：
+
+```java
+//1, 构造默认的JcsegTaskConfig，不做任何配置文件寻找来初始化
+JcsegTaskConfig config = new JcsegTaskConfig();
+
+//2，构造ADictionary词库对象
+ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
+
+//3，手动加载词库
+dic.load(new File("/opt/jcseg/lexicon/lex-main.lex"));              //加载指定词库文件下全部词条
+dic.load("/opt/jcseg/lexicon/lex-main.lex");                        //加载指定词库文件下全部词条
+dic.load(new FileInputStream("/opt/jcseg/lexicon/lex-main.lex"));   //加载指定InputStream输入流下的全部词条
+dic.loadDirectory("/opt/jcseg/lexicon/");       //加载指定目录下的全部词库文件的全部词条
+dic.loadClassPath();                            //加载classpath路径下的全部词库文件的全部词条（默认路径/lexicon）
 ```
 
 ### Jcseg提取器Api：
