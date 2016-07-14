@@ -24,3 +24,6 @@ CJK_WORDS
 仓老师/nz/cang lao shi/仓井空
 菇凉/n/gu liang/null
 科比/nr/ke bi/null
+麦迪/nr/mai di/tmac
+柯基/nr/ke ji/柯基犬
+柯基犬/nr/ke ji quan/柯基
