@@ -194,25 +194,25 @@ public abstract class ASegment implements ISegment
             
             /* CJK char.
              * and start the CJK word analysis
-             * */
+            */
             if ( StringUtil.isCJKChar( c ) ) {
                 word = getNextCJKWord(c, pos);
             } 
             /* English/Latin char.
              * and start the Latin word analysis
-             * */
+            */
             else if ( StringUtil.isEnChar(c) ) {
                 word = getNextLatinWord(c, pos);
-            } 
+            }
             /* find a content around with pair punctuation.
              * set the config.pptmaxlen to 0 to close it
-             * */
+            */
             else if ( config.PPT_MAX_LENGTH > 0 
                     && StringUtil.isPairPunctuation( (char) c ) ) {
                 word = getNextPunctuationPairWord(c, pos);
             } 
             /* letter number like 'ⅠⅡ';
-             * */
+             */
             else if ( StringUtil.isLetterNumber(c) ) {
                 String val = nextLetterNumber(c);
                 if ( config.CLEAR_STOPWORD 
@@ -223,9 +223,9 @@ public abstract class ASegment implements ISegment
                 word = new Word(val, IWord.T_OTHER_NUMBER);
                 word.setPartSpeech(IWord.NUMERIC_POSPEECH);
                 word.setPosition(pos);
-            } 
+            }
             /* other number like '①⑩⑽㈩';
-             * */
+             */
             else if ( StringUtil.isOtherNumber(c) ) {
                 String val = nextOtherNumber(c);
                 if ( config.CLEAR_STOPWORD 
@@ -238,7 +238,7 @@ public abstract class ASegment implements ISegment
                 word.setPosition(pos);
             } 
             /* Chinese punctuation.
-             * */
+             */
             else if ( StringUtil.isCnPunctuation( c ) ) {
                 String str = String.valueOf((char)c);
                 if ( config.CLEAR_STOPWORD 
@@ -249,13 +249,12 @@ public abstract class ASegment implements ISegment
                 word = new Word(str, IWord.T_PUNCTUATION);
                 word.setPartSpeech(IWord.PUNCTUATION);
                 word.setPosition(pos);
-            } 
-            
+            }
             /* @reader: (2013-09-25) 
              * unrecognized char will cause unknow problem for different system.
              * keep it or clear it ?
              * if you use jcseg for search, better shut it down.
-             * */
+            */
             else if ( config.KEEP_UNREG_WORDS ) {
                 String str = String.valueOf((char)c);
                 if ( config.CLEAR_STOPWORD
@@ -314,8 +313,8 @@ public abstract class ASegment implements ISegment
              * make sure chars[cjkidx] is a Chinese numeric
              * and it is not the last word.
              */
-            if ( NumericUtil.isCNNumeric(chars[cjkidx]) > -1 
-                    && cjkidx + 1 < chars.length ) {
+            if ( cjkidx + 1 < chars.length 
+                    && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
                 //get the Chinese numeric chars
                 String num = nextCNNumeric( chars, cjkidx );
                 int NUMLEN = num.length();
@@ -344,14 +343,15 @@ public abstract class ASegment implements ISegment
                      */
                     if ( config.CNFRA_TO_ARABIC ) {
                         String[] split = num.split("分之");
-                        IWord wd = new Word(NumericUtil.cnNumericToArabic(split[1], true)
-                                +"/"+NumericUtil.cnNumericToArabic(split[0], true),
-                                IWord.T_CN_NUMERIC);
+                        IWord wd = new Word(
+                            NumericUtil.cnNumericToArabic(split[1], true)+"/"+NumericUtil.cnNumericToArabic(split[0], true),
+                            IWord.T_CN_NUMERIC
+                        );
                         wd.setPosition(w.getPosition());
                         wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
                         wordPool.add(wd);
                     }
-                } 
+                }
                 /*
                  * check the Chinese numeric and single units.
                  * type to find Chinese and unit composed word.
@@ -380,17 +380,6 @@ public abstract class ASegment implements ISegment
                     }
                     
                     /*
-                     * @Note: when matched is true, to avoid the start position problem
-                     *     we have to check the word pool the same word is exists or not
-                     *  if it exist the same word to have to clone the word
-                     *  
-                     * @added: 2014-04-11
-                     */
-                    //if ( matched && wordPool.contains(w) )    w = w.clone();
-                    
-                    IWord wd = null;
-                    
-                    /*
                      * @Note: when matched is true, num maybe a word like '五月',
                      * yat, this will make it skip the Chinese numeric to Arabic logic
                      * so find the matched word that it maybe a single Chinese units word
@@ -404,12 +393,12 @@ public abstract class ASegment implements ISegment
                     }
                     
                     //find the numeric units
+                    IWord wd = null;
                     if ( matched == false && config.CNNUM_TO_ARABIC ) {
                         //get the numeric'a Arabic
                         String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
                         if ( (cjkidx + num.length()) < chars.length
-                                && dic.match(ILexicon.CJK_UNITS,
-                                        chars[cjkidx + num.length()]+"" ) ) {
+                                && dic.match(ILexicon.CJK_UNITS, chars[cjkidx + num.length()]+"") ) {
                             char units = chars[ cjkidx + num.length() ];
                             num += units; arabic += units;
                         }
@@ -426,15 +415,26 @@ public abstract class ASegment implements ISegment
                         continue;
                     }
                     
+                    /*
+                     * @Note: added at 2016/07/19
+                     * we cannot share the position with the original word item in the
+                     * global dictionary accessable with this.dic
+                     * 
+                     * cuz at the concurrency that will lead to the position error
+                     * so, we clone it if the word is directly get from the dictionary
+                    */
                     if ( w == null ) {
                         w = new Word( num, IWord.T_CN_NUMERIC );
                         w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                    } else {
+                        w = w.clone();
                     }
                     
                     w.setPosition(pos + cjkidx);
                     wordPool.add(w);
-                    if ( wd != null ) wordPool.add(wd);
-                    
+                    if ( wd != null ) {
+                        wordPool.add(wd);
+                    }
                 }
                 
                 if ( w != null ) {
@@ -454,7 +454,7 @@ public abstract class ASegment implements ISegment
             /* 
              * @istep 2: 
              * 
-             * find the Chinese name.
+             * check and try to find a Chinese name.
              */
             int T = -1;
             if ( config.I_CN_NAME
@@ -490,14 +490,13 @@ public abstract class ASegment implements ISegment
                 
                 if ( T != -1 ) {
                     w = new Word(sb.toString(), T);
-                    //if ( config.APPEND_PART_OF_SPEECH )
                     //w.setPosition(pos+cjkidx);
                     w.setPartSpeech(IWord.NAME_POSPEECH);
                 }
             }
             
             //check the stopwords(clear it when Config.CLEAR_STOPWORD is true)
-            if ( T == -1 && config.CLEAR_STOPWORD 
+            if ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
                 cjkidx += w.getLength();
                 continue;
@@ -518,19 +517,16 @@ public abstract class ASegment implements ISegment
                 //System.out.println("CE-Word"+w.getValue());
                 enAfter = nextBasicLatin(readNext());
                 //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
-                String cestr = w.getValue()+enAfter.getValue();
+                String cestr = w.getValue() + enAfter.getValue();
                 
                 /*
                  * here: (2013-08-31 added)
                  * also make sure the CE word is not a stop word
                  */
-                if ( ! (config.CLEAR_STOPWORD 
-                            && dic.match(ILexicon.STOP_WORD, cestr))
-                        && dic.match(ILexicon.CE_MIXED_WORD, cestr) ) {
-                    ce = dic.get(ILexicon.CE_MIXED_WORD, cestr);
-                    //@see comments of ASegment#next
-                    //if ( wordPool.contains(ce) ) ce = ce.clone();
-                    
+                if ( ! ( config.CLEAR_STOPWORD 
+                    && dic.match(ILexicon.STOP_WORD, cestr) )
+                    && dic.match(ILexicon.CE_MIXED_WORD, cestr) ) {
+                    ce = dic.get(ILexicon.CE_MIXED_WORD, cestr).clone();
                     ce.setPosition(pos+cjkidx);
                     wordPool.add(ce);
                     cjkidx += w.getLength();
@@ -543,14 +539,16 @@ public abstract class ASegment implements ISegment
              * no ce word found, store the English word.
              * 
              * @reader: (2013-08-31 added)
-             *     the newly found letter or digit word "enAfter" token 
-             *     will be handled at last cause we have to handle 
-             *             the pinyin and the syn words first.
+             * the newly found letter or digit word "enAfter" token 
+             * will be handled at last cause we have to handle 
+             * the pinyin and the syn words first.
+             * 
+             * @Note: added at 2016/07/19
+             * if the ce word is null and if the T is -1
+             * the w should be a word that clone from itself
              */
             if ( ce == null ) {
-                //@see comment of ASegment#next()
-                //You may uncomment the following code
-                //if ( wordPool.contains(w) ) w = w.clone();
+                if ( T == -1 ) w = w.clone();
                 w.setPosition(pos+cjkidx);
                 wordPool.add(w);
                 cjkidx += w.getLength();
@@ -574,12 +572,10 @@ public abstract class ASegment implements ISegment
             //generated at the above Chinese and English mix word
             if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) ) {
-                //@Note: bug fixed for the position (2014-07-23)
-                //changed chars.length to pos+chars.length
                 enAfter.setPosition(pos+chars.length);
                 //check and to the secondary split.
                 if ( config.EN_SECOND_SEG
-                        && ( ctrlMask & ISegment.START_SS_MASK ) != 0 )  {
+                        && (ctrlMask & ISegment.START_SS_MASK) != 0 )  {
                     enSecondSeg(enAfter, false);
                 }
                 
@@ -636,7 +632,7 @@ public abstract class ASegment implements ISegment
          * This will split 'qq2013' to 'qq, 2013'.
          * */
         if ( config.EN_SECOND_SEG
-                && ( ctrlMask & ISegment.START_SS_MASK ) != 0 ) {
+                && (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
             sword = enSecondSeg(w, true);
         }
         
@@ -766,7 +762,6 @@ public abstract class ASegment implements ISegment
                 sw = new Word(syns[j], w.getType());
                 sw.setPartSpeech(w.getPartSpeech());
                 sw.setPosition(w.getPosition());
-                //sw.setLength(ew.getValue().length());
                 wordPool.add(sw);
             }
         }
@@ -959,8 +954,7 @@ public abstract class ASegment implements ISegment
                  */
                 else if ( dic.match(ILexicon.CN_SNAME, d1) ) {
                     IWord iw = dic.get(ILexicon.CJK_WORD, d2);
-                    if ( iw != null && iw.getFrequency() 
-                            >= config.NAME_SINGLE_THRESHOLD ) {
+                    if ( iw != null && iw.getFrequency() >= config.NAME_SINGLE_THRESHOLD ) {
                         isb.append(d1);
                         return isb.toString();
                     }
@@ -1135,8 +1129,10 @@ public abstract class ASegment implements ISegment
             if ( ! StringUtil.isCJKChar(ch) ) {
                 pushBack(ch);
                 /*check Chinese English mixed word*/
-                if ( StringUtil.isEnLetter(ch) || StringUtil.isEnNumeric(ch) ) 
+                if ( StringUtil.isEnLetter(ch) 
+                        || StringUtil.isEnNumeric(ch) ) {
                     ctrlMask |= ISegment.CHECK_CE_MASk;
+                }
                 break;
             } 
             
@@ -1194,7 +1190,10 @@ public abstract class ASegment implements ISegment
             //Not EN_KNOW, and it could be letter, numeric.
             if ( _ctype == StringUtil.EN_UNKNOW ) {
                 pushBack(ch);
-                if ( StringUtil.isCJKChar( ch ) ) _check = true;
+                if ( StringUtil.isCJKChar( ch ) ) {
+                    _check = true;
+                }
+                
                 break;
             }
             
@@ -1209,7 +1208,7 @@ public abstract class ASegment implements ISegment
              * @reader: we could do better.
              * 
              * @added 2013-12-16
-             * */
+            */
             if ( _ctype != _TYPE ) {
                 tcount++;
                 _TYPE = _ctype;
@@ -1229,28 +1228,28 @@ public abstract class ASegment implements ISegment
          * set _ctype as the status for the existence of punctuation
          * at the end of the isb cause we need to plus the tcount 
          * to avoid the secondary check for words like chenxin+, c+.
-         */
+        */
         _ctype = 0;
         for ( int t = isb.length() - 1; t > 0 
-                    && isb.charAt(t) != '%'
-                    && StringUtil.isEnPunctuation(isb.charAt(t)); t-- ) {
+                && isb.charAt(t) != '%'
+                && StringUtil.isEnPunctuation(isb.charAt(t)); t-- ) {
             /*
              * try to find a English and punctuation mixed word.
              * this will clear all the punctuation until a mixed word is found.
              * like "i love c++.", c++ will be found from token "c++.".
-             * @date 2013-08-31 
-             */
+             * 
+             * @Note: added at 2013/08/31 
+            */
             if ( dic.match(ILexicon.EN_PUN_WORD, __str) ) {
-                w = dic.get(ILexicon.EN_PUN_WORD, __str);
+                w = dic.get(ILexicon.EN_PUN_WORD, __str).clone();
                 w.setPartSpeech(IWord.EN_POSPEECH);
                 chkunits = false;
-                //return w;
                 break;
             }
             
             /*
              * keep the English punctuation.
-             * @date 2013-09-06 
+             * @date 2013/09/06 
              */
             pushBack(isb.charAt(t));
             isb.deleteCharAt(t);
@@ -1266,12 +1265,12 @@ public abstract class ASegment implements ISegment
         //condition to start the secondary segmentation.
         boolean ssseg = (tcount > 1) && chkunits;
         
-        /*@step 3: check the end condition.
+        /* @step 3: check the end condition.
          * and the check if the token loop was break by whitespace
          * cause there is no need to continue all the following work if it is.
          * 
          * @added 2013-11-19 
-         * */
+        */
         if ( ch == -1 || _wspace ) {
             w = new Word(__str, IWord.T_BASIC_LATIN);
             w.setPartSpeech(IWord.EN_POSPEECH);
@@ -1283,7 +1282,7 @@ public abstract class ASegment implements ISegment
             /* @reader: (2013-09-25)
              * we check the units here, so we can recognize
              * many other units that is not chinese like '℉,℃' eg..
-             * */
+            */
             if ( chkunits && ( StringUtil.isDigit(__str) 
                         || StringUtil.isDecimal(__str) ) ) {
                 ch = readNext();
@@ -1324,11 +1323,10 @@ public abstract class ASegment implements ISegment
          * so, words started with english and its length except the start english part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recongnized.
          */
-        for ( ; j < config.MIX_CN_LENGTH 
-                    && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
             /* Attension:
              *  it is a accident that jcseg works find for 
-             *      we break the loop directly when we meet a whitespace.
+             *  we break the loop directly when we meet a whitespace.
              *  1. if a EC word is found, unit check process will be ignore.
              *  2. if matches no EC word, certianly return of readNext() 
              *      will make sure the units check process works find.
@@ -1344,11 +1342,12 @@ public abstract class ASegment implements ISegment
             _temp = ibuffer.toString();
             //System.out.println((j+1)+": "+_temp);
             if ( dic.match(ILexicon.EC_MIXED_WORD, _temp) ) {
-                w = dic.get(ILexicon.EC_MIXED_WORD, _temp);
+                w  = dic.get(ILexicon.EC_MIXED_WORD, _temp);
                 mc = j + 1;
             }
         }
         
+        ibuffer.clear();
         ibuffer = null;        //Let gc do it's work.
         
         //push back the readed chars.
@@ -1359,10 +1358,9 @@ public abstract class ASegment implements ISegment
          * @reader: (2013-09-25)
          * now we check the units before the step 4, so we can recognize
          * many other units that is not chinese like '℉,℃'
-         * */
+        */
         if ( chkunits && mc == 0 ) {
-            if ( StringUtil.isDigit(__str) 
-                    || StringUtil.isDecimal(__str) ) {
+            if ( StringUtil.isDigit(__str) || StringUtil.isDecimal(__str) ) {
                 ch = readNext();
                 if ( dic.match(ILexicon.CJK_UNITS, ((char)ch)+"") ) {
                     w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
@@ -1374,12 +1372,14 @@ public abstract class ASegment implements ISegment
         }
         
         /* simply return the combination of english char, arabic
-         *     numeric, english punctuaton if matches no single units or EC word.
-         * */
+         * numeric, english punctuaton if matches no single units or EC word.
+        */
         if ( w == null ) {
             w = new Word(__str, IWord.T_BASIC_LATIN);
             w.setPartSpeech(IWord.EN_POSPEECH);
             if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
+        } else if ( mc > 0 ) {
+            w = w.clone();
         }
         
         return w;
@@ -1466,17 +1466,17 @@ public abstract class ASegment implements ISegment
         for ( int j = index + 1;
                     j < chars.length; j++ ) {
             /* check and deal with '分之' if the 
-             *     current char is not a chinese numeric. 
-             *         (try to recognize a chinese fraction)
+             * current char is not a chinese numeric. 
+             * (try to recognize a chinese fraction)
              * @added 2013-12-14
              * */
             if ( NumericUtil.isCNNumeric(chars[j]) == -1 ) {
                 if ( j + 2 < chars.length 
                         && chars[j  ] == '分' 
                         && chars[j+1] == '之'
-                        /*check and make sure chars[j+2] is a chinese numeric.
-                         *  or error will happen on situation like '四六分之' .
-                         *  @added 2013-12-14 */
+                        /* check and make sure chars[j+2] is a chinese numeric.
+                         * or error will happen on situation like '四六分之' .
+                         * @added 2013-12-14 */
                         && NumericUtil.isCNNumeric(chars[j+2]) != -1 ) {
                     isb.append(chars[j++]);
                     isb.append(chars[j++]);

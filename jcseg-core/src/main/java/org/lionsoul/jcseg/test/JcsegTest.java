@@ -52,19 +52,19 @@ public class JcsegTest
         //for ( String lpath : config.getLexiconPath() )
         //    dic.loadDirectory(lpath);
         //dic.load("/java/lex-main.lex");
-        tokenizerSeg = SegmentFactory
-                .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{tokenizerConfig, dic});
-        
-        //detect mode test
-        //seg    = SegmentFactory
-        //        .createJcseg(JcsegTaskConfig.DETECT_MODE, new Object[]{config, dic});
+        tokenizerSeg = SegmentFactory.createJcseg(
+            JcsegTaskConfig.COMPLEX_MODE, 
+            new Object[]{tokenizerConfig, dic}
+        );
         
         //segmentation object for extractor
         extractorConfig.setAppendCJKPinyin(false);
         extractorConfig.setClearStopwords(true);
         extractorConfig.setKeepUnregWords(false);
-        extractorSeg = SegmentFactory
-                .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{extractorConfig, dic});
+        extractorSeg = SegmentFactory.createJcseg(
+            JcsegTaskConfig.COMPLEX_MODE, 
+            new Object[]{extractorConfig, dic}
+        );
         
         //create and initialize the extractor
         keywordsExtractor = new TextRankKeywordsExtractor(tokenizerSeg);

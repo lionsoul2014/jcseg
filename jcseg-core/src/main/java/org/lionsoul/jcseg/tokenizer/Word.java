@@ -6,11 +6,10 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 /**
  * word class for jcseg has implements IWord interface
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
  */
 public class Word implements IWord,Cloneable
 {
-    
     private String value;
     private int fre = 0;
     private int type;
@@ -305,4 +304,5 @@ public class Word implements IWord,Cloneable
         
         return h;
     }
+    
 }

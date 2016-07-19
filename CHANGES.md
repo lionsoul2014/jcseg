@@ -1,9 +1,27 @@
 # Jcseg versions change histories
 
-### jcseg-2.0.0: (next version)
+### jcseg-2.0.1: (next version)
 
-1. 复杂模式，复杂中文的二次切分
 2. 文本自动分类
+
+### jcseg-2.0.0: (snapshot version)
+
+* 1. 复杂模式，复杂中文的二次切分
+* 2. 增加自定义词库开发文档
+* 3. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
+* 4. 文档增加词库自动加载lex-autoload.todo权限提示
+* 5. DictionaryFactory增加如下两个接口方便自定义词库开发
+
+```java
+createDefaultDictionary(JcsegTaskConfig config, boolean sync, boolean loadDic)
+createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
+/*
+ * loadDic 用于控制工厂是否自动从config检测并且加载词库，兼容旧版本的默认是自动监测加载
+ * 方便用户自定义加载自己的设置的词库
+*/
+```
+
+* 6. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
 
 ### jcseg-1.9.9: (current version)
 
@@ -87,21 +105,21 @@ loadClassPath()                 //从classpath中载入全部词条
 
 ### jcseg-1.9.8: 
 
-1. 增加检索切分模式（SEARCH_MODE），实现细粒度切分，专业为搜索。
-2. 增加DictionaryFactory#createSingletonDictionary，用于创建单例词库。
-3. 将analyzer,elasticsearch接口词库更改为单例创建，节省内存，同时避免了多实例的下词库自动加载无法全局更新的问题。
-4. 提供对lucene,solr 6.0以上版本的支持，elasticsearch 2.3.1以上版本的支持。
-5. 增加JcsegAnalyzer5X如下构造方法方便lucene应用的打包发布：
+* 1. 增加检索切分模式（SEARCH_MODE），实现细粒度切分，专业为搜索。
+* 2. 增加DictionaryFactory#createSingletonDictionary，用于创建单例词库。
+* 3. 将analyzer,elasticsearch接口词库更改为单例创建，节省内存，同时避免了多实例的下词库自动加载无法全局更新的问题。
+* 4. 提供对lucene,solr 6.0以上版本的支持，elasticsearch 2.3.1以上版本的支持。
+* 5. 增加JcsegAnalyzer5X如下构造方法方便lucene应用的打包发布：
 
 ```java
 JcsegAnalyzer5X(int mode, String proFile)
 JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
 JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
 ```
-6. 代码格式标准化，例如：4空格代替tab，花括号的换行等。
-7. 词库优化（去除些许无用词，完善部分词条词性定义）
-8. 修复jcseg-server.properties#jcseg_global_setting名称错误, 更改为：jcseg_global_config。
-9. 修复JcsegServer#http_config设置bug和TokenizerController#pos拼写错误。
+* 6. 代码格式标准化，例如：4空格代替tab，花括号的换行等。
+* 7. 词库优化（去除些许无用词，完善部分词条词性定义）
+* 8. 修复jcseg-server.properties#jcseg_global_setting名称错误, 更改为：jcseg_global_config。
+* 9. 修复JcsegServer#http_config设置bug和TokenizerController#pos拼写错误。
 
 
 ### jcseg-1.9.7:

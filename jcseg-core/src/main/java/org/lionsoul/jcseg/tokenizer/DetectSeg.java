@@ -174,17 +174,20 @@ public class DetectSeg implements ISegment
             pos = idx;
             isb.clear();
             
-            //@Convertor: check if char is an latin letter
-            //    and make the full-width half-width uppercase lowercase
-            //    if it does
+            /* @Convertor: check if char is an latin letter
+             * and make the full-width half-width uppercase lowercase
+             * if it does
+            */
             if ( StringUtil.isHWEnChar(c) || StringUtil.isFWEnChar(c) ) {
                 if ( c > 65280 )             c -= 65248;
                 if ( c >= 65 && c <= 90 )     c += 32;
             }
             isb.append((char)c);
             
-            //get the temp string
-            //    and check T is a valid word in dictionary
+            /*
+             * get the temp string
+             * and check T is a valid word in dictionary
+            */
             T = isb.toString();
             if ( dic.match(ILexicon.CJK_WORD, T) ) {
                 w = dic.get(ILexicon.CJK_WORD, T);
@@ -192,7 +195,7 @@ public class DetectSeg implements ISegment
             
             //forward maximum matching loop
             for ( i = 1; i < config.MAX_LENGTH; i++ ) {
-                c    = readNext();
+                c = readNext();
                 if ( c == -1 ) break;
                 
                 //@see @Convertor
@@ -221,17 +224,21 @@ public class DetectSeg implements ISegment
                 continue;
             }
             
-            //---------------------------------------------------
-            //yat, match a item and return it as a segment result
-            //    also we need to push back the none-match part
-            //@Note: we will not check the pinyin, part of speech, synonyms words
-            //    get the need? do it yourself here. @see ASegment#next()
-            int LENGTH    = w.getLength();
+            //-----------------------------------------------------
+            
+            /*
+             * yat, match a item and return it as a segment result
+             * also we need to push back the none-match part
+             * @Note: we will not check the pinyin, part of speech, synonyms words
+             * get the need? do it yourself here. @see ASegment#next() 
+            */
+            int LENGTH = w.getLength();
             for ( i = isb.length() - 1; i >= LENGTH; i-- ) {
                 pushBack(isb.charAt(i));
             }
             
             //add position record
+            w = w.clone();
             w.setPosition(pos);
             
             return w;
@@ -239,4 +246,5 @@ public class DetectSeg implements ISegment
         
         return null;
     }
+    
 }

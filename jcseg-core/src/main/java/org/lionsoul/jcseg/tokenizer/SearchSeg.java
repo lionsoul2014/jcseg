@@ -56,10 +56,9 @@ public class SearchSeg extends ASegment
                 if ( dic.match(ILexicon.CJK_WORD, key) ) {
                     mnum   = 1;
                     ignidx = Math.max(ignidx, cjkidx + j);
-                    word = dic.get(ILexicon.CJK_WORD, key);
+                    word = dic.get(ILexicon.CJK_WORD, key).clone();
                     word.setPosition(pos+cjkidx);
                     mList.add(word);
-                    //appendWordFeatures(word);
                 }
             }
             
@@ -75,7 +74,7 @@ public class SearchSeg extends ASegment
                     word.setPosition(pos+cjkidx);
                     mList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
                 } else {
-                    word = dic.get(ILexicon.CJK_WORD, temp);
+                    word = dic.get(ILexicon.CJK_WORD, temp).clone();
                     word.setPosition(pos+cjkidx);
                     mList.add(word);
                     appendWordFeatures(word);
