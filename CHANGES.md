@@ -2,15 +2,15 @@
 
 ### jcseg-2.0.1: (next version)
 
-2. 文本自动分类
+* 1. 复杂模式，复杂中文的二次切分
+* 2. 文本自动分类
 
 ### jcseg-2.0.0: (snapshot version)
 
-* 1. 复杂模式，复杂中文的二次切分
-* 2. 增加自定义词库开发文档
-* 3. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
-* 4. 文档增加词库自动加载lex-autoload.todo权限提示
-* 5. DictionaryFactory增加如下两个接口方便自定义词库开发
+* 1. 增加自定义词库开发文档
+* 2. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
+* 3. 文档增加词库自动加载lex-autoload.todo权限提示
+* 4. DictionaryFactory增加如下两个接口方便自定义词库开发
 
 ```java
 createDefaultDictionary(JcsegTaskConfig config, boolean sync, boolean loadDic)
@@ -21,7 +21,8 @@ createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
 */
 ```
 
-* 6. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
+* 5. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
+* 6. 优化了复杂英文组合的二次切分，确保返回词条后者的startOffset大于等于前者的
 
 ### jcseg-1.9.9: (current version)
 

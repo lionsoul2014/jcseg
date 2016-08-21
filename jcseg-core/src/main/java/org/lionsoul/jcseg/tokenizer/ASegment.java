@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
@@ -13,7 +14,6 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
-import org.lionsoul.jcseg.util.IHashQueue;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.IntArrayList;
@@ -41,8 +41,8 @@ public abstract class ASegment implements ISegment
      * CJK word cache pool, Reusable string buffer
      * and the array list for basic integer
     */
-    //protected LinkedList<IWord> wordPool = null;
-    protected IHashQueue<IWord> wordPool = null;
+    protected LinkedList<IWord> wordPool = null;
+    //protected IHashQueue<IWord> wordPool = null;
     protected IStringBuffer isb;
     protected IntArrayList ialist;
     
@@ -58,7 +58,7 @@ public abstract class ASegment implements ISegment
     protected JcsegTaskConfig config;
     
     /**
-     * initialize the segmenter
+     * initialize the segment
      * 
      * @param   input
      * @param   config Jcseg task configuration instance
@@ -69,7 +69,7 @@ public abstract class ASegment implements ISegment
     {
         this.config = config;
         this.dic    = dic;
-        wordPool    = new IHashQueue<IWord>();
+        wordPool    = new LinkedList<IWord>();
         isb         = new IStringBuffer(64);
         ialist      = new IntArrayList(15);
         reset(input);
@@ -267,16 +267,25 @@ public abstract class ASegment implements ISegment
                 word.setPosition(pos);
             }
             
+            if ( word != null ) {
+                return word;
+            }
+            
             /*
              * The variable word could be null
              * and that means the analysis logic reached a stop word
              * here we got to continue the loop and let it go
+             * 
+             * @Added at 2016/08/21
+             * if the word is null we should check the wordPool first
+             * or if the continue lead the next loop to the end of the stream
+             * then the buffered word will miss
             */
-            if ( word == null ) {
-                continue;
+            if ( wordPool.size() > 0 ) {
+                return wordPool.removeFirst();
             }
             
-            return word;
+            continue;
         }
         
         return null;
@@ -344,7 +353,8 @@ public abstract class ASegment implements ISegment
                     if ( config.CNFRA_TO_ARABIC ) {
                         String[] split = num.split("分之");
                         IWord wd = new Word(
-                            NumericUtil.cnNumericToArabic(split[1], true)+"/"+NumericUtil.cnNumericToArabic(split[0], true),
+                            NumericUtil.cnNumericToArabic(split[1], true)+
+                            "/"+NumericUtil.cnNumericToArabic(split[0], true),
                             IWord.T_CN_NUMERIC
                         );
                         wd.setPosition(w.getPosition());
@@ -623,8 +633,7 @@ public abstract class ASegment implements ISegment
         }
         
         //get the next basic Latin token.
-        IWord w, sword = null;
-        w = nextBasicLatin(c);
+        IWord w = nextBasicLatin(c);
         w.setPosition(pos);
         
         /* @added: 2013-12-16
@@ -633,30 +642,21 @@ public abstract class ASegment implements ISegment
          * */
         if ( config.EN_SECOND_SEG
                 && (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
-            sword = enSecondSeg(w, true);
+            enSecondSeg(w, false);
         }
         
         //clear the stop word
         if ( config.CLEAR_STOPWORD 
-                && dic.match( ILexicon.STOP_WORD, w.getValue()) ) {
+                && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
             w = null;    //Let gc do its work
-            if ( sword == null ) {
-                return null;
-            }
-        } else {
-            /* @added: 2013-12-23.
-             * for jcseg-1.9.3 to switch the sub token 
-             * ahead of the origin one.
-             * */
-            if ( sword != null ) wordPool.add(w);
-            
-            /* @added: 2013-09-25
-             * append the English synonyms words.
-             * */
-            if ( config.APPEND_CJK_SYN ) appendLatinSyn(w);
+            return null;
         }
         
-        return (sword == null) ? w : sword;
+        if ( config.APPEND_CJK_SYN ) {
+            appendLatinSyn(w);
+        }
+        
+        return w;
     }
     
     /**
