@@ -151,23 +151,23 @@ public class JcsegTaskConfig implements Cloneable
         this.load(new FileInputStream(proFile));
     }
     
-    /**
-     * initialize the value of its options by auto searching the jcesg.properties file:
-     * 
-     * 1. the path that jcseg-core-{version}.jar located
-     * 2. the classpath - the property file in the jcseg-core-{version}.jar zip file
-     * 3. user home dir
-     * 
-     * @throws  IOException
-    */
+	/**
+	 * initialize the value of its options by auto searching the jcesg.properties file:
+	 * 
+	 * <p>
+	 * 1. Inside the dir that jcseg-core-{version}.jar is located, means beside the jar file.
+	 * <p>
+	 * 2. Search root classpath.
+	 * <li>First, could manually put this file into root classpath (which is outside of any jar file).
+	 * <li>Second, there is a copy of this file inside jcseg-core-{version}.jar. It will be used if didn't manually copy this file into classpath.
+	 * <p>
+	 * 3. Load from system property "user.home".
+	 * 
+	 * @throws IOException
+	 */
     public void autoLoad() throws IOException 
     {
-        /*
-         * 1.load the the jcseg.properties located with the jar file.
-         * 2.load the jcseg.propertiess from the classpath.
-         * 3.load the jcseg.properties from the user.home 
-         */
-        
+    	// Try load the file from beside jcseg-core-{version}.jar.
         File proFile = new File(Util.getJarHome(this)+"/"+LEX_PROPERTY_FILE);
         if ( proFile.exists() ) {
             pFile = proFile.getAbsolutePath();
@@ -175,10 +175,7 @@ public class JcsegTaskConfig implements Cloneable
             return;
         }
         
-        /*
-         * by default we have package a jcseg.properties file
-         * with default setting insite the class path
-        */
+        // Search root classpath, if didn't copy to classpath manually, then will found & use the one inside jcseg-core-{version}.jar.
         InputStream is = this.getClass().getResourceAsStream("/"+LEX_PROPERTY_FILE);
         if ( is != null ) {
             pFile = "classpath/jcseg.properties";
@@ -186,6 +183,7 @@ public class JcsegTaskConfig implements Cloneable
             return;
         }
             
+        // Load from system property "user.home".
         proFile = new File(System.getProperty("user.home")+"/"+LEX_PROPERTY_FILE);
         if ( proFile.exists() ) {
             pFile = proFile.getAbsolutePath();
