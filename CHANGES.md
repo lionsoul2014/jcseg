@@ -1,11 +1,11 @@
 # Jcseg versions change histories
 
-### jcseg-2.0.1: (next version)
+### jcseg-2.0.1: (snapshot version)
 
 * 1. 复杂模式，复杂中文的二次切分
 * 2. 文本自动分类
 
-### jcseg-2.0.0: (snapshot version)
+### jcseg-2.0.0: (current version)
 
 * 1. 增加自定义词库开发文档
 * 2. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
@@ -24,7 +24,7 @@ createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
 * 5. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
 * 6. 优化了复杂英文组合的二次切分，确保返回词条后者的startOffset大于等于前者的
 
-### jcseg-1.9.9: (current version)
+### jcseg-1.9.9: 
 
 ##### 1, 上传到了maven中心仓库，依赖地址如下：
 
