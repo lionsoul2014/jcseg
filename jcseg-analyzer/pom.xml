@@ -46,9 +46,9 @@
     </dependency>
   </dependencies>
   
-    <build>
+  <build>
     <plugins>
-        <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.1.2</version>
