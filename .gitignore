@@ -1,4 +1,5 @@
 bin/
+src/
 *.class
 classes/
 doc/

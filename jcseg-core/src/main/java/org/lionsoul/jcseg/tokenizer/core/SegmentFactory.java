@@ -19,7 +19,7 @@ import org.lionsoul.jcseg.tokenizer.SimpleSeg;
 public class SegmentFactory 
 {
     //current jcseg version.
-    public static final String version = "2.0.0";
+    public static final String version = "2.0.1";
     
     /**
      * load the ISegment class with the given path
