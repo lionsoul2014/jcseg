@@ -323,6 +323,8 @@ public abstract class ADictionary
             return ILexicon.CJK_CHAR;
         } else if ( key.startsWith("CJK_UNIT") ) {
             return ILexicon.CJK_UNIT;
+        } else if ( key.startsWith("CN_LNAME_ADORN") ) {
+            return ILexicon.CN_LNAME_ADORN;
         } else if ( key.startsWith("CN_LNAME") ) {
             return ILexicon.CN_LNAME;
         } else if ( key.startsWith("CN_SNAME") ) {
@@ -331,8 +333,6 @@ public abstract class ADictionary
             return ILexicon.CN_DNAME_1;
         } else if ( key.startsWith("CN_DNAME_2") ) {
             return ILexicon.CN_DNAME_2;
-        } else if ( key.startsWith("CN_LNAME_ADORN") ) {
-            return ILexicon.CN_LNAME_ADORN;
         } else if ( key.startsWith("STOP_WORD") ) {
             return ILexicon.STOP_WORD;
         } else if ( key.startsWith("EN_WORD") ) {
