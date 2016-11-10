@@ -64,7 +64,6 @@
             <resources>          
                <resource>
                   <directory>../vendors/lexicon</directory>
- 
                   <filtering>true</filtering>
                </resource>
              </resources>              

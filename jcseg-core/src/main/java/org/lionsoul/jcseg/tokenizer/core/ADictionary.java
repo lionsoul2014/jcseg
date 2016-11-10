@@ -88,7 +88,7 @@ public abstract class ADictionary
     }
     
     /**
-     * load the all the words form all the files under a specified lexicon directionry
+     * load the all the words form all the files under a specified lexicon directory
      * 
      * @param   lexDir
      * @throws  IOException
@@ -102,15 +102,12 @@ public abstract class ADictionary
         
         /*
          * load all the lexicon file under the lexicon path 
-         *     that start with __prefix and end with __suffix.
+         *     that start with "lex-" and end with ".lex".
          */
-        final String __suffix = config.getLexiconFileSuffix();
-        final String __prefix = config.getLexiconFilePrefix();
         File[] files = path.listFiles(new FilenameFilter(){
             @Override
             public boolean accept(File dir, String name) {
-                return ( name.startsWith(__prefix)
-                            && name.endsWith(__suffix));
+                return (name.startsWith("lex-") && name.endsWith(".lex"));
             }
         });
         
@@ -132,10 +129,7 @@ public abstract class ADictionary
     */
     public void loadClassPath() throws IOException
     {
-        String __suffix = config.getLexiconFileSuffix();
-        String __prefix = config.getLexiconFilePrefix();
-        Class<?> dClass = this.getClass();
-        
+        Class<?> dClass    = this.getClass();
         CodeSource codeSrc = this.getClass().getProtectionDomain().getCodeSource();
         if ( codeSrc == null ) {
             return;
@@ -151,8 +145,9 @@ public abstract class ADictionary
                 }
                 
                 String fileName = e.getName();
-                if ( fileName.startsWith("lexicon/"+__prefix) 
-                        && fileName.endsWith(__suffix) ) {
+                System.out.println(fileName);
+                if ( fileName.endsWith(".lex") 
+                        && fileName.startsWith("lexicon/lex-") ) {
                     load(dClass.getResourceAsStream("/"+fileName));
                 }
             }
@@ -467,15 +462,17 @@ public abstract class ADictionary
                     continue;
                 }
                 
-                if ( dic.get(t, wd[0]) == null ) {
+                IWord w = dic.get(t, wd[0]);
+                if ( w == null ) {
                     if ( t == ILexicon.CJK_CHAR ) {
                         dic.add(ILexicon.CJK_WORD, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                        w = dic.get(ILexicon.CJK_WORD, wd[0]);
                     } else {
                         dic.add(t, wd[0], IWord.T_CJK_WORD);
+                        w = dic.get(t, wd[0]);
                     }
                 }
                 
-                IWord w = dic.get(t, wd[0]);
                 //System.out.println(wd.length);
                 //set the Pinyin of the word.
                 if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {

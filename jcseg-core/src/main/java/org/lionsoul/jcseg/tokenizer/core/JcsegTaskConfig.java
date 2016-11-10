@@ -86,8 +86,6 @@ public class JcsegTaskConfig implements Cloneable
     
     public boolean KEEP_UNREG_WORDS = false;
     
-    private String prefix = "lex";
-    private String suffix = "lex";
     private String[] lexPath = null;        /*lexicon direcotry path array.*/
     private boolean lexAutoload = false;
     private int polltime = 10;
@@ -241,12 +239,6 @@ public class JcsegTaskConfig implements Cloneable
             }
         }
         
-        //the lexicon file prefix and suffix
-        if ( lexPro.getProperty("lexicon.suffix") != null )
-            suffix = lexPro.getProperty("lexicon.suffix");
-        if ( lexPro.getProperty("lexicon.prefix") != null )
-            prefix = lexPro.getProperty("lexicon.prefix");
-        
         //reset all the options
         if ( lexPro.getProperty("jcseg.maxlen") != null )
             MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.maxlen"));
@@ -298,17 +290,6 @@ public class JcsegTaskConfig implements Cloneable
         //load the keep punctuations.
         if ( lexPro.getProperty("jcseg.keeppunctuations") != null )
             KEEP_PUNCTUATIONS = lexPro.getProperty("jcseg.keeppunctuations");
-    }
-    
-    /**property about lexicon file.*/
-    public String getLexiconFilePrefix()
-    {
-        return prefix;
-    }
-    
-    public String getLexiconFileSuffix()
-    {
-        return suffix;
     }
     
     /**return the lexicon directory path*/
