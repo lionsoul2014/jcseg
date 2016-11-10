@@ -1,4 +1,4 @@
-CJK_UNITS
+CJK_UNIT
 #中文单字单位词库
 #长度
 米

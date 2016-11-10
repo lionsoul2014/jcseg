@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 世博园/ns/shi bo yuan/null
 世博会/ns/shi bo hui/null
 长城/ns/chang cheng/null

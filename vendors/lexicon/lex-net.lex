@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 油条哥/n/you tiao ge/null
 活雷锋/n/huo lei feng/null
 夕阳红/n/xi yang hong/null

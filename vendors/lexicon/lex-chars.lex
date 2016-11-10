@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_CHAR
 退/v/tui/null/28211
 送/v/song/null/48681
 适/a,d,v/shi/null/22

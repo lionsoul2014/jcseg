@@ -1,4 +1,4 @@
-EC_MIXED_WORD
+CJK_WORD
 #英文中文混合字, 注意英文字符均为小写
 a咖/n/a ga/主角
 a片/n/a pian/毛片,av
@@ -133,3 +133,18 @@ t型台/n/t xing tai/null
 250g硬盘/n/250g ying pan/null
 160g硬盘/n/160g ying pan/null
 500g硬盘/n/500g ying pan/null
+#中文英文混合词词库
+卡拉ok/nz/ka la ok/null
+漂亮mm/nz/piao lian mm/null
+拳皇ova/nz/quan huang ova/拳皇动漫
+奇都ktv/nz/qi du ktv/null
+哆啦a梦/nz/duo la a meng/null
+高3/n/gao san/高三
+高2/n/gao er/高二
+高1/n/gao yi/高一
+#英文和标点组合成的词,英文字母统一使用小写。
+c++/n/c jia jia/null
+g++/n/g jia jia/null
+c#/n/c jing/null
+i++/n/i jia jia/null
+x-/n/x jian/null

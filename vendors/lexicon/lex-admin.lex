@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 人事部/nt/ren shi bu/人事管理部门,人事管理部
 人事管理部/nt/ren shi guan li bu/人事管理部门,人事部
 信息产业部/nt/xin xi chan ye bu/null

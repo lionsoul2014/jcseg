@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 雪碧/n/xue bi/null
 可口可乐/n/ke kou ke le/null
 冰红茶/n/bing hong cha/null

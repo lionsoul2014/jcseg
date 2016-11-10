@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 央视/nt/yang shi/null
 电信/nt/dian xin/null
 移动/nt/yi dong/null

@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 七七纪念日/t/qi qi ji nian ri/null
 七夕/t/qi xi/七夕情人节,情人节,中国情人节
 七夕情人节/t/qi xi qing ren jie/七夕,中国情人节,情人节

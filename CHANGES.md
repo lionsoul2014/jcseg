@@ -1,9 +1,16 @@
 # Jcseg versions change histories
 
-### jcseg-2.0.1: (snapshot version)
+### jcseg-2.0.2: (future version)
 
 * 1. 复杂模式，复杂中文的二次切分
 * 2. 文本自动分类
+
+### jcseg-2.0.1: (snapshot version)
+
+* 1. 部分词库类别合并到主类别（中英组合，英中组合，英文标点），方便维护，也是为Jcseg的NLP计划做准备。
+* 2. 优化Jcseg的英中组合词条的识别，例如“奇都ktv”，增强了与前面词条的歧义去除，统一到lex-combination.lex词库中管理词库或者另外自己新建词库。
+* 3. 空格切分模式，对输入流直接按照空格切分（也可以自定义切分字符，例如：“,”），特殊应用场景需求。
+* 4. 词库增加词条实体标识，方便应用对切分出来的词条做词条类别识别和应用，例如：时间，地点（比词性更灵活，可以持有n忠实体类别）。
 
 ### jcseg-2.0.0: (current version)
 

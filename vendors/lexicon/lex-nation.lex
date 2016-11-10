@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 东非/ns/dong fei/null
 中华/ns/zhong hua/null
 中华/ns/zhong hua/null

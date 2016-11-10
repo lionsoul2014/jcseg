@@ -1,4 +1,4 @@
-STOP_WORDS
+STOP_WORD
 #en-punctuation
 !
 "

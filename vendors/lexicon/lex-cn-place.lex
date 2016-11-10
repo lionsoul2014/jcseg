@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 北京市/ns/bei jing shi/null
 北京/ns/bei jing/null
 北京人/ns/bei jing ren/null

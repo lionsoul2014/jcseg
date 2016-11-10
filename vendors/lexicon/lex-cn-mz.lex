@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 汉族/nz/han zu/null
 汉族人/nz/han zu ren/null
 汉族语/nz/han zu yu/null

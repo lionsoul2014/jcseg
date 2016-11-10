@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 #西方姓氏词库
 亚历山大/nr/ya li shan da/null
 克林顿/nr/ke ling dun/null

@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 上海合作组织/nt/shang hai he zuo zu zhi/null
 世卫/nt/shi wei/null
 世界卫生组织/nt/shi jie wei sheng zu zhi/null

@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.sentence;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,0 +1,15 @@
+* {font-size:12px;padding:0px;margin:0px;}
+body {text-align:center;}
+#c-box {margin:auto;padding:10px;width:360px;text-align:left;}
+.logo {border-bottom:1px solid #DDD;margin-bottom:10px;}
+.title {color:#555;font-size:20px;padding:5px;}
+.ul-style {padding-left:30px;margin:10px 0px;}
+
+.about li {height:20px;line-height:20px;}
+.about li a {color:#00F;font-size:14px;}
+
+.restful-api li {position:relative;color:color:#555;height:20px;line-height:20px;font-size:14px;}
+.restful-api .api-item {display:block;font-size:14px;color:#555;}
+.restful-api .function {position:absolute;left:0px;top:0px;}
+.restful-api .doc {position:absolute;left:95px;top:0px;color:#00F;text-decoration:none;}
+.restful-api .demo {position:absolute;left:165px;top:0px;color:#00F;text-decoration:none;}

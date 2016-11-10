@@ -1,4 +1,4 @@
-CJK_WORDS
+CJK_WORD
 中文/n/zhong wen/国语
 国语/n/guo yu/null
 台湾话/n/tai wan hua/台语
