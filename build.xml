@@ -81,7 +81,7 @@
     <!--Archive-->
     <target name="dist" depends="build">
         <jar jarfile="${jars}/jcseg-core-${version}.jar" basedir="${classes}" 
-            includes="org/lionsoul/jcseg/extractor/**/*,org/lionsoul/jcseg/test/**/*,
+            includes="org/lionsoul/jcseg/extractor/**/*,org/lionsoul/jcseg/sentence/**/*,org/lionsoul/jcseg/test/**/*,
             org/lionsoul/jcseg/tokenizer/**/*,org/lionsoul/jcseg/util/*,jcseg.properties,lexicon/**/*">
             <!--manifest information setting-->
             <manifest>

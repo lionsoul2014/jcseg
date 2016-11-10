@@ -1304,7 +1304,7 @@ public abstract class ASegment implements ISegment
         }
         
         
-        //@step 4: check and get english and chinese mix word like 'B超'.
+        //@step 4: check and get English and Chinese mixed word like 'B超'.
         IStringBuffer ibuffer = new IStringBuffer();
         ibuffer.append(__str);
         String _temp = null;
@@ -1314,7 +1314,7 @@ public abstract class ASegment implements ISegment
         //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
         ialist.clear();
         
-        /* Attension:
+        /* Attention:
          * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
          * or it cause the miss of the next char. 
          * 
@@ -1371,8 +1371,8 @@ public abstract class ASegment implements ISegment
             }
         }
         
-        /* simply return the combination of english char, arabic
-         * numeric, english punctuaton if matches no single units or EC word.
+        /* simply return the combination of English char, Arabic
+         * numeric, English punctuation if matches no single units or EC word.
         */
         if ( w == null ) {
             w = new Word(__str, IWord.T_BASIC_LATIN);

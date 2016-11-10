@@ -145,7 +145,6 @@ public abstract class ADictionary
                 }
                 
                 String fileName = e.getName();
-                System.out.println(fileName);
                 if ( fileName.endsWith(".lex") 
                         && fileName.startsWith("lexicon/lex-") ) {
                     load(dClass.getResourceAsStream("/"+fileName));

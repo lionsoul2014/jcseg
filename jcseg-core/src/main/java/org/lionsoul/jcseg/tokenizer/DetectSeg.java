@@ -174,13 +174,13 @@ public class DetectSeg implements ISegment
             pos = idx;
             isb.clear();
             
-            /* @Convertor: check if char is an latin letter
-             * and make the full-width half-width uppercase lowercase
+            /* @Convertor: check if char is an Latin letter
+             * and make the full-width half-width upperCase lowerCase
              * if it does
             */
             if ( StringUtil.isHWEnChar(c) || StringUtil.isFWEnChar(c) ) {
-                if ( c > 65280 )             c -= 65248;
-                if ( c >= 65 && c <= 90 )     c += 32;
+                if ( c > 65280 )          c -= 65248;
+                if ( c >= 65 && c <= 90 ) c += 32;
             }
             isb.append((char)c);
             

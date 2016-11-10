@@ -25,7 +25,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 /**
  * jcseg test program.
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
  */
 public class JcsegTest 
 {
@@ -67,9 +67,9 @@ public class JcsegTest
         );
         
         //create and initialize the extractor
-        keywordsExtractor = new TextRankKeywordsExtractor(tokenizerSeg);
+        keywordsExtractor  = new TextRankKeywordsExtractor(tokenizerSeg);
         keyphraseExtractor = new TextRankKeyphraseExtractor(tokenizerSeg);
-        summaryExtractor = new TextRankSummaryExtractor(tokenizerSeg, new SentenceSeg());
+        summaryExtractor   = new TextRankSummaryExtractor(tokenizerSeg, new SentenceSeg());
         
         TextRankKeyphraseExtractor trkp = (TextRankKeyphraseExtractor)keyphraseExtractor;
         trkp.setAutoMinLength(4);
