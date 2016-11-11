@@ -428,7 +428,7 @@ public abstract class ASegment implements ISegment
                     /*
                      * @Note: added at 2016/07/19
                      * we cannot share the position with the original word item in the
-                     * global dictionary accessable with this.dic
+                     * global dictionary accessed with this.dic
                      * 
                      * cuz at the concurrency that will lead to the position error
                      * so, we clone it if the word is directly get from the dictionary
