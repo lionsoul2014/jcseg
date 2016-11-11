@@ -4,6 +4,7 @@ import java.io.Reader;
 import java.lang.reflect.Constructor;
 
 import org.lionsoul.jcseg.tokenizer.ComplexSeg;
+import org.lionsoul.jcseg.tokenizer.DelimiterSeg;
 import org.lionsoul.jcseg.tokenizer.DetectSeg;
 import org.lionsoul.jcseg.tokenizer.SearchSeg;
 import org.lionsoul.jcseg.tokenizer.SimpleSeg;
@@ -44,7 +45,7 @@ public class SegmentFactory
     }
     
     /**
-     * create the specified mode jcseg instance
+     * create the specified mode Jcseg instance
      * 
      * @param    mode
      * @return    ISegment
@@ -61,6 +62,8 @@ public class SegmentFactory
             _clsname = DetectSeg.class;
         else if ( mode == JcsegTaskConfig.SEARCH_MODE )
             _clsname = SearchSeg.class;
+        else if ( mode == JcsegTaskConfig.DELIMITER_MODE )
+            _clsname = DelimiterSeg.class;
         else 
             throw new JcsegException("No Such Algorithm Excpetion");
         

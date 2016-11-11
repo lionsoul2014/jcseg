@@ -24,7 +24,7 @@ import org.lionsoul.jcseg.util.IntArrayList;
  * 2. implemented all the common functions
  * that simple, complex, most segmentation algorithm will all shared.
  * 
- * @author  chenxin <chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
 */
 public abstract class ASegment implements ISegment 
 {
@@ -1214,6 +1214,12 @@ public abstract class ASegment implements ISegment
                 _TYPE = _ctype;
             }
             
+            /*
+             * global English word length limitation 
+            */
+            if ( isb.length() > config.MAX_LATIN_LENGTH ) {
+                break;
+            }
         }
         
         String __str = isb.toString();
@@ -1281,7 +1287,7 @@ public abstract class ASegment implements ISegment
         if ( ! _check ) {    
             /* @reader: (2013-09-25)
              * we check the units here, so we can recognize
-             * many other units that is not chinese like '℉,℃' eg..
+             * many other units that is not Chinese like '℉,℃' eg..
             */
             if ( chkunits && ( StringUtil.isDigit(__str) 
                         || StringUtil.isDecimal(__str) ) ) {
@@ -1320,15 +1326,15 @@ public abstract class ASegment implements ISegment
          * 
          * @reader: (2013-09-25)
          * we do not check the type of the char readed next.
-         * so, words started with english and its length except the start english part
-         * less than config.MIX_CN_LENGTH in the EC dictionary could be recongnized.
+         * so, words started with English and its length except the start English part
+         * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
          */
         for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
-            /* Attension:
-             *  it is a accident that jcseg works find for 
+            /* Attention:
+             *  it is a accident that Jcseg works find for 
              *  we break the loop directly when we meet a whitespace.
              *  1. if a EC word is found, unit check process will be ignore.
-             *  2. if matches no EC word, certianly return of readNext() 
+             *  2. if matches no EC word, certainly return of readNext() 
              *      will make sure the units check process works find.
              */
             if ( StringUtil.isWhitespace(ch) ) {
@@ -1357,7 +1363,7 @@ public abstract class ASegment implements ISegment
         /* @step 5: check if there is a units for the digit.
          * @reader: (2013-09-25)
          * now we check the units before the step 4, so we can recognize
-         * many other units that is not chinese like '℉,℃'
+         * many other units that is not Chinese like '℉,℃'
         */
         if ( chkunits && mc == 0 ) {
             if ( StringUtil.isDigit(__str) || StringUtil.isDecimal(__str) ) {
@@ -1419,7 +1425,7 @@ public abstract class ASegment implements ISegment
     
     /**
      * find the other number from the current position
-     * count until the char in the specified position is not a orther number or whitespace
+     * count until the char in the specified position is not a other number or whitespace
      * 
      * @param c
      * @return String
@@ -1449,8 +1455,8 @@ public abstract class ASegment implements ISegment
     }
     
     /**
-     * find the chinese number from the current position
-     * count until the char in the specified position is not a orther number or whitespace
+     * find the Chinese number from the current position
+     * count until the char in the specified position is not a other number or whitespace
      * 
      * @param chars char array of CJK items
      * @param index
@@ -1498,7 +1504,7 @@ public abstract class ASegment implements ISegment
     
     /**
      * find pair punctuation of the given punctuation char
-     * the purpose is to get the text bettween them
+     * the purpose is to get the text between them
      * 
      * @param c
      * @throws IOException 

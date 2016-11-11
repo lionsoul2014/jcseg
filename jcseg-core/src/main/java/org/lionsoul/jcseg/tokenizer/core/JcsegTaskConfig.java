@@ -24,38 +24,44 @@ public class JcsegTaskConfig implements Cloneable
     public static final int COMPLEX_MODE = 2;
     public static final int DETECT_MODE  = 3;
     public static final int SEARCH_MODE  = 4;
+    public static final int DELIMITER_MODE = 5;
     
     /**maximum length for maximum match(5-7)*/
     public int MAX_LENGTH = 5;
     
     /**
-     * maximum length for the chinese words after the LATIN word.
-     *  use to match chinese and english mix word, like 'B超,AA制...'
+     * maximum length for Latin words 
+    */
+    public int MAX_LATIN_LENGTH = 64;
+    
+    /**
+     * maximum length for the Chinese words after the LATIN word.
+     *  use to match Chinese and English mix word, like 'B超,AA制...'
      */
     public int MIX_CN_LENGTH = 2;
     
-    /**identify the chinese name? */
+    /**identify the Chinese name? */
     public boolean I_CN_NAME = false;
     
-    /**the max length for the adron of the chinese last name.like 老陈 “老”*/
+    /**the max length for the adron of the Chinese last name.like 老陈 “老”*/
     public int MAX_CN_LNADRON = 1;
     
-    /**wether to load the pinying of the CJK_WORDS*/
+    /**whether to load the Pinyin of the CJK_WORDS*/
     public boolean LOAD_CJK_PINYIN = false;
     
-    /**append the pinying to the splited IWord*/
+    /**append the Pinyin to the splited IWord*/
     public boolean APPEND_CJK_PINYIN = false;
     
     /**append the part of speech.*/
     public boolean APPEND_PART_OF_SPEECH = false;
     
-    /**wether to load the syn word of the CJK_WORDS.*/
+    /**whether to load the syn word of the CJK_WORDS.*/
     public boolean LOAD_CJK_SYN = false;
     
     /**append the syn word to the splited IWord.*/
     public boolean APPEND_CJK_SYN = true;
     
-    /**wether to load the word's part of speech*/
+    /**whether to load the word's part of speech*/
     public boolean LOAD_CJK_POS = false;
     
     /**
@@ -64,29 +70,29 @@ public class JcsegTaskConfig implements Cloneable
      */
     public int NAME_SINGLE_THRESHOLD = 1000000;
     
-    /**the maxinum length for the text bettween the pair punctution.*/
+    /**the maximum length for the text bettween the pair punctuation.*/
     public int PPT_MAX_LENGTH = 15;
     
-    /**clear away the stopword.*/
+    /**clear away the stop word.*/
     public boolean CLEAR_STOPWORD = false;
     
-    /**chinese numeric to Arabic .*/
+    /**Chinese numeric to Arabic .*/
     public boolean CNNUM_TO_ARABIC = true;
     
-    /**chinese fraction to arabic fraction .*/
+    /**Chinese fraction to Arabic fraction .*/
     public boolean CNFRA_TO_ARABIC = true;
     
-    /**Wether to do the secondary split for complex latin compose*/
+    /**whether to do the secondary split for complex Latin compose*/
     public boolean EN_SECOND_SEG = true;
     /**Less length for the second split to make up a word*/
     public int STOKEN_MIN_LEN = 1;
     
-    /**keep puncutations*/
+    /**keep punctuation*/
     private String KEEP_PUNCTUATIONS = "@%&.'#+";
     
     public boolean KEEP_UNREG_WORDS = false;
     
-    private String[] lexPath = null;        /*lexicon direcotry path array.*/
+    private String[] lexPath = null;        /*lexicon directory path array.*/
     private boolean lexAutoload = false;
     private int polltime = 10;
     

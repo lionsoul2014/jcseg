@@ -196,7 +196,9 @@ public class DetectSeg implements ISegment
             //forward maximum matching loop
             for ( i = 1; i < config.MAX_LENGTH; i++ ) {
                 c = readNext();
-                if ( c == -1 ) break;
+                if ( c == -1 ) {
+                    break;
+                }
                 
                 //@see @Convertor
                 if ( StringUtil.isHWEnChar(c) || StringUtil.isFWEnChar(c) ) {

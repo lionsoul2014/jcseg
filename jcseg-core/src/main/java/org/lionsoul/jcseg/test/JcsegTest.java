@@ -29,6 +29,9 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  */
 public class JcsegTest 
 {
+    JcsegTaskConfig tokenizerConfig = null;
+    ADictionary dic = null;
+    
     ISegment tokenizerSeg = null;
     ISegment extractorSeg = null;
     
@@ -38,7 +41,7 @@ public class JcsegTest
     
     public JcsegTest() throws JcsegException, IOException, CloneNotSupportedException 
     {
-        JcsegTaskConfig tokenizerConfig = new JcsegTaskConfig(true);
+        tokenizerConfig = new JcsegTaskConfig(true);
         JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
         //JcsegTaskConfig config = new JcsegTaskConfig("/java/JavaSE/jcseg/jcseg.properties"); 
         //JcsegTaskConfig config = new JcsegTaskConfig(null);
@@ -46,7 +49,7 @@ public class JcsegTest
         //config.load("/java/JavaSE/jcseg/jcseg.properties");
         
         //ADictionary dic = DictionaryFactory.createDefaultDictionary(tokenizerConfig);
-        ADictionary dic = DictionaryFactory.createSingletonDictionary(tokenizerConfig);
+        dic = DictionaryFactory.createSingletonDictionary(tokenizerConfig);
         
         //two ways to reload lexicons
         //for ( String lpath : config.getLexiconPath() )
@@ -146,6 +149,14 @@ public class JcsegTest
                 + counter + ", cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
     }
     
+    public void resetMode( int mode ) throws JcsegException
+    {
+        tokenizerSeg = SegmentFactory.createJcseg(
+            mode, 
+            new Object[]{tokenizerConfig, dic}
+        );
+    }
+    
     /**
      * keywords extractor
      * 
@@ -243,7 +254,7 @@ public class JcsegTest
         //str = "关于这个软件的盈利我们六四分之也就是我拿十分之六剩下的给你, 你觉得怎么样?";
         
         int action = 0;
-        String cmd = null, module = "tokenizer";
+        String cmd = null, module = "tokenizer:complex";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         JcsegTest demo = new JcsegTest();
         System.out.println(str);
@@ -259,10 +270,35 @@ public class JcsegTest
                 
                 //module switch
                 if ( cmd.charAt(0) == ':' ) {
-                    if (":tokenizer".equals(cmd)) {
-                        module = "tokenizer";
+                    if (":complex".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.COMPLEX_MODE);
+                        module = "tokenzier:complex";
                         action = 0;
-                        System.out.println("Entered tokenizer mode!");
+                        System.out.println("Entered complex tokenizer mode!");
+                        continue;
+                    } else if (":simple".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.SIMPLE_MODE);
+                        module = "tokenzier:simple";
+                        action = 0;
+                        System.out.println("Entered simple tokenizer mode!");
+                        continue;
+                    } else if (":search".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.SEARCH_MODE);
+                        module = "tokenzier:search";
+                        action = 0;
+                        System.out.println("Entered search tokenizer mode!");
+                        continue;
+                    } else if (":detect".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.DETECT_MODE);
+                        module = "tokenzier:detect";
+                        action = 0;
+                        System.out.println("Entered detect tokenizer mode!");
+                        continue;
+                    } else if (":delimiter".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.DELIMITER_MODE);
+                        module = "tokenzier:delimiter";
+                        action = 0;
+                        System.out.println("Entered delimiter tokenizer mode!");
                         continue;
                     } else if (":keywords".equals(cmd)) {
                         module = "keywords";
@@ -314,7 +350,8 @@ public class JcsegTest
     {
         System.out.println("+--------Jcseg chinese word tokenizer demo---------+");
         System.out.println("|- @Author chenxin<chenxin619315@gmail.com>        |");
-        System.out.println("|- :tokenizer : switch to tokenizer mode.          |");
+        System.out.println("|- :seg_mode  : switch to specified tokenizer mode.|");
+        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter)   |");
         System.out.println("|- :keywords  : switch to keywords extract mode.   |");
         System.out.println("|- :keyphrase : switch to keyphrase extract mode.  |");
         System.out.println("|- :sentence  : switch to sentence extract mode.   |");
