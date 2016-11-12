@@ -136,6 +136,7 @@ public class JcsegTest
                 sb.append('/');
                 sb.append(word.getPartSpeech()[0]);
             }
+            
             //clear the allocations of the word.
             word = null;
             counter++;
@@ -153,6 +154,7 @@ public class JcsegTest
     {
         tokenizerSeg = SegmentFactory.createJcseg(
             mode, 
+            //new Object[]{tokenizerConfig, mode==JcsegTaskConfig.DELIMITER_MODE ? null : dic}
             new Object[]{tokenizerConfig, dic}
         );
     }

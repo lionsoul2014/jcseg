@@ -183,7 +183,7 @@ public class DelimiterSeg implements ISegment
              * 1, check and append the Pinyin
              * 2, check and append the synonyms
             */
-            if ( config.APPEND_CJK_PINYIN 
+            if ( dic != null && config.APPEND_CJK_PINYIN 
                     && config.LOAD_CJK_PINYIN && wd.getPinyin() != null ) {
                 IWord pinyin = new Word(wd.getPinyin(), IWord.T_CJK_PINYIN);
                 pinyin.setPosition(pos);
@@ -192,7 +192,7 @@ public class DelimiterSeg implements ISegment
             
             String[] syns = null;
             IWord syn = null;
-            if ( config.APPEND_CJK_SYN 
+            if ( dic != null && config.APPEND_CJK_SYN 
                     && config.LOAD_CJK_SYN && (syns = wd.getSyn()) != null ) {
                 for ( int j = 0; j < syns.length; j++ ) {
                     syn = new Word(syns[j], wd.getType());
@@ -206,6 +206,66 @@ public class DelimiterSeg implements ISegment
         }
         
         return null;
+    }
+
+    /**
+     * get the current delimiter 
+     * 
+     * @return  char
+    */
+    public char getDelimiter()
+    {
+        return delimiter;
+    }
+
+    /**
+     * set the delimiter default to whitespace
+     * 
+     * @param   delimiter
+    */
+    public void setDelimiter(char delimiter)
+    {
+        this.delimiter = delimiter;
+    }
+
+    /**
+     * get the current dictionary instance
+     * 
+     * @return  ADictionary
+    */
+    public ADictionary getDic()
+    {
+        return dic;
+    }
+
+    /**
+     * set the current dictionary
+     * 
+     * @param   dic
+    */
+    public void setDic(ADictionary dic)
+    {
+        this.dic = dic;
+    }
+
+    /**
+     * get the current JcsegTaskConfig instance
+     * 
+     * @return  JcsegTaskConfig
+    */
+    public JcsegTaskConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * set the current configuration
+     * 
+     * @param   config
+    */
+    public void setConfig(JcsegTaskConfig config)
+    {
+        this.config = config;
     }
     
 }
