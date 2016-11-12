@@ -419,7 +419,7 @@ public abstract class ADictionary
             }
             
             switch ( t ) {
-            case ILexicon.CJK_UNIT:
+            
             case ILexicon.CN_SNAME:
             case ILexicon.CN_LNAME:
             case ILexicon.CN_DNAME_1:
@@ -428,8 +428,17 @@ public abstract class ADictionary
                     dic.add(t, line, IWord.T_CJK_WORD);
                 }
                 break;
+            case ILexicon.CJK_UNIT:
+                /*
+                 * for the entity recognition
+                 * we may need the unit to help to 
+                 * define the numeric entity in front of it
+                 * @date 2016/11/12
+                */
+                dic.add(t, line, IWord.T_CJK_WORD);
+                break;
             case ILexicon.CN_LNAME_ADORN:
-                dic.add(ILexicon.CN_LNAME_ADORN, line, IWord.T_CJK_WORD);
+                dic.add(t, line, IWord.T_CJK_WORD);
                 break;
             case ILexicon.STOP_WORD:
                 char fChar = line.charAt(0);

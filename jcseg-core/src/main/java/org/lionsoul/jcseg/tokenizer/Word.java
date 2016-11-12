@@ -4,7 +4,7 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 
 /**
- * word class for Jcseg has implemented the IWord interface
+ * word class for Jcseg with the {@link org.lionsoul.jcseg.core.IWord} interface implemented
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
@@ -24,21 +24,47 @@ public class Word implements IWord,Cloneable
     private int length = -1;
     private int h = -1;
     
+    /**
+     * @Note added at 2016/11/12
+     * word string entity name and 
+     * it could be assign from the lexicon or the word item setting
+     * or assign dynamic during the cut runtime
+    */
+    private String entity = null;
+    
     private String pinyin = null;
     private String[] partspeech = null;
     private String[] syn = null;
     
-    public Word( String value, int type ) 
+    /**
+     * construct method to initialize the newly created Word instance
+     * 
+     * @param   value
+     * @param   fre
+     * @param   type
+     * @param   entity
+    */
+    public Word(String value, int fre, int type, String entity)
     {
-        this.value = value;
-        this.type = type;
+        this.value  = value;
+        this.fre    = fre;
+        this.type   = type;
+        this.entity = entity;
     }
-    
+
     public Word( String value, int fre, int type ) 
     {
-        this.value = value;
-        this.fre = fre;
-        this.type = type;
+        this(value, fre, type, null);
+    }
+    
+    public Word( String value, int type ) 
+    {
+        this(value, 0, type, null);
+    }
+    
+    public Word(String value, int type, String entity)
+    {
+        this(value, 0, type, entity);
     }
     
     /**
@@ -102,6 +128,22 @@ public class Word implements IWord,Cloneable
     public int getPosition() 
     {
         return position;
+    }
+    
+    /**
+     * @see IWord#getEntity()
+    */
+    public String getEntity() 
+    {
+        return entity;
+    }
+    
+    /**
+     * @see IWord#setEntity(String)
+    */
+    public void setEntity(String entity) 
+    {
+        this.entity = entity;
     }
     
     /**
