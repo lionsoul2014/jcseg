@@ -135,6 +135,8 @@ public class JcsegTest
             if ( word.getPartSpeech() != null ) {
                 sb.append('/');
                 sb.append(word.getPartSpeech()[0]);
+                /*sb.append('/');
+                sb.append(word.getEntity());*/
             }
             
             //clear the allocations of the word.

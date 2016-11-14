@@ -1,5 +1,6 @@
 CJK_WORD
-北京市/ns/bei jing shi/null
+:entity place
+北京市/ns/bei jing shi/null/place.city
 北京/ns/bei jing/null
 北京人/ns/bei jing ren/null
 东城区/ns/dong cheng qu/null
