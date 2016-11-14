@@ -7,11 +7,12 @@ import java.lang.reflect.Field;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public class WordEntity
+public class Entity
 {
     public static final String E_NAME = "name";                     //人名
     public static final String E_NAME_CN = "name.cn";               //中国
     public static final String E_NAME_FOREIGN = "name.foreign";    //国外
+    public static final String E_NAME_NICKNAME = "name.nickname";  //昵称
     
     public static final String E_PLACE = "place";                        //地区
     public static final String E_PLACE_CONTINENT = "place.continent";   //洲
@@ -218,7 +219,7 @@ public class WordEntity
     
     public static String[] fieldsArr = null;
     static {
-        Field[] fields = WordEntity.class.getDeclaredFields();
+        Field[] fields = Entity.class.getDeclaredFields();
         fieldsArr = new String[fields.length];
         try { 
             int i = 0;
@@ -227,7 +228,7 @@ public class WordEntity
                     continue;
                 }
                 
-                fieldsArr[i++] = (String) f.get(WordEntity.class);
+                fieldsArr[i++] = (String) f.get(Entity.class);
             }
         } catch (IllegalArgumentException e) {
         } catch (IllegalAccessException e) {}
@@ -239,7 +240,7 @@ public class WordEntity
      * thousands of word items quote the same string constants
      * of course, this will save lots of runtime memory (constants string pool)
     */
-    public static String getEntityByKey(String key)
+    public static String get(String key)
     {
         key = key.toLowerCase();
         for ( String f : fieldsArr ) {

@@ -259,6 +259,35 @@ public abstract class ADictionary
     public abstract boolean match( int t, String key );
     
     /**
+     * directly add a IWord item to the dictionary
+     * 
+     * @param t
+     * @param word
+    */
+    public abstract void add( int t, IWord word );
+    
+    /**
+     * add a new word to the dictionary with its statistics frequency
+     * 
+     * @param t
+     * @param key
+     * @param fre
+     * @param type
+     * @param entity
+     */
+    public abstract void add( int t, String key, int fre, int type, String entity );
+    
+    /**
+     * add a new word to the dictionary
+     * 
+     * @param t
+     * @param key
+     * @param fre
+     * @param type
+     */
+    public abstract void add( int t, String key, int fre, int type );
+    
+    /**
      * add a new word to the dictionary
      * 
      * @param t
@@ -268,14 +297,14 @@ public abstract class ADictionary
     public abstract void add( int t, String key, int type );
     
     /**
-     * add a new word to the dictionary with its statistics frequency
+     * add a new word to the dictionary
      * 
      * @param t
      * @param key
-     * @param fre
      * @param type
+     * @param entity
      */
-    public abstract void add( int t, String key, int fre, int type );
+    public abstract void add( int t, String key, int type, String entity );
     
     /**
      * return the IWord asscociate with the given key.
@@ -397,7 +426,7 @@ public abstract class ADictionary
     {
         boolean isFirstLine = true;
         int t = -1;
-        String line  = null;
+        String line = null, gEntity = null;
         BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         
         while ( (line = buffReader.readLine()) != null ) {
@@ -418,8 +447,21 @@ public abstract class ADictionary
                 }
             }
             
-            switch ( t ) {
+            /*
+             * @Note: added at 2016/11/14
+             * dictionary directive compile and apply 
+            */
+            if ( line.charAt(0) == ':' && line.length() > 1 ) {
+                String[] directive = line.substring(1).toLowerCase().split("\\s+");
+                if ( directive[0].equals("entity") ) {     //@since 2.0.1
+                    if ( directive.length > 1 ) {
+                        String args = directive[1].trim();
+                        gEntity = "null".equals(args) ? null : Entity.get(args);
+                    }
+                }
+            }
             
+            switch ( t ) {
             case ILexicon.CN_SNAME:
             case ILexicon.CN_LNAME:
             case ILexicon.CN_DNAME_1:
@@ -435,7 +477,13 @@ public abstract class ADictionary
                  * define the numeric entity in front of it
                  * @date 2016/11/12
                 */
-                dic.add(t, line, IWord.T_CJK_WORD);
+                if ( line.indexOf('/') == -1 ) {
+                    dic.add(t, line, IWord.T_CJK_WORD, gEntity);
+                } else {
+                    String[] wd = line.split("/");
+                    String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
+                    dic.add(t, wd[0], IWord.T_CJK_WORD, entity);
+                }
                 break;
             case ILexicon.CN_LNAME_ADORN:
                 dic.add(t, line, IWord.T_CJK_WORD);
@@ -447,7 +495,7 @@ public abstract class ADictionary
                     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
                 }
                 break;
-            case ILexicon.EN_WORD:
+            case ILexicon.EN_WORD :
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
                 String[] wd = line.split("/");
@@ -481,13 +529,36 @@ public abstract class ADictionary
                     }
                 }
                 
-                //System.out.println(wd.length);
                 //set the Pinyin of the word.
                 if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {
                     w.setPinyin(wd[2]);
                 }
                 
-                //set the synonym of the word.
+                /*
+                 * @Note: added at 2016/11/14
+                 * update the entity string for CJK and English words only 
+                */
+                if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
+                    String oEntity = w.getEntity();
+                    if ( oEntity == null ) {
+                        if ( wd.length > 4 ) {
+                            w.setEntity("null".equals(wd[4]) ? null : Entity.get(wd[4]));
+                        } else {
+                            w.setEntity(gEntity);
+                        }
+                    } else if ( wd.length > 4 ) {
+                        if ( "null".equals(wd[4]) ) {
+                            w.setEntity(null);
+                        } else if ( wd[4].length() > oEntity.length() ) {
+                            w.setEntity(Entity.get(wd[4]));
+                        }
+                    } else if ( gEntity != null 
+                            && gEntity.length() > oEntity.length() ){
+                        w.setEntity(gEntity);
+                    }
+                }
+                
+                //update the synonym of the word.
                 String[] arr = w.getSyn();
                 if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
                     String[] syns = wd[3].split(",");
@@ -507,52 +578,55 @@ public abstract class ADictionary
                          * 
                          * @date 2013-09-02
                          */
+                        boolean add = true;
                         if ( arr != null ) {
-                            int length = arr.length;
-                            boolean add = true;
-                            for ( int i = 0; i < length; i++ )  {
+                            for ( int i = 0; i < arr.length; i++ )  {
                                 if ( syns[j].equals(arr[i]) ) {
                                     add = false;
                                     break;
                                 }
                             }
-                            if ( ! add ) continue;
                         }
                         
-                        w.addSyn(syns[j]);
+                        if ( add ) {
+                            w.addSyn(syns[j]);
+                        }
                     }
                 }
                 
-                //set the word's part of speech
+                //update the word's part of speech
                 arr = w.getPartSpeech();
                 if ( config.LOAD_CJK_POS && ! "null".equals(wd[1]) ) {
                     String[] pos = wd[1].split(",");
+                    
                     for ( int j = 0; j < pos.length; j++ ) {
                         pos[j] = pos[j].trim();
+                        
                         /* Here:
                          * check the part of speech is not exists, make sure
                          * the same part of speech won't appended.(dictionary reload)
                          * 
                          * @date 2013-09-02
                          */
+                        boolean add = true;
                         if ( arr != null ) {
-                            int length = arr.length;
-                            boolean add = true;
-                            for ( int i = 0; i < length; i++ )  {
+                            for ( int i = 0; i < arr.length; i++ )  {
                                 if ( pos[j].equals(arr[i]) ) {
                                     add = false;
                                     break;
                                 }
                             }
-                            if ( ! add ) continue;
                         }
                         
-                        w.addPartSpeech(pos[j].trim());
+                        if ( add ) {
+                            w.addPartSpeech(pos[j].trim());
+                        }
                     }
                 }
                 
                 break;
-            }
+            }   //end of switch
+            
         }
         
         buffReader.close();

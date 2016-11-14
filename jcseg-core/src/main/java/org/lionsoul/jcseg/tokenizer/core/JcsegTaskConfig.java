@@ -64,13 +64,21 @@ public class JcsegTaskConfig implements Cloneable
     /**whether to load the word's part of speech*/
     public boolean LOAD_CJK_POS = false;
     
+    /**whether to load the entity define*/
+    public boolean LOAD_CJK_ENTITY = true;
+    
+    /**
+     * do the entity recognition ? 
+    */
+    public boolean APPEND_CJK_ENTITY = true;
+    
     /**
      * the threshold of the single word that is a single word
      * when it and the last char of the name make up a word.
      */
     public int NAME_SINGLE_THRESHOLD = 1000000;
     
-    /**the maximum length for the text bettween the pair punctuation.*/
+    /**the maximum length for the text between the pair punctuation.*/
     public int PPT_MAX_LENGTH = 15;
     
     /**clear away the stop word.*/
@@ -241,7 +249,7 @@ public class JcsegTaskConfig implements Cloneable
                     throw new IOException("Invalid sub lexicon path " + lexPath[i] 
                             + " for lexicon.path in jcseg.properties");
                 }
-                f = null;    //Let gc do its work.
+                f = null;    //Let gc do its work
             }
         }
         
@@ -268,6 +276,9 @@ public class JcsegTaskConfig implements Cloneable
         if ( lexPro.getProperty("jcseg.loadpos") != null
                 && lexPro.getProperty("jcseg.loadpos").equals("1")) 
             LOAD_CJK_POS = true;
+        if ( lexPro.getProperty("jcseg.loadentity") != null
+                && lexPro.getProperty("jcseg.loadentity").equals("0")) 
+            LOAD_CJK_ENTITY = false;
         if ( lexPro.getProperty("jcseg.clearstopword") != null
                 && lexPro.getProperty("jcseg.clearstopword").equals("1"))
             CLEAR_STOPWORD = true;
@@ -293,7 +304,7 @@ public class JcsegTaskConfig implements Cloneable
         if ( lexPro.getProperty("jcseg.stokenminlen") != null )
             STOKEN_MIN_LEN = Integer.parseInt(lexPro.getProperty("jcseg.stokenminlen"));
         
-        //load the keep punctuations.
+        //load the keep punctuation
         if ( lexPro.getProperty("jcseg.keeppunctuations") != null )
             KEEP_PUNCTUATIONS = lexPro.getProperty("jcseg.keeppunctuations");
     }

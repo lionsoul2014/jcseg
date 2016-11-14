@@ -44,20 +44,42 @@ public class Dictionary extends ADictionary
     @Override
     public boolean match(int t, String key)
     {
-        if ( t < 0 || t >= ILexicon.T_LEN ) return false; 
-        return dics[t].containsKey(key);
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            return dics[t].containsKey(key);
+        }
+        return false;
+    }
+     
+    /**
+     * @see ADictionary#add(int, IWord) 
+    */
+    @Override
+    public void add(int t, IWord word)
+    {
+        if ( ! dics[t].containsKey(word.getValue()) ) {
+            dics[t].put(word.getValue(), word);
+        }
     }
 
+    /**
+     * @see ADictionary#add(int, String, int, int, String) 
+    */
+    @Override
+    public void add(int t, String key, int fre, int type, String entity)
+    {
+        if ( t >= 0 && t < ILexicon.T_LEN 
+                && ! dics[t].containsKey(key) ) {
+            dics[t].put(key, new Word(key, fre, type, entity));
+        }
+    }
+    
     /**
      * @see ADictionary#add(int, String, int) 
      */
     @Override
     public void add(int t, String key, int type)
     {
-        if ( t < 0 || t >= ILexicon.T_LEN ) return; 
-        if ( dics[t].get(key) == null ) {
-            dics[t].put(key, new Word(key, type));
-        }
+        add(t, key, 0, type, null);
     }
 
     /**
@@ -66,10 +88,16 @@ public class Dictionary extends ADictionary
     @Override
     public void add(int t, String key, int fre, int type)
     {
-        if (  t < 0 || t >= ILexicon.T_LEN  ) return;
-        if ( dics[t].get(key) == null ) {
-            dics[t].put(key, new Word(key, fre, type));
-        }
+        add(t, key, fre, type, null);
+    }
+
+    /**
+     * @see ADictionary#add(int, String, int, String) 
+    */
+    @Override
+    public void add(int t, String key, int type, String entity)
+    {
+        add(t, key, 0, type, entity);
     }
 
     /**
@@ -78,8 +106,10 @@ public class Dictionary extends ADictionary
     @Override
     public IWord get(int t, String key)
     {
-        if (  t < 0 || t >= ILexicon.T_LEN  ) return null; 
-        return dics[t].get(key);
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            return dics[t].get(key);
+        }
+        return null;
     }
 
     /**
@@ -88,8 +118,9 @@ public class Dictionary extends ADictionary
     @Override
     public void remove(int t, String key)
     {
-        if (  t < 0 || t >= ILexicon.T_LEN  ) return; 
-        dics[t].remove(key);
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            dics[t].remove(key);
+        }
     }
     
     /**
@@ -98,7 +129,10 @@ public class Dictionary extends ADictionary
     @Override
     public int size(int t)
     {
-        if (  t < 0 || t >= ILexicon.T_LEN  ) return 0; 
-        return dics[t].size();
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            return dics[t].size();
+        }
+        return 0;
     }
+    
 }
