@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import org.lionsoul.jcseg.tokenizer.ComplexSeg;
 import org.lionsoul.jcseg.tokenizer.DelimiterSeg;
 import org.lionsoul.jcseg.tokenizer.DetectSeg;
+import org.lionsoul.jcseg.tokenizer.NLPSeg;
 import org.lionsoul.jcseg.tokenizer.SearchSeg;
 import org.lionsoul.jcseg.tokenizer.SimpleSeg;
 
@@ -54,18 +55,28 @@ public class SegmentFactory
     public static ISegment createJcseg( int mode, Object...args ) throws JcsegException 
     {
         Class<? extends ISegment> _clsname;
-        if ( mode == JcsegTaskConfig.SIMPLE_MODE )
+        switch ( mode ) {
+        case JcsegTaskConfig.SIMPLE_MODE:
             _clsname = SimpleSeg.class;
-        else if ( mode == JcsegTaskConfig.COMPLEX_MODE )
+            break;
+        case JcsegTaskConfig.COMPLEX_MODE:
             _clsname = ComplexSeg.class;
-        else if ( mode == JcsegTaskConfig.DETECT_MODE )
+            break;
+        case JcsegTaskConfig.NLP_MODE:
+            _clsname = NLPSeg.class;
+            break;
+        case JcsegTaskConfig.DETECT_MODE:
             _clsname = DetectSeg.class;
-        else if ( mode == JcsegTaskConfig.SEARCH_MODE )
+            break;
+        case JcsegTaskConfig.SEARCH_MODE:
             _clsname = SearchSeg.class;
-        else if ( mode == JcsegTaskConfig.DELIMITER_MODE )
+            break;
+        case JcsegTaskConfig.DELIMITER_MODE:
             _clsname = DelimiterSeg.class;
-        else 
+            break;
+        default:
             throw new JcsegException("No Such Algorithm Excpetion");
+        }   
         
         Class<?>[] _paramtype = null;
         if ( args.length == 2 ) {

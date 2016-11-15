@@ -7,11 +7,13 @@ import java.util.ArrayList;
 //import java.util.Iterator;
 
 
+
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
 import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
 
 
 /**
@@ -56,7 +58,6 @@ public class ComplexSeg extends ASegment
         
         int idx_2, idx_3;
         ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
-        
         for ( int x = 0; x < mwords.length; x++ ) {
             //the second layer
             idx_2 = index + mwords[x].getLength();

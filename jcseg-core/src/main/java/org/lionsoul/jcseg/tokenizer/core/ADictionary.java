@@ -453,7 +453,6 @@ public abstract class ADictionary
             */
             if ( line.charAt(0) == ':' && line.length() > 1 ) {
                 String[] directive = line.substring(1).toLowerCase().split("\\s+");
-                System.out.println(line);
                 if ( directive[0].equals("entity") ) {     //@since 2.0.1
                     if ( directive.length > 1 ) {
                         String args = directive[1].trim();

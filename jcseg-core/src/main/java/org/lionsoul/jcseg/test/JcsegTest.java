@@ -14,6 +14,7 @@ import org.lionsoul.jcseg.extractor.impl.TextRankKeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
+import org.lionsoul.jcseg.tokenizer.NLPSeg;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
@@ -112,7 +113,7 @@ public class JcsegTest
         IWord word = null;
         
         long _start = System.nanoTime();
-        boolean isFirst = true;
+        boolean isFirst = true, entity = (tokenizerSeg instanceof NLPSeg);
         int counter = 0;
         tokenizerSeg.reset(new StringReader(str));
         while ( (word = tokenizerSeg.next()) != null ) {
@@ -135,8 +136,12 @@ public class JcsegTest
             if ( word.getPartSpeech() != null ) {
                 sb.append('/');
                 sb.append(word.getPartSpeech()[0]);
-                /*sb.append('/');
-                sb.append(word.getEntity());*/
+            }
+            
+            //check and append the entity recognition
+            if ( entity ) {
+                sb.append('/');
+                sb.append(word.getEntity());
             }
             
             //clear the allocations of the word.
@@ -304,6 +309,12 @@ public class JcsegTest
                         action = 0;
                         System.out.println("Entered delimiter tokenizer mode!");
                         continue;
+                    } else if (":NLP".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.NLP_MODE);
+                        module = "tokenzier:NLP";
+                        action = 0;
+                        System.out.println("Entered NLP tokenizer mode!");
+                        continue;
                     } else if (":keywords".equals(cmd)) {
                         module = "keywords";
                         action = 1;
@@ -352,16 +363,16 @@ public class JcsegTest
     
     static void printHelpMenu()
     {
-        System.out.println("+--------Jcseg chinese word tokenizer demo---------+");
-        System.out.println("|- @Author chenxin<chenxin619315@gmail.com>        |");
-        System.out.println("|- :seg_mode  : switch to specified tokenizer mode.|");
-        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter)   |");
-        System.out.println("|- :keywords  : switch to keywords extract mode.   |");
-        System.out.println("|- :keyphrase : switch to keyphrase extract mode.  |");
-        System.out.println("|- :sentence  : switch to sentence extract mode.   |");
-        System.out.println("|- :summary   : switch to summary extract mode.    |");
-        System.out.println("|- :help      : print this help menu.              |");
-        System.out.println("|- :quit      : to exit the program.               |");
-        System.out.println("+--------------------------------------------------+");
+        System.out.println("+--------Jcseg chinese word tokenizer demo---------------+");
+        System.out.println("|- @Author chenxin<chenxin619315@gmail.com>              |");
+        System.out.println("|- :seg_mode  : switch to specified tokenizer mode.      |");
+        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter,:NLP)    |");
+        System.out.println("|- :keywords  : switch to keywords extract mode.         |");
+        System.out.println("|- :keyphrase : switch to keyphrase extract mode.        |");
+        System.out.println("|- :sentence  : switch to sentence extract mode.         |");
+        System.out.println("|- :summary   : switch to summary extract mode.          |");
+        System.out.println("|- :help      : print this help menu.                    |");
+        System.out.println("|- :quit      : to exit the program.                     |");
+        System.out.println("+--------------------------------------------------------+");
     }
 }

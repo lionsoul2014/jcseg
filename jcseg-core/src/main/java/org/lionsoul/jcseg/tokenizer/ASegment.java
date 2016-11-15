@@ -208,7 +208,7 @@ public abstract class ASegment implements ISegment
              * set the config.pptmaxlen to 0 to close it
             */
             else if ( config.PPT_MAX_LENGTH > 0 
-                    && StringUtil.isPairPunctuation( (char) c ) ) {
+                    && StringUtil.isPairPunctuation( (char)c ) ) {
                 word = getNextPunctuationPairWord(c, pos);
             } 
             /* letter number like 'ⅠⅡ';

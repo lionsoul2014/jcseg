@@ -25,6 +25,7 @@ public class JcsegTaskConfig implements Cloneable
     public static final int DETECT_MODE  = 3;
     public static final int SEARCH_MODE  = 4;
     public static final int DELIMITER_MODE = 5;
+    public static final int NLP_MODE = 6;
     
     /**maximum length for maximum match(5-7)*/
     public int MAX_LENGTH = 5;
