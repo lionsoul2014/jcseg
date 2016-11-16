@@ -10,6 +10,7 @@ import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.NumericUtil;
 
 /**
@@ -30,6 +31,7 @@ public class NLPSeg extends ComplexSeg
         */
         config.EN_SECOND_SEG   = false;
         config.CNFRA_TO_ARABIC = true;
+        config.CNNUM_TO_ARABIC = true;
     }
 
     public NLPSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
@@ -56,12 +58,11 @@ public class NLPSeg extends ComplexSeg
              * check if there is Chinese numeric. 
              * make sure chars[cjkidx] is a Chinese numeric
              * and it is not the last word.
-             */
+            */
             if ( cjkidx + 1 < chars.length 
                     && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
-                //get the Chinese numeric chars
                 String num = nextCNNumeric(chars, cjkidx);
-                int NUMLEN = num.length();
+                System.out.println(num);
                 
                 /*
                  * check the Chinese fraction.
@@ -69,17 +70,17 @@ public class NLPSeg extends ComplexSeg
                  * @added 2013-12-14.
                 */
                 if ( (ctrlMask & ISegment.CHECK_CF_MASK) != 0  ) {
-                    //get the Chinese fraction.
                     w = new Word(num, IWord.T_CN_NUMERIC);
                     w.setPosition(pos+cjkidx);
                     w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     w.setEntity(Entity.E_NUMERIC_CN_FRACTION);
                     wordPool.add(w);
                     
-                    /* Here: 
+                    /* 
+                     * Here: 
                      * Convert the Chinese fraction to Arabic fraction,
                      * if the Config.CNFRA_TO_ARABIC is true.
-                     */
+                    */
                     if ( config.CNFRA_TO_ARABIC ) {
                         String[] split = num.split("分之");
                         IWord wd = new Word(
@@ -92,92 +93,66 @@ public class NLPSeg extends ComplexSeg
                         wd.setEntity(Entity.E_NUMERIC_FRACTION);
                         wordPool.add(wd);
                     }
-                }
-                /*
-                 * check the Chinese numeric and single units.
-                 * type to find Chinese and unit composed word.
-                */
-                else if ( NumericUtil.isCNNumeric(chars[cjkidx+1]) > -1
-                        || dic.match(ILexicon.CJK_UNIT, chars[cjkidx+1]+"") ) {
-                    StringBuilder sb = new StringBuilder();
-                    String temp      = null;
-                    String ONUM      = num;    //backup the old numeric
-                    sb.append(num);
-                    boolean matched = false;
-                    int j;
+                } else {
+                    IWord numWord  = null;
+                    IWord unitWord = null;
+                    String temp = null;
+                    IStringBuffer sb = new IStringBuffer();
                     
-                    //find the word that made up with the numeric
-                    //like: 五四运动
-                    for ( j = num.length();
+                    /*
+                     * check the Chinese numeric and the units
+                     * try to find a Chinese and unit composed word
+                    */
+                    for ( int j = num.length(), i = 0; 
                             (cjkidx + j) < chars.length 
-                                && j < config.MAX_LENGTH; j++ ) {
-                        sb.append(chars[cjkidx + j]);
+                            && i < config.MAX_UNIT_LENGTH; j++, i++ ) {
+                        sb.append(chars[cjkidx+j]);
                         temp = sb.toString();
-                        if ( dic.match(ILexicon.CJK_WORD, temp) ) {
-                            w = dic.get(ILexicon.CJK_WORD, temp);
-                            num = temp;
-                            matched = true;
+                        if ( dic.match(ILexicon.CJK_UNIT, temp) ) {
+                            unitWord = dic.get(ILexicon.CJK_UNIT, temp);
                         }
                     }
                     
                     /*
-                     * @Note: when matched is true, num maybe a word like '五月',
-                     * yat, this will make it skip the Chinese numeric to Arabic logic
-                     * so find the matched word that it maybe a single Chinese units word
-                     * 
-                     * @added: 2014-06-06
-                     */
-                    if ( matched == true && num.length() - NUMLEN == 1 
-                            && dic.match(ILexicon.CJK_UNIT, num.substring(NUMLEN)) ) {
-                        num     = ONUM;
-                        matched = false;    //reset the matched
-                    }
-                    
-                    //find the numeric units
-                    IWord wd = null;
-                    if ( matched == false && config.CNNUM_TO_ARABIC ) {
-                        //get the numeric'a Arabic
-                        String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
-                        if ( (cjkidx + num.length()) < chars.length
-                                && dic.match(ILexicon.CJK_UNIT, chars[cjkidx + num.length()]+"") ) {
-                            char units = chars[cjkidx + num.length()];
-                            num += units; arabic += units;
+                     * try to find the word that made up with the numeric
+                     * like: "五四运动"
+                    */
+                    if ( unitWord == null ) {
+                        sb.clear().append(num);
+                        for ( int j = num.length();
+                                (cjkidx + j) < chars.length 
+                                    && j < config.MAX_LENGTH; j++ ) {
+                            sb.append(chars[cjkidx+j]);
+                            temp = sb.toString();
+                            if ( dic.match(ILexicon.CJK_WORD, temp) ) {
+                                numWord = dic.get(ILexicon.CJK_WORD, temp);
+                            }
+                        }
+                    } else {
+                        String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity();
+                        w = new Word(num, IWord.T_CJK_WORD, entity);
+                        w.setPosition(pos+cjkidx);
+                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        wordPool.add(w);
+                        
+                        IWord wd = null;
+                        if ( config.CNNUM_TO_ARABIC ) {
+                            String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+                            entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity();
+                            wd = new Word(arabic, IWord.T_CN_NUMERIC, entity);
+                            wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                            wd.setPosition(pos+cjkidx);
+                            wordPool.add(wd);
                         }
                         
-                        wd = new Word(arabic, IWord.T_CN_NUMERIC);
-                        wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                        //wd.setEntity(null);
-                        wd.setPosition(pos+cjkidx);
-                    }
-                    
-                    //clear the stop words as need
-                    if ( config.CLEAR_STOPWORD 
-                            && dic.match(ILexicon.STOP_WORD, num) ) {
-                        cjkidx += num.length();
-                        continue;
-                    }
-                    
-                    /*
-                     * @Note: added at 2016/07/19
-                     * we cannot share the position with the original word item in the
-                     * global dictionary accessed with this.dic
-                     * 
-                     * cuz at the concurrency that will lead to the position error
-                     * so, we clone it if the word is directly get from the dictionary
-                    */
-                    if ( w == null ) {
-                        w = new Word(num, IWord.T_CN_NUMERIC);
-                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                        w.setEntity(Entity.E_NUMERIC_CN);
-                    } else {
-                        w = w.clone();
-                    }
-                    
-                    w.setPosition(pos + cjkidx);
-                    wordPool.add(w);
-                    if ( wd != null ) {
+                        wd = unitWord.clone();
+                        wd.setPosition(pos+cjkidx+num.length());
                         wordPool.add(wd);
+                        cjkidx += unitWord.getLength();
                     }
+                    
+                    /*System.out.println("unit: " + unitWord);
+                    System.out.println("num: " + numWord);*/
                 }
                 
                 if ( w != null ) {
@@ -188,10 +163,7 @@ public class NLPSeg extends ComplexSeg
             }
             
             
-            //-------------------------------------------------------------
             IChunk chunk = getBestCJKChunk(chars, cjkidx);
-            //System.out.println(chunk+"\n");
-            //w = new Word(chunk.getWords()[0].getValue(), IWord.T_CJK_WORD);
             w = chunk.getWords()[0];
             
             /* 
@@ -239,16 +211,14 @@ public class NLPSeg extends ComplexSeg
                 }
             }
             
-            //check the stopwords(clear it when Config.CLEAR_STOPWORD is true)
+            //check the stop words(clear it when Config.CLEAR_STOPWORD is true)
             if ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
                 cjkidx += w.getLength();
                 continue;
             }
             
-            
-            //---------------------------------------------------------
-            
+                        
             /*
              * @istep 3:
              * 
@@ -266,7 +236,7 @@ public class NLPSeg extends ComplexSeg
                 /*
                  * here: (2013-08-31 added)
                  * also make sure the CE word is not a stop word
-                 */
+                */
                 if ( ! ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, cestr) )
                     && dic.match(ILexicon.CJK_WORD, cestr) ) {
@@ -285,7 +255,7 @@ public class NLPSeg extends ComplexSeg
              * @reader: (2013-08-31 added)
              * the newly found letter or digit word "enAfter" token 
              * will be handled at last cause we have to handle 
-             * the pinyin and the syn words first.
+             * the pinyin and the synonyms words first.
              * 
              * @Note: added at 2016/07/19
              * if the ce word is null and if the T is -1
@@ -301,31 +271,28 @@ public class NLPSeg extends ComplexSeg
             }
             
             
-            //-------------------------------------------------------
-
             /*
              * @istep 4:
              * 
-             * check and append the pinyin and the synonyms words.
+             * check and append the Pinyin and the synonyms words.
              */
             if ( T == -1 ) {
                 appendWordFeatures(w);
             }
             
-            //handle the after English word
-            //generated at the above Chinese and English mix word
+            /* 
+             * handle the after English word
+             * generated at the above Chinese and English mix word
+            */
             if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) ) {
                 enAfter.setPosition(pos+chars.length);
-                //check and to the secondary split.
                 if ( config.EN_SECOND_SEG
                         && (ctrlMask & ISegment.START_SS_MASK) != 0 )  {
                     enSecondSeg(enAfter, false);
                 }
                 
                 wordPool.add(enAfter);
-                
-                //append the synonyms words.
                 if ( config.APPEND_CJK_SYN ) {
                     appendLatinSyn(enAfter);
                 }

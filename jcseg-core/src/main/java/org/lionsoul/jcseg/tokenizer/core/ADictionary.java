@@ -261,53 +261,58 @@ public abstract class ADictionary
     /**
      * directly add a IWord item to the dictionary
      * 
-     * @param t
-     * @param word
+     * @param   t
+     * @param   word
+     * @param   IWord
     */
-    public abstract void add( int t, IWord word );
+    public abstract IWord add( int t, IWord word );
     
     /**
      * add a new word to the dictionary with its statistics frequency
      * 
-     * @param t
-     * @param key
-     * @param fre
-     * @param type
-     * @param entity
+     * @param   t
+     * @param   key
+     * @param   fre
+     * @param   type
+     * @param   entity
+     * @return  IWord
      */
-    public abstract void add( int t, String key, int fre, int type, String entity );
+    public abstract IWord add( int t, String key, int fre, int type, String entity );
     
     /**
      * add a new word to the dictionary
      * 
-     * @param t
-     * @param key
-     * @param fre
-     * @param type
+     * @param   t
+     * @param   key
+     * @param   fre
+     * @param   type
+     * @param   IWord
      */
-    public abstract void add( int t, String key, int fre, int type );
+    public abstract IWord add( int t, String key, int fre, int type );
     
     /**
      * add a new word to the dictionary
      * 
-     * @param t
-     * @param key
-     * @param type
+     * @param   t
+     * @param   key
+     * @param   type
+     * @param   IWord
      */
-    public abstract void add( int t, String key, int type );
+    public abstract IWord add( int t, String key, int type );
     
     /**
      * add a new word to the dictionary
      * 
-     * @param t
-     * @param key
-     * @param type
-     * @param entity
+     * @param   t
+     * @param   key
+     * @param   type
+     * @param   entity
+     * @param   IWord
      */
-    public abstract void add( int t, String key, int type, String entity );
+    public abstract IWord add( int t, String key, int type, String entity );
     
     /**
-     * return the IWord asscociate with the given key.
+     * return the IWord associate with the given key.
      * if there is not mapping for the key null will be return
      * 
      * @param t
@@ -463,6 +468,8 @@ public abstract class ADictionary
                 continue;
             }
             
+            IWord tword = null;
+            String[] wd = null;
             switch ( t ) {
             case ILexicon.CN_SNAME:
             case ILexicon.CN_LNAME:
@@ -479,13 +486,25 @@ public abstract class ADictionary
                  * define the numeric entity in front of it
                  * @date 2016/11/12
                 */
-                if ( line.indexOf('/') == -1 ) {
-                    dic.add(t, line, IWord.T_CJK_WORD, gEntity);
-                } else {
-                    String[] wd = line.split("/");
+                wd = line.split("/");
+                IWord w = dic.add(t, wd[0], IWord.T_CJK_WORD);
+                if ( wd.length == 1 ) {
+                    dic.add(ILexicon.CJK_WORD, w);
+                } else if ( wd.length == 2 ) {
                     String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
-                    dic.add(t, wd[0], IWord.T_CJK_WORD, entity);
+                    w.setEntity(entity);
+                    dic.add(ILexicon.CJK_WORD, w).setEntity(entity);;
+                    
+                } else if ( wd.length > 4) {
+                    String entity = "null".equals(wd[4]) ? null : Entity.get(wd[4]);
+                    w.setEntity(entity);
+                    dic.add(ILexicon.CJK_WORD, w).setEntity(entity);;
+                    tword = w;
+                } else {
+                    dic.add(ILexicon.CJK_WORD, w);
+                    tword = w;
                 }
+                
                 break;
             case ILexicon.CN_LNAME_ADORN:
                 dic.add(t, line, IWord.T_CJK_WORD);
@@ -500,7 +519,7 @@ public abstract class ADictionary
             case ILexicon.EN_WORD :
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
-                String[] wd = line.split("/");
+                wd = line.split("/");
                 if ( wd.length < 4 ) {    //format check
                     System.out.println("Word: \"" + wd[0] + "\" format error. -ignored");
                     continue;
@@ -515,25 +534,17 @@ public abstract class ADictionary
                 }
                 
                 //length limit(CJK_WORD only)
-                boolean isCJKWord = (t == ILexicon.CJK_WORD);
-                if ( isCJKWord && wd[0].length() > config.MAX_LENGTH ) {
+                if ( t == ILexicon.CJK_WORD && wd[0].length() > config.MAX_LENGTH ) {
                     continue;
                 }
                 
-                IWord w = dic.get(t, wd[0]);
-                if ( w == null ) {
+                tword = dic.get(t, wd[0]);
+                if ( tword == null ) {
                     if ( t == ILexicon.CJK_CHAR ) {
-                        dic.add(ILexicon.CJK_WORD, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
-                        w = dic.get(ILexicon.CJK_WORD, wd[0]);
+                        tword = dic.add(ILexicon.CJK_WORD, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
                     } else {
-                        dic.add(t, wd[0], IWord.T_CJK_WORD);
-                        w = dic.get(t, wd[0]);
+                        tword = dic.add(t, wd[0], IWord.T_CJK_WORD);
                     }
-                }
-                
-                //set the Pinyin of the word.
-                if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {
-                    w.setPinyin(wd[2]);
                 }
                 
                 /*
@@ -541,27 +552,40 @@ public abstract class ADictionary
                  * update the entity string for CJK and English words only 
                 */
                 if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
-                    String oEntity = w.getEntity();
+                    String oEntity = tword.getEntity();
                     if ( oEntity == null ) {
                         if ( wd.length > 4 ) {
-                            w.setEntity("null".equals(wd[4]) ? null : Entity.get(wd[4]));
+                            tword.setEntity("null".equals(wd[4]) ? null : Entity.get(wd[4]));
                         } else {
-                            w.setEntity(gEntity);
+                            tword.setEntity(gEntity);
                         }
                     } else if ( wd.length > 4 ) {
                         if ( "null".equals(wd[4]) ) {
-                            w.setEntity(null);
+                            tword.setEntity(null);
                         } else if ( wd[4].length() > oEntity.length() ) {
-                            w.setEntity(Entity.get(wd[4]));
+                            tword.setEntity(Entity.get(wd[4]));
                         }
                     } else if ( gEntity != null 
                             && gEntity.length() > oEntity.length() ){
-                        w.setEntity(gEntity);
+                        tword.setEntity(gEntity);
                     }
                 }
                 
+                break;
+            }
+            
+            /*
+             * check and append the attributes of tword
+             * like the Pinyin, the synonym words and the part of speech
+            */
+            if ( tword != null ) {
+                //set the Pinyin of the word.
+                if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {
+                    tword.setPinyin(wd[2]);
+                }
+                
                 //update the synonym of the word.
-                String[] arr = w.getSyn();
+                String[] arr = tword.getSyn();
                 if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
                     String[] syns = wd[3].split(",");
                     for ( int j = 0; j < syns.length; j++ ) {
@@ -570,7 +594,8 @@ public abstract class ADictionary
                          * filter the synonym that its length 
                          * is greater than config.MAX_LENGTH
                          */
-                        if ( isCJKWord && syns[j].length() > config.MAX_LENGTH ) {
+                        if ( t == ILexicon.CJK_WORD 
+                                && syns[j].length() > config.MAX_LENGTH ) {
                             continue;
                         }
                         
@@ -591,13 +616,13 @@ public abstract class ADictionary
                         }
                         
                         if ( add ) {
-                            w.addSyn(syns[j]);
+                            tword.addSyn(syns[j]);
                         }
                     }
                 }
                 
                 //update the word's part of speech
-                arr = w.getPartSpeech();
+                arr = tword.getPartSpeech();
                 if ( config.LOAD_CJK_POS && ! "null".equals(wd[1]) ) {
                     String[] pos = wd[1].split(",");
                     
@@ -621,13 +646,11 @@ public abstract class ADictionary
                         }
                         
                         if ( add ) {
-                            w.addPartSpeech(pos[j].trim());
+                            tword.addPartSpeech(pos[j].trim());
                         }
                     }
                 }
-                
-                break;
-            }   //end of switch
+            }
             
         }
         

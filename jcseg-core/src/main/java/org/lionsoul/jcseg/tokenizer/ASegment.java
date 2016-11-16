@@ -313,8 +313,6 @@ public abstract class ASegment implements ISegment
             w = null;
             
             
-            //-----------------------------------------------------------
-            
             /*
              * @istep 1: 
              * 
@@ -340,13 +338,13 @@ public abstract class ASegment implements ISegment
                  * @added 2013-12-14.
                  * */
                 if ( (ctrlMask & ISegment.CHECK_CF_MASK) != 0  ) {
-                    //get the Chinese fraction.
                     w = new Word(num, IWord.T_CN_NUMERIC);
                     w.setPosition(pos+cjkidx);
                     w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     wordPool.add(w);
                     
-                    /* Here: 
+                    /* 
+                     * Here: 
                      * Convert the Chinese fraction to Arabic fraction,
                      * if the Config.CNFRA_TO_ARABIC is true.
                      */
@@ -365,7 +363,7 @@ public abstract class ASegment implements ISegment
                 /*
                  * check the Chinese numeric and single units.
                  * type to find Chinese and unit composed word.
-                 * */
+                */
                 else if ( NumericUtil.isCNNumeric(chars[cjkidx+1]) > -1
                         || dic.match(ILexicon.CJK_UNIT, chars[cjkidx+1]+"") ) {
                     StringBuilder sb = new StringBuilder();
@@ -375,8 +373,10 @@ public abstract class ASegment implements ISegment
                     boolean matched = false;
                     int j;
                     
-                    //find the word that made up with the numeric
-                    //like: 五四运动
+                    /*
+                     * find the word that made up with the numeric
+                     * like: "五四运动"
+                    */
                     for ( j = num.length();
                             (cjkidx + j) < chars.length 
                                 && j < config.MAX_LENGTH; j++ ) {
@@ -402,10 +402,8 @@ public abstract class ASegment implements ISegment
                         matched = false;    //reset the matched
                     }
                     
-                    //find the numeric units
                     IWord wd = null;
                     if ( matched == false && config.CNNUM_TO_ARABIC ) {
-                        //get the numeric'a Arabic
                         String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
                         if ( (cjkidx + num.length()) < chars.length
                                 && dic.match(ILexicon.CJK_UNIT, chars[cjkidx + num.length()]+"") ) {
@@ -455,9 +453,7 @@ public abstract class ASegment implements ISegment
             }
             
             
-            //-------------------------------------------------------------
             IChunk chunk = getBestCJKChunk(chars, cjkidx);
-            //System.out.println(chunk+"\n");
             //w = new Word(chunk.getWords()[0].getValue(), IWord.T_CJK_WORD);
             w = chunk.getWords()[0];
             
@@ -505,15 +501,13 @@ public abstract class ASegment implements ISegment
                 }
             }
             
-            //check the stopwords(clear it when Config.CLEAR_STOPWORD is true)
+            //check and clear the stop words
             if ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
                 cjkidx += w.getLength();
                 continue;
             }
             
-            
-            //---------------------------------------------------------
             
             /*
              * @istep 3:
@@ -524,7 +518,6 @@ public abstract class ASegment implements ISegment
             IWord enAfter = null, ce = null;
             if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
                     && (cjkidx + w.getLength() >= chars.length) ) {
-                //System.out.println("CE-Word"+w.getValue());
                 enAfter = nextBasicLatin(readNext());
                 //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
                 String cestr = w.getValue() + enAfter.getValue();
@@ -578,20 +571,19 @@ public abstract class ASegment implements ISegment
                 appendWordFeatures(w);
             }
             
-            //handle the after English word
-            //generated at the above Chinese and English mix word
+            /*
+             * handle the after English word
+             * generated at the above Chinese and English mix word
+            */
             if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) ) {
                 enAfter.setPosition(pos+chars.length);
-                //check and to the secondary split.
                 if ( config.EN_SECOND_SEG
                         && (ctrlMask & ISegment.START_SS_MASK) != 0 )  {
                     enSecondSeg(enAfter, false);
                 }
                 
                 wordPool.add(enAfter);
-                
-                //append the synonyms words.
                 if ( config.APPEND_CJK_SYN ) {
                     appendLatinSyn(enAfter);
                 }
@@ -632,20 +624,18 @@ public abstract class ASegment implements ISegment
             return w;
         }
         
-        //get the next basic Latin token.
         IWord w = nextBasicLatin(c);
         w.setPosition(pos);
         
         /* @added: 2013-12-16
          * check and do the secondary segmentation work.
          * This will split 'qq2013' to 'qq, 2013'.
-         * */
+        */
         if ( config.EN_SECOND_SEG
                 && (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
             enSecondSeg(w, false);
         }
         
-        //clear the stop word
         if ( config.CLEAR_STOPWORD 
                 && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
             w = null;    //Let gc do its work
@@ -697,7 +687,7 @@ public abstract class ASegment implements ISegment
          * 1. the punctuation is clear.
          * 2. the pair text is null or being cleared.
          * @date 2013-09-06
-         */
+        */
         if ( w == null && w2 == null ) {
             return null;
         }
@@ -717,6 +707,7 @@ public abstract class ASegment implements ISegment
                 && config.LOAD_CJK_PINYIN && word.getPinyin() != null ) {
             IWord pinyin = new Word(word.getPinyin(), IWord.T_CJK_PINYIN);
             pinyin.setPosition(word.getPosition());
+            pinyin.setEntity(word.getEntity());
             wordPool.add(pinyin);
         }
         
@@ -729,6 +720,7 @@ public abstract class ASegment implements ISegment
                 syn = new Word(syns[j], word.getType());
                 syn.setPartSpeech(word.getPartSpeech());
                 syn.setPosition(word.getPosition());
+                syn.setEntity(word.getEntity());
                 wordPool.add(syn);
             }
         }
@@ -748,7 +740,7 @@ public abstract class ASegment implements ISegment
          * @added 2014-07-07
          * w maybe EC_MIX_WORD, so check its syn first
          * and make sure it is not a EC_MIX_WORD then check the EN_WORD 
-         */
+        */
         if ( w.getSyn() == null ) {
             ew = dic.get(ILexicon.EN_WORD, w.getValue());
         } else {
@@ -785,7 +777,6 @@ public abstract class ASegment implements ISegment
      */
     protected IWord enSecondSeg( IWord w, boolean retfw ) 
     {
-        //System.out.println("second: "+w.getValue());
         isb.clear();
         char[] chars = w.getValue().toCharArray();
         int _TYPE = StringUtil.getEnCharType(chars[0]);
@@ -798,8 +789,8 @@ public abstract class ASegment implements ISegment
         for ( j = 1; j < chars.length; j++ ) {
             /* get the char type.
              * It could only be one of 
-             *     EN_LETTER, EN_NUMERIC, EN_PUNCTUATION.
-             * */
+             * EN_LETTER, EN_NUMERIC, EN_PUNCTUATION.
+            */
             _ctype = StringUtil.getEnCharType(chars[j]);
             if ( _ctype == StringUtil.EN_PUNCTUATION ) {
                 _TYPE = StringUtil.EN_PUNCTUATION;
@@ -813,12 +804,11 @@ public abstract class ASegment implements ISegment
                 start = j - isb.length() - p;
                 
                 /* If the number of chars is larger than
-                 *     config.EN_SSEG_LESSLEN we create a new IWord
+                 *  config.EN_SSEG_LESSLEN we create a new IWord
                  * and add to the wordPool.
-                 * */
+                */
                 if ( isb.length() >= config.STOKEN_MIN_LEN ) {
                     _str = isb.toString();
-                    //check and clear the stopwords
                     if ( ! ( config.CLEAR_STOPWORD
                             && dic.match(ILexicon.STOP_WORD, _str) ) ) {
                         sword = new Word(_str, w.getType());
@@ -836,7 +826,7 @@ public abstract class ASegment implements ISegment
             }
         }
         
-        //Continue to check the last item.
+        //Continue to check the last item
         if ( isb.length() >= config.STOKEN_MIN_LEN ) {
             start = j - isb.length() - p;
             _str = isb.toString();
@@ -890,7 +880,7 @@ public abstract class ASegment implements ISegment
          * if match no words from the current position 
          * to idx+Config.MAX_LENGTH, just return the Word with
          * a value of temp as a unrecognited word. 
-         */
+        */
         if ( mList.isEmpty() ) {
             mList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
         }
@@ -1043,7 +1033,7 @@ public abstract class ASegment implements ISegment
                 return null;
             case 3:
                 /*
-                 * singe name:  - ignore
+                 * single name:  - ignore
                  *  mean the char and the two chars after it make up a word.
                  *  
                  * it is a double name.
@@ -1106,7 +1096,7 @@ public abstract class ASegment implements ISegment
      * load a CJK char list from the stream start from the 
      * current position till the char is not a CJK char
      * 
-     * @param c
+     * @param  c
      * @return char[]
      * @throws IOException
      */

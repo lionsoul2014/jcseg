@@ -36,6 +36,11 @@ public class JcsegTaskConfig implements Cloneable
     public int MAX_LATIN_LENGTH = 64;
     
     /**
+     * maximum length for unit words 
+    */
+    public int MAX_UNIT_LENGTH = 5;
+    
+    /**
      * maximum length for the Chinese words after the LATIN word.
      *  use to match Chinese and English mix word, like 'B超,AA制...'
      */

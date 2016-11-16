@@ -54,55 +54,69 @@ public class Dictionary extends ADictionary
      * @see ADictionary#add(int, IWord) 
     */
     @Override
-    public void add(int t, IWord word)
+    public IWord add(int t, IWord word)
     {
-        if ( ! dics[t].containsKey(word.getValue()) ) {
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            if ( dics[t].containsKey(word.getValue()) ) {
+                return dics[t].get(word.getValue());
+            }
+            
             dics[t].put(word.getValue(), word);
+            return word;
         }
+        
+        return null;
     }
 
     /**
      * @see ADictionary#add(int, String, int, int, String) 
     */
     @Override
-    public void add(int t, String key, int fre, int type, String entity)
+    public IWord add(int t, String key, int fre, int type, String entity)
     {
-        if ( t >= 0 && t < ILexicon.T_LEN 
-                && ! dics[t].containsKey(key) ) {
-            dics[t].put(key, new Word(key, fre, type, entity));
+        if ( t >= 0 && t < ILexicon.T_LEN ) {
+            if ( dics[t].containsKey(key) ) {
+                return dics[t].get(key);
+            }
+            
+            IWord word = new Word(key, fre, type, entity);
+            dics[t].put(key, word);
+            return word;
         }
+        
+        return null;
     }
     
     /**
      * @see ADictionary#add(int, String, int) 
-     */
+    */
     @Override
-    public void add(int t, String key, int type)
+    public IWord add(int t, String key, int type)
     {
-        add(t, key, 0, type, null);
+        return add(t, key, 0, type, null);
     }
 
     /**
      * @see ADictionary#add(int, String, int, int) 
-     */
+    */
     @Override
-    public void add(int t, String key, int fre, int type)
+    public IWord add(int t, String key, int fre, int type)
     {
-        add(t, key, fre, type, null);
+        return add(t, key, fre, type, null);
     }
 
     /**
      * @see ADictionary#add(int, String, int, String) 
     */
     @Override
-    public void add(int t, String key, int type, String entity)
+    public IWord add(int t, String key, int type, String entity)
     {
-        add(t, key, 0, type, entity);
+        return add(t, key, 0, type, entity);
     }
 
     /**
      * @see ADictionary#get(int, String) 
-     */
+    */
     @Override
     public IWord get(int t, String key)
     {
@@ -114,7 +128,7 @@ public class Dictionary extends ADictionary
 
     /**
      * @see ADictionary#remove(int, String) 
-     */
+    */
     @Override
     public void remove(int t, String key)
     {
@@ -125,7 +139,7 @@ public class Dictionary extends ADictionary
     
     /**
      * @see ADictionary#size(int) 
-     */
+    */
     @Override
     public int size(int t)
     {
