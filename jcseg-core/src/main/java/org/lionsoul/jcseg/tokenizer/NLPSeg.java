@@ -62,7 +62,6 @@ public class NLPSeg extends ComplexSeg
             if ( cjkidx + 1 < chars.length 
                     && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
                 String num = nextCNNumeric(chars, cjkidx);
-                System.out.println(num);
                 
                 /*
                  * check the Chinese fraction.
@@ -94,7 +93,6 @@ public class NLPSeg extends ComplexSeg
                         wordPool.add(wd);
                     }
                 } else {
-                    IWord numWord  = null;
                     IWord unitWord = null;
                     String temp = null;
                     IStringBuffer sb = new IStringBuffer();
@@ -125,9 +123,15 @@ public class NLPSeg extends ComplexSeg
                             sb.append(chars[cjkidx+j]);
                             temp = sb.toString();
                             if ( dic.match(ILexicon.CJK_WORD, temp) ) {
-                                numWord = dic.get(ILexicon.CJK_WORD, temp);
+                                w = dic.get(ILexicon.CJK_WORD, temp);
                             }
                         }
+                        
+                        if ( w != null ) {
+                            IWord wd = w.clone();
+                            wd.setPosition(pos+cjkidx);
+                            wordPool.add(wd);
+                        } 
                     } else {
                         String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity();
                         w = new Word(num, IWord.T_CJK_WORD, entity);
@@ -153,6 +157,11 @@ public class NLPSeg extends ComplexSeg
                     
                     /*System.out.println("unit: " + unitWord);
                     System.out.println("num: " + numWord);*/
+                    if ( w == null ) {
+                        w = new Word(num, IWord.T_CN_NUMERIC, Entity.E_NUMERIC_CN);
+                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        wordPool.add(w);
+                    }
                 }
                 
                 if ( w != null ) {
