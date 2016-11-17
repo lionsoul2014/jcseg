@@ -12,6 +12,7 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.NumericUtil;
+import org.lionsoul.jcseg.util.StringUtil;
 
 /**
  * NLP segmentation implementation
@@ -305,4 +306,270 @@ public class NLPSeg extends ComplexSeg
         return wordPool.remove();
     }
 
+    /**
+     * find the letter or digit word from the current position 
+     * count until the char is whitespace or not letter_digit
+     * 
+     * @param  c
+     * @return IWord
+     * @throws IOException 
+    */
+    @Override
+    protected IWord nextBasicLatin( int c ) throws IOException 
+    {
+        isb.clear();
+        if ( c > 65280 ) c -= 65248;
+        if ( c >= 65 && c <= 90 ) c += 32; 
+        isb.append((char)c);
+        
+        int ch;
+        //EC word, single units control variables.
+        boolean _check  = false;
+        boolean _wspace = false;
+        
+        //Secondary segmentation
+        int _ctype = 0;
+        int tcount = 1;                                  //number of different char type.
+        int _TYPE  = StringUtil.getEnCharType(c);        //current char type.
+        ctrlMask &= ~ISegment.START_SS_MASK;            //reset the secondary segment mask.
+        
+        while ( ( ch = readNext() ) != -1 ) {
+            //Covert the full-width char to half-width char.
+            if ( ch > 65280 ) ch -= 65248;
+            _ctype = StringUtil.getEnCharType(ch);
+            
+            //Whitespace check.
+            if ( _ctype == StringUtil.EN_WHITESPACE ) {
+                _wspace = true;
+                break;
+            }
+            
+            //English punctuation check.
+            if ( _ctype == StringUtil.EN_PUNCTUATION ) {
+                if ( ! config.isKeepPunctuation((char)ch) ) {
+                    pushBack(ch);
+                    break;
+                }
+            }
+            
+            //Not EN_KNOW, and it could be letter, numeric.
+            if ( _ctype == StringUtil.EN_UNKNOW ) {
+                pushBack(ch);
+                if ( StringUtil.isCJKChar( ch ) ) {
+                    _check = true;
+                }
+                
+                break;
+            }
+            
+            //covert the lower case letter to upper case.
+            if ( ch >= 65 && ch <= 90 ) ch += 32;
+            
+            //append the char to the buffer.
+            isb.append((char)ch);
+            
+            /* Char type counter. 
+             * condition to start the secondary segmentation.
+             * @reader: we could do better.
+             * 
+             * @added 2013-12-16
+            */
+            if ( _ctype != _TYPE ) {
+                tcount++;
+                _TYPE = _ctype;
+            }
+            
+            /*
+             * global English word length limitation 
+            */
+            if ( isb.length() > config.MAX_LATIN_LENGTH ) {
+                break;
+            }
+        }
+        
+        String __str = isb.toString();
+        IWord w = null;
+        boolean chkunits = true;
+        
+        /* 
+         * @step 2: 
+         * 1. clear the useless English punctuation from the end.
+         * 2. try to find the English and punctuation mixed word.
+         * 
+         * set _ctype as the status for the existence of punctuation
+         * at the end of the isb cause we need to plus the tcount 
+         * to avoid the secondary check for words like chenxin+, c+.
+        */
+        _ctype = 0;
+        for ( int t = isb.length() - 1; t > 0 
+                && isb.charAt(t) != '%'
+                && StringUtil.isEnPunctuation(isb.charAt(t)); t-- ) {
+            /*
+             * try to find a English and punctuation mixed word.
+             * this will clear all the punctuation until a mixed word is found.
+             * like "i love c++.", c++ will be found from token "c++.".
+             * 
+             * @Note: added at 2013/08/31 
+            */
+            if ( dic.match(ILexicon.CJK_WORD, __str) ) {
+                w = dic.get(ILexicon.CJK_WORD, __str).clone();
+                w.setPartSpeech(IWord.EN_POSPEECH);
+                chkunits = false;
+                break;
+            }
+            
+            /*
+             * keep the English punctuation.
+             * @date 2013/09/06 
+            */
+            pushBack(isb.charAt(t));
+            isb.deleteCharAt(t);
+            __str = isb.toString();
+            
+            /*check and decrease the tcount.*/
+            if ( _ctype == 0 ) {
+                tcount--;
+                _ctype = 1;
+            }
+        }
+        
+        /*
+         * do the percentage recognition 
+        */
+        if ( _TYPE == StringUtil.EN_NUMERIC ) {
+            if ( tcount == 1 ) {
+                w = new Word(__str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_ARABIC);
+                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                return w;
+            } else if ( tcount == 2 && StringUtil.isDecimal(__str) ) {
+                w = new Word(__str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_DECIMAL);
+                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                return w;
+            }
+        }
+        
+        //condition to start the secondary segmentation.
+        boolean ssseg = (tcount > 1) && chkunits;
+        
+        /* @step 3: check the end condition.
+         * and the check if the token loop was break by whitespace
+         * cause there is no need to continue all the following work if it is.
+         * 
+         * @added 2013-11-19 
+        */
+        if ( ch == -1 || _wspace ) {
+            w = new Word(__str, IWord.T_BASIC_LATIN);
+            w.setPartSpeech(IWord.EN_POSPEECH);
+            if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
+            return w;
+        }
+        
+        if ( ! _check ) {
+            /* 
+             * @reader: (2013-09-25)
+             * we check the units here, so we can recognize
+             * many other units that is not Chinese like '℉,℃' eg..
+            */
+            if ( chkunits && ( StringUtil.isDigit(__str) 
+                        || StringUtil.isDecimal(__str) ) ) {
+                ch = readNext();
+                if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
+                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
+                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else {
+                    pushBack(ch);
+                }
+            }
+            
+            if ( w == null ) {
+                w = new Word(__str, IWord.T_BASIC_LATIN);
+                w.setPartSpeech(IWord.EN_POSPEECH);
+                if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
+            }
+            
+            return w;
+        }
+        
+        
+        //@step 4: check and get English and Chinese mixed word like 'B超'.
+        IStringBuffer ibuffer = new IStringBuffer();
+        ibuffer.append(__str);
+        String _temp = null;
+        int mc = 0, j = 0;        //the number of char that readed from the stream.
+        
+        //replace width IntArrayList at 2013-09-08
+        //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
+        ialist.clear();
+        
+        /* Attention:
+         * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
+         * or it cause the miss of the next char. 
+         * 
+         * @reader: (2013-09-25)
+         * we do not check the type of the char readed next.
+         * so, words started with English and its length except the start English part
+         * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
+        */
+        for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
+            /* Attention:
+             *  it is a accident that Jcseg works find for 
+             *  we break the loop directly when we meet a whitespace.
+             *  1. if a EC word is found, unit check process will be ignore.
+             *  2. if matches no EC word, certainly return of readNext() 
+             *      will make sure the units check process works find.
+             */
+            if ( StringUtil.isWhitespace(ch) ) {
+                pushBack(ch);
+                break;
+            }
+            
+            ibuffer.append((char)ch);
+            //System.out.print((char)ch+",");
+            ialist.add(ch);
+            _temp = ibuffer.toString();
+            //System.out.println((j+1)+": "+_temp);
+            if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
+                w  = dic.get(ILexicon.CJK_WORD, _temp);
+                mc = j + 1;
+            }
+        }
+        
+        ibuffer.clear();
+        ibuffer = null;        //Let gc do it's work.
+        
+        //push back the readed chars.
+        for ( int i = j - 1; i >= mc; i-- ) pushBack(ialist.get(i));
+        //chArr.clear();chArr = null;
+        
+        /* @step 5: check if there is a units for the digit.
+         * @reader: (2013-09-25)
+         * now we check the units before the step 4, so we can recognize
+         * many other units that is not Chinese like '℉,℃'
+        */
+        if ( chkunits && mc == 0 ) {
+            if ( StringUtil.isDigit(__str) || StringUtil.isDecimal(__str) ) {
+                ch = readNext();
+                if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
+                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
+                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else {
+                    pushBack(ch);
+                }
+            }
+        }
+        
+        /* simply return the combination of English char, Arabic
+         * numeric, English punctuation if matches no single units or EC word.
+        */
+        if ( w == null ) {
+            w = new Word(__str, IWord.T_BASIC_LATIN);
+            w.setPartSpeech(IWord.EN_POSPEECH);
+            if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
+        } else if ( mc > 0 ) {
+            w = w.clone();
+        }
+        
+        return w;
+    }
+    
 }
