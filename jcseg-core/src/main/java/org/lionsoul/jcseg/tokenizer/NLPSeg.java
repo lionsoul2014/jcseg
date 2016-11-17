@@ -61,7 +61,10 @@ public class NLPSeg extends ComplexSeg
             */
             if ( cjkidx + 1 < chars.length 
                     && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
+                IWord unitWord = null;
+                int wordLen = -1;
                 String num = nextCNNumeric(chars, cjkidx);
+                
                 
                 /*
                  * check the Chinese fraction.
@@ -69,31 +72,25 @@ public class NLPSeg extends ComplexSeg
                  * @added 2013-12-14.
                 */
                 if ( (ctrlMask & ISegment.CHECK_CF_MASK) != 0  ) {
-                    w = new Word(num, IWord.T_CN_NUMERIC);
-                    w.setPosition(pos+cjkidx);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                    w.setEntity(Entity.E_NUMERIC_CN_FRACTION);
-                    wordPool.add(w);
-                    
                     /* 
                      * Here: 
                      * Convert the Chinese fraction to Arabic fraction,
-                     * if the Config.CNFRA_TO_ARABIC is true.
+                     * if the Config.CNFRA_TO_ARABIC is true
                     */
                     if ( config.CNFRA_TO_ARABIC ) {
                         String[] split = num.split("分之");
-                        IWord wd = new Word(
+                        w = new Word(
                             NumericUtil.cnNumericToArabic(split[1], true)+
                             "/"+NumericUtil.cnNumericToArabic(split[0], true),
-                            IWord.T_CN_NUMERIC
+                            IWord.T_CN_NUMERIC,
+                            Entity.E_NUMERIC_FRACTION
                         );
-                        wd.setPosition(w.getPosition());
-                        wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                        wd.setEntity(Entity.E_NUMERIC_FRACTION);
-                        wordPool.add(wd);
+                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                    } else {
+                        w = new Word(num, IWord.T_CN_NUMERIC, Entity.E_NUMERIC_CN_FRACTION);
+                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     }
                 } else {
-                    IWord unitWord = null;
                     String temp = null;
                     IStringBuffer sb = new IStringBuffer();
                     
@@ -116,6 +113,7 @@ public class NLPSeg extends ComplexSeg
                      * like: "五四运动"
                     */
                     if ( unitWord == null ) {
+                        IWord wd = null;
                         sb.clear().append(num);
                         for ( int j = num.length();
                                 (cjkidx + j) < chars.length 
@@ -123,52 +121,45 @@ public class NLPSeg extends ComplexSeg
                             sb.append(chars[cjkidx+j]);
                             temp = sb.toString();
                             if ( dic.match(ILexicon.CJK_WORD, temp) ) {
-                                w = dic.get(ILexicon.CJK_WORD, temp);
+                                wd = dic.get(ILexicon.CJK_WORD, temp);
                             }
                         }
                         
-                        if ( w != null ) {
-                            IWord wd = w.clone();
-                            wd.setPosition(pos+cjkidx);
-                            wordPool.add(wd);
-                        } 
+                        if ( wd != null ) {
+                            w = wd.clone();
+                            wordLen = w.getLength();
+                        } else if ( config.CNNUM_TO_ARABIC ) {
+                            String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+                            w = new Word(arabic, IWord.T_CN_NUMERIC, Entity.E_NUMERIC_ARABIC);
+                            w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        } else {
+                            w = new Word(num, IWord.T_CN_NUMERIC, Entity.E_NUMERIC_CN);
+                            w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        }
+                    } else if ( config.CNNUM_TO_ARABIC ) {
+                        String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+                        String entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity();
+                        w = new Word(arabic, IWord.T_CN_NUMERIC, entity);
+                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     } else {
                         String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity();
                         w = new Word(num, IWord.T_CJK_WORD, entity);
-                        w.setPosition(pos+cjkidx);
                         w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                        wordPool.add(w);
-                        
-                        IWord wd = null;
-                        if ( config.CNNUM_TO_ARABIC ) {
-                            String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
-                            entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity();
-                            wd = new Word(arabic, IWord.T_CN_NUMERIC, entity);
-                            wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                            wd.setPosition(pos+cjkidx);
-                            wordPool.add(wd);
-                        }
-                        
-                        wd = unitWord.clone();
-                        wd.setPosition(pos+cjkidx+num.length());
-                        wordPool.add(wd);
-                        cjkidx += unitWord.getLength();
-                    }
-                    
-                    /*System.out.println("unit: " + unitWord);
-                    System.out.println("num: " + numWord);*/
-                    if ( w == null ) {
-                        w = new Word(num, IWord.T_CN_NUMERIC, Entity.E_NUMERIC_CN);
-                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                        wordPool.add(w);
                     }
                 }
                 
-                if ( w != null ) {
-                    cjkidx += w.getLength();
-                    appendWordFeatures(w);
-                    continue;
+                wordPool.add(w);
+                w.setPosition(pos+cjkidx);
+                cjkidx += wordLen > 0 ? wordLen : num.length();
+                
+                if ( unitWord != null ) {
+                    IWord wd = unitWord.clone();
+                    wd.setPosition(pos+cjkidx);
+                    wordPool.add(wd);
+                    cjkidx += wd.getLength();
                 }
+                
+                continue;
             }
             
             
