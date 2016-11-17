@@ -46,10 +46,10 @@ public class NumericUtil
     }
     
     /**
-     * check the given char is chinese numeric or not
+     * check if the given char is a Chinese numeric or not
      * 
      * @param c
-     * @return boolean true for the char is chinese numeric and false for not
+     * @return int the numeric value
      */
     public static int isCNNumeric( char c ) 
     {

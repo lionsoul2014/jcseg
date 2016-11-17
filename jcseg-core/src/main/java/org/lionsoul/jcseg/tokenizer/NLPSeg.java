@@ -59,12 +59,11 @@ public class NLPSeg extends ComplexSeg
              * make sure chars[cjkidx] is a Chinese numeric
              * and it is not the last word.
             */
-            if ( cjkidx + 1 < chars.length 
-                    && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
+            int numVal = NumericUtil.isCNNumeric(chars[cjkidx]);
+            if ( numVal > 0 && numVal <= 10 ) {
                 IWord unitWord = null;
                 int wordLen = -1;
                 String num = nextCNNumeric(chars, cjkidx);
-                
                 
                 /*
                  * check the Chinese fraction.
