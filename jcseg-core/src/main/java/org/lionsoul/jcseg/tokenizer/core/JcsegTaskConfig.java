@@ -44,7 +44,7 @@ public class JcsegTaskConfig implements Cloneable
      * maximum length for the Chinese words after the LATIN word.
      *  use to match Chinese and English mix word, like 'B超,AA制...'
      */
-    public int MIX_CN_LENGTH = 2;
+    public int MIX_CN_LENGTH = 5;
     
     /**identify the Chinese name? */
     public boolean I_CN_NAME = false;

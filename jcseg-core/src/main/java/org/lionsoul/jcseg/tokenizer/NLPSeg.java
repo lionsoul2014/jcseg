@@ -229,7 +229,7 @@ public class NLPSeg extends ComplexSeg
             if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
                     && (cjkidx + w.getLength() >= chars.length) ) {
                 //System.out.println("CE-Word"+w.getValue());
-                enAfter = nextBasicLatin(readNext());
+                enAfter = nextBasicLatin(readNext(), 0);
                 //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
                 String cestr = w.getValue() + enAfter.getValue();
                 
@@ -311,11 +311,12 @@ public class NLPSeg extends ComplexSeg
      * count until the char is whitespace or not letter_digit
      * 
      * @param  c
+     * @param  pos
      * @return IWord
      * @throws IOException 
     */
     @Override
-    protected IWord nextBasicLatin( int c ) throws IOException 
+    protected IWord nextBasicLatin(int c, int pos) throws IOException 
     {
         isb.clear();
         if ( c > 65280 ) c -= 65248;
@@ -331,20 +332,15 @@ public class NLPSeg extends ComplexSeg
         int _ctype = 0;
         int tcount = 1;                                  //number of different char type.
         int _TYPE  = StringUtil.getEnCharType(c);        //current char type.
-        ctrlMask &= ~ISegment.START_SS_MASK;            //reset the secondary segment mask.
-        
-        while ( ( ch = readNext() ) != -1 ) {
+        while ( (ch = readNext()) != -1 ) {
             //Covert the full-width char to half-width char.
             if ( ch > 65280 ) ch -= 65248;
             _ctype = StringUtil.getEnCharType(ch);
-            
-            //Whitespace check.
             if ( _ctype == StringUtil.EN_WHITESPACE ) {
                 _wspace = true;
                 break;
             }
             
-            //English punctuation check.
             if ( _ctype == StringUtil.EN_PUNCTUATION ) {
                 if ( ! config.isKeepPunctuation((char)ch) ) {
                     pushBack(ch);
@@ -364,8 +360,6 @@ public class NLPSeg extends ComplexSeg
             
             //covert the lower case letter to upper case.
             if ( ch >= 65 && ch <= 90 ) ch += 32;
-            
-            //append the char to the buffer.
             isb.append((char)ch);
             
             /* Char type counter. 
@@ -379,197 +373,210 @@ public class NLPSeg extends ComplexSeg
                 _TYPE = _ctype;
             }
             
-            /*
-             * global English word length limitation 
-            */
             if ( isb.length() > config.MAX_LATIN_LENGTH ) {
                 break;
             }
         }
         
-        String __str = isb.toString();
-        IWord w = null;
-        boolean chkunits = true;
+        IWord wd   = null;
+        String str = isb.toString();
+        //System.out.println(str+","+tcount);
         
         /* 
-         * @step 2: 
-         * 1. clear the useless English punctuation from the end.
-         * 2. try to find the English and punctuation mixed word.
-         * 
-         * set _ctype as the status for the existence of punctuation
-         * at the end of the isb cause we need to plus the tcount 
-         * to avoid the secondary check for words like chenxin+, c+.
+         * check the end condition.
+         * and the check if the token loop was break by whitespace
+         * cause there is no need to continue all the following work if it is.
         */
-        _ctype = 0;
-        for ( int t = isb.length() - 1; t > 0 
-                && isb.charAt(t) != '%'
-                && StringUtil.isEnPunctuation(isb.charAt(t)); t-- ) {
-            /*
-             * try to find a English and punctuation mixed word.
-             * this will clear all the punctuation until a mixed word is found.
-             * like "i love c++.", c++ will be found from token "c++.".
-             * 
-             * @Note: added at 2013/08/31 
-            */
-            if ( dic.match(ILexicon.CJK_WORD, __str) ) {
-                w = dic.get(ILexicon.CJK_WORD, __str).clone();
-                w.setPartSpeech(IWord.EN_POSPEECH);
-                chkunits = false;
-                break;
+        if ( ch == -1 || _wspace ) {
+            boolean isPercentage = false;
+            for ( int i = isb.length() - 1; i > 0; i-- ) {
+                if ( isb.charAt(i) == '%' ) {
+                    if ( i > 0 && StringUtil.isEnNumeric(isb.charAt(i-1)) ) {
+                        isPercentage = true;
+                        break;
+                    }
+                } else if ( ! StringUtil.isEnPunctuation(isb.charAt(i)) ) {
+                    break;
+                }
+                
+                /*
+                 * try to find a English and punctuation mixed word.
+                 * this will clear all the punctuation until a mixed word is found.
+                 * like "i love c++.", c++ will be found from token "c++.".
+                */
+                if ( dic.match(ILexicon.CJK_WORD, str) ) {
+                    wd = dic.get(ILexicon.CJK_WORD, str).clone();
+                    break;
+                }
+                
+                pushBack(isb.charAt(i));
+                isb.deleteCharAt(i);
+                str = isb.toString();
             }
             
-            /*
-             * keep the English punctuation.
-             * @date 2013/09/06 
-            */
-            pushBack(isb.charAt(t));
-            isb.deleteCharAt(t);
-            __str = isb.toString();
-            
-            /*check and decrease the tcount.*/
-            if ( _ctype == 0 ) {
-                tcount--;
-                _ctype = 1;
+            if ( wd == null ) {
+                if ( isPercentage ) {
+                    wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_PERCENTAGE);
+                    wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else if ( tcount == 1 && StringUtil.isDigit(str) ) {
+                    wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_ARABIC);
+                    wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else if ( tcount == 3 && StringUtil.isDecimal(str) ) {
+                    wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_DECIMAL);
+                    wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else {
+                    wd = new Word(str, IWord.T_BASIC_LATIN);
+                    wd.setPartSpeech(IWord.EN_POSPEECH);
+                }
             }
+            
+            return wd;
         }
         
         /*
-         * do the percentage recognition 
+         * the loop was broke by an unknown char and it is not a CJK char
+         * 1, check if the end char is a special single unit char like '℉,℃' and so on ..
+         * 2, or do it as the end stream way like (ch == -1 or _wspace == true) 
         */
-        if ( _TYPE == StringUtil.EN_NUMERIC ) {
-            if ( tcount == 1 ) {
-                w = new Word(__str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_ARABIC);
-                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                return w;
-            } else if ( tcount == 2 && StringUtil.isDecimal(__str) ) {
-                w = new Word(__str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_DECIMAL);
-                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                return w;
-            }
-        }
-        
-        //condition to start the secondary segmentation.
-        boolean ssseg = (tcount > 1) && chkunits;
-        
-        /* @step 3: check the end condition.
-         * and the check if the token loop was break by whitespace
-         * cause there is no need to continue all the following work if it is.
-         * 
-         * @added 2013-11-19 
-        */
-        if ( ch == -1 || _wspace ) {
-            w = new Word(__str, IWord.T_BASIC_LATIN);
-            w.setPartSpeech(IWord.EN_POSPEECH);
-            if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
-            return w;
-        }
-        
-        if ( ! _check ) {
+        if ( _check == false ) {
             /* 
-             * @reader: (2013-09-25)
              * we check the units here, so we can recognize
-             * many other units that is not Chinese like '℉,℃' eg..
+             * many other units that is not Chinese like '℉,℃' and so on ... 
             */
-            if ( chkunits && ( StringUtil.isDigit(__str) 
-                        || StringUtil.isDecimal(__str) ) ) {
+            boolean isDigit = StringUtil.isDigit(str);
+            if ( isDigit || StringUtil.isDecimal(str) ) {
+                String entity = isDigit ? Entity.E_NUMERIC_ARABIC : Entity.E_NUMERIC_DECIMAL;
+                wd = new Word(str, IWord.T_BASIC_LATIN, entity);
+                wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                
                 ch = readNext();
-                if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
-                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                String unit = ((char)ch)+"";
+                if ( dic.match(ILexicon.CJK_UNIT, unit) ) {
+                    IWord unitWord = dic.get(ILexicon.CJK_UNIT, unit).clone();
+                    unitWord.setPosition(pos+str.length());
+                    wordPool.add(unitWord);
                 } else {
                     pushBack(ch);
                 }
             }
             
-            if ( w == null ) {
-                w = new Word(__str, IWord.T_BASIC_LATIN);
-                w.setPartSpeech(IWord.EN_POSPEECH);
-                if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
+            if ( wd == null ) {
+                wd = new Word(str, IWord.T_BASIC_LATIN);
+                wd.setPartSpeech(IWord.EN_POSPEECH);
             }
             
-            return w;
+            return wd;
         }
         
+        /*
+         * check and recognize the percentage 
+        */
+        int length = isb.length();
+        if ( length > 1 && isb.charAt(length-1) == '%' 
+                && StringUtil.isEnNumeric(isb.charAt(length-2)) ) {
+            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_PERCENTAGE);
+            wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+            return wd;
+        }
         
-        //@step 4: check and get English and Chinese mixed word like 'B超'.
-        IStringBuffer ibuffer = new IStringBuffer();
-        ibuffer.append(__str);
-        String _temp = null;
-        int mc = 0, j = 0;        //the number of char that readed from the stream.
-        
-        //replace width IntArrayList at 2013-09-08
-        //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
-        ialist.clear();
-        
-        /* Attention:
+        /* 
+         * check and get English and Chinese mixed word like 'B超, x射线'
+         * 
+         * Attention:
          * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
          * or it cause the miss of the next char. 
          * 
          * @reader: (2013-09-25)
-         * we do not check the type of the char readed next.
+         * we do not check the type of the char read next.
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
         */
+        IStringBuffer ibuffer = new IStringBuffer(str);
+        String tstr = null;
+        int mc = 0, j = 0;        //the number of char that read from the stream.
+        ialist.clear();
         for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
-            /* Attention:
-             *  it is a accident that Jcseg works find for 
-             *  we break the loop directly when we meet a whitespace.
-             *  1. if a EC word is found, unit check process will be ignore.
-             *  2. if matches no EC word, certainly return of readNext() 
-             *      will make sure the units check process works find.
-             */
+            /* 
+             * Attention:
+             * it is a accident that Jcseg works fine for 
+             * we break the loop directly when we meet a whitespace.
+             * 1, if a EC word is found, unit check process will be ignore.
+             * 2, if matches no EC word, certainly return of readNext() 
+             *   will make sure the units check process works fine.
+            */
             if ( StringUtil.isWhitespace(ch) ) {
                 pushBack(ch);
                 break;
             }
             
             ibuffer.append((char)ch);
-            //System.out.print((char)ch+",");
             ialist.add(ch);
-            _temp = ibuffer.toString();
-            //System.out.println((j+1)+": "+_temp);
-            if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
-                w  = dic.get(ILexicon.CJK_WORD, _temp);
+            tstr = ibuffer.toString();
+            if ( dic.match(ILexicon.CJK_WORD, tstr) ) {
+                wd  = dic.get(ILexicon.CJK_WORD, tstr);
                 mc = j + 1;
             }
         }
         
         ibuffer.clear();
-        ibuffer = null;        //Let gc do it's work.
+        ibuffer = null;                 //Let gc do it's work.
+        for ( int i = j - 1; i >= mc; i-- ) {
+            pushBack(ialist.get(i));    //push back the read chars.
+        }
+
+        if ( wd != null ) {
+            return wd.clone();
+        }
         
-        //push back the readed chars.
-        for ( int i = j - 1; i >= mc; i-- ) pushBack(ialist.get(i));
-        //chArr.clear();chArr = null;
-        
-        /* @step 5: check if there is a units for the digit.
-         * @reader: (2013-09-25)
-         * now we check the units before the step 4, so we can recognize
-         * many other units that is not Chinese like '℉,℃'
+        /* 
+         * check the unit for the digit or the decimal Latin
         */
-        if ( chkunits && mc == 0 ) {
-            if ( StringUtil.isDigit(__str) || StringUtil.isDecimal(__str) ) {
-                ch = readNext();
-                if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
-                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                } else {
+        boolean isDigit = StringUtil.isDigit(str);
+        if ( isDigit || StringUtil.isDecimal(str) ) {
+            String entity = isDigit ? Entity.E_NUMERIC_ARABIC : Entity.E_NUMERIC_DECIMAL;
+            wd = new Word(str, IWord.T_BASIC_LATIN, entity);
+            wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+            
+            ialist.clear();
+            IWord unitWord = null;
+            IStringBuffer sb = new IStringBuffer();
+            for ( j = 0; j < config.MAX_UNIT_LENGTH 
+                    && (ch = readNext()) != -1; j++ ) {
+                if ( StringUtil.isWhitespace(ch) ) {
                     pushBack(ch);
+                    break;
                 }
+                
+                sb.append((char)ch);
+                ialist.add(ch);
+                tstr = isb.toString();
+                if ( dic.match(ILexicon.CJK_UNIT, tstr) ) {
+                    unitWord = dic.get(ILexicon.CJK_UNIT, tstr);
+                    mc = j + 1;
+                }
+            }
+            
+            if ( unitWord != null ) {
+                unitWord = unitWord.clone();
+                unitWord.setPosition(pos+str.length());
+                wordPool.add(unitWord);
+            }
+            
+            for ( int i = j - 1; i >= mc; i-- ) {
+                pushBack(ialist.get(i));
             }
         }
         
-        /* simply return the combination of English char, Arabic
+        /* 
+         * simply return the combination of English char, Arabic
          * numeric, English punctuation if matches no single units or EC word.
         */
-        if ( w == null ) {
-            w = new Word(__str, IWord.T_BASIC_LATIN);
-            w.setPartSpeech(IWord.EN_POSPEECH);
-            if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
-        } else if ( mc > 0 ) {
-            w = w.clone();
+        if ( wd == null ) {
+            wd = new Word(str, IWord.T_BASIC_LATIN);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
         }
         
-        return w;
+        return wd;
     }
     
 }

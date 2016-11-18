@@ -3,7 +3,7 @@ package org.lionsoul.jcseg.util;
 /**
  * string buffer class
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
  */
 public class IStringBuffer
 {
@@ -19,8 +19,7 @@ public class IStringBuffer
      */
     public IStringBuffer()
     {
-        buff = new char[16];
-        count = 0;
+        this(16);
     }
     
     /**
@@ -30,8 +29,10 @@ public class IStringBuffer
      */
     public IStringBuffer( int length )
     {
-        if ( length <= 0 )
+        if ( length <= 0 ) {
             throw new IllegalArgumentException("length <= 0");
+        }
+        
         buff = new char[length];
         count = 0;
     }
@@ -43,18 +44,14 @@ public class IStringBuffer
      */
     public IStringBuffer( String str )
     {
-        if ( str == null )
-            throw new NullPointerException();
-        
-        buff = new char[str.length() + 16];
+        this(str.length()+16);
         append(str);
-        count = 0;
     }
     
     /**
      * resize the buffer
      * this will have to copy the old chars from the old buffer to the new buffer
-     */
+    */
     private void resizeTo( int length )
     {
         if ( length <= 0 )

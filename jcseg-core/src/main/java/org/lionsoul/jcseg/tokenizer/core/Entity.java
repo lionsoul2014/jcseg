@@ -15,6 +15,7 @@ public class Entity
     public static final String E_NUMERIC_FRACTION = "numeric.fraction";    //分数
     public static final String E_NUMERIC_CN = "numeric.cn";                 //中文数字
     public static final String E_NUMERIC_CN_FRACTION = "numeric.cn.fraction";  //中文分数
+    public static final String E_NUMERIC_PERCENTAGE = "numeric.percentage"; //百分比
     
     public static final String E_NAME = "name";                     //人名
     public static final String E_NAME_CN = "name.cn";               //中国

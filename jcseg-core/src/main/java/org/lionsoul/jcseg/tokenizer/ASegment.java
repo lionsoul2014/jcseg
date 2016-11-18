@@ -518,7 +518,7 @@ public abstract class ASegment implements ISegment
             IWord enAfter = null, ce = null;
             if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
                     && (cjkidx + w.getLength() >= chars.length) ) {
-                enAfter = nextBasicLatin(readNext());
+                enAfter = nextBasicLatin(readNext(), 0);
                 //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
                 String cestr = w.getValue() + enAfter.getValue();
                 
@@ -624,7 +624,7 @@ public abstract class ASegment implements ISegment
             return w;
         }
         
-        IWord w = nextBasicLatin(c);
+        IWord w = nextBasicLatin(c, pos);
         w.setPosition(pos);
         
         /* @added: 2013-12-16
@@ -1136,11 +1136,12 @@ public abstract class ASegment implements ISegment
      * find the letter or digit word from the current position 
      * count until the char is whitespace or not letter_digit
      * 
-     * @param c
+     * @param  c
+     * @param  pos
      * @return IWord
      * @throws IOException 
      */
-    protected IWord nextBasicLatin( int c ) throws IOException 
+    protected IWord nextBasicLatin(int c, int pos) throws IOException 
     {
         isb.clear();
         if ( c > 65280 ) c -= 65248;
