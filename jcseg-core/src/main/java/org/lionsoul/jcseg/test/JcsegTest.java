@@ -24,7 +24,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 /**
- * jcseg test program.
+ * Jcseg test program.
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */

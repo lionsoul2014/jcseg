@@ -320,6 +320,11 @@ public class Word implements IWord,Cloneable
             sb.append(fre);
         }
         
+        if ( entity != null ) {
+            sb.append('/');
+            sb.append(entity);
+        }
+        
         return sb.toString();
     }
     

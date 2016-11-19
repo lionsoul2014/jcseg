@@ -7,7 +7,7 @@ package org.lionsoul.jcseg.tokenizer.core;
  */
 public interface ILexicon
 {
-    public static final int T_LEN = 9;
+    public static final int T_LEN = 8;
     
     /**
      * China,JPanese,Korean words
@@ -53,11 +53,6 @@ public interface ILexicon
      * stop words 
     */
     public static final int STOP_WORD = 7;
-    
-    /**
-     * pure English word items for synonymous append mainly
-    */
-    public static final int EN_WORD = 8;
     
     
     /**

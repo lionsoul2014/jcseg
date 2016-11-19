@@ -156,21 +156,13 @@ public class DelimiterSeg implements ISegment
              * try to get more info from the dictionary
              * 2, otherwise create a new word with just position filled
             */
-            int lexType = ILexicon.EN_WORD;
-            for ( int j = 0; j < isb.length(); j++ ) {
-                if ( ! StringUtil.isEnChar(isb.charAt(j)) ) {
-                    lexType = ILexicon.CJK_WORD;
-                    break;
-                }
-            }
-            
             IWord wd = null;
             String val = isb.toString();
-            if ( dic != null && dic.match(lexType, val) ) {
-                wd = dic.get(lexType, val).clone();
+            if ( dic != null && dic.match(ILexicon.CJK_WORD, val) ) {
+                wd = dic.get(ILexicon.CJK_WORD, val).clone();
             } else {
                 wd = new Word(val, IWord.T_CJK_WORD);
-                if ( lexType == ILexicon.EN_WORD ) {
+                if ( StringUtil.isLatin(val) ) {
                     wd.setPartSpeech(IWord.EN_POSPEECH);
                 }
             }

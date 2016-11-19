@@ -148,11 +148,11 @@ public class StringUtil
     }
     
     /**
-     * check the specifield char is an english numeric(48-57)
+     * check the specified char is an English numeric(48-57)
      * including the full-width char
      *  
-     * @param    u
-     */
+     * @param   u
+    */
     public static boolean isEnNumeric( int u )
     {
         if ( u > 65280 ) u -= 65248;            //make full-with half-width
@@ -160,11 +160,11 @@ public class StringUtil
     }
     
     /**
-     * get the type of the english char
+     * get the type of the English char
      * defined in this class and start with EN_. (only half-width)
      * 
-     * @param    u   char to identity
-     * @return    int    type keywords
+     * @param   u char to identity
+     * @return  int type keywords
      */
     public static int getEnCharType( int u )
     {
@@ -303,6 +303,74 @@ public class StringUtil
     }
     
     /**
+     * check if the specified string is all Latin chars
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean isLatin(String str)
+    {
+        for ( int j = 0; j < str.length(); j++ ) {
+            if ( ! isEnChar(str.charAt(j)) ) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * check if the specified string is all CJK chars
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean isCJK(String str)
+    {
+        for ( int j = 0; j < str.length(); j++ ) {
+            if ( ! isCJKChar(str.charAt(j)) ) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * check if there is Latin char in the string
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean contansLatin(String str)
+    {
+        for ( int j = 0; j < str.length(); j++ ) {
+            if ( isEnChar(str.charAt(j)) ) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * check if there is CJK char in the string
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean contansCJK(String str)
+    {
+        for ( int j = 0; j < str.length(); j++ ) {
+            if ( isCJKChar(str.charAt(j)) ) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * a static method to replace the full-width char to the half-width char in a given string
      * (65281-65374 for full-width char)
      * 
@@ -318,9 +386,9 @@ public class StringUtil
             } else if ( chars[j] > '\uFF00' 
                 && chars[j] < '\uFF5F' ) {
                 chars[j] = (char)(chars[j] - 65248);
-            }
-                
+            }       
         }
+        
         return new String(chars);
     }
     

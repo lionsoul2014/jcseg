@@ -742,7 +742,7 @@ public abstract class ASegment implements ISegment
          * and make sure it is not a EC_MIX_WORD then check the EN_WORD 
         */
         if ( w.getSyn() == null ) {
-            ew = dic.get(ILexicon.EN_WORD, w.getValue());
+            ew = dic.get(ILexicon.CJK_WORD, w.getValue());
         } else {
             ew = w;
         }

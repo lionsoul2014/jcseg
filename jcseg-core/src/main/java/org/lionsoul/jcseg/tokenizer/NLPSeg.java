@@ -54,14 +54,12 @@ public class NLPSeg extends ComplexSeg
             w = null;
             
             /*
-             * @istep 1: 
-             * 
              * check if there is Chinese numeric. 
              * make sure chars[cjkidx] is a Chinese numeric
              * and it is not the last word.
             */
             int numVal = NumericUtil.isCNNumeric(chars[cjkidx]);
-            if ( numVal > 0 && numVal <= 10 ) {
+            if ( numVal > -1 ) {
                 IWord unitWord = null;
                 int wordLen = -1;
                 String num = nextCNNumeric(chars, cjkidx);
@@ -98,13 +96,15 @@ public class NLPSeg extends ComplexSeg
                      * check the Chinese numeric and the units
                      * try to find a Chinese and unit composed word
                     */
-                    for ( int j = num.length(), i = 0; 
-                            (cjkidx + j) < chars.length 
-                            && i < config.MAX_UNIT_LENGTH; j++, i++ ) {
-                        sb.append(chars[cjkidx+j]);
-                        temp = sb.toString();
-                        if ( dic.match(ILexicon.CJK_UNIT, temp) ) {
-                            unitWord = dic.get(ILexicon.CJK_UNIT, temp);
+                    if ( numVal <= 10 ) {
+                        for ( int j = num.length(), i = 0; 
+                                (cjkidx + j) < chars.length 
+                                && i < config.MAX_UNIT_LENGTH; j++, i++ ) {
+                            sb.append(chars[cjkidx+j]);
+                            temp = sb.toString();
+                            if ( dic.match(ILexicon.CJK_UNIT, temp) ) {
+                                unitWord = dic.get(ILexicon.CJK_UNIT, temp);
+                            }
                         }
                     }
                     
@@ -167,8 +167,6 @@ public class NLPSeg extends ComplexSeg
             w = chunk.getWords()[0];
             
             /* 
-             * @istep 2: 
-             * 
              * check and try to find a Chinese name.
              */
             int T = -1;
@@ -211,7 +209,6 @@ public class NLPSeg extends ComplexSeg
                 }
             }
             
-            //check the stop words(clear it when Config.CLEAR_STOPWORD is true)
             if ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
                 cjkidx += w.getLength();
@@ -220,8 +217,6 @@ public class NLPSeg extends ComplexSeg
             
                         
             /*
-             * @istep 3:
-             * 
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
              */
@@ -424,10 +419,16 @@ public class NLPSeg extends ComplexSeg
                 } else if ( tcount == 3 && StringUtil.isDecimal(str) ) {
                     wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_DECIMAL);
                     wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                } else if ( dic.match(ILexicon.CJK_WORD, str) ) {
+                    wd = dic.get(ILexicon.CJK_WORD, str).clone();
                 } else {
                     wd = new Word(str, IWord.T_BASIC_LATIN);
                     wd.setPartSpeech(IWord.EN_POSPEECH);
                 }
+            }
+            
+            if ( wd.getPartSpeech() == null ) {
+                wd.setPartSpeech(IWord.EN_POSPEECH);
             }
             
             return wd;
@@ -460,8 +461,14 @@ public class NLPSeg extends ComplexSeg
                 }
             }
             
-            if ( wd == null ) {
+            if ( dic.match(ILexicon.CJK_WORD, str) ) {
+                wd = dic.get(ILexicon.CJK_WORD, str).clone();
+            } else {
                 wd = new Word(str, IWord.T_BASIC_LATIN);
+                //wd.setPartSpeech(IWord.EN_POSPEECH);
+            }
+            
+            if ( wd.getPartSpeech() == null ) {
                 wd.setPartSpeech(IWord.EN_POSPEECH);
             }
             
@@ -525,7 +532,12 @@ public class NLPSeg extends ComplexSeg
         }
 
         if ( wd != null ) {
-            return wd.clone();
+            wd = wd.clone();
+            if ( wd.getPartSpeech() == null ) {
+                wd.setPartSpeech(IWord.MIX_POSPEECH);
+            }
+            
+            return wd;
         }
         
         /* 

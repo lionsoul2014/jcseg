@@ -368,8 +368,6 @@ public abstract class ADictionary
             return ILexicon.CN_DNAME_2;
         } else if ( key.startsWith("STOP_WORD") ) {
             return ILexicon.STOP_WORD;
-        } else if ( key.startsWith("EN_WORD") ) {
-            return ILexicon.EN_WORD;
         }
             
         return ILexicon.CJK_WORD;
@@ -437,15 +435,13 @@ public abstract class ADictionary
         while ( (line = buffReader.readLine()) != null ) {
             line = line.trim();
             if ( "".equals(line) ) continue;
-            //skip the notes
-            if ( line.charAt(0) == '#' && line.length() > 1 ) {
+            if ( line.charAt(0) == '#' && line.length() > 1 ) { //skip the comments
                 continue;
             }
             
             //the first line for the lexicon file.
             if ( isFirstLine == true ) {
                 t = ADictionary.getIndex(line);
-                //System.out.println(line+", "+t);
                 isFirstLine = false;
                 if ( t >= 0 ) {
                     continue;
@@ -516,7 +512,6 @@ public abstract class ADictionary
                     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
                 }
                 break;
-            case ILexicon.EN_WORD :
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
                 wd = line.split("/");
@@ -534,7 +529,8 @@ public abstract class ADictionary
                 }
                 
                 //length limit(CJK_WORD only)
-                if ( t == ILexicon.CJK_WORD && wd[0].length() > config.MAX_LENGTH ) {
+                if ( ! StringUtil.contansLatin(wd[0]) 
+                        && wd[0].length() > config.MAX_LENGTH ) {
                     continue;
                 }
                 
