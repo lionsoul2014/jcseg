@@ -33,6 +33,8 @@ public class NLPSeg extends ComplexSeg
         config.EN_SECOND_SEG   = false;
         config.CNFRA_TO_ARABIC = true;
         config.CNNUM_TO_ARABIC = true;
+        config.APPEND_CJK_PINYIN = false;
+        config.APPEND_CJK_SYN  = false;
     }
 
     public NLPSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
@@ -168,10 +170,10 @@ public class NLPSeg extends ComplexSeg
             
             /* 
              * check and try to find a Chinese name.
-             */
+            */
             int T = -1;
             if ( config.I_CN_NAME
-                    && w.getLength() <= 2 && chunk.getWords().length > 1  ) {
+                    && w.getLength() <= 2 && chunk.getWords().length > 1 ) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(w.getValue());
                 String str = null;
@@ -214,12 +216,11 @@ public class NLPSeg extends ComplexSeg
                 cjkidx += w.getLength();
                 continue;
             }
-            
                         
             /*
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
-             */
+            */
             IWord enAfter = null, ce = null;
             if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
                     && (cjkidx + w.getLength() >= chars.length) ) {
@@ -461,11 +462,12 @@ public class NLPSeg extends ComplexSeg
                 }
             }
             
-            if ( dic.match(ILexicon.CJK_WORD, str) ) {
-                wd = dic.get(ILexicon.CJK_WORD, str).clone();
-            } else {
-                wd = new Word(str, IWord.T_BASIC_LATIN);
-                //wd.setPartSpeech(IWord.EN_POSPEECH);
+            if ( wd == null ) { 
+                if ( dic.match(ILexicon.CJK_WORD, str) ) {
+                    wd = dic.get(ILexicon.CJK_WORD, str).clone();
+                } else {
+                    wd = new Word(str, IWord.T_BASIC_LATIN);
+                }
             }
             
             if ( wd.getPartSpeech() == null ) {
@@ -584,8 +586,15 @@ public class NLPSeg extends ComplexSeg
          * numeric, English punctuation if matches no single units or EC word.
         */
         if ( wd == null ) {
-            wd = new Word(str, IWord.T_BASIC_LATIN);
-            wd.setPartSpeech(IWord.EN_POSPEECH);
+            if ( dic.match(ILexicon.CJK_WORD, str) ) {
+                wd = dic.get(ILexicon.CJK_WORD, str).clone();
+            } else {
+                wd = new Word(str, IWord.T_BASIC_LATIN);
+            }
+            
+            if ( wd.getPartSpeech() == null ) {
+                wd.setPartSpeech(IWord.EN_POSPEECH);
+            }
         }
         
         return wd;
