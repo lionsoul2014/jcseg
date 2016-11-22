@@ -36,15 +36,20 @@ public class JcsegTaskConfig implements Cloneable
     public int MAX_LATIN_LENGTH = 64;
     
     /**
-     * maximum length for unit words 
+     * maximum length for unit words
+     * for the NLP algorithm added at 2016/11/18
     */
     public int MAX_UNIT_LENGTH = 5;
     
     /**
-     * maximum length for the Chinese words after the LATIN word.
-     *  use to match Chinese and English mix word, like 'B超,AA制...'
+     * maximum length for the Chinese words after the LATIN word
+     * or the one before it used to match Chinese and English mix word, 
+     * like 'B超,AA制...' or style compose style like '卡拉ok'.
+     * 
+     * since 2.0.1 the value will be reset during the lexicon load process
      */
-    public int MIX_CN_LENGTH = 5;
+    volatile public int MIX_SUFFIX_LENGTH = 1;
+    volatile public int MIX_PREFIX_LENGTH = 1;
     
     /**identify the Chinese name? */
     public boolean I_CN_NAME = false;
@@ -262,8 +267,6 @@ public class JcsegTaskConfig implements Cloneable
         //reset all the options
         if ( lexPro.getProperty("jcseg.maxlen") != null )
             MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.maxlen"));
-        if ( lexPro.getProperty("jcseg.mixcnlen") != null )
-            MIX_CN_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.mixcnlen"));
         if ( lexPro.getProperty("jcseg.icnname") != null
                 && lexPro.getProperty("jcseg.icnname").equals("1"))
             I_CN_NAME = true;
@@ -357,16 +360,26 @@ public class JcsegTaskConfig implements Cloneable
         MAX_LENGTH = maxLength;
     }
 
-    public int getMixCnLength()
+    public int getMixSuffixLength()
     {
-        return MIX_CN_LENGTH;
+        return MIX_SUFFIX_LENGTH;
     }
 
-    public void setMixCnLength( int mixCnLength )
+    public void setMixSuffixLength( int suffixLength )
     {
-        MIX_CN_LENGTH = mixCnLength;
+        MIX_SUFFIX_LENGTH = suffixLength;
     }
 
+    public int getMixPrefixLength()
+    {
+        return MIX_PREFIX_LENGTH;
+    }
+
+    public void setMixPrefixLength( int prefixLength )
+    {
+        MIX_PREFIX_LENGTH = prefixLength;
+    }
+    
     public boolean identifyCnName()
     {
         return I_CN_NAME;

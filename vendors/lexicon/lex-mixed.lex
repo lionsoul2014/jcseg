@@ -11,8 +11,6 @@ a计划/n/a ji hua/null
 aa制/I/aa zhi/null
 ab型/n/ab xing/null
 ab档案/n/ab dang an/null
-a美a/n/null/null
-a梦/a/null/null
 x-射线/n/null/null
 #letter b
 b座/f/b zuo/null
@@ -142,6 +140,13 @@ t型台/n/t xing tai/null
 高3/n/gao san/高三
 高2/n/gao er/高二
 高1/n/gao yi/高一
+傻b/null/sha bi/傻逼
+动l/null/dong l/null
+牛b/null/niu bi/牛逼
+美国51区/null/mei guo wu shi yi qu/null
+装b/null/zhuang bi/装逼
+阿q/nhs,nh/a q/null
+阿q正传/null/a q zheng zhuan/null
 #英文和标点组合成的词,英文字母统一使用小写。
 c++/n/c jia jia/null
 g++/n/g jia jia/null

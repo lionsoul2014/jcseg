@@ -482,7 +482,7 @@ public abstract class ADictionary
                  * define the numeric entity in front of it
                  * @date 2016/11/12
                 */
-                wd = line.split("/");
+                wd = line.split("\\s*/\\s*");
                 IWord w = dic.add(t, wd[0], IWord.T_CJK_WORD);
                 if ( wd.length == 1 ) {
                     dic.add(ILexicon.CJK_WORD, w);
@@ -514,7 +514,7 @@ public abstract class ADictionary
                 break;
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
-                wd = line.split("/");
+                wd = line.split("\\s*/\\s*");
                 if ( wd.length < 4 ) {    //format check
                     System.out.println("Word: \"" + wd[0] + "\" format error. -ignored");
                     continue;
@@ -529,8 +529,8 @@ public abstract class ADictionary
                 }
                 
                 //length limit(CJK_WORD only)
-                if ( ! StringUtil.contansLatin(wd[0]) 
-                        && wd[0].length() > config.MAX_LENGTH ) {
+                int latinIndex = StringUtil.latinIndexOf(wd[0]);
+                if ( latinIndex == -1 && wd[0].length() > config.MAX_LENGTH ) {
                     continue;
                 }
                 
@@ -562,8 +562,29 @@ public abstract class ADictionary
                             tword.setEntity(Entity.get(wd[4]));
                         }
                     } else if ( gEntity != null 
-                            && gEntity.length() > oEntity.length() ){
+                            && gEntity.length() > oEntity.length() ) {
                         tword.setEntity(gEntity);
+                    }
+                }
+                
+                /*
+                 * check and build the MIX_ASSIST_WORD dictionary
+                 * @Note added at 2016/11/22
+                */
+                if ( latinIndex >= 0 ) {
+                    if ( latinIndex > 0 ) {
+                        resetPrefixLength(config, latinIndex);
+                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, latinIndex), IWord.T_CJK_WORD);
+                    }
+                    
+                    int cjkIndex = StringUtil.CJKIndexOf(wd[0], latinIndex + 1);
+                    if ( cjkIndex > -1 ) {
+                        resetSuffixLength(config, wd[0].length() - cjkIndex);
+                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(cjkIndex), IWord.T_CJK_WORD);
+                    }
+                    
+                    if ( latinIndex > 0 && cjkIndex > -1 ) {
+                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, cjkIndex), IWord.T_BASIC_LATIN);
                     }
                 }
                 
@@ -652,6 +673,42 @@ public abstract class ADictionary
         
         buffReader.close();
         buffReader = null;
+    }
+    
+    /**
+     * check and reset the value of {@link JcsegTaskConfig#MIX_PREFIX_LENGTH}
+     * 
+     * @param   config
+     * @param   mixLength
+     * @return  boolean
+    */
+    public static boolean resetPrefixLength(JcsegTaskConfig config, int mixLength)
+    {
+        if ( mixLength <= config.MAX_LENGTH 
+                && mixLength > config.MIX_PREFIX_LENGTH ) {
+            config.MIX_PREFIX_LENGTH = mixLength;
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * check and reset the value of the {@link JcsegTaskConfig#MIX_SUFFIX_LENGTH} 
+     * 
+     * @param   config
+     * @param   mixLength
+     * @return  boolean
+    */
+    public static boolean resetSuffixLength(JcsegTaskConfig config, int mixLength)
+    {
+        if ( mixLength <= config.MAX_LENGTH 
+                && mixLength > config.MIX_SUFFIX_LENGTH ) {
+            config.MIX_SUFFIX_LENGTH = mixLength;
+            return true;
+        }
+        
+        return false;
     }
     
 }

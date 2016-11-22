@@ -7,15 +7,15 @@ package org.lionsoul.jcseg.tokenizer.core;
  */
 public interface ILexicon
 {
-    public static final int T_LEN = 8;
+    public static final int T_LEN = 9;
     
     /**
-     * China,JPanese,Korean words
+     * Chinese, JPanese, Korean words
      * 
      * @Note since version 2.0.1 the Chinese English mixed words
      * and the English punctuation mixed words are all included here.
      * implemented at 2016/11/09
-     */
+    */
     public static final int CJK_WORD = 0;
     
     /**
@@ -46,13 +46,19 @@ public interface ILexicon
     /**
      * the adorn(修饰) char before the last name
      * like word "老陈", "小陈"
-     */
+    */
     public static final int CN_LNAME_ADORN = 6;
     
     /**
      * stop words 
     */
     public static final int STOP_WORD = 7;
+    
+    /**
+     * special lexicon for Chinese-English[-Chinese] mixed word recognition
+     * For the optimization implementation of the mixed word recognition
+    */
+    public static final int MIX_ASSIST_WORD = 8;
     
     
     /**

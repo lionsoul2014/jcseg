@@ -27,8 +27,8 @@ public class IPushbackReader
      * read the next int from the stream this will check the buffer queue first
      * and take the first item of the buffer as the result
      * 
-     * @return    int
-     * @throws    IOException 
+     * @return  int
+     * @throws  IOException 
      */
     public int read() throws IOException
     {
@@ -63,9 +63,9 @@ public class IPushbackReader
     }
     
     /**
-     * unread the speicfied data to the stream
-     *     push the data back to the queue in fact, you know
-     */
+     * unread the specified data to the stream
+     * push the data back to the queue in fact, you know
+    */
     public void unread( int data )
     {
         queue.enQueue(data);
@@ -74,7 +74,7 @@ public class IPushbackReader
     /**
      * get the buffer size - the number of buffered data
      * 
-     * @return    int
+     * @return  int
      */
     public int getQueueSize()
     {
@@ -84,12 +84,13 @@ public class IPushbackReader
     /**
      * unread a block from a char array to the stream
      * 
-     * @see    #unread(int)
-     */
+     * @see #unread(int)
+    */
     public void unread( char[] cbuf, int off, int len )
     {
         for ( int i = 0; i < len; i++ ) {
             queue.enQueue(cbuf[off+i]);
         }
     }
+    
 }

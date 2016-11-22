@@ -47,6 +47,12 @@ public abstract class ASegment implements ISegment
     protected IntArrayList ialist;
     
     /**
+     * global behind Latin word after the CJK word
+     * added at 2016/11/22 for better mixed word implementation 
+    */
+    protected String behindLatin = null;
+    
+    /**
      * segmentation runtime function control mask
     */
     protected int ctrlMask = 0;
@@ -113,13 +119,27 @@ public abstract class ASegment implements ISegment
     /**
      * push back the data to the stream.
      * 
-     * @param data
-     * @throws IOException 
+     * @param   data
+     * @throws  IOException 
      */
     protected void pushBack( int data ) throws IOException 
     {
         reader.unread(data);
         idx--;
+    }
+    
+    /**
+     * push back a string to the stream
+     * 
+     * @param   data
+    */
+    protected void pushBack(String str)
+    {
+        char[] chars = str.toCharArray();
+        for ( int j = chars.length - 1; j >= 0; j-- ) {
+            reader.unread(chars[j]);
+        }
+        idx -= chars.length;
     }
     
     @Override
@@ -129,9 +149,9 @@ public abstract class ASegment implements ISegment
     }
     
     /**
-     * set the dictionary of the current tokenizer.
+     * set the current dictionary
      * 
-     * @param    dic
+     * @param   dic
      */
     public void setDict( ADictionary dic ) 
     {
@@ -196,7 +216,11 @@ public abstract class ASegment implements ISegment
              * and start the CJK word analysis
             */
             if ( StringUtil.isCJKChar( c ) ) {
+                behindLatin = null;
                 word = getNextCJKWord(c, pos);
+                if ( behindLatin != null ) {
+                    pushBack(behindLatin);
+                }
             } 
             /* English/Latin char.
              * and start the Latin word analysis
@@ -314,12 +338,10 @@ public abstract class ASegment implements ISegment
             
             
             /*
-             * @istep 1: 
-             * 
              * check if there is Chinese numeric. 
              * make sure chars[cjkidx] is a Chinese numeric
              * and it is not the last word.
-             */
+            */
             if ( cjkidx + 1 < chars.length 
                     && NumericUtil.isCNNumeric(chars[cjkidx]) > -1 ) {
                 //get the Chinese numeric chars
@@ -334,7 +356,7 @@ public abstract class ASegment implements ISegment
                  * && CNNMFilter.isCNNumeric(chars[cjkidx+3]) > -1.
                  * }}}
                  * 
-                 * checkCF will be reset to be 'TRUE' it num is a chinese fraction.
+                 * checkCF will be reset to be 'TRUE' it num is a Chinese fraction.
                  * @added 2013-12-14.
                  * */
                 if ( (ctrlMask & ISegment.CHECK_CF_MASK) != 0  ) {
@@ -432,7 +454,7 @@ public abstract class ASegment implements ISegment
                      * so, we clone it if the word is directly get from the dictionary
                     */
                     if ( w == null ) {
-                        w = new Word( num, IWord.T_CN_NUMERIC );
+                        w = new Word(num, IWord.T_CN_NUMERIC);
                         w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     } else {
                         w = w.clone();
@@ -454,14 +476,11 @@ public abstract class ASegment implements ISegment
             
             
             IChunk chunk = getBestCJKChunk(chars, cjkidx);
-            //w = new Word(chunk.getWords()[0].getValue(), IWord.T_CJK_WORD);
             w = chunk.getWords()[0];
             
             /* 
-             * @istep 2: 
-             * 
              * check and try to find a Chinese name.
-             */
+            */
             int T = -1;
             if ( config.I_CN_NAME
                     && w.getLength() <= 2 && chunk.getWords().length > 1  ) {
@@ -510,22 +529,20 @@ public abstract class ASegment implements ISegment
             
             
             /*
-             * @istep 3:
-             * 
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
-             */
+            */
             IWord enAfter = null, ce = null;
             if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
                     && (cjkidx + w.getLength() >= chars.length) ) {
-                enAfter = nextBasicLatin(readNext(), 0);
+                enAfter = nextLatinWord(readNext(), 0);
                 //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
                 String cestr = w.getValue() + enAfter.getValue();
                 
                 /*
                  * here: (2013-08-31 added)
                  * also make sure the CE word is not a stop word
-                 */
+                */
                 if ( ! ( config.CLEAR_STOPWORD 
                     && dic.match(ILexicon.STOP_WORD, cestr) )
                     && dic.match(ILexicon.CJK_WORD, cestr) ) {
@@ -560,13 +577,9 @@ public abstract class ASegment implements ISegment
             }
             
             
-            //-------------------------------------------------------
-
             /*
-             * @istep 4:
-             * 
              * check and append the pinyin and the synonyms words.
-             */
+            */
             if ( T == -1 ) {
                 appendWordFeatures(w);
             }
@@ -624,7 +637,7 @@ public abstract class ASegment implements ISegment
             return w;
         }
         
-        IWord w = nextBasicLatin(c, pos);
+        IWord w = nextLatinWord(c, pos);
         w.setPosition(pos);
         
         /* @added: 2013-12-16
@@ -647,6 +660,66 @@ public abstract class ASegment implements ISegment
         }
         
         return w;
+    }
+    
+    /**
+     * get the next mixed word, CJK-English or CJK-English-CJK or whatever
+     * 
+     * @param   chars
+     * @param   cjkidx
+     * @return  IWord or null for nothing found
+     * @throws  IOException 
+    */
+    protected IWord getNextMixedWord(char[] chars, int cjkidx) throws IOException
+    {
+        IStringBuffer buff = new IStringBuffer();
+        buff.clear().append(chars, cjkidx);
+        String tstring = buff.toString();
+        if ( ! dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
+            return null;
+        }
+        
+        /*
+         * check and append the behind Latin string 
+        */
+        if ( behindLatin == null ) {
+            behindLatin = nextLatinString(readNext());
+        }
+        
+        IWord wd = null;
+        buff.append(behindLatin);
+        tstring = buff.toString();
+        if ( dic.match(ILexicon.CJK_WORD, tstring) ) {
+            wd = dic.get(ILexicon.CJK_WORD, tstring);
+        }
+        
+        if ( (ctrlMask & ISegment.CHECK_EC_MASK) != 0 
+                || dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
+            ialist.clear();
+            int chr = -1, j, mc = 0;
+            for ( j = 0; j < config.MIX_SUFFIX_LENGTH && (chr = readNext()) != -1; j++ ) {
+                buff.append((char)chr);
+                ialist.add(chr);
+                tstring = buff.toString();
+                if ( dic.match(ILexicon.CJK_WORD, tstring) ) {
+                    wd = dic.get(ILexicon.CJK_WORD, tstring);
+                    mc = j + 1;
+                }
+            }
+            
+            //push back the read chars.
+            for ( int i = j - 1; i >= mc; i-- ) {
+                pushBack(ialist.get(i));
+            }
+        }
+        
+        buff.clear();
+        buff = null;
+        if ( wd != null ) {
+            behindLatin = null;
+        }
+        
+        return wd;
     }
     
     /**
@@ -1102,7 +1175,6 @@ public abstract class ASegment implements ISegment
      */
     protected char[] nextCJKSentence( int c ) throws IOException 
     {
-        //StringBuilder isb = new StringBuilder();
         isb.clear();
         int ch;
         isb.append((char)c);
@@ -1141,7 +1213,7 @@ public abstract class ASegment implements ISegment
      * @return IWord
      * @throws IOException 
      */
-    protected IWord nextBasicLatin(int c, int pos) throws IOException 
+    protected IWord nextLatinWord(int c, int pos) throws IOException 
     {
         isb.clear();
         if ( c > 65280 ) c -= 65248;
@@ -1276,7 +1348,8 @@ public abstract class ASegment implements ISegment
         }
         
         if ( ! _check ) {    
-            /* @reader: (2013-09-25)
+            /* 
+             * @reader: (2013-09-25)
              * we check the units here, so we can recognize
              * many other units that is not Chinese like '℉,℃' eg..
             */
@@ -1311,7 +1384,8 @@ public abstract class ASegment implements ISegment
         //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
         ialist.clear();
         
-        /* Attention:
+        /* 
+         * Attention:
          * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
          * or it cause the miss of the next char. 
          * 
@@ -1319,9 +1393,10 @@ public abstract class ASegment implements ISegment
          * we do not check the type of the char readed next.
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
-         */
-        for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
-            /* Attention:
+        */
+        for ( ; j < config.MIX_SUFFIX_LENGTH && (ch = readNext()) != -1; j++ ) {
+            /* 
+             * Attention:
              *  it is a accident that Jcseg works find for 
              *  we break the loop directly when we meet a whitespace.
              *  1. if a EC word is found, unit check process will be ignore.
@@ -1334,10 +1409,8 @@ public abstract class ASegment implements ISegment
             }
             
             ibuffer.append((char)ch);
-            //System.out.print((char)ch+",");
             ialist.add(ch);
             _temp = ibuffer.toString();
-            //System.out.println((j+1)+": "+_temp);
             if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
                 w  = dic.get(ILexicon.CJK_WORD, _temp);
                 mc = j + 1;
@@ -1347,7 +1420,7 @@ public abstract class ASegment implements ISegment
         ibuffer.clear();
         ibuffer = null;        //Let gc do it's work.
         
-        //push back the readed chars.
+        //push back the read chars.
         for ( int i = j - 1; i >= mc; i-- ) pushBack(ialist.get(i));
         //chArr.clear();chArr = null;
         
@@ -1380,6 +1453,77 @@ public abstract class ASegment implements ISegment
         }
         
         return w;
+    }
+    
+    /**
+     * the simple version of the next basic Latin fetch logic
+     * Just return the next Latin string with the keep punctuation after it
+     * 
+     * @param   int c
+     * @return  String
+     * @throws  IOException 
+    */
+    protected String nextLatinString(int c) throws IOException
+    {
+        isb.clear();
+        if ( c > 65280 ) c -= 65248;
+        if ( c >= 65 && c <= 90 ) c += 32; 
+        isb.append((char)c);
+        
+        int ch;
+        int _ctype = 0;
+        ctrlMask &= ~ISegment.CHECK_EC_MASK;
+        
+        while ( (ch = readNext()) != -1 ) {
+            //Covert the full-width char to half-width char.
+            if ( ch > 65280 ) ch -= 65248;
+            _ctype = StringUtil.getEnCharType(ch);
+            
+            //Whitespace check.
+            if ( _ctype == StringUtil.EN_WHITESPACE ) {
+                break;
+            }
+            
+            //English punctuation check.
+            if ( _ctype == StringUtil.EN_PUNCTUATION ) {
+                if ( ! config.isKeepPunctuation((char)ch) ) {
+                    pushBack(ch);
+                    break;
+                }
+            }
+            
+            //Not EN_KNOW, and it could be letter, numeric.
+            if ( _ctype == StringUtil.EN_UNKNOW ) {
+                pushBack(ch);
+                if ( StringUtil.isCJKChar( ch ) ) {
+                    ctrlMask |= ISegment.CHECK_EC_MASK;
+                }
+                
+                break;
+            }
+            
+            //covert the lower case letter to upper case.
+            if ( ch >= 65 && ch <= 90 ) ch += 32;
+            isb.append((char)ch);
+            
+            /*
+             * global English word length limitation 
+            */
+            if ( isb.length() > config.MAX_LATIN_LENGTH ) {
+                break;
+            }
+        }
+        
+        /*
+         * check and remove the dot punctuation after it 
+        */
+        for ( int j = isb.length() - 1; j > 0; j-- ) {
+            if ( isb.charAt(j) == '.' ) {
+                isb.deleteCharAt(j);
+            }
+        }
+        
+        return isb.toString();
     }
     
     /**
@@ -1418,9 +1562,9 @@ public abstract class ASegment implements ISegment
      * find the other number from the current position
      * count until the char in the specified position is not a other number or whitespace
      * 
-     * @param c
-     * @return String
-     * @throws IOException
+     * @param   c
+     * @return  String
+     * @throws  IOException
      */
     protected String nextOtherNumber( int c ) throws IOException 
     {
@@ -1460,13 +1604,14 @@ public abstract class ASegment implements ISegment
         isb.append( chars[ index ]);
         ctrlMask &= ~ISegment.CHECK_CF_MASK;        //reset the fraction check mask.
         
-        for ( int j = index + 1;
-                    j < chars.length; j++ ) {
-            /* check and deal with '分之' if the 
-             * current char is not a chinese numeric. 
-             * (try to recognize a chinese fraction)
+        for ( int j = index + 1; j < chars.length; j++ ) {
+            /* 
+             * check and deal with '分之' if the 
+             * current char is not a Chinese numeric. 
+             * (try to recognize a Chinese fraction)
+             * 
              * @added 2013-12-14
-             * */
+            */
             if ( NumericUtil.isCNNumeric(chars[j]) == -1 ) {
                 if ( j + 2 < chars.length 
                         && chars[j  ] == '分' 

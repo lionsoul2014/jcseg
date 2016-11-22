@@ -107,7 +107,8 @@ CJK_WORD
 瑞典/ns/yi se lie/null
 挪威/ns/yi se lie/null
 冰岛/ns/yi se lie/null
-丹麦 法罗群岛/ns/yi se lie/null
+丹麦/ns/dan mai/null
+法罗群岛/ns/fa luo qun dao/null
 爱沙尼亚/ns/yi se lie/null
 拉脱维亚/ns/yi se lie/null
 立陶宛/ns/yi se lie/null
@@ -163,7 +164,9 @@ CJK_WORD
 乌干达/ns/yi se lie/null
 卢旺达/ns/yi se lie/null
 布隆迪/ns/yi se lie/null
-塞舌尔 刚果/ns/yi se lie/null
+塞舌尔/ns/sai she er/null
+刚果/ns/gang guo/null
+刚果共和国/ns/gang guo gong he guo/null
 圣多美及普林西比/ns/yi se lie/null
 塞内加尔/ns/yi se lie/null
 冈比亚/ns/yi se lie/null

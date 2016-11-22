@@ -19,7 +19,7 @@ import org.lionsoul.jcseg.util.StringUtil;
  * And this extends all the properties of the Complex one
  * the rest of them are build for NLP only
  * 
- * @author chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
 */
 public class NLPSeg extends ComplexSeg
 {
@@ -172,8 +172,7 @@ public class NLPSeg extends ComplexSeg
              * check and try to find a Chinese name.
             */
             int T = -1;
-            if ( config.I_CN_NAME
-                    && w.getLength() <= 2 && chunk.getWords().length > 1 ) {
+            if ( config.I_CN_NAME && w.getLength() <= 2 && chunk.getWords().length > 1 ) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(w.getValue());
                 String str = null;
@@ -192,20 +191,9 @@ public class NLPSeg extends ComplexSeg
                     T = IWord.T_CN_NICKNAME;
                     sb.append(chunk.getWords()[1].getValue());
                 }
-                /*
-                 * the length of the w is 2:
-                 * the last name and the first char make up a word
-                 * for the double name. 
-                 */
-                /*else if ( w.getLength() > 1
-                        && findCHName( w, chunk ))  {
-                    T = IWord.T_CN_NAME;
-                    sb.append(chunk.getWords()[1].getValue().charAt(0));
-                }*/
                 
                 if ( T != -1 ) {
                     w = new Word(sb.toString(), T);
-                    //w.setPosition(pos+cjkidx);
                     w.setEntity(T==IWord.T_CN_NICKNAME ? Entity.E_NAME_NICKNAME : Entity.E_NAME_CN);
                     w.setPartSpeech(IWord.NAME_POSPEECH);
                 }
@@ -221,77 +209,32 @@ public class NLPSeg extends ComplexSeg
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
             */
-            IWord enAfter = null, ce = null;
-            if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
-                    && (cjkidx + w.getLength() >= chars.length) ) {
-                //System.out.println("CE-Word"+w.getValue());
-                enAfter = nextBasicLatin(readNext(), 0);
-                //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
-                String cestr = w.getValue() + enAfter.getValue();
-                
-                /*
-                 * here: (2013-08-31 added)
-                 * also make sure the CE word is not a stop word
-                */
-                if ( ! ( config.CLEAR_STOPWORD 
-                    && dic.match(ILexicon.STOP_WORD, cestr) )
-                    && dic.match(ILexicon.CJK_WORD, cestr) ) {
-                    ce = dic.get(ILexicon.CJK_WORD, cestr).clone();
-                    ce.setPosition(pos+cjkidx);
-                    wordPool.add(ce);
-                    cjkidx += w.getLength();
-                    enAfter = null;
-                }
-                //}
+            IWord ce = null;
+            if ( (ctrlMask & ISegment.CHECK_CE_MASk) != 0 
+                    && (chars.length - cjkidx) <= config.MIX_PREFIX_LENGTH ) {
+                ce = getNextMixedWord(chars, cjkidx);
             }
             
             /*
-             * no ce word found, store the English word.
-             * 
-             * @reader: (2013-08-31 added)
-             * the newly found letter or digit word "enAfter" token 
-             * will be handled at last cause we have to handle 
-             * the pinyin and the synonyms words first.
-             * 
              * @Note: added at 2016/07/19
              * if the ce word is null and if the T is -1
              * the w should be a word that clone from itself
-             */
+            */
             if ( ce == null ) {
                 if ( T == -1 ) w = w.clone();
-                w.setPosition(pos+cjkidx);
-                wordPool.add(w);
-                cjkidx += w.getLength();
             } else {
-                w = ce;
+                w = ce.clone();
             }
             
+            w.setPosition(pos+cjkidx);
+            wordPool.add(w);
+            cjkidx += w.getLength();
             
             /*
-             * @istep 4:
-             * 
              * check and append the Pinyin and the synonyms words.
-             */
+            */
             if ( T == -1 ) {
                 appendWordFeatures(w);
-            }
-            
-            /* 
-             * handle the after English word
-             * generated at the above Chinese and English mix word
-            */
-            if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
-                    && dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) ) {
-                enAfter.setPosition(pos+chars.length);
-                if ( config.EN_SECOND_SEG
-                        && (ctrlMask & ISegment.START_SS_MASK) != 0 )  {
-                    enSecondSeg(enAfter, false);
-                }
-                
-                wordPool.add(enAfter);
-                if ( config.APPEND_CJK_SYN ) {
-                    appendLatinSyn(enAfter);
-                }
             }
         }
         
@@ -312,7 +255,7 @@ public class NLPSeg extends ComplexSeg
      * @throws IOException 
     */
     @Override
-    protected IWord nextBasicLatin(int c, int pos) throws IOException 
+    protected IWord nextLatinWord(int c, int pos) throws IOException 
     {
         isb.clear();
         if ( c > 65280 ) c -= 65248;
@@ -504,7 +447,7 @@ public class NLPSeg extends ComplexSeg
         String tstr = null;
         int mc = 0, j = 0;        //the number of char that read from the stream.
         ialist.clear();
-        for ( ; j < config.MIX_CN_LENGTH && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < config.MIX_SUFFIX_LENGTH && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
              * it is a accident that Jcseg works fine for 

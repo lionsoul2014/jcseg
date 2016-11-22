@@ -283,37 +283,37 @@ public class JcsegTest
                         demo.resetMode(JcsegTaskConfig.COMPLEX_MODE);
                         module = "tokenzier:complex";
                         action = 0;
-                        System.out.println("Entered complex tokenizer mode!");
+                        System.out.println("Entered complex tokenize mode!");
                         continue;
                     } else if (":simple".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.SIMPLE_MODE);
                         module = "tokenzier:simple";
                         action = 0;
-                        System.out.println("Entered simple tokenizer mode!");
+                        System.out.println("Entered simple tokenize mode!");
                         continue;
                     } else if (":search".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.SEARCH_MODE);
                         module = "tokenzier:search";
                         action = 0;
-                        System.out.println("Entered search tokenizer mode!");
+                        System.out.println("Entered search tokenize mode!");
                         continue;
                     } else if (":detect".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.DETECT_MODE);
                         module = "tokenzier:detect";
                         action = 0;
-                        System.out.println("Entered detect tokenizer mode!");
+                        System.out.println("Entered detect tokenize mode!");
                         continue;
                     } else if (":delimiter".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.DELIMITER_MODE);
                         module = "tokenzier:delimiter";
                         action = 0;
-                        System.out.println("Entered delimiter tokenizer mode!");
+                        System.out.println("Entered delimiter tokenize mode!");
                         continue;
                     } else if (":NLP".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.NLP_MODE);
                         module = "tokenzier:NLP";
                         action = 0;
-                        System.out.println("Entered NLP tokenizer mode!");
+                        System.out.println("Entered NLP tokenize mode!");
                         continue;
                     } else if (":keywords".equals(cmd)) {
                         module = "keywords";

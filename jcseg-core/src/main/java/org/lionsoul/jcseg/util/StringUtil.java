@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>a class to deal with the english stop char like the english punctuation</p>
+ * <p>a class to deal with the English stop char like the English punctuation</p>
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
  */
 public class StringUtil 
 {
@@ -53,8 +53,8 @@ public class StringUtil
     }
     
     /**
-     * check the specified char is a basic Latin and russia and 
-     * greece letter true will be return if it is or return false
+     * check the specified char is a basic Latin and Russia and 
+     * Greece letter. True will be return if it is or return fals.
      * this method can recognize full-width char and letter
      * 
      * @param c
@@ -184,13 +184,13 @@ public class StringUtil
      * 
      * <ul>
      * <li>32       -&gt; whitespace</li>
-     * <li>33-47    -&gt; punctuations</li>
+     * <li>33-47    -&gt; punctuation</li>
      * <li>48-57    -&gt; 0-9</li>
-     * <li>58-64    -&gt; punctuations</li>
+     * <li>58-64    -&gt; punctuation</li>
      * <li>65-90    -&gt; A-Z</li>
-     * <li>91-96    -&gt; punctuations</li>
+     * <li>91-96    -&gt; punctuation</li>
      * <li>97-122   -&gt; a-z</li>
-     * <li>123-126  -&gt; punctuations</li>
+     * <li>123-126  -&gt; punctuation</li>
      * </ul>
      * 
      * @param c
@@ -212,7 +212,7 @@ public class StringUtil
     {
         return ( ( c >= 65296 && c <= 65305 )
                 || ( c >= 65313 && c <= 65338 )
-                || ( c >= 65345 && c < 65370 ) );
+                || ( c >= 65345 && c < 65370) );
     }
     
     /**
@@ -236,7 +236,7 @@ public class StringUtil
                 || ( c > 65305 && c < 65312 )
                 || ( c > 65338 && c < 65345 ) 
                 || ( c > 65370 && c < 65382 )
-                //CJK symbol and punctuations (added 2013-09-06)
+                //CJK symbol and punctuation (added 2013-09-06)
                 //from http://www.unicode.org/charts/PDF/U3000.pdf
                 || ( c >= 12289 && c <= 12319 )
          );
@@ -267,7 +267,9 @@ public class StringUtil
             c = str.charAt(j);
             //make full-width char half-width
             if ( c > 65280 ) c -= 65248;
-            if ( c < 48 || c > 57 ) return false;
+            if ( c < 48 || c > 57 ) {
+                return false;
+            }
         }
         
         return true;
@@ -337,37 +339,49 @@ public class StringUtil
     }
     
     /**
-     * check if there is Latin char in the string
+     * get the index of the first Latin char of the specified string
      * 
      * @param   str
-     * @return  boolean
+     * @param   offset
+     * @return  integer
     */
-    public static boolean contansLatin(String str)
+    public static int latinIndexOf(String str, int offset)
     {
-        for ( int j = 0; j < str.length(); j++ ) {
+        for ( int j = offset; j < str.length(); j++ ) {
             if ( isEnChar(str.charAt(j)) ) {
-                return true;
+                return j;
             }
         }
         
-        return false;
+        return -1;
+    }
+    
+    public static int latinIndexOf(String str)
+    {
+        return latinIndexOf(str, 0);
     }
     
     /**
-     * check if there is CJK char in the string
+     * get the index of the first CJK char of the specified string
      * 
      * @param   str
-     * @return  boolean
+     * @param   offset
+     * @return  integer
     */
-    public static boolean contansCJK(String str)
+    public static int CJKIndexOf(String str, int offset)
     {
-        for ( int j = 0; j < str.length(); j++ ) {
+        for ( int j = offset; j < str.length(); j++ ) {
             if ( isCJKChar(str.charAt(j)) ) {
-                return true;
+                return j;
             }
         }
         
-        return false;
+        return -1;
+    }
+    
+    public static int CJKIndexOf(String str)
+    {
+        return CJKIndexOf(str, 0);
     }
     
     /**

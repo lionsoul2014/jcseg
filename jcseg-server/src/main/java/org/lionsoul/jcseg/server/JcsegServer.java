@@ -321,9 +321,6 @@ public class JcsegServer
         if ( json.has("jcseg_icnname") ) {
             config.setICnName(json.getBoolean("jcseg_icnname"));
         }
-        if ( json.has("jcseg_mixcnlen") ) {
-            config.setMixCnLength(json.getInt("jcseg_mixcnlen"));
-        }
         if ( json.has("jcseg_pptmaxlen") ) {
             config.setPPT_MAX_LENGTH(json.getInt("jcseg_pptmaxlen"));
         }

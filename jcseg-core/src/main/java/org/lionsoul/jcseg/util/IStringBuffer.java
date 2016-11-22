@@ -7,16 +7,15 @@ package org.lionsoul.jcseg.util;
  */
 public class IStringBuffer
 {
-    
     /**
      * buffer char array. 
-     */
+    */
     private char buff[];
     private int count;
     
     /**
      * create a buffer with a default length 16
-     */
+    */
     public IStringBuffer()
     {
         this(16);
@@ -26,7 +25,7 @@ public class IStringBuffer
      * create a buffer with a specified length
      * 
      * @param    length
-     */
+    */
     public IStringBuffer( int length )
     {
         if ( length <= 0 ) {
@@ -41,7 +40,7 @@ public class IStringBuffer
      * create a buffer with a specified string
      * 
      * @param    str
-     */
+    */
     public IStringBuffer( String str )
     {
         this(str.length()+16);
@@ -73,7 +72,7 @@ public class IStringBuffer
      * append a string to the buffer
      * 
      * @param    str string to append to
-     */
+    */
     public IStringBuffer append( String str )
     {
         if ( str == null )
@@ -96,7 +95,7 @@ public class IStringBuffer
      * @param    chars
      * @param    start    the start index
      * @param    length    length of chars to append to
-     */
+    */
     public IStringBuffer append( char[] chars, int start, int length )
     {
         if ( chars == null )
@@ -121,10 +120,24 @@ public class IStringBuffer
     }
     
     /**
+     * append the rest of the chars to the buffer
+     * 
+     * @param   chars
+     * @param   start the start index
+     * @return  IStringBuffer
+     * 
+    */
+    public IStringBuffer append( char[] chars, int start )
+    {
+        append(chars, start, chars.length - start);
+        return this;
+    }
+    
+    /**
      * append some chars to the buffer
      * 
      * @param    chars
-     */
+    */
     public IStringBuffer append( char[] chars )
     {
         return append(chars, 0, chars.length);
@@ -134,7 +147,7 @@ public class IStringBuffer
      * append a char to the buffer
      * 
      * @param    c the char to append to
-     */
+    */
     public IStringBuffer append( char c )
     {
         if ( count == buff.length ) {
@@ -208,10 +221,10 @@ public class IStringBuffer
     }
     
     /**
-     * return the lenght of the buffer
+     * return the length of the buffer
      * 
-     * @return    int    the length of the buffer
-     */
+     * @return  int the length of the buffer
+    */
     public int length()
     {
         return count;
@@ -219,7 +232,7 @@ public class IStringBuffer
     
     /**
      * get the char at a specified position in the buffer
-     */
+    */
     public char charAt( int idx )
     {
         if ( idx < 0 )
@@ -231,7 +244,7 @@ public class IStringBuffer
     
     /**
      * delete the char at the specified position
-     */
+    */
     public IStringBuffer deleteCharAt( int idx )
     {
         if ( idx < 0 )
@@ -252,7 +265,7 @@ public class IStringBuffer
     }
     
     /**
-     * set the char at the specifield index
+     * set the char at the specified index
      * 
      * @param    idx
      * @param    chr
@@ -271,7 +284,7 @@ public class IStringBuffer
      * return the chars of the buffer
      * 
      * @return    char[]
-     */
+    */
     public char[] buffer()
     {
         return buff;
@@ -279,11 +292,10 @@ public class IStringBuffer
     
     /**
      * clear the buffer by reset the count to 0
-     */
+    */
     public IStringBuffer clear()
     {
         count = 0;
-        
         return this;
     }
     
@@ -292,7 +304,7 @@ public class IStringBuffer
      * 
      * @return    String
      * @see Object#toString() 
-     */
+    */
     public String toString()
     {
         return new String(buff, 0, count);
