@@ -1,5 +1,6 @@
 CJK_WORD
 #西方姓氏词库
+:entity name.foreign
 亚历山大/nr/ya li shan da/null
 克林顿/nr/ke ling dun/null
 克里斯汀/nr/ke li si ding/null

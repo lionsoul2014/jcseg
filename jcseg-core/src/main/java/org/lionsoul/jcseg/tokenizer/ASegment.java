@@ -515,7 +515,6 @@ public abstract class ASegment implements ISegment
                 
                 if ( T != -1 ) {
                     w = new Word(sb.toString(), T);
-                    //w.setPosition(pos+cjkidx);
                     w.setPartSpeech(IWord.NAME_POSPEECH);
                 }
             }
@@ -532,74 +531,32 @@ public abstract class ASegment implements ISegment
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
             */
-            IWord enAfter = null, ce = null;
-            if ( ( ctrlMask & ISegment.CHECK_CE_MASk ) != 0 
-                    && (cjkidx + w.getLength() >= chars.length) ) {
-                enAfter = nextLatinWord(readNext(), 0);
-                //if ( enAfter.getType() == IWord.T_BASIC_LATIN ) {
-                String cestr = w.getValue() + enAfter.getValue();
-                
-                /*
-                 * here: (2013-08-31 added)
-                 * also make sure the CE word is not a stop word
-                */
-                if ( ! ( config.CLEAR_STOPWORD 
-                    && dic.match(ILexicon.STOP_WORD, cestr) )
-                    && dic.match(ILexicon.CJK_WORD, cestr) ) {
-                    ce = dic.get(ILexicon.CJK_WORD, cestr).clone();
-                    ce.setPosition(pos+cjkidx);
-                    wordPool.add(ce);
-                    cjkidx += w.getLength();
-                    enAfter = null;
-                }
-                //}
+            IWord ce = null;
+            if ( (ctrlMask & ISegment.CHECK_CE_MASk) != 0 
+                    && (chars.length - cjkidx) <= config.MIX_PREFIX_LENGTH ) {
+                ce = getNextMixedWord(chars, cjkidx);
             }
             
             /*
-             * no ce word found, store the English word.
-             * 
-             * @reader: (2013-08-31 added)
-             * the newly found letter or digit word "enAfter" token 
-             * will be handled at last cause we have to handle 
-             * the pinyin and the syn words first.
-             * 
              * @Note: added at 2016/07/19
              * if the ce word is null and if the T is -1
              * the w should be a word that clone from itself
              */
             if ( ce == null ) {
                 if ( T == -1 ) w = w.clone();
-                w.setPosition(pos+cjkidx);
-                wordPool.add(w);
-                cjkidx += w.getLength();
             } else {
-                w = ce;
+                w = ce.clone();
             }
             
+            w.setPosition(pos+cjkidx);
+            wordPool.add(w);
+            cjkidx += w.getLength();
             
             /*
-             * check and append the pinyin and the synonyms words.
+             * check and append the Pinyin and the synonyms words.
             */
             if ( T == -1 ) {
                 appendWordFeatures(w);
-            }
-            
-            /*
-             * handle the after English word
-             * generated at the above Chinese and English mix word
-            */
-            if ( enAfter != null && ! ( config.CLEAR_STOPWORD 
-                    && dic.match(ILexicon.STOP_WORD, enAfter.getValue()) ) ) {
-                enAfter.setPosition(pos+chars.length);
-                if ( config.EN_SECOND_SEG
-                        && (ctrlMask & ISegment.START_SS_MASK) != 0 )  {
-                    enSecondSeg(enAfter, false);
-                }
-                
-                wordPool.add(enAfter);
-                if ( config.APPEND_CJK_SYN ) {
-                    appendLatinSyn(enAfter);
-                }
             }
         }
         
