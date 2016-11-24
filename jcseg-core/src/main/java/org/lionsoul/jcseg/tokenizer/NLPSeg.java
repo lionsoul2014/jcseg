@@ -35,6 +35,7 @@ public class NLPSeg extends ComplexSeg
         config.CNNUM_TO_ARABIC = true;
         config.APPEND_CJK_PINYIN = false;
         config.APPEND_CJK_SYN  = false;
+        config.MAX_LATIN_LENGTH = 128;
     }
 
     public NLPSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
@@ -317,6 +318,17 @@ public class NLPSeg extends ComplexSeg
             }
         }
         
+        /*
+         * @added at 2016/11/24
+         * clear the dot punctuation behind the string buffer 
+        */
+        for ( int i = isb.length() - 1; i > 0 
+                && isb.charAt(i) == '.'; i-- ) {
+            pushBack(isb.charAt(i));
+            isb.deleteCharAt(i);
+            _check = false;
+        }
+        
         IWord wd   = null;
         String str = isb.toString();
         //System.out.println(str+","+tcount);
@@ -325,16 +337,6 @@ public class NLPSeg extends ComplexSeg
          * special entity word check like email, url address
         */
         if ( atcount == 1 && StringUtil.isMailAddress(str) ) {
-            for ( int i = isb.length() - 1; i > 0 
-                    && isb.charAt(i) == '.'; i-- ) {
-                pushBack(isb.charAt(i));
-                isb.deleteCharAt(i);
-            }
-            
-            if ( isb.length() < str.length() ) {
-                str = isb.toString();
-            }
-            
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
