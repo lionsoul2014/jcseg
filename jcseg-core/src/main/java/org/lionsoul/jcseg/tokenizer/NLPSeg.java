@@ -262,15 +262,11 @@ public class NLPSeg extends ComplexSeg
         if ( c >= 65 && c <= 90 ) c += 32; 
         isb.append((char)c);
         
-        int ch;
-        //EC word, single units control variables.
-        boolean _check  = false;
-        boolean _wspace = false;
+        boolean _check = false, _wspace = false;
+        int atcount = 0, ptcount = 0;
+        int ch, _ctype = 0, tcount = 0;             //number of different char type.
+        int _TYPE  = StringUtil.getEnCharType(c);   //current char type.
         
-        //Secondary segmentation
-        int _ctype = 0;
-        int tcount = 1;                                  //number of different char type.
-        int _TYPE  = StringUtil.getEnCharType(c);        //current char type.
         while ( (ch = readNext()) != -1 ) {
             //Covert the full-width char to half-width char.
             if ( ch > 65280 ) ch -= 65248;
@@ -281,9 +277,13 @@ public class NLPSeg extends ComplexSeg
             }
             
             if ( _ctype == StringUtil.EN_PUNCTUATION ) {
-                if ( ! config.isKeepPunctuation((char)ch) ) {
+                if ( ! StringUtil.isENKeepPunctuaton((char)ch) ) {
                     pushBack(ch);
                     break;
+                } else if ( ch == '@' ) {
+                    atcount++;
+                } else if ( ch == '.' ) {
+                    ptcount++;
                 }
             }
             
@@ -320,6 +320,29 @@ public class NLPSeg extends ComplexSeg
         IWord wd   = null;
         String str = isb.toString();
         //System.out.println(str+","+tcount);
+        
+        /*
+         * special entity word check like email, url address
+        */
+        if ( atcount == 1 && StringUtil.isMailAddress(str) ) {
+            for ( int i = isb.length() - 1; i > 0 
+                    && isb.charAt(i) == '.'; i-- ) {
+                pushBack(isb.charAt(i));
+                isb.deleteCharAt(i);
+            }
+            
+            if ( isb.length() < str.length() ) {
+                str = isb.toString();
+            }
+            
+            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        } else if ( ptcount > 0 && StringUtil.isUrlAddress(str) ) {
+            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        }
         
         /* 
          * check the end condition.

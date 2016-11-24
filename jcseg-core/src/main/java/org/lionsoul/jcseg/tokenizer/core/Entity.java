@@ -9,6 +9,12 @@ import java.lang.reflect.Field;
 */
 public class Entity
 {
+    public static final String E_EMAIL = "email";
+    public static final String E_URL = "url";
+    public static final String E_URL_HTTP = "url.http";
+    public static final String E_URL_FTP = "url.ftp";
+    public static final String E_IP = "ip";
+    
     public static final String E_NUMERIC = "numeric";                       //数字
     public static final String E_NUMERIC_ARABIC = "numeric.interger";      //整数
     public static final String E_NUMERIC_DECIMAL = "numeric.decimal";      //小数

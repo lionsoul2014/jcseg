@@ -16,21 +16,7 @@ public class StringUtil
     public static final int EN_PUNCTUATION = 2;
     public static final int EN_WHITESPACE = 3;
     public static final int EN_UNKNOW = -1;
-    
-    private static final String EN_KEEP_CHARS = "@%&.'#+";
-    
-    /*private static final Character[] EN_KEEP_CHARS = {
-        '@', '$', '%', '^', '&', '-', ':', '.', '/', '\'', '#', '+'};
-    
-    private static Map<Character, Character> enKeepChar = null;
-    
-    static {
-        enKeepChar = new HashMap<Character, Character>( 
-                ( int )(EN_KEEP_CHARS.length / 1.7) + 1, 0.85f );
-        //set the keep char's keep status
-        for ( int j = 0; j < EN_KEEP_CHARS.length; j++ )
-            enKeepChar.put(EN_KEEP_CHARS[j], EN_KEEP_CHARS[j]);
-    }*/
+    private static final String EN_KEEP_CHAR = "@:/%&.'#+";
     
     /**
      * check the specified char is CJK, Thai... char
@@ -54,7 +40,7 @@ public class StringUtil
     
     /**
      * check the specified char is a basic Latin and Russia and 
-     * Greece letter. True will be return if it is or return fals.
+     * Greece letter. True will be return if it is or return false.
      * this method can recognize full-width char and letter
      * 
      * @param c
@@ -105,15 +91,14 @@ public class StringUtil
     }
     
     /**
-     * check the given char is english keep punctuation
+     * check the given char is English keep punctuation
      * 
      * @param    c
      * @return    boolean
      */
     public static boolean isENKeepPunctuaton( char c )
     {
-        return (EN_KEEP_CHARS.indexOf(c) > -1);
-        //return enKeepChar.containsKey(c);
+        return (EN_KEEP_CHAR.indexOf(c) > -1);
     }
     
     public static boolean isUpperCaseLetter( int u )
@@ -139,7 +124,8 @@ public class StringUtil
     /**
      * include the full-width and half-width char
      * 
-     * @param    u
+     * @param   u
+     * @return  boolean
      */
     public static boolean isEnLetter( int u )
     {
@@ -152,6 +138,7 @@ public class StringUtil
      * including the full-width char
      *  
      * @param   u
+     * @return  boolean
     */
     public static boolean isEnNumeric( int u )
     {
@@ -257,13 +244,16 @@ public class StringUtil
      * check the specified char is a digit or not
      * true will return if it is or return false this method can recognize full-with char
      * 
-     * @param str
-     * @return boolean
-     */
-    public static boolean isDigit( String str ) 
+     * @param   str
+     * @param   beginIndex
+     * @param   endIndex
+     * @return  boolean
+    */
+    public static boolean isDigit(String str) {return isDigit(str, 0, str.length());}
+    public static boolean isDigit(String str, int beginIndex, int endIndex) 
     {
         char c;
-        for ( int j = 0; j < str.length(); j++ ) {
+        for ( int j = beginIndex; j < endIndex; j++ ) {
             c = str.charAt(j);
             //make full-width char half-width
             if ( c > 65280 ) c -= 65248;
@@ -278,10 +268,13 @@ public class StringUtil
     /**
      * check the specified char is a decimal including the full-width char
      * 
-     * @param str
-     * @return boolean
-     */
-    public static boolean isDecimal( String str ) 
+     * @param   str
+     * @param   beginIndex
+     * @param   endIndex
+     * @return  boolean
+    */
+    public static boolean isDecimal(String str) {return isDecimal(str, 0, str.length());}
+    public static boolean isDecimal(String str, int beginIndex, int endIndex) 
     {
         if ( str.charAt(str.length() - 1) == '.' 
                 || str.charAt(0) == '.' ) {
@@ -308,11 +301,14 @@ public class StringUtil
      * check if the specified string is all Latin chars
      * 
      * @param   str
+     * @param   beginIndex
+     * @param   endIndex
      * @return  boolean
     */
-    public static boolean isLatin(String str)
+    public static boolean isLatin(String str) {return isLatin(str, 0, str.length());}
+    public static boolean isLatin(String str, int beginIndex, int endIndex)
     {
-        for ( int j = 0; j < str.length(); j++ ) {
+        for ( int j = beginIndex; j < endIndex; j++ ) {
             if ( ! isEnChar(str.charAt(j)) ) {
                 return false;
             }
@@ -325,12 +321,37 @@ public class StringUtil
      * check if the specified string is all CJK chars
      * 
      * @param   str
+     * @param   beginIndex
+     * @param   endIndex
      * @return  boolean
     */
-    public static boolean isCJK(String str)
+    public static boolean isCJK(String str) {return isCJK(str, 0, str.length());}
+    public static boolean isCJK(String str, int beginIndex, int endIndex)
     {
-        for ( int j = 0; j < str.length(); j++ ) {
+        for ( int j = beginIndex; j < endIndex; j++ ) {
             if ( ! isCJKChar(str.charAt(j)) ) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * check if the specified string is Latin numeric or letter
+     * 
+     * @param   str
+     * @param   beginIndex
+     * @param   endIndex
+     * @return  boolean
+    */
+    public static boolean isLetterOrNumeric(String str) {return isLetterOrNumeric(str, 0, str.length());}
+    public static boolean isLetterOrNumeric(String str, int beginIndex, int endIndex)
+    {
+        for ( int i = beginIndex; i < endIndex; i++ ) {
+            char chr = str.charAt(i);
+            if ( ! StringUtil.isEnLetter(chr) 
+                    && ! StringUtil.isEnNumeric(chr) ) {
                 return false;
             }
         }
@@ -426,7 +447,51 @@ public class StringUtil
         return new String(chars);
     }
     
+    /**
+     * check if the specified string is an email address or not 
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean isMailAddress(String str)
+    {
+        int atIndex = str.indexOf('@');
+        if ( atIndex == -1 ) {
+            return false;
+        }
+        
+        if ( ! isLetterOrNumeric(str, 0, atIndex) ) {
+            return false;
+        }
+        
+        int ptIndex, ptStart = atIndex + 1;
+        while ( (ptIndex = str.indexOf('.', ptStart)) > 0 ) {
+            if ( ! isLetterOrNumeric(str, ptStart, ptIndex) ) {
+                return false;
+            }
+            
+            ptStart = ptIndex + 1;
+        }
+        
+        if ( ptStart < str.length() 
+                && ! isLetterOrNumeric(str, ptStart, str.length()) ) {
+            return false;
+        }
+        
+        return true;
+    }
     
+    /**
+     * check if the specified string is an URL address or not
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean isUrlAddress(String str)
+    {
+        
+        return false;
+    }
     
     
     private static final Character[] PAIR_PUNCTUATION = {
@@ -435,7 +500,7 @@ public class StringUtil
     
     static {
         pairPunctuation = new HashMap<Character, Character>( 
-                ( int )(PAIR_PUNCTUATION.length / 1.7) + 1, 0.85f);
+                (int)(PAIR_PUNCTUATION.length / 1.7) + 1, 0.85f);
         for ( int j = 0; j < PAIR_PUNCTUATION.length; j += 2 ) {
             pairPunctuation.put(PAIR_PUNCTUATION[j], PAIR_PUNCTUATION[j+1]);
         }
