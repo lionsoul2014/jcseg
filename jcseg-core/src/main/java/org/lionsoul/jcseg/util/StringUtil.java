@@ -3,6 +3,8 @@ package org.lionsoul.jcseg.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+
 /**
  * <p>a class to deal with the English stop char like the English punctuation</p>
  * 
@@ -531,9 +533,10 @@ public class StringUtil
      * check if the specified string is an URL address or not
      * 
      * @param   str
+     * @param   dic optional dictionary object
      * @return  boolean
     */
-    public static boolean isUrlAddress(String str)
+    public static boolean isUrlAddress(String str, ADictionary dic)
     {
         int prIndex = str.indexOf("://");
         if ( prIndex > -1 && ! StringUtil.isLatin(str, 0, prIndex) ) {

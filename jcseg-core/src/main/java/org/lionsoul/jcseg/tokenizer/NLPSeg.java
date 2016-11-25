@@ -355,7 +355,7 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        } else if ( ptcount > 0 && StringUtil.isUrlAddress(str) ) {
+        } else if ( ptcount > 0 && StringUtil.isUrlAddress(str, dic) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;

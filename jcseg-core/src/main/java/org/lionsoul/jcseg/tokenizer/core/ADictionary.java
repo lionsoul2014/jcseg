@@ -233,7 +233,6 @@ public abstract class ADictionary
         
         autoloadThread.setDaemon(true);
         autoloadThread.start();
-        //System.out.println("lexicon autoload thread started!!!");
     }
     
     public void stopAutoload() 
@@ -340,8 +339,8 @@ public abstract class ADictionary
     /**
      * get the key's type index located in ILexicon interface
      * 
-     * @param key
-     * @return int
+     * @param   key
+     * @return  int
      */
     public static int getIndex( String key )
     {
@@ -368,6 +367,8 @@ public abstract class ADictionary
             return ILexicon.CN_DNAME_2;
         } else if ( key.startsWith("STOP_WORD") ) {
             return ILexicon.STOP_WORD;
+        } else if ( key.startsWith("DOMAIN_SUFFIX") ) {
+            return ILexicon.DOMAIN_SUFFIX;
         }
             
         return ILexicon.CJK_WORD;
@@ -511,6 +512,11 @@ public abstract class ADictionary
                         && line.length() <= config.MAX_LENGTH) ) {
                     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
                 }
+                break;
+            case ILexicon.DOMAIN_SUFFIX:
+                wd = line.split("\\s*/\\s*");
+                dic.add(t, wd[0], IWord.T_BASIC_LATIN);
+                //@Note access the explanation through wd[1]
                 break;
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:

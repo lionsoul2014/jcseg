@@ -7,7 +7,7 @@ package org.lionsoul.jcseg.tokenizer.core;
  */
 public interface ILexicon
 {
-    public static final int T_LEN = 9;
+    public static final int T_LEN = 10;
     
     /**
      * Chinese, JPanese, Korean words
@@ -59,6 +59,11 @@ public interface ILexicon
      * For the optimization implementation of the mixed word recognition
     */
     public static final int MIX_ASSIST_WORD = 8;
+    
+    /**
+     * domain name suffix dictionary for the URL recognition
+    */
+    public static final int DOMAIN_SUFFIX = 9;
     
     
     /**
