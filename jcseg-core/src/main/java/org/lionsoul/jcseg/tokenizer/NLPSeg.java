@@ -278,13 +278,26 @@ public class NLPSeg extends ComplexSeg
             }
             
             if ( _ctype == StringUtil.EN_PUNCTUATION ) {
-                if ( ! StringUtil.isENKeepPunctuaton((char)ch) ) {
-                    pushBack(ch);
-                    break;
-                } else if ( ch == '@' ) {
+                if ( ch == '@' ) {
                     atcount++;
                 } else if ( ch == '.' ) {
                     ptcount++;
+                } else if ( ch == ':' ) {
+                    int nchr1 = readNext(), nchr2 = readNext();
+                    if ( nchr1 == '/' && nchr2 == '/' ) {
+                        isb.append((char)ch)
+                            .append((char)nchr1)
+                                .append((char)nchr2);
+                        ch = -1;
+                    } else {
+                        pushBack(nchr2);
+                        pushBack(nchr1);
+                        pushBack(ch);
+                        break;
+                    }
+                } else if ( ! StringUtil.isENKeepPunctuaton((char)ch) ) {
+                    pushBack(ch);
+                    break;
                 }
             }
             
@@ -300,7 +313,9 @@ public class NLPSeg extends ComplexSeg
             
             //covert the lower case letter to upper case.
             if ( ch >= 65 && ch <= 90 ) ch += 32;
-            isb.append((char)ch);
+            if ( ch > 0 ) {
+                isb.append((char)ch);
+            }
             
             /* Char type counter. 
              * condition to start the secondary segmentation.

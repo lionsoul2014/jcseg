@@ -2878,7 +2878,7 @@ CJK_CHAR
 眭/null/sui/null/44
 瞏/null/qiong/null/13
 吪/null/e/null/8
-和/o,nt,nhf,a,n,v,p,c/he/null/373422
+和/o,nt,nhf,a,n,v,p,c/he/null/393422
 衽/null/ren/null/22
 裟/null/sha/null/62
 襁/null/qiang/null/9
@@ -10508,7 +10508,7 @@ CJK_CHAR
 鷣/null/%/null/5
 穾/null/%/null/7
 鹅/n/e/null/5069
-章/nhf,q,n/zhang/null/391052
+章/nhf,q,n/zhang/null/301052
 埜/null/ye/null/15
 谰/v/lan/null/11
 貒/null/%/null/16
