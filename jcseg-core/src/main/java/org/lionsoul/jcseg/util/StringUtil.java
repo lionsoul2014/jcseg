@@ -3,8 +3,6 @@ package org.lionsoul.jcseg.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-
 /**
  * <p>a class to deal with the English stop char like the English punctuation</p>
  * 
@@ -374,7 +372,7 @@ public class StringUtil
     {
         for ( int i = beginIndex; i < endIndex; i++ ) {
             char chr = str.charAt(i);
-            if ( StringUtil.isEnLetter(chr) ) {
+            if ( ! StringUtil.isEnLetter(chr) ) {
                 return false;
             }
         }
@@ -395,7 +393,7 @@ public class StringUtil
     {
         for ( int i = beginIndex; i < endIndex; i++ ) {
             char chr = str.charAt(i);
-            if ( StringUtil.isEnNumeric(chr) ) {
+            if ( ! StringUtil.isEnNumeric(chr) ) {
                 return false;
             }
         }
@@ -490,113 +488,6 @@ public class StringUtil
         
         return new String(chars);
     }
-    
-    /**
-     * check if the specified string is an email address or not 
-     * 
-     * @param   str
-     * @return  boolean
-    */
-    public static boolean isMailAddress(String str)
-    {
-        int atIndex = str.indexOf('@');
-        if ( atIndex == -1 ) {
-            return false;
-        }
-        
-        if ( ! isLetterOrNumeric(str, 0, atIndex) ) {
-            return false;
-        }
-        
-        int ptIndex, ptStart = atIndex + 1;
-        while ( (ptIndex = str.indexOf('.', ptStart)) > 0 ) {
-            if ( ptIndex == ptStart ) {
-                return false;
-            }
-            
-            if ( ! isLetterOrNumeric(str, ptStart, ptIndex) ) {
-                return false;
-            }
-            
-            ptStart = ptIndex + 1;
-        }
-        
-        if ( ptStart < str.length() 
-                && ! isLetterOrNumeric(str, ptStart, str.length()) ) {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    /**
-     * check if the specified string is an URL address or not
-     * 
-     * @param   str
-     * @param   dic optional dictionary object
-     * @return  boolean
-    */
-    public static boolean isUrlAddress(String str, ADictionary dic)
-    {
-        int prIndex = str.indexOf("://");
-        if ( prIndex > -1 && ! StringUtil.isLatin(str, 0, prIndex) ) {
-            return false;
-        }
-        
-        int sIdx = prIndex > -1 ? prIndex + 3 : 0;
-        int slIndex = str.indexOf('/', sIdx), sgIndex = str.indexOf('?', sIdx);
-        int eIdx = slIndex > -1 ? slIndex : (sgIndex > -1 ? sgIndex : str.length());
-        int lpIndex = -1;
-        for ( int i = sIdx; i < eIdx; i++ ) {
-            char chr = str.charAt(i);
-            if ( chr == '.' ) {
-                if ( lpIndex == -1 ) {
-                    lpIndex = i;
-                    continue;
-                }
-                
-                if ( (i - lpIndex) == 1 || i == (eIdx - 1)) {
-                    return false;
-                }
-                
-                lpIndex = i;
-            } else if ( ! StringUtil.isEnLetter(chr) 
-                    && ! StringUtil.isEnNumeric(chr) ) {
-                return false;
-            }
-        }
-        
-        //check the path part
-        if ( slIndex > -1 ) {
-            sIdx = slIndex;
-            eIdx = sgIndex > -1 ? sgIndex : str.length();
-            lpIndex = -1;
-            for ( int i = sIdx; i < eIdx; i++ ) {
-                char chr = str.charAt(i);
-                if ( "./-_".indexOf(chr) > -1 ) {
-                    if ( lpIndex == -1 ) {
-                        lpIndex = i;
-                        continue;
-                    }
-                    
-                    if ( i - lpIndex == 1 || (chr == '.' && i == (eIdx - 1)) ) {
-                        return false;
-                    }
-                    
-                    lpIndex = i;
-                } else if ( ! isEnLetter(chr) &&  !isEnNumeric(chr) ) {
-                    return false;
-                }
-            }
-        }
-        
-        /*if ( sgIndex > -1 ) {
-            //@TODO
-        }*/
-        
-        return true;
-    }
-    
     
     private static final Character[] PAIR_PUNCTUATION = {
         /*'“', '”', '‘', '’',*/ '《', '》', '『', '』', '【', '】'};

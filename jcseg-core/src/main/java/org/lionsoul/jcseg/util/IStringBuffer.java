@@ -50,6 +50,8 @@ public class IStringBuffer
     /**
      * resize the buffer
      * this will have to copy the old chars from the old buffer to the new buffer
+     * 
+     * @param   length
     */
     private void resizeTo( int length )
     {
@@ -92,9 +94,9 @@ public class IStringBuffer
     /**
      * append parts of the chars to the buffer
      * 
-     * @param    chars
-     * @param    start    the start index
-     * @param    length    length of chars to append to
+     * @param   chars
+     * @param   start   the start index
+     * @param   length  length of chars to append to
     */
     public IStringBuffer append( char[] chars, int start, int length )
     {
@@ -136,7 +138,7 @@ public class IStringBuffer
     /**
      * append some chars to the buffer
      * 
-     * @param    chars
+     * @param   chars
     */
     public IStringBuffer append( char[] chars )
     {
@@ -146,7 +148,7 @@ public class IStringBuffer
     /**
      * append a char to the buffer
      * 
-     * @param    c the char to append to
+     * @param   c the char to append to
     */
     public IStringBuffer append( char c )
     {
@@ -162,7 +164,7 @@ public class IStringBuffer
     /**
      * append a boolean value
      * 
-     * @param    bool
+     * @param   bool
     */
     public IStringBuffer append(boolean bool)
     {
@@ -173,7 +175,7 @@ public class IStringBuffer
     /**
      * append a short value
      * 
-     * @param    shortv
+     * @param   shortv
     */
     public IStringBuffer append(short shortv)
     {
@@ -183,7 +185,7 @@ public class IStringBuffer
     /**
      * append a int value
      * 
-     * @param    intv
+     * @param   intv
     */
     public IStringBuffer append(int intv)
     {
@@ -240,6 +242,34 @@ public class IStringBuffer
         if ( idx >= count )
             throw new IndexOutOfBoundsException("idx{"+idx+"} >= buffer.length");
         return buff[idx];
+    }
+    
+    /**
+     * always return the last char 
+     * 
+     * @return char
+    */
+    public char last()
+    {
+        if ( count == 0 ) {
+            throw new IndexOutOfBoundsException("Empty buffer");
+        }
+        
+        return buff[count-1];
+    }
+    
+    /**
+     * always return the first char
+     * 
+     * @return  char
+    */
+    public char first()
+    {
+        if ( count == 0 ) {
+            throw new IndexOutOfBoundsException("Empty buffer");
+        }
+        
+        return buff[0];
     }
     
     /**

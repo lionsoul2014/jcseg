@@ -14,6 +14,7 @@ public class Entity
     public static final String E_URL_HTTP = "url.http";
     public static final String E_URL_FTP = "url.ftp";
     public static final String E_IP = "ip";
+    public static final String E_MOBILE_NUMBER = "mobile";
     
     public static final String E_NUMERIC = "numeric";                       //数字
     public static final String E_NUMERIC_ARABIC = "numeric.interger";      //整数

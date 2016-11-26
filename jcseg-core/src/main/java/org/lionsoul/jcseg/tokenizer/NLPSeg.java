@@ -10,6 +10,7 @@ import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.EntityFormat;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
@@ -265,7 +266,7 @@ public class NLPSeg extends ComplexSeg
         
         boolean _check = false, _wspace = false;
         int atcount = 0, ptcount = 0;
-        int ch, _ctype = 0, tcount = 0;             //number of different char type.
+        int ch, _ctype = 0, tcount = 1;             //number of different char type.
         int _TYPE  = StringUtil.getEnCharType(c);   //current char type.
         
         while ( (ch = readNext()) != -1 ) {
@@ -336,30 +337,47 @@ public class NLPSeg extends ComplexSeg
         /*
          * @added at 2016/11/24
          * clear the dot punctuation behind the string buffer 
+         * and recount the tcount as needed
         */
-        for ( int i = isb.length() - 1; i > 0 
-                && isb.charAt(i) == '.'; i-- ) {
+        int oLen = isb.length();
+        for ( int i = oLen - 1; i > 0 && isb.charAt(i) == '.'; i-- ) {
             pushBack(isb.charAt(i));
             isb.deleteCharAt(i);
             _check = false;
         }
         
+        if ( oLen > isb.length() 
+                && ! StringUtil.isEnPunctuation(isb.last()) ) {
+            tcount--;
+        }
+        
+        
+        
         IWord wd   = null;
         String str = isb.toString();
-        //System.out.println(str+","+tcount);
         
         /*
          * special entity word check like email, url address
         */
-        if ( atcount == 1 && StringUtil.isMailAddress(str) ) {
+        if ( atcount == 1 && EntityFormat.isMailAddress(str) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        } else if ( ptcount > 0 && StringUtil.isUrlAddress(str, dic) ) {
+        } else if ( tcount == 1 && StringUtil.isEnNumeric(isb.first()) 
+                && EntityFormat.isMobileNumber(str) ) {
+            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_MOBILE_NUMBER);
+            wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+            return wd;
+        } else if ( tcount == 7 && StringUtil.isEnNumeric(isb.first()) 
+                && EntityFormat.isIpAddress(str) ) {
+            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_IP);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        } else if ( ptcount > 0 && EntityFormat.isUrlAddress(str, dic) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        }
+        } 
         
         /* 
          * check the end condition.
