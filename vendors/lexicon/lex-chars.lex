@@ -2598,7 +2598,7 @@ CJK_CHAR
 瘽/null/%/null/11
 騄/null/lu/null/58
 区/k,n/qu/null/169166
-省/v,n/xing/null/48656
+省/v,n/sheng/null/48656
 厜/null/zui/null/12
 衒/null/xuan/null/7
 馣/null/yan/null/10
@@ -12639,3 +12639,12 @@ CJK_CHAR
 便/v,p,n,c,a,d/pian/null/114674
 档/q,n/dang/null/25542
 著/a,n,v/zhu/null/9632
+傈/n/li/null/234
+藁/n/gao/null/212
+鲅/n/ba/null/7658
+鲅/n/pan/null/872
+乾/n/qian/null/924
+叠/v/die/null/7612
+仫/n/mu/null/1928
+勐/n/meng/null/892
+坂/n/ban/null/1986
