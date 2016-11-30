@@ -20,12 +20,14 @@
 # **Jcseg**中文分词：
 ------
 
-**四种切分模式：**
+**六种切分模式：**
 
 > * (1).简易模式：FMM算法，适合速度要求场合。
 > * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
 > * (4).检索模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
+> * (5).分隔符模式：按照给定的字符切分词条，默认是空格，特定场合的应用。
+> * (6).NLP模式：继承自复杂模式，更改了数字，单位等词条的组合方式，增加电子邮件，大陆手机号码，网址，人名，地名，货比等以及无限种自定义实体的识别与返回。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -44,6 +46,7 @@
 16. 自动中英文停止词过滤功能（需要在jcseg.properties中开启该选项，lex-stopwords.lex为停止词词库）。
 17. 词库更新自动加载功能, 开启一个守护线程定时的检测词库的更新并且加载（**注意需要有对应词库目录下的的lex-autoload.todo文件的写入权限**）。
 18. 自动词性标注（目前基于词库）。
+19. 自动实体的识别，默认支持：电子邮件，网址，大陆手机号码，地名，人名，货比等；词库中可以自定义各种实体并且再切分中返回。
 
 # **Jcseg**快速体验：
 ------
@@ -57,17 +60,18 @@
 5. 在光标处输入文本开始测试
 
 ```
-+--------Jcseg chinese word tokenizer demo---------+
-|- @Author chenxin<chenxin619315@gmail.com>        |
-|- :tokenizer : switch to tokenizer mode.          |
-|- :keywords  : switch to keywords extract mode.   |
-|- :keyphrase : switch to keyphrase extract mode.  |
-|- :sentence  : switch to sentence extract mode.   |
-|- :summary   : switch to summary extract mode.    |
-|- :help      : print this help menu.              |
-|- :quit      : to exit the program.               |
-+--------------------------------------------------+
-jcseg~tokenizer>> 
++--------Jcseg chinese word tokenizer demo---------------+
+|- @Author chenxin<chenxin619315@gmail.com>              |
+|- :seg_mode  : switch to specified tokenizer mode.      |
+|- (:complex,:simple,:search,:detect,:delimiter,:NLP)    |
+|- :keywords  : switch to keywords extract mode.         |
+|- :keyphrase : switch to keyphrase extract mode.        |
+|- :sentence  : switch to sentence extract mode.         |
+|- :summary   : switch to summary extract mode.          |
+|- :help      : print this help menu.                    |
+|- :quit      : to exit the program.                     |
++--------------------------------------------------------+
+jcseg~tokenizer:complex>> 
 ```
 
 #### 测试样板：
@@ -288,9 +292,6 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
         # (true to open and false to close it)
         "jcseg_icnname": true,
         
-        # maximum chinese word number of english chinese mixed word. 
-        "jcseg_mixcnlen": 3,
-        
         # maximum length for pair punctuation text.
         # set it to 0 to close this function
         "jcseg_pptmaxlen": 7,
@@ -348,6 +349,9 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 
             # Wether to load the synoyms words of the words.
             "loadsyn": true,
+
+            # whether to load the entity of the words.
+            "loadentity": true,
                     
             # Wether to load the modified lexicon file auto.
             "autoload": true,
@@ -391,6 +395,14 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
             "jcseg_keepunregword": false,
             "jcseg_ensencondseg": false
         }
+
+        # well, this one is for NLP only
+        ,"nlp" : { 
+            "jcseg_ensencondseg": false,
+            "jcseg_cnfratoarabic": true,
+            "jcseg_cnnumtoarabic": true
+        }
+
         
         # add more of yours here
         # ,"name": {
@@ -427,6 +439,14 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
             "algorithm": 2,
             "dict": "master",
             "config": "extractor"
+        }
+
+        # this tokenizer instance of for NLP analysis
+        # keep it for you NLP project
+        ,"nlp" : {
+            "algorithm": 6,
+            "dict": "master",
+            "config": "nlp"
         }
         
         # add more of your here
