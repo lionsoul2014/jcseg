@@ -255,6 +255,7 @@
 山西省/ns/shan xi sheng/null
 山西/ns/shan xi/null
 内蒙古自治区/ns/nei meng gu zi zhi qu/null
+内蒙古/ns/nei meng gu/null
 辽宁省/ns/liao ning sheng/null
 辽宁/ns/liao ning/null
 吉林省/ns/ji lin sheng/null
@@ -283,6 +284,8 @@
 广东省/ns/guang dong sheng/null
 广东/ns/guang dong/null
 广西壮族自治区/ns/guang xi zhuang zu zi zhi qu/null
+广西壮族/ns/guang xi zhuang zu/null
+广西/ns/guang xi/null
 海南省/ns/hai nan sheng/null
 海南/ns/hai nan/null
 重庆市/ns/zhong qing shi/null
@@ -293,6 +296,7 @@
 云南省/ns/yun nan sheng/null
 云南/ns/yun nan/null
 西藏自治区/ns/xi zang zi zhi qu/null
+西藏/ns/xi zang/null
 陕西省/ns/shan xi sheng/null
 陕西/ns/shan xi/null
 甘肃省/ns/gan su sheng/null
@@ -300,7 +304,11 @@
 青海省/ns/qing hai sheng/null
 青海/ns/qing hai/null
 宁夏回族自治区/ns/ning xia hui zu zi zhi qu/null
+宁夏回族/ns/ning xia hui zu/null
+宁夏/ns/ning xia hui zu/null
 新疆维吾尔自治区/ns/xin jiang wei wu er zi zhi qu/null
+新疆维吾尔/ns/xin jiang wei wu er/null
+新疆/ns/xin jiang/null
 香港特别行政区/ns/xiang gang te bie xing zheng qu/null
 香港/ns/xiang gang/null
 澳门特别行政区/ns/ao men te bie xing zheng qu/null
@@ -769,7 +777,8 @@
 重庆市/ns/zhong qing shi/null
 重庆/ns/zhong qing/null
 成都市/ns/cheng du shi/null
-成都/ns/cheng du/null
+成都/ns/cheng du/锦城
+锦城/ns/jin cheng/成都
 自贡市/ns/zi gong shi/null
 自贡/ns/zi gong/null
 攀枝花市/ns/pan zhi hua shi/null
@@ -943,7 +952,8 @@
 五家渠/ns/wu jia qu/null
 香港特别行政区/ns/xiang gang te bie xing zheng qu/null
 澳门特别行政区/ns/ao men te bie xing zheng qu/null
-台湾省/ns/tai wan sheng/null
+台北市/ns/tai bei shi/null
+台北/ns/tai bei/null
 自治区直辖县级行政区划/ns/zi zhi qu zhi xia xian ji xing zheng qu hua/null
 省直辖县级行政区划/ns/sheng zhi xia xian ji xing zheng qu hua/null
 省直辖县级行政区划/ns/sheng zhi xia xian ji xing zheng qu hua/null
@@ -967,6 +977,66 @@
 江西省省直辖县级行政区划/ns/jiang xi sheng sheng zhi xia xian ji xing zheng qu hua/null
 贵州省省直辖县级行政区划/ns/gui zhou sheng sheng zhi xia xian ji xing zheng qu hua/null
 湖南省省直辖县级行政区划/ns/hu nan sheng sheng zhi xia xian ji xing zheng qu hua/null
+高雄市/ns/gao xiong shi/null
+高雄/ns/gao xiong/null
+基隆市/ns/ji long shi/null
+基隆/ns/ji long/null
+台中市/ns/tai zhong shi/null
+台中/ns/tai zhong/null
+台南市/ns/tai nan shi/null
+台南/ns/tai nan/null
+新竹市/ns/xin zhu shi/null
+新竹/ns/xin zhu/null
+嘉义市/ns/jia yi shi/null
+嘉义/ns/jia yi/null
+新北市/ns/xin bei shi/null
+新北/ns/xin bei/null
+宜兰市/ns/yi lan shi/null
+宜兰/ns/yi lan/null
+新竹县/ns/xin zhu xian/null
+竹北市/ns/zhu bei shi/null
+竹北/ns/zhu bei/null
+桃园县/ns/tao yuan xian/null
+桃园市/ns/tao yuan shi/null
+桃园/ns/tao yuan/null
+宜兰县/ns/yi lan xian/null
+苗栗县/ns/miao li xian/null
+苗栗市/ns/miao li shi/null
+苗栗/ns/miao li/null
+台中县/ns/tai zhong xian/null
+丰原市/ns/feng yuan shi/null
+丰原/ns/feng yuan/null
+彰化县/ns/zhang hua xian/null
+彰化市/ns/zhang hua shi/null
+彰化/ns/zhang hua/null
+南投县/ns/nan tou xian/null
+南投市/ns/nan tou shi/null
+南投/ns/nan tou/null
+嘉义县/ns/jia yi xian/null
+太保市/ns/tai bao shi/null
+太保/ns/tai bao/null
+云林县/ns/yun lin xian/null
+斗六市/ns/dou liu shi/null
+斗六/ns/dou liu/null
+台南县/ns/tai nan xian/null
+新营市/ns/xin ying shi/null
+新营/ns/xin ying/null
+高雄县/ns/gao xiong xian/null
+凤山市/ns/feng shan shi/null
+凤山/ns/feng shan/null
+屏东县/ns/ping dong xian/null
+屏东市/ns/ping dong shi/null
+屏东/ns/ping dong/null
+台东县/ns/tai dong xian/null
+台东市/ns/tai dong shi/null
+台东/ns/tai dong/null
+花莲县/ns/hua lian xian/null
+花莲市/ns/hua lian shi/null
+花莲/ns/hua lian/null
+澎湖县/ns/peng hu xian/null
+马公市/ns/ma gong shi/null
+马公/ns/ma gong/null
+河间县/ns/he jian xian/null
 :entity place.district
 东城区/ns/dong cheng qu/null
 西城区/ns/xi cheng qu/null
@@ -1008,7 +1078,6 @@
 静海县/ns/jing hai xian/null
 静海/ns/jing hai/null
 蓟县/ns/ji xian/null
-蓟/ns/ji/null
 长安区/ns/zhang an qu/null
 桥东区/ns/qiao dong qu/null
 桥西区/ns/qiao xi qu/null
@@ -1038,7 +1107,6 @@
 元氏县/ns/yuan zhi xian/null
 元氏/ns/yuan zhi/null
 赵县/ns/zhao xian/null
-赵/ns/zhao/null
 辛集市/ns/xin ji shi/null
 辛集/ns/xin ji/null
 藁城市/ns/gao cheng shi/null
@@ -1056,7 +1124,6 @@
 丰南区/ns/feng nan qu/null
 丰润区/ns/feng run qu/null
 滦县/ns/luan xian/null
-滦/ns/luan/null
 滦南县/ns/luan nan xian/null
 滦南/ns/luan nan/null
 乐亭县/ns/yue ting xian/null
@@ -1094,15 +1161,12 @@
 大名县/ns/dai ming xian/null
 大名/ns/dai ming/null
 涉县/ns/she xian/null
-涉/ns/she/null
 磁县/ns/ci xian/null
-磁/ns/ci/null
 肥乡县/ns/fei xiang xian/null
 肥乡/ns/fei xiang/null
 永年县/ns/yong nian xian/null
 永年/ns/yong nian/null
 邱县/ns/qiu xian/null
-邱/ns/qiu/null
 鸡泽县/ns/ji ze xian/null
 鸡泽/ns/ji ze/null
 广平县/ns/guang ping xian/null
@@ -1110,7 +1174,6 @@
 馆陶县/ns/guan tao xian/null
 馆陶/ns/guan tao/null
 魏县/ns/wei xian/null
-魏/ns/wei/null
 曲周县/ns/qu zhou xian/null
 曲周/ns/qu zhou/null
 武安市/ns/wu an shi/null
@@ -1126,7 +1189,6 @@
 隆尧县/ns/long yao xian/null
 隆尧/ns/long yao/null
 任县/ns/ren xian/null
-任/ns/ren/null
 南和县/ns/nan he xian/null
 南和/ns/nan he/null
 宁晋县/ns/ning jin xian/null
@@ -1140,7 +1202,6 @@
 平乡县/ns/ping xiang xian/null
 平乡/ns/ping xiang/null
 威县/ns/wei xian/null
-威/ns/wei/null
 清河县/ns/qing he xian/null
 清河/ns/qing he/null
 临西县/ns/lin xi xian/null
@@ -1165,7 +1226,6 @@
 定兴县/ns/ding xing xian/null
 定兴/ns/ding xing/null
 唐县/ns/tang xian/null
-唐/ns/tang/null
 高阳县/ns/gao yang xian/null
 高阳/ns/gao yang/null
 容城县/ns/rong cheng xian/null
@@ -1177,17 +1237,14 @@
 安新县/ns/an xin xian/null
 安新/ns/an xin/null
 易县/ns/yi xian/null
-易/ns/yi/null
 曲阳县/ns/qu yang xian/null
 曲阳/ns/qu yang/null
 蠡县/ns/li xian/null
-蠡/ns/li/null
 顺平县/ns/shun ping xian/null
 顺平/ns/shun ping/null
 博野县/ns/bo ye xian/null
 博野/ns/bo ye/null
 雄县/ns/xiong xian/null
-雄/ns/xiong/null
 涿州市/ns/zhuo zhou shi/null
 涿州/ns/zhuo zhou/null
 定州市/ns/ding zhou shi/null
@@ -1209,7 +1266,6 @@
 尚义县/ns/shang yi xian/null
 尚义/ns/shang yi/null
 蔚县/ns/wei xian/null
-蔚/ns/wei/null
 阳原县/ns/yang yuan xian/null
 阳原/ns/yang yuan/null
 怀安县/ns/huai an xian/null
@@ -1242,9 +1298,7 @@
 围场满族蒙古族自治县/ns/wei chang man zu meng gu zu zi zhi xian/null
 运河区/ns/yun he qu/null
 沧县/ns/cang xian/null
-沧/ns/cang/null
 青县/ns/qing xian/null
-青/ns/qing/null
 东光县/ns/dong guang xian/null
 东光/ns/dong guang/null
 海兴县/ns/hai xing xian/null
@@ -1258,7 +1312,6 @@
 吴桥县/ns/wu qiao xian/null
 吴桥/ns/wu qiao/null
 献县/ns/xian xian/null
-献/ns/xian/null
 孟村回族自治县/ns/meng cun hui zu zi zhi xian/null
 泊头市/ns/po tou shi/null
 泊头/ns/po tou/null
@@ -1299,7 +1352,6 @@
 故城县/ns/gu cheng xian/null
 故城/ns/gu cheng/null
 景县/ns/jing xian/null
-景/ns/jing/null
 阜城县/ns/fu cheng xian/null
 阜城/ns/fu cheng/null
 冀州市/ns/ji zhou shi/null
@@ -1342,7 +1394,6 @@
 平定县/ns/ping ding xian/null
 平定/ns/ping ding/null
 盂县/ns/yu xian/null
-盂/ns/yu/null
 长治县/ns/zhang zhi xian/null
 长治/ns/zhang zhi/null
 襄垣县/ns/xiang yuan xian/null
@@ -1360,7 +1411,6 @@
 武乡县/ns/wu xiang xian/null
 武乡/ns/wu xiang/null
 沁县/ns/qin xian/null
-沁/ns/qin/null
 沁源县/ns/qin yuan xian/null
 沁源/ns/qin yuan/null
 潞城市/ns/lu cheng shi/null
@@ -1380,7 +1430,6 @@
 山阴县/ns/shan yin xian/null
 山阴/ns/shan yin/null
 应县/ns/ying xian/null
-应/ns/ying/null
 右玉县/ns/you yu xian/null
 右玉/ns/you yu/null
 怀仁县/ns/huai ren xian/null
@@ -1399,7 +1448,6 @@
 太谷县/ns/tai gu xian/null
 太谷/ns/tai gu/null
 祁县/ns/qi xian/null
-祁/ns/qi/null
 平遥县/ns/ping yao xian/null
 平遥/ns/ping yao/null
 灵石县/ns/ling shi xian/null
@@ -1418,11 +1466,9 @@
 新绛县/ns/xin jiang xian/null
 新绛/ns/xin jiang/null
 绛县/ns/jiang xian/null
-绛/ns/jiang/null
 垣曲县/ns/yuan qu xian/null
 垣曲/ns/yuan qu/null
 夏县/ns/xia xian/null
-夏/ns/xia/null
 平陆县/ns/ping lu xian/null
 平陆/ns/ping lu/null
 芮城县/ns/rui cheng xian/null
@@ -1437,7 +1483,6 @@
 五台县/ns/wu tai xian/null
 五台/ns/wu tai/null
 代县/ns/dai xian/null
-代/ns/dai/null
 繁峙县/ns/fan zhi xian/null
 繁峙/ns/fan zhi/null
 宁武县/ns/ning wu xian/null
@@ -1468,23 +1513,19 @@
 洪洞县/ns/hong dong xian/null
 洪洞/ns/hong dong/null
 古县/ns/gu xian/null
-古/ns/gu/null
 安泽县/ns/an ze xian/null
 安泽/ns/an ze/null
 浮山县/ns/fu shan xian/null
 浮山/ns/fu shan/null
 吉县/ns/ji xian/null
-吉/ns/ji/null
 乡宁县/ns/xiang ning xian/null
 乡宁/ns/xiang ning/null
 大宁县/ns/dai ning xian/null
 大宁/ns/dai ning/null
 隰县/ns/xi xian/null
-隰/ns/xi/null
 永和县/ns/yong he xian/null
 永和/ns/yong he/null
 蒲县/ns/pu xian/null
-蒲/ns/pu/null
 汾西县/ns/fen xi xian/null
 汾西/ns/fen xi/null
 侯马市/ns/hou ma shi/null
@@ -1497,15 +1538,12 @@
 交城县/ns/jiao cheng xian/null
 交城/ns/jiao cheng/null
 兴县/ns/xing xian/null
-兴/ns/xing/null
 临县/ns/lin xian/null
-临/ns/lin/null
 柳林县/ns/liu lin xian/null
 柳林/ns/liu lin/null
 石楼县/ns/shi lou xian/null
 石楼/ns/shi lou/null
 岚县/ns/lan xian/null
-岚/ns/lan/null
 方山县/ns/fang shan xian/null
 方山/ns/fang shan/null
 中阳县/ns/zhong yang xian/null
@@ -1711,7 +1749,6 @@
 黑山县/ns/hei shan xian/null
 黑山/ns/hei shan/null
 义县/ns/yi xian/null
-义/ns/yi/null
 凌海市/ns/ling hai shi/null
 凌海/ns/ling hai/null
 北宁市/ns/bei ning shi/null
@@ -1887,7 +1924,6 @@
 方正县/ns/fang zheng xian/null
 方正/ns/fang zheng/null
 宾县/ns/bin xian/null
-宾/ns/bin/null
 巴彦县/ns/ba yan xian/null
 巴彦/ns/ba yan/null
 木兰县/ns/mu lan xian/null
@@ -2114,9 +2150,7 @@
 贾汪区/ns/gu wang qu/null
 泉山区/ns/quan shan qu/null
 丰县/ns/feng xian/null
-丰/ns/feng/null
 沛县/ns/pei xian/null
-沛/ns/pei/null
 铜山县/ns/tong shan xian/null
 铜山/ns/tong shan/null
 睢宁县/ns/sui ning xian/null
@@ -2458,11 +2492,9 @@
 黄山区/ns/huang shan qu/null
 徽州区/ns/hui zhou qu/null
 歙县/ns/she xian/null
-歙/ns/she/null
 休宁县/ns/xiu ning xian/null
 休宁/ns/xiu ning/null
 黟县/ns/yi xian/null
-黟/ns/yi/null
 祁门县/ns/qi men xian/null
 祁门/ns/qi men/null
 琅琊区/ns/lang ya qu/null
@@ -2496,11 +2528,9 @@
 砀山县/ns/dang shan xian/null
 砀山/ns/dang shan/null
 萧县/ns/xiao xian/null
-萧/ns/xiao/null
 灵璧县/ns/ling bi xian/null
 灵璧/ns/ling bi/null
 泗县/ns/si xian/null
-泗/ns/si/null
 居巢区/ns/ju chao qu/null
 庐江县/ns/lu jiang xian/null
 庐江/ns/lu jiang/null
@@ -2509,11 +2539,9 @@
 含山县/ns/han shan xian/null
 含山/ns/han shan/null
 和县/ns/he xian/null
-和/ns/he/null
 金安区/ns/jin an qu/null
 裕安区/ns/yu an qu/null
 寿县/ns/shou xian/null
-寿/ns/shou/null
 霍邱县/ns/huo qiu xian/null
 霍邱/ns/huo qiu/null
 舒城县/ns/shu cheng xian/null
@@ -2542,7 +2570,6 @@
 广德县/ns/guang de xian/null
 广德/ns/guang de/null
 泾县/ns/jing xian/null
-泾/ns/jing/null
 绩溪县/ns/ji xi xian/null
 绩溪/ns/ji xi/null
 旌德县/ns/jing de xian/null
@@ -2594,7 +2621,6 @@
 尤溪县/ns/you xi xian/null
 尤溪/ns/you xi/null
 沙县/ns/sha xian/null
-沙/ns/sha/null
 将乐县/ns/qiang yue xian/null
 将乐/ns/qiang yue/null
 泰宁县/ns/tai ning xian/null
@@ -2750,7 +2776,6 @@
 贵溪/ns/gui xi/null
 章贡区/ns/zhang gong qu/null
 赣县/ns/gan xian/null
-赣/ns/gan/null
 信丰县/ns/xin feng xian/null
 信丰/ns/xin feng/null
 大余县/ns/dai yu xian/null
@@ -3009,7 +3034,6 @@
 五莲县/ns/wu lian xian/null
 五莲/ns/wu lian/null
 莒县/ns/ju xian/null
-莒/ns/ju/null
 莱城区/ns/lai cheng qu/null
 钢城区/ns/gang cheng qu/null
 兰山区/ns/lan shan qu/null
@@ -3023,7 +3047,6 @@
 苍山县/ns/cang shan xian/null
 苍山/ns/cang shan/null
 费县/ns/fei xian/null
-费/ns/fei/null
 平邑县/ns/ping yi xian/null
 平邑/ns/ping yi/null
 莒南县/ns/ju nan xian/null
@@ -3034,7 +3057,6 @@
 临沭/ns/lin shu/null
 德城区/ns/de cheng qu/null
 陵县/ns/ling xian/null
-陵/ns/ling/null
 宁津县/ns/ning jin xian/null
 宁津/ns/ning jin/null
 庆云县/ns/qing yun xian/null
@@ -3057,13 +3079,11 @@
 阳谷县/ns/yang gu xian/null
 阳谷/ns/yang gu/null
 莘县/ns/xin xian/null
-莘/ns/xin/null
 茌平县/ns/chi ping xian/null
 茌平/ns/chi ping/null
 东阿县/ns/dong e xian/null
 东阿/ns/dong e/null
 冠县/ns/guan xian/null
-冠/ns/guan/null
 高唐县/ns/gao tang xian/null
 高唐/ns/gao tang/null
 临清市/ns/lin qing shi/null
@@ -3083,9 +3103,7 @@
 邹平/ns/zou ping/null
 牡丹区/ns/mu dan qu/null
 曹县/ns/cao xian/null
-曹/ns/cao/null
 单县/ns/dan xian/null
-单/ns/dan/null
 成武县/ns/cheng wu xian/null
 成武/ns/cheng wu/null
 巨野县/ns/ju ye xian/null
@@ -3119,7 +3137,6 @@
 龙亭区/ns/long ting qu/null
 顺河回族区/ns/shun he hui zu qu/null
 杞县/ns/qi xian/null
-杞/ns/qi/null
 通许县/ns/tong xu xian/null
 通许/ns/tong xu/null
 尉氏县/ns/wei zhi xian/null
@@ -3141,7 +3158,6 @@
 栾川县/ns/luan chuan xian/null
 栾川/ns/luan chuan/null
 嵩县/ns/song xian/null
-嵩/ns/song/null
 汝阳县/ns/ru yang xian/null
 汝阳/ns/ru yang/null
 宜阳县/ns/yi yang xian/null
@@ -3158,11 +3174,9 @@
 宝丰县/ns/bao feng xian/null
 宝丰/ns/bao feng/null
 叶县/ns/ye xian/null
-叶/ns/ye/null
 鲁山县/ns/lu shan xian/null
 鲁山/ns/lu shan/null
 郏县/ns/jia xian/null
-郏/ns/jia/null
 舞钢市/ns/wu gang shi/null
 舞钢/ns/wu gang/null
 汝州市/ns/ru zhou shi/null
@@ -3176,7 +3190,6 @@
 汤阴县/ns/tang yin xian/null
 汤阴/ns/tang yin/null
 滑县/ns/hua xian/null
-滑/ns/hua/null
 内黄县/ns/nei huang xian/null
 内黄/ns/nei huang/null
 林州市/ns/lin zhou shi/null
@@ -3185,9 +3198,7 @@
 山城区/ns/shan cheng qu/null
 淇滨区/ns/qi bin qu/null
 浚县/ns/jun xian/null
-浚/ns/jun/null
 淇县/ns/qi xian/null
-淇/ns/qi/null
 红旗区/ns/hong qi qu/null
 卫滨区/ns/wei bin qu/null
 凤泉区/ns/feng quan qu/null
@@ -3219,7 +3230,6 @@
 武陟县/ns/wu zhi xian/null
 武陟/ns/wu zhi/null
 温县/ns/wen xian/null
-温/ns/wen/null
 济源市/ns/ji yuan shi/null
 济源/ns/ji yuan/null
 沁阳市/ns/qin yang shi/null
@@ -3232,7 +3242,6 @@
 南乐县/ns/nan yue xian/null
 南乐/ns/nan yue/null
 范县/ns/fan xian/null
-范/ns/fan/null
 台前县/ns/tai qian xian/null
 台前/ns/tai qian/null
 濮阳县/ns/pu yang xian/null
@@ -3260,7 +3269,6 @@
 渑池县/ns/sheng chi xian/null
 渑池/ns/sheng chi/null
 陕县/ns/shan xian/null
-陕/ns/shan/null
 卢氏县/ns/lu zhi xian/null
 卢氏/ns/lu zhi/null
 义马市/ns/yi ma shi/null
@@ -3296,7 +3304,6 @@
 民权县/ns/min quan xian/null
 民权/ns/min quan/null
 睢县/ns/sui xian/null
-睢/ns/sui/null
 宁陵县/ns/ning ling xian/null
 宁陵/ns/ning ling/null
 柘城县/ns/zhe cheng xian/null
@@ -3314,7 +3321,6 @@
 光山县/ns/guang shan xian/null
 光山/ns/guang shan/null
 新县/ns/xin xian/null
-新/ns/xin/null
 商城县/ns/shang cheng xian/null
 商城/ns/shang cheng/null
 固始县/ns/gu shi xian/null
@@ -3324,7 +3330,6 @@
 淮滨县/ns/huai bin xian/null
 淮滨/ns/huai bin/null
 息县/ns/xi xian/null
-息/ns/xi/null
 川汇区/ns/chuan hui qu/null
 扶沟县/ns/fu gou xian/null
 扶沟/ns/fu gou/null
@@ -3386,7 +3391,6 @@
 茅箭区/ns/mao jian qu/null
 张湾区/ns/zhang wan qu/null
 郧县/ns/yun xian/null
-郧/ns/yun/null
 郧西县/ns/yun xi xian/null
 郧西/ns/yun xi/null
 竹山县/ns/zhu shan xian/null
@@ -3394,7 +3398,6 @@
 竹溪县/ns/zhu xi xian/null
 竹溪/ns/zhu xi/null
 房县/ns/fang xian/null
-房/ns/fang/null
 丹江口市/ns/dan jiang kou shi/null
 丹江口/ns/dan jiang kou/null
 西陵区/ns/xi ling qu/null
@@ -3545,7 +3548,6 @@
 株洲县/ns/zhu zhou xian/null
 株洲/ns/zhu zhou/null
 攸县/ns/you xian/null
-攸/ns/you/null
 茶陵县/ns/cha ling xian/null
 茶陵/ns/cha ling/null
 炎陵县/ns/yan ling xian/null
@@ -3621,7 +3623,6 @@
 汉寿县/ns/han shou xian/null
 汉寿/ns/han shou/null
 澧县/ns/li xian/null
-澧/ns/li/null
 临澧县/ns/lin li xian/null
 临澧/ns/lin li/null
 桃源县/ns/tao yuan xian/null
@@ -3639,7 +3640,6 @@
 资阳区/ns/zi yang qu/null
 赫山区/ns/he shan qu/null
 南县/ns/nan xian/null
-南/ns/nan/null
 桃江县/ns/tao jiang xian/null
 桃江/ns/tao jiang/null
 安化县/ns/an hua xian/null
@@ -3675,7 +3675,6 @@
 双牌县/ns/shuang pai xian/null
 双牌/ns/shuang pai/null
 道县/ns/dao xian/null
-道/ns/dao/null
 江永县/ns/jiang yong xian/null
 江永/ns/jiang yong/null
 宁远县/ns/ning yuan xian/null
@@ -3837,7 +3836,6 @@
 龙门/ns/long men/null
 梅江区/ns/mei jiang qu/null
 梅县/ns/mei xian/null
-梅/ns/mei/null
 大埔县/ns/dai pu xian/null
 大埔/ns/dai pu/null
 丰顺县/ns/feng shun xian/null
@@ -3927,7 +3925,6 @@
 宾阳县/ns/bin yang xian/null
 宾阳/ns/bin yang/null
 横县/ns/heng xian/null
-横/ns/heng/null
 城中区/ns/cheng zhong qu/null
 鱼峰区/ns/yu feng qu/null
 柳南区/ns/liu nan qu/null
@@ -3975,7 +3972,6 @@
 苍梧县/ns/cang wu xian/null
 苍梧/ns/cang wu/null
 藤县/ns/teng xian/null
-藤/ns/teng/null
 蒙山县/ns/meng shan xian/null
 蒙山/ns/meng shan/null
 岑溪市/ns/cen xi shi/null
@@ -4006,7 +4002,6 @@
 桂平/ns/gui ping/null
 玉州区/ns/yu zhou qu/null
 容县/ns/rong xian/null
-容/ns/rong/null
 陆川县/ns/lu chuan xian/null
 陆川/ns/lu chuan/null
 博白县/ns/bo bai xian/null
@@ -4151,9 +4146,7 @@
 武隆县/ns/wu long xian/null
 武隆/ns/wu long/null
 忠县/ns/zhong xian/null
-忠/ns/zhong/null
 开县/ns/kai xian/null
-开/ns/kai/null
 云阳县/ns/yun yang xian/null
 云阳/ns/yun yang/null
 奉节县/ns/feng jie xian/null
@@ -4188,7 +4181,6 @@
 双流县/ns/shuang liu xian/null
 双流/ns/shuang liu/null
 郫县/ns/pi xian/null
-郫/ns/pi/null
 大邑县/ns/dai yi xian/null
 大邑/ns/dai yi/null
 蒲江县/ns/pu jiang xian/null
@@ -4208,7 +4200,6 @@
 大安区/ns/dai an qu/null
 沿滩区/ns/yan tan qu/null
 荣县/ns/rong xian/null
-荣/ns/rong/null
 富顺县/ns/fu shun xian/null
 富顺/ns/fu shun/null
 东区/ns/dong qu/null
@@ -4222,7 +4213,6 @@
 纳溪区/ns/na xi qu/null
 龙马潭区/ns/long ma tan qu/null
 泸县/ns/lu xian/null
-泸/ns/lu/null
 合江县/ns/he jiang xian/null
 合江/ns/he jiang/null
 叙永县/ns/xu yong xian/null
@@ -4247,7 +4237,6 @@
 盐亭县/ns/yan ting xian/null
 盐亭/ns/yan ting/null
 安县/ns/an xian/null
-安/ns/an/null
 梓潼县/ns/zi tong xian/null
 梓潼/ns/zi tong/null
 北川羌族自治县/ns/bei chuan qiang zu zi zhi xian/null
@@ -4331,9 +4320,7 @@
 长宁县/ns/zhang ning xian/null
 长宁/ns/zhang ning/null
 高县/ns/gao xian/null
-高/ns/gao/null
 珙县/ns/gong xian/null
-珙/ns/gong/null
 筠连县/ns/yun lian xian/null
 筠连/ns/yun lian/null
 兴文县/ns/xing wen xian/null
@@ -4351,7 +4338,6 @@
 华蓥/ns/hua ying/null
 通川区/ns/tong chuan qu/null
 达县/ns/da xian/null
-达/ns/da/null
 宣汉县/ns/xuan han xian/null
 宣汉/ns/xuan han/null
 开江县/ns/kai jiang xian/null
@@ -4359,7 +4345,6 @@
 大竹县/ns/dai zhu xian/null
 大竹/ns/dai zhu/null
 渠县/ns/qu xian/null
-渠/ns/qu/null
 万源市/ns/wan yuan shi/null
 万源/ns/wan yuan/null
 雨城区/ns/yu cheng qu/null
@@ -4394,9 +4379,7 @@
 汶川县/ns/wen chuan xian/null
 汶川/ns/wen chuan/null
 理县/ns/li xian/null
-理/ns/li/null
 茂县/ns/mao xian/null
-茂/ns/mao/null
 松潘县/ns/song pan xian/null
 松潘/ns/song pan/null
 九寨沟县/ns/jiu zhai gou xian/null
@@ -4504,7 +4487,6 @@
 水城县/ns/shui cheng xian/null
 水城/ns/shui cheng/null
 盘县/ns/pan xian/null
-盘/ns/pan/null
 红花岗区/ns/hong hua gang qu/null
 汇川区/ns/hui chuan qu/null
 遵义县/ns/zun yi xian/null
@@ -4740,7 +4722,6 @@
 凤庆县/ns/feng qing xian/null
 凤庆/ns/feng qing/null
 云县/ns/yun xian/null
-云/ns/yun/null
 永德县/ns/yong de xian/null
 永德/ns/yong de/null
 镇康县/ns/zhen kang xian/null
@@ -4965,7 +4946,6 @@
 申扎县/ns/shen za xian/null
 申扎/ns/shen za/null
 索县/ns/suo xian/null
-索/ns/suo/null
 班戈县/ns/ban ge xian/null
 班戈/ns/ban ge/null
 巴青县/ns/ba qing xian/null
@@ -4999,7 +4979,6 @@
 察隅县/ns/cha yu xian/null
 察隅/ns/cha yu/null
 朗县/ns/lang xian/null
-朗/ns/lang/null
 碑林区/ns/bei lin qu/null
 莲湖区/ns/lian hu qu/null
 灞桥区/ns/ba qiao qu/null
@@ -5012,7 +4991,6 @@
 周至县/ns/zhou zhi xian/null
 周至/ns/zhou zhi/null
 户县/ns/hu xian/null
-户/ns/hu/null
 高陵县/ns/gao ling xian/null
 高陵/ns/gao ling/null
 王益区/ns/wang yi qu/null
@@ -5030,15 +5008,12 @@
 扶风县/ns/fu feng xian/null
 扶风/ns/fu feng/null
 眉县/ns/mei xian/null
-眉/ns/mei/null
 陇县/ns/long xian/null
-陇/ns/long/null
 千阳县/ns/qian yang xian/null
 千阳/ns/qian yang/null
 麟游县/ns/lin you xian/null
 麟游/ns/lin you/null
 凤县/ns/feng xian/null
-凤/ns/feng/null
 太白县/ns/tai bai xian/null
 太白/ns/tai bai/null
 秦都区/ns/qin du qu/null
@@ -5049,13 +5024,11 @@
 泾阳县/ns/jing yang xian/null
 泾阳/ns/jing yang/null
 乾县/ns/qian xian/null
-乾/ns/qian/null
 礼泉县/ns/li quan xian/null
 礼泉/ns/li quan/null
 永寿县/ns/yong shou xian/null
 永寿/ns/yong shou/null
 彬县/ns/bin xian/null
-彬/ns/bin/null
 长武县/ns/zhang wu xian/null
 长武/ns/zhang wu/null
 旬邑县/ns/xun yi xian/null
@@ -5068,7 +5041,6 @@
 兴平/ns/xing ping/null
 临渭区/ns/lin wei qu/null
 华县/ns/hua xian/null
-华/ns/hua/null
 潼关县/ns/tong guan xian/null
 潼关/ns/tong guan/null
 大荔县/ns/dai li xian/null
@@ -5103,7 +5075,6 @@
 甘泉县/ns/gan quan xian/null
 甘泉/ns/gan quan/null
 富县/ns/fu xian/null
-富/ns/fu/null
 洛川县/ns/luo chuan xian/null
 洛川/ns/luo chuan/null
 宜川县/ns/yi chuan xian/null
@@ -5118,11 +5089,9 @@
 城固县/ns/cheng gu xian/null
 城固/ns/cheng gu/null
 洋县/ns/yang xian/null
-洋/ns/yang/null
 西乡县/ns/xi xiang xian/null
 西乡/ns/xi xiang/null
 勉县/ns/mian xian/null
-勉/ns/mian/null
 宁强县/ns/ning qiang xian/null
 宁强/ns/ning qiang/null
 略阳县/ns/lu:e yang xian/null
@@ -5149,7 +5118,6 @@
 米脂县/ns/mi zhi xian/null
 米脂/ns/mi zhi/null
 佳县/ns/jia xian/null
-佳/ns/jia/null
 吴堡县/ns/wu pu xian/null
 吴堡/ns/wu pu/null
 清涧县/ns/qing jian xian/null
@@ -5264,7 +5232,6 @@
 庆城县/ns/qing cheng xian/null
 庆城/ns/qing cheng/null
 环县/ns/huan xian/null
-环/ns/huan/null
 华池县/ns/hua chi xian/null
 华池/ns/hua chi/null
 合水县/ns/he shui xian/null
@@ -5272,7 +5239,6 @@
 正宁县/ns/zheng ning xian/null
 正宁/ns/zheng ning/null
 宁县/ns/ning xian/null
-宁/ns/ning/null
 镇原县/ns/zhen yuan xian/null
 镇原/ns/zhen yuan/null
 安定区/ns/an ding qu/null
@@ -5285,24 +5251,17 @@
 临洮县/ns/lin tao xian/null
 临洮/ns/lin tao/null
 漳县/ns/zhang xian/null
-漳/ns/zhang/null
 岷县/ns/min xian/null
-岷/ns/min/null
 武都区/ns/wu du qu/null
 成县/ns/cheng xian/null
-成/ns/cheng/null
 文县/ns/wen xian/null
-文/ns/wen/null
 宕昌县/ns/dang chang xian/null
 宕昌/ns/dang chang/null
 康县/ns/kang xian/null
-康/ns/kang/null
 西和县/ns/xi he xian/null
 西和/ns/xi he/null
 礼县/ns/li xian/null
-礼/ns/li/null
 徽县/ns/hui xian/null
-徽/ns/hui/null
 两当县/ns/liang dang xian/null
 两当/ns/liang dang/null
 临夏市/ns/lin xia shi/null
@@ -5614,3 +5573,32 @@
 青河/ns/qing he/null
 吉木乃县/ns/ji mu nai xian/null
 吉木乃/ns/ji mu nai/null
+崇明县浦东新区/ns/chong ming xian pu dong xin qu/null
+荔浦县/ns/li pu xian/null
+荔浦/ns/li pu/null
+景谷彝族傣族自治县/ns/jing gu yi zu dai zu zi zhi xian/null
+中西区/ns/zhong xi qu/null
+南区/ns/nan qu/null
+观塘区/ns/guan tang qu/null
+湾仔区/ns/wan zi qu/null
+离岛区/ns/li dao qu/null
+葵青区/ns/kui qing qu/null
+北区/ns/bei qu/null
+西贡区/ns/xi gong qu/null
+沙田区/ns/sha tian qu/null
+屯门区/ns/zhun men qu/null
+大埔区/ns/dai pu qu/null
+荃湾区/ns/quan wan qu/null
+元朗区/ns/yuan lang qu/null
+九龙城区/ns/jiu long cheng qu/null
+油尖旺区/ns/you jian wang qu/null
+深水埗区/ns/shen shui % qu/null
+黄大仙区/ns/huang dai xian qu/null
+板桥区/ns/pan qiao qu/null
+##newly appended##
+:entity place
+洼里村/ns/wa li cun/null
+苟各庄村/ns/gou ge zhuang cun/null
+苟各庄/ns/gou ge zhuang/null
+野三坡/ns/ye san po/null
+三坡镇/ns/san po zhen/null
