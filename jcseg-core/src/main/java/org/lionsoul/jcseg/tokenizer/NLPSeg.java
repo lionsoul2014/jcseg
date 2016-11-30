@@ -213,7 +213,7 @@ public class NLPSeg extends ComplexSeg
             */
             IWord ce = null;
             if ( (ctrlMask & ISegment.CHECK_CE_MASk) != 0 
-                    && (chars.length - cjkidx) <= config.MIX_PREFIX_LENGTH ) {
+                    && (chars.length - cjkidx) <= dic.mixPrefixLength ) {
                 ce = getNextMixedWord(chars, cjkidx);
             }
             
@@ -505,7 +505,7 @@ public class NLPSeg extends ComplexSeg
         String tstr = null;
         int mc = 0, j = 0;        //the number of char that read from the stream.
         ialist.clear();
-        for ( ; j < config.MIX_SUFFIX_LENGTH && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < dic.mixSuffixLength && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
              * it is a accident that Jcseg works fine for 

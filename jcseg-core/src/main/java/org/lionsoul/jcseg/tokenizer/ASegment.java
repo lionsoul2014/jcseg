@@ -533,7 +533,7 @@ public abstract class ASegment implements ISegment
             */
             IWord ce = null;
             if ( (ctrlMask & ISegment.CHECK_CE_MASk) != 0 
-                    && (chars.length - cjkidx) <= config.MIX_PREFIX_LENGTH ) {
+                    && (chars.length - cjkidx) <= dic.mixPrefixLength ) {
                 ce = getNextMixedWord(chars, cjkidx);
             }
             
@@ -654,7 +654,7 @@ public abstract class ASegment implements ISegment
                 || dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
             ialist.clear();
             int chr = -1, j, mc = 0;
-            for ( j = 0; j < config.MIX_SUFFIX_LENGTH && (chr = readNext()) != -1; j++ ) {
+            for ( j = 0; j < dic.mixSuffixLength && (chr = readNext()) != -1; j++ ) {
                 buff.append((char)chr);
                 ialist.add(chr);
                 tstring = buff.toString();
@@ -1351,7 +1351,7 @@ public abstract class ASegment implements ISegment
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
         */
-        for ( ; j < config.MIX_SUFFIX_LENGTH && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < dic.mixSuffixLength && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
              *  it is a accident that Jcseg works find for 

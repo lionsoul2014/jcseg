@@ -41,16 +41,6 @@ public class JcsegTaskConfig implements Cloneable
     */
     public int MAX_UNIT_LENGTH = 5;
     
-    /**
-     * maximum length for the Chinese words after the LATIN word
-     * or the one before it used to match Chinese and English mix word, 
-     * like 'B超,AA制...' or style compose style like '卡拉ok'.
-     * 
-     * since 2.0.1 the value will be reset during the lexicon load process
-     */
-    volatile public int MIX_SUFFIX_LENGTH = 1;
-    volatile public int MIX_PREFIX_LENGTH = 1;
-    
     /**identify the Chinese name? */
     public boolean I_CN_NAME = false;
     
@@ -358,26 +348,6 @@ public class JcsegTaskConfig implements Cloneable
     public void setMaxLength( int maxLength )
     {
         MAX_LENGTH = maxLength;
-    }
-
-    public int getMixSuffixLength()
-    {
-        return MIX_SUFFIX_LENGTH;
-    }
-
-    public void setMixSuffixLength( int suffixLength )
-    {
-        MIX_SUFFIX_LENGTH = suffixLength;
-    }
-
-    public int getMixPrefixLength()
-    {
-        return MIX_PREFIX_LENGTH;
-    }
-
-    public void setMixPrefixLength( int prefixLength )
-    {
-        MIX_PREFIX_LENGTH = prefixLength;
     }
     
     public boolean identifyCnName()

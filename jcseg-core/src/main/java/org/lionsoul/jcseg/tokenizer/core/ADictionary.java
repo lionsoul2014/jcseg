@@ -36,6 +36,16 @@ public abstract class ADictionary
     private Thread autoloadThread = null;
     
     /**
+     * maximum length for the Chinese words after the LATIN word
+     * or the one before it used to match Chinese and English mix word, 
+     * like 'B超,AA制...' or style compose style like '卡拉ok'.
+     * 
+     * since 2.0.1 the value will be reset during the lexicon load process
+     */
+    volatile public int mixSuffixLength = 1;
+    volatile public int mixPrefixLength = 1;
+    
+    /**
      * initialize the ADictionary
      * 
      * @param   config
@@ -579,13 +589,13 @@ public abstract class ADictionary
                 */
                 if ( latinIndex >= 0 ) {
                     if ( latinIndex > 0 ) {
-                        resetPrefixLength(config, latinIndex);
+                        resetPrefixLength(config, dic, latinIndex);
                         dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, latinIndex), IWord.T_CJK_WORD);
                     }
                     
                     int cjkIndex = StringUtil.CJKIndexOf(wd[0], latinIndex + 1);
                     if ( cjkIndex > -1 ) {
-                        resetSuffixLength(config, wd[0].length() - cjkIndex);
+                        resetSuffixLength(config, dic, wd[0].length() - cjkIndex);
                         dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(cjkIndex), IWord.T_CJK_WORD);
                     }
                     
@@ -682,17 +692,18 @@ public abstract class ADictionary
     }
     
     /**
-     * check and reset the value of {@link JcsegTaskConfig#MIX_PREFIX_LENGTH}
+     * check and reset the value of {@link ADictionary#mixPrefixLength}
      * 
      * @param   config
+     * @param   dic
      * @param   mixLength
      * @return  boolean
     */
-    public static boolean resetPrefixLength(JcsegTaskConfig config, int mixLength)
+    public static boolean resetPrefixLength(JcsegTaskConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
-                && mixLength > config.MIX_PREFIX_LENGTH ) {
-            config.MIX_PREFIX_LENGTH = mixLength;
+                && mixLength > dic.mixPrefixLength ) {
+            dic.mixPrefixLength = mixLength;
             return true;
         }
         
@@ -700,17 +711,18 @@ public abstract class ADictionary
     }
     
     /**
-     * check and reset the value of the {@link JcsegTaskConfig#MIX_SUFFIX_LENGTH} 
+     * check and reset the value of the {@link ADictionary#mixSuffixLength}
      * 
      * @param   config
+     * @param   dic
      * @param   mixLength
      * @return  boolean
     */
-    public static boolean resetSuffixLength(JcsegTaskConfig config, int mixLength)
+    public static boolean resetSuffixLength(JcsegTaskConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
-                && mixLength > config.MIX_SUFFIX_LENGTH ) {
-            config.MIX_SUFFIX_LENGTH = mixLength;
+                && mixLength > dic.mixSuffixLength ) {
+            dic.mixSuffixLength = mixLength;
             return true;
         }
         
