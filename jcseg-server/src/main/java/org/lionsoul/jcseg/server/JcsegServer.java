@@ -184,7 +184,7 @@ public class JcsegServer
         }
         
         /*
-         * create the dictionaris according to the defination of dict 
+         * create the dictionaries according to the definition of dict 
          * and we will make a copy of the globalSetting for dictionary load
          * 
          * reset the max length to pass the dictionary words length limitation
@@ -224,6 +224,8 @@ public class JcsegServer
                         ? dicJson.getBoolean("loadpinyin") : true;
                 boolean loadsyn = dicJson.has("loadsyn") 
                         ? dicJson.getBoolean("loadsyn") : true;
+                boolean loadentity = dicJson.has("loadentity") 
+                        ? dicJson.getBoolean("loadentity") : true;
                 boolean autoload = dicJson.has("autoload") 
                         ? dicJson.getBoolean("autoload") : false;
                 int polltime = dicJson.has("polltime") 
@@ -232,6 +234,7 @@ public class JcsegServer
                 dictLoadConfig.setLoadCJKPinyin(loadpinyin);
                 dictLoadConfig.setLoadCJKPos(loadpos);
                 dictLoadConfig.setLoadCJKSyn(loadsyn);
+                dictLoadConfig.setLoadEntity(loadentity);
                 dictLoadConfig.setAutoload(autoload);
                 dictLoadConfig.setPollTime(polltime);
                 dictLoadConfig.setLexiconPath(lexPath);
@@ -245,7 +248,7 @@ public class JcsegServer
         dictLoadConfig = null;
         
         /*
-         * create the JcsegTaskConfig instance according to the defination config
+         * create the JcsegTaskConfig instance according to the definition config
         */
         if ( globalConfig.has("jcseg_config") ) {
             JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
@@ -266,7 +269,7 @@ public class JcsegServer
         }
         
         /*
-         * create the tokenizer instance according the defination of tokenizer
+         * create the tokenizer instance according the definition of tokenizer
         */
         if ( globalConfig.has("jcseg_tokenizer") ) {
             JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
@@ -413,12 +416,13 @@ public class JcsegServer
         }
         
         try {
+            System.out.println("+-Try to load and parse server property file \"" + proFile + "\"");
             config.resetFromFile(proFile);
             JcsegServer server = new JcsegServer(config);
-            System.out.print("+--[Info]: initializing ... ");
+            System.out.print("+-[Info]: initializing ... ");
             server.initFromGlobalConfig(config.getGlobalConfig());
             System.out.println(" --[Ok]");
-            System.out.print("+--[Info]: Register handler ... ");
+            System.out.print("+-[Info]: Register handler ... ");
             server.registerHandler();
             System.out.println(" --[Ok]");
             server.start();

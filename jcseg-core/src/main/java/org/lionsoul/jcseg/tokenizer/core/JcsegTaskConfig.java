@@ -454,6 +454,16 @@ public class JcsegTaskConfig implements Cloneable
     {
         LOAD_CJK_POS = loadCJKPos;
     }
+    
+    public boolean loadCJKEntity()
+    {
+        return LOAD_CJK_ENTITY;
+    }
+    
+    public void setLoadEntity( boolean loadEntity ) 
+    {
+        LOAD_CJK_ENTITY = loadEntity;
+    }
 
     public int getNameSingleThreshold()
     {

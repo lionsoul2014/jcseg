@@ -31,9 +31,9 @@ public class NLPSeg extends ComplexSeg
         /*
          * basic common setting for NLP mode 
         */
-        config.EN_SECOND_SEG   = false;
-        config.CNFRA_TO_ARABIC = true;
-        config.CNNUM_TO_ARABIC = true;
+        //config.EN_SECOND_SEG   = false;
+        //config.CNFRA_TO_ARABIC = true;
+        //config.CNNUM_TO_ARABIC = true;
         config.APPEND_CJK_PINYIN = false;
         config.APPEND_CJK_SYN  = false;
         config.MAX_LATIN_LENGTH = 128;

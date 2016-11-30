@@ -62,9 +62,6 @@ public class SegmentFactory
         case JcsegTaskConfig.COMPLEX_MODE:
             _clsname = ComplexSeg.class;
             break;
-        case JcsegTaskConfig.NLP_MODE:
-            _clsname = NLPSeg.class;
-            break;
         case JcsegTaskConfig.DETECT_MODE:
             _clsname = DetectSeg.class;
             break;
@@ -73,6 +70,9 @@ public class SegmentFactory
             break;
         case JcsegTaskConfig.DELIMITER_MODE:
             _clsname = DelimiterSeg.class;
+            break;
+        case JcsegTaskConfig.NLP_MODE:
+            _clsname = NLPSeg.class;
             break;
         default:
             throw new JcsegException("No Such Algorithm Excpetion");
