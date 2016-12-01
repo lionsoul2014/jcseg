@@ -16,7 +16,15 @@ import org.lionsoul.jcseg.server.core.UriEntry;
 
 public class JcsegController extends Controller
 {
-
+    public static final int STATUS_INTERNEL_ERROR = -1; //internal error
+    public static final int STATUS_OK = 0;              //everything is fine
+    public static final int STATUS_INVALID_ARGS = 1;    //invalid arguments
+    public static final int STATUS_NO_SESSION = 2;      //no session
+    public static final int STATUS_EMPTY_SETS = 3;      //empty sets
+    public static final int STATUS_FAILED = 4;          //operation failed
+    public static final int STATUS_DUPLICATE = 5;       //operation duplicate
+    public static final int STATUS_ACCESS_DENY = 6;     //privileges deny
+    
     public JcsegController(
             ServerConfig setting,
             GlobalResource resourcePool, 
@@ -32,11 +40,10 @@ public class JcsegController extends Controller
     /**
      * global output protocol
      * 
-     * @param    status
-     * @param    errcode
+     * @param    code
      * @param    data
     */
-    protected void response(boolean status, int errcode, String data )
+    protected void response( int code, String data )
     {    
         /*
          * send the json content type and the charset 
@@ -44,8 +51,7 @@ public class JcsegController extends Controller
         response.setContentType("application/json;charset="+config.getCharset());
         
         JSONWriter json = JSONWriter.create()
-                .put("status", status)
-                    .put("errcode", errcode)
+                    .put("code", code)
                         .put("data", data);
         
         /*IStringBuffer sb = new IStringBuffer();
@@ -70,25 +76,23 @@ public class JcsegController extends Controller
     /**
      * global list output protocol
      * 
-     * @param    status
-     * @param    errcode
+     * @param    code
      * @param    data
     */
-    protected void response(boolean status, int errcode, List<Object> data)
+    protected void response(int code, List<Object> data)
     {
-        response(status, errcode, JSONWriter.list2JsonString(data));
+        response(code, JSONWriter.list2JsonString(data));
     }
     
     /**
      * global Vector output protocol
      * 
-     * @param    status
-     * @param    errcode
+     * @param    code
      * @param    data
     */
-    protected void response(boolean status, int errcode, Object[] data)
+    protected void response(int code, Object[] data)
     {
-        response(status, errcode, JSONWriter.vector2JsonString(data));
+        response(code, JSONWriter.vector2JsonString(data));
     }
     
     /**
@@ -98,9 +102,9 @@ public class JcsegController extends Controller
      * @param    errcode
      * @param    data
     */
-    protected void response(boolean status, int errcode, Map<String, Object> data)
+    protected void response(int code, Map<String, Object> data)
     {
-        response(status, errcode, JSONWriter.map2JsonString(data));
+        response(code, JSONWriter.map2JsonString(data));
     }
     
 }

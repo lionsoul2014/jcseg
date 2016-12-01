@@ -26,7 +26,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 /**
  * keywords extractor handler
  * 
- * @author chenxin<chenxin619315@gmail.com>
+ * @author  chenxin<chenxin619315@gmail.com>
 */
 public class SentenceController extends JcsegController
 {
@@ -48,14 +48,14 @@ public class SentenceController extends JcsegController
         String text = getString("text");
         int number = getInt("number", 6);
         if ( text == null || "".equals(text) ) {
-            response(false, 1, "Invalid Arguments");
+            response(STATUS_INVALID_ARGS, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
         if ( tokenizerEntry == null ) {
-            response(false, 1, "can't find tokenizer instance \"extractor\"");
+            response(STATUS_INVALID_ARGS, "can't find tokenizer instance \"extractor\"");
             return;
         }
         
@@ -77,9 +77,9 @@ public class SentenceController extends JcsegController
             map.put("sentence", sentence);
             
             //response the request
-            response(true, 0, map);
+            response(STATUS_OK, map);
         } catch (JcsegException e) {
-            response(false, -1, "Internal error...");
+            response(STATUS_INTERNEL_ERROR, "Internal error...");
         }
     }
 

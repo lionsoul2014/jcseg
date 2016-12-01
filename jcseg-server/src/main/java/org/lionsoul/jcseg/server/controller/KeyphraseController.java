@@ -49,14 +49,14 @@ public class KeyphraseController extends JcsegController
                 maxCombineLength = getInt("maxCombineLength", 4), 
                 autoMinLength = getInt("autoMinLength", 4);
         if ( text == null || "".equals(text) ) {
-            response(false, 1, "Invalid Arguments");
+            response(STATUS_INVALID_ARGS, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
         if ( tokenizerEntry == null ) {
-            response(false, 1, "can't find tokenizer instance \"extractor\"");
+            response(STATUS_INVALID_ARGS, "can't find tokenizer instance \"extractor\"");
             return;
         }
         
@@ -80,9 +80,9 @@ public class KeyphraseController extends JcsegController
             map.put("keyphrase", keyphrase);
             
             //response the request
-            response(true, 0, map);
+            response(0, map);
         } catch (JcsegException e) {
-            response(false, -1, "Internal error...");
+            response(STATUS_INTERNEL_ERROR, "Internal error...");
         }
     }
 

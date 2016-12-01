@@ -39,10 +39,6 @@ public class MainController extends JcsegController
             return;
         }
        
-        this.response(
-                false, 
-                -1, 
-                "No such controller found for " + request.getRequestURI()
-        );
+        response(STATUS_INTERNEL_ERROR, "No such controller found for " + request.getRequestURI());
     }
 }

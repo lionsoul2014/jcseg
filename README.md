@@ -23,11 +23,11 @@
 **六种切分模式：**
 
 > * (1).简易模式：FMM算法，适合速度要求场合。
-> * (2).复杂模式-MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
+> * (2).复杂模式：MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
 > * (4).检索模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
 > * (5).分隔符模式：按照给定的字符切分词条，默认是空格，特定场合的应用。
-> * (6).NLP模式：继承自复杂模式，更改了数字，单位等词条的组合方式，增加电子邮件，大陆手机号码，网址，人名，地名，货比等以及无限种自定义实体的识别与返回。
+> * (6).NLP模式：继承自复杂模式，更改了数字，单位等词条的组合方式，增加电子邮件，大陆手机号码，网址，人名，地名，货币等以及无限种自定义实体的识别与返回。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -46,7 +46,7 @@
 16. 自动中英文停止词过滤功能（需要在jcseg.properties中开启该选项，lex-stopwords.lex为停止词词库）。
 17. 词库更新自动加载功能, 开启一个守护线程定时的检测词库的更新并且加载（**注意需要有对应词库目录下的的lex-autoload.todo文件的写入权限**）。
 18. 自动词性标注（目前基于词库）。
-19. 自动实体的识别，默认支持：电子邮件，网址，大陆手机号码，地名，人名，货比等；词库中可以自定义各种实体并且再切分中返回。
+19. 自动实体的识别，默认支持：电子邮件，网址，大陆手机号码，地名，人名，货币等；词库中可以自定义各种实体并且再切分中返回。
 
 # **Jcseg**快速体验：
 ------
@@ -98,7 +98,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 
 ```
@@ -109,7 +109,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 
@@ -119,7 +119,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 
@@ -129,7 +129,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 
@@ -421,6 +421,8 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
             # 2: COMPLEX_MODE
             # 3: DETECT_MODE
             # 4: SEARCH_MODE
+            # 5: DELIMITER_MODE
+            # 6: NLP_MODE
             # see org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig for more info
             "algorithm": 2,
             
@@ -463,26 +465,24 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/extractor/keywords?text=&number=&autoFilter=true|false
 
 > api参数：
-    <pre>
+<pre>
     text: post或者get过来的文档文本
     number: 要提取的关键词个数
     autoFilter: 是否自动过滤掉低分数关键字
-    </pre>
+</pre>
 > api返回：
 
 ```
 {
-    //api执行状态, true：成功, false：失败。
-    "status": true,
+    //api错误代号，0正常，1参数错误, -1内部错误
+    "code": 0,
     //api返回数据
     "data": {
         //关键字数组
         "keywords": [],
         //操作耗时
         "took": 0.001
-    },
-    //api错误代号，0正常，1参数错误
-    "errcode": 0
+    }
 }
 ```
     
@@ -492,21 +492,20 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/extractor/keyphrase?text=&number=
 
 > api参数：
-    <pre>
+<pre>
     text: post或者get过来的文档文本
     number: 要提取的关键短语个数
-    </pre>
+</pre>
 > api返回：
 
 ```
 {
-    "status": true,
+    "code": 0,
     "data": {
         "took": 0.0277,
         //关键短语数组
         "keyphrase": []
-    },
-    "errcode": 0
+    }
 }
 ```
     
@@ -516,21 +515,20 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/extractor/sentence?text=&number=
 
 > api参数：
-    <pre>
+<pre>
     text: post或者get过来的文档文本
     number: 要提取的关键句子个数
-    </pre>
+</pre>
 > api返回：
 
 ```
 {
-    "status": true,
+    "code": 0,
     "data": {
         "took": 0.0277,
         //关键句子数组
         "sentence": []
-    },
-    "errcode": 0
+    }
 }
 ```
     
@@ -540,21 +538,20 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/extractor/summary?text=&length=
 
 > api参数：
-    <pre>
+<pre>
     text: post或者get过来的文档文本
     length: 要提取的摘要的长度
-    </pre>
+</pre>
 > api返回：
 
 ```
 {
-    "status": true,
+    "code": 0,
     "data": {
         "took": 0.0277,
         //文章摘要
         "summary": ""
-    },
-    "errcode": 0
+    }
 }
 ```
     
@@ -564,36 +561,31 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 > api地址：http://jcseg_server_host:port/tokenizer/tokenizer_instance?text=&ret_pinyin=&ret_pos=...
 
 > api参数：
-    <pre>
+<pre>
     tokenizer_instance: 表示在jcseg-server.properties中定义的分词实例名称
     text: post或者get过来的文章文本
-    ret_pinyin: 是否在分词结果中返回词条拼音
-    ret_pos: 是否在分词结果中返回词条词性
-    </pre>
+    ret_pinyin: 是否在分词结果中返回词条拼音(2.0.1版本后已经取消)
+    ret_pos: 是否在分词结果中返回词条词性(2.0.1版本后已经取消)
+</pre>
 > api返回：
 
 ```
 {
-    "status": true,
+    "code": 0,
     "data": {
         "took": 0.00885,
         //词条对象数组
         "list": [
             {
-                //词条内容
-                "word": "jcseg",
-                //词条字符个数
-                "length": 5,
-                //词条在原文中的起始位置
-                "position": 0
-                //词条pinyin，如果指定了ret_pinyin
-                "pinyin": "",
-                //词条词性：如果指定了ret_pos
-                "pos": ""
+                word: "哆啦a梦",            //词条内容
+                position: 0,                //词条在原文中的索引位置
+                length: 4,                  //词条的词个数（非字节数）
+                pinyin: "duo la a meng",    //词条的拼音
+                pos: "nz",                  //词条的词性标注
+                entity: null                //词条的实体标注
             }
         ]
-    },
-    "errcode": 0
+    }
 }
 ```
 
@@ -718,6 +710,8 @@ demo代码：
 //JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
 //JcsegTaskConfig.DETECT_MODE表示创建DetectSeg Isegmengt分词对象.
 //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
+//JcsegTaskConfig.DELIMITER_MODE表示创建DelimiterSeg Isegmengt分词对象.
+//JcsegTaskConfig.NLP_MODE表示创建NLPSeg Isegmengt分词对象.
 ASegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{config, dic}

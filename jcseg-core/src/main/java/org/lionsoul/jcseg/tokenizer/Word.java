@@ -277,9 +277,9 @@ public class Word implements IWord,Cloneable
     }
     
     /**
-     * @see Object#toString()
-     */
-    public String toString() 
+     * for debug testing 
+    */
+    public String __toString() 
     {
         StringBuilder sb = new StringBuilder();
         sb.append(value);
@@ -325,6 +325,39 @@ public class Word implements IWord,Cloneable
             sb.append(entity);
         }
         
+        return sb.toString();
+    }
+    
+    /**
+     * @see Object#toString()
+     */
+    public String toString() 
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        sb.append("\"word\":\"").append(value).append('"');
+        sb.append(",\"position\":").append(position);
+        sb.append(",\"length\":").append(getLength());
+        
+        if ( pinyin != null ) {
+            sb.append(",\"pinyin\":\"").append(pinyin).append('"');
+        } else {
+            sb.append(",\"pinyin\":null");
+        }
+        
+        if ( partspeech != null ) {
+            sb.append(",\"pos\":\"").append(partspeech[0]).append('"');
+        } else {
+            sb.append(",\"pos\":null");
+        }
+        
+        if ( entity != null ) {
+            sb.append(",\"entity\":\"").append(entity).append('"');
+        } else {
+            sb.append(",\"entity\":null");
+        }
+        
+        sb.append('}');
         return sb.toString();
     }
     

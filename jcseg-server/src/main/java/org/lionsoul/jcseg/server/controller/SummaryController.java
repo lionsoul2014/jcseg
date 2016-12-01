@@ -24,7 +24,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 /**
- * tokenize service handler
+ * summary extract service handler
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
@@ -48,14 +48,14 @@ public class SummaryController extends JcsegController
         String text = getString("text");
         int length = getInt("length", 86);
         if ( text == null || "".equals(text) ) {
-            response(false, 1, "Invalid Arguments");
+            response(STATUS_INVALID_ARGS, "Invalid Arguments");
             return;
         }
         
         JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
         JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
         if ( tokenizerEntry == null ) {
-            response(false, 1, "can't find tokenizer instance \"extractor\"");
+            response(STATUS_INVALID_ARGS, "can't find tokenizer instance \"extractor\"");
             return;
         }
         
@@ -76,9 +76,9 @@ public class SummaryController extends JcsegController
             map.put("summary", summary);
             
             //response the request
-            response(true, 0, map);
+            response(STATUS_OK, map);
         } catch (JcsegException e) {
-            response(false, -1, "Internal error...");
+            response(STATUS_INTERNEL_ERROR, "Internal error...");
         }
     }
 

@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 
 /**
- * base Contoller class 
+ * base controller class 
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
 public abstract class Controller 
-{    
+{        
     /**
      * global server configuration 
     */
