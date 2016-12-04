@@ -57,7 +57,7 @@
 2. ant all(或者使用maven编译)
 3. 运行：java -jar jcseg-core-{version}.jar
 4. 你将看到如下的终端界面
-5. 在光标处输入文本开始测试
+5. 在光标处输入文本开始测试(输入:seg_mode参数切换可以体验各种切分算法)
 
 ```
 +--------Jcseg chinese word tokenizer demo---------------+
