@@ -185,10 +185,22 @@ config.setAppendCJKPinyin();
         <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
     </analyzer>
 </fieldtype>
-<!-- 最多模式分词: -->
+<!-- 检索模式分词: -->
 <fieldtype name="textSearch" class="solr.TextField">
     <analyzer>
         <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="search"/>
+    </analyzer>
+</fieldtype>
+<!-- NLP模式分词: -->
+<fieldtype name="textSearch" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="nlp"/>
+    </analyzer>
+</fieldtype>
+<!-- 空格分隔符模式分词: -->
+<fieldtype name="textSearch" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="delimiter"/>
     </analyzer>
 </fieldtype>
 ```
@@ -223,10 +235,12 @@ config.setAppendCJKPinyin();
 可选的analyzer名字：
 
 ```
-jcseg_complex: 对应Jcseg的复杂模式切分算法 
-jcseg_simple : 对应Jcseg的简易切分算法 
-jcseg_detect : 对应Jcseg的检测模式切分算法
-jcseg_search : 对应Jcseg的检索模式切分算法
+jcseg_complex   : 对应Jcseg的复杂模式切分算法 
+jcseg_simple    : 对应Jcseg的简易切分算法 
+jcseg_detect    : 对应Jcseg的检测模式切分算法
+jcseg_search    : 对应Jcseg的检索模式切分算法
+jcseg_nlp       : 对应Jcseg的NLP模式切分算法
+jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 
 ```
 

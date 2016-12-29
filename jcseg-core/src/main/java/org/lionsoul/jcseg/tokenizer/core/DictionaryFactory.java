@@ -142,7 +142,7 @@ public class DictionaryFactory
     {
         synchronized (LOCK) {
             if ( singletonDic == null ) {
-                singletonDic = createDefaultDictionary(config);
+                singletonDic = createDefaultDictionary(config, loadDic);
             }
         }
         
