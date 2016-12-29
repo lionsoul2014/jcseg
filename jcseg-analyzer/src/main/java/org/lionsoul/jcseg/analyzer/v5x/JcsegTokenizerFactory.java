@@ -35,7 +35,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         
         String _mode = args.get("mode");
         if ( _mode == null ) {
-            mode = JcsegTaskConfig.COMPLEX_MODE;
+            mode = JcsegTaskConfig.SEARCH_MODE;
         } else {
             _mode = _mode.toLowerCase();
             if ( "simple".equals(_mode) ) {
@@ -44,6 +44,10 @@ public class JcsegTokenizerFactory extends TokenizerFactory
                 mode = JcsegTaskConfig.DETECT_MODE;
             } else if ( "search".equals(_mode) ) {
                 mode = JcsegTaskConfig.SEARCH_MODE;
+            } else if ( "nlp".equals(_mode) ){
+                mode = JcsegTaskConfig.NLP_MODE;
+            } else if ( "delimiter".equals(_mode) ) {
+                mode = JcsegTaskConfig.DELIMITER_MODE;
             } else {
                 mode = JcsegTaskConfig.COMPLEX_MODE;
             }

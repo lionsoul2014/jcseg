@@ -40,6 +40,10 @@ public class CommonUtil
             mode = JcsegTaskConfig.DETECT_MODE;
         } else if ( "search".equals(seg_mode) ) {
             mode = JcsegTaskConfig.SEARCH_MODE;
+        } else if ( "nlp".equals(seg_mode) ){
+            mode = JcsegTaskConfig.NLP_MODE;
+        } else if ( "delimiter".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.DELIMITER_MODE;
         }
         
         return mode;

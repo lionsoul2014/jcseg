@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * JcsegTokenizerFactory
  * 
- * @author chenxin<chenxin6193152@gmail.com>
+ * @author chenxin<chenxin619315@gmail.com>
  */
 public class JcsegTokenizerFactory extends AbstractTokenizerFactory 
 {

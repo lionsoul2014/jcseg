@@ -79,13 +79,33 @@ public class JcsegIndicesAnalysis extends AbstractComponent
             )
         );
         
-        //most mode
+        //search mode
         indicesAnalysisService.analyzerProviderFactories().put(
             "jcseg_search",
             new PreBuiltAnalyzerProviderFactory(
                 "jcseg", 
                 AnalyzerScope.GLOBAL, 
                 new JcsegAnalyzer5X(JcsegTaskConfig.SEARCH_MODE, config, dic)
+            )
+        );
+        
+        //NLP mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_nlp",
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.GLOBAL, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.NLP_MODE, config, dic)
+            )
+        );
+        
+        //NLP mode
+        indicesAnalysisService.analyzerProviderFactories().put(
+            "jcseg_delimiter",
+            new PreBuiltAnalyzerProviderFactory(
+                "jcseg", 
+                AnalyzerScope.GLOBAL, 
+                new JcsegAnalyzer5X(JcsegTaskConfig.DELIMITER_MODE, config, dic)
             )
         );
 
@@ -108,7 +128,7 @@ public class JcsegIndicesAnalysis extends AbstractComponent
                     File proFile = new File("plugins/jcseg/jcseg.properties");
                     JcsegTaskConfig config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig(true);
                     return new JcsegTokenizer(
-                        JcsegTaskConfig.COMPLEX_MODE,
+                        JcsegTaskConfig.SEARCH_MODE,
                         config,
                         DictionaryFactory.createSingletonDictionary(config)
                     );
