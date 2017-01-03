@@ -29,7 +29,7 @@ public class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvider<JcsegAn
     {
         super(index, indexSettingsService.getSettings(), name, settings);
         
-        File proFile = new File(settings.get("config_file", "plugins/jcseg/jcseg.properties"));
+        File proFile = new File(settings.get("config_file", CommonUtil.JcsegConfigFile));
         analyzer = proFile.exists() ? 
             new JcsegAnalyzer5X(CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE), proFile.getPath()) : 
                 new JcsegAnalyzer5X(CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE));

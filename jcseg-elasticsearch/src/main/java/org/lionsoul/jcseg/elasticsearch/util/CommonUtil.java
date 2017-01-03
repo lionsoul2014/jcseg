@@ -5,6 +5,10 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class CommonUtil 
 {
+    /**
+     * The default jcseg configuration file 
+    */
+    public static final String JcsegConfigFile = "plugins/jcseg/jcseg.properties";
     
     /**
      * get the sementation mode and default to COMPLEX_MODE

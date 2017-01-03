@@ -22,6 +22,14 @@ index:
         type: jcseg
         seg_mode: search
         # config_file: self define jcseg.properties file path [optional]
+      jcseg_nlp:
+        type: jcseg
+        seg_mode: nlp
+        # config_file: self define jcseg.properties file path [optional]
+      jcseg_delimiter:
+        type: jcseg
+        seg_mode: delimiter
+        # config_file: self define jcseg.properties file path [optional]
         
     analyzer:
       jcseg_complex:
@@ -44,6 +52,16 @@ index:
         filter:
         - lowercase
         tokenizer: jcseg_search
+      jcseg_nlp:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_nlp
+      jcseg_delimiter:
+        type: custom
+        filter:
+        - lowercase
+        tokenizer: jcseg_delimiter
         
 # set Jcseg as the default analyzer
 index.analysis.analyzer.default.type : "jcseg"
