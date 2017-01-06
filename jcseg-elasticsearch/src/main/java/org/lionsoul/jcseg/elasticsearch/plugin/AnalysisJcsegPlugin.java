@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.elasticsearch.plugin.analysis.jcseg;
+package org.lionsoul.jcseg.elasticsearch.plugin;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import org.elasticsearch.common.inject.Module;
 import org.elasticsearch.index.analysis.AnalysisModule;
 import org.elasticsearch.plugins.Plugin;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegAnalysisBinderProcessor;
-import org.lionsoul.jcseg.elasticsearch.indices.analysis.jcseg.JcsegIndicesAnalysisModule;
+import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegIndicesAnalysisModule;
 
 /**
  * elasticsearch jcseg analysis plugin

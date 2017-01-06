@@ -21,10 +21,5 @@ public class JcsegAnalysisBinderProcessor extends AnalysisModule.AnalysisBinderP
         tokenizersBindings.processTokenizer("jcseg", JcsegTokenizerFactory.class);
         super.processTokenizers(tokenizersBindings);
     }
-
-    @Override public void processTokenFilters(TokenFiltersBindings tokenFiltersBindings)
-    {
-        super.processTokenFilters(tokenFiltersBindings);
-    }
     
 }

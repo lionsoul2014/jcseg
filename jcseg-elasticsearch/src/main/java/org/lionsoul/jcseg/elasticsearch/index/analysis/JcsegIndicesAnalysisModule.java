@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.elasticsearch.indices.analysis.jcseg;
+package org.lionsoul.jcseg.elasticsearch.index.analysis;
 
 import org.elasticsearch.common.inject.AbstractModule;
 
