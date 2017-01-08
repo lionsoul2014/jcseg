@@ -1,9 +1,0 @@
-# @Note: 
-# set Jcseg as the default analyzer
-# disabled since elasticsearch 5.1.1
-# Please ensure all required values are updated on all indices by executing: 
-# 
-# curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
-#  "index.analysis.analyzer.default.type" : "jcseg"
-# }'
-# index.analysis.analyzer.default.type : "jcseg"
