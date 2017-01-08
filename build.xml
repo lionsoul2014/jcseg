@@ -20,7 +20,7 @@
         <property name="analyzer" value="jcseg-analyzer"/>
         <property name="elasticsearch" value="jcseg-elasticsearch"/>
         <property name="server" value="jcseg-server"/>
-        <property name="jdk.version" value="1.7"/>
+        <property name="jdk.version" value="1.8"/>
 
         <delete dir="${classes}"/>
         <delete dir="${sources}"/>

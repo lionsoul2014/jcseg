@@ -35,7 +35,7 @@
     <dependency>
       <groupId>org.elasticsearch</groupId>
       <artifactId>elasticsearch</artifactId>
-      <version>2.3.1</version>
+      <version>5.1.1</version>
     </dependency>
     
     <dependency>

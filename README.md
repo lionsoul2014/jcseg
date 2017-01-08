@@ -141,7 +141,8 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 2. demo代码：
 
 ```java
-Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+//lucene 5.x
+//Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
 //available constructor: since 1.9.8
 //1, JcsegAnalyzer5X(int mode)
 //2, JcsegAnalyzer5X(int mode, String proFile)
@@ -150,8 +151,17 @@ Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
 
 //lucene 4.x版本
 //Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
+
+//lucene 6.3.0以及以上版本
+//Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+//available constructor: 
+//1, JcsegAnalyzer(int mode)
+//2, JcsegAnalyzer(int mode, String proFile)
+//3, JcsegAnalyzer(int mode, JcsegTaskConfig config)
+//4, JcsegAnalyzer(int mode, JcsegTaskConfig config, ADictionary dic)
+
 //非必须(用于修改默认配置): 获取分词任务配置实例
-JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
+JcsegAnalyzer jcseg = (JcsegAnalyzer) analyzer;
 JcsegTaskConfig config = jcseg.getTaskConfig();
 //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
 config.setAppendCJKSyn(true);
@@ -170,42 +180,46 @@ config.setAppendCJKPinyin();
 <!-- 复杂模式分词: -->
 <fieldtype name="textComplex" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="complex"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="complex"/>
     </analyzer>
 </fieldtype>
 <!-- 简易模式分词: -->
 <fieldtype name="textSimple" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="simple"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="simple"/>
     </analyzer>
 </fieldtype>
 <!-- 检测模式分词: -->
 <fieldtype name="textDetect" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="detect"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="detect"/>
     </analyzer>
 </fieldtype>
 <!-- 检索模式分词: -->
 <fieldtype name="textSearch" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="search"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="search"/>
     </analyzer>
 </fieldtype>
 <!-- NLP模式分词: -->
 <fieldtype name="textSearch" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="nlp"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="nlp"/>
     </analyzer>
 </fieldtype>
 <!-- 空格分隔符模式分词: -->
 <fieldtype name="textSearch" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory" mode="delimiter"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="delimiter"/>
     </analyzer>
 </fieldtype>
 ```
 
-注：如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
+<b>备注：</b>
+
+1. 如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
+2. 如果是使用的是solr-6.3.0以下版本，包名路径为：org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory
+
 
 # **Jcseg** elasticsearch接口：
 ------
@@ -228,8 +242,13 @@ config.setAppendCJKPinyin();
 4. 拷贝一份jcseg.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
-7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去，以下配置可以不用了：
+7. 参考下载的源码中的 jcseg-elasticsearch 项目下的 config/elasticsearch.yml 配置文件,将对应的配置加到{ES_HOME}/config/elasticsearch.yml中去。
 8. 配置elasticsearch.yml或者mapping来使用 **Jcseg**分词插件(或者在query中指定)。
+
+
+##### elasticsearch.version >= 5.1.1
+
+同2.x版本
 
 
 可选的analyzer名字：
