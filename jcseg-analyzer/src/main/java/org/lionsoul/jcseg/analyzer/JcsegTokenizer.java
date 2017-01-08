@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.analyzer.v5x;
+package org.lionsoul.jcseg.analyzer;
 
 import java.io.IOException;
 

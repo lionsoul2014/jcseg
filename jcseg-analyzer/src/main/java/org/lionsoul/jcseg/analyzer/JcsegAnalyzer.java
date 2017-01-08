@@ -1,10 +1,10 @@
-package org.lionsoul.jcseg.analyzer.v5x;
+package org.lionsoul.jcseg.analyzer;
 
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
-import org.lionsoul.jcseg.analyzer.v5x.JcsegFilter;
+import org.lionsoul.jcseg.analyzer.JcsegFilter;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -15,7 +15,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzer5X extends Analyzer
+public class JcsegAnalyzer extends Analyzer
 {
     private int mode;
     private JcsegTaskConfig config = null;
@@ -28,7 +28,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   mode tokenizer mode
      * @see     org.lionsoul.jcseg.core.JcsegTaskConfig
     */
-    public JcsegAnalyzer5X(int mode) 
+    public JcsegAnalyzer(int mode) 
     {
         this(mode, new JcsegTaskConfig(true));
     }
@@ -40,7 +40,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   mode tokenizer mode
      * @param   proFile path of jcseg.properties file
     */
-    public JcsegAnalyzer5X(int mode, String proFile)
+    public JcsegAnalyzer(int mode, String proFile)
     {
         this(mode, new JcsegTaskConfig(proFile));
     }
@@ -51,7 +51,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   mode tokenizer mode
      * @param   config
     */
-    public JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
+    public JcsegAnalyzer(int mode, JcsegTaskConfig config)
     {
         this(mode, config, DictionaryFactory.createSingletonDictionary(config));
     }
@@ -63,7 +63,7 @@ public class JcsegAnalyzer5X extends Analyzer
      * @param   config
      * @param   dic
     */
-    public JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
+    public JcsegAnalyzer(int mode, JcsegTaskConfig config, ADictionary dic)
     {
         this.mode   = mode;
         this.config = config;
