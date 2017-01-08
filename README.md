@@ -248,12 +248,19 @@ config.setAppendCJKPinyin();
 
 ##### elasticsearch.version >= 5.1.1
 
-同2.x版本
+1. 下载最新版本的 **Jcseg**源码。
+2. 使用maven或者ant编译打包得到 **Jcseg**的系列jar包（建议使用maven，ant需要自己下载对应的依赖包）。
+3. 拷贝jcseg-analyzer-{version}.jar,jcseg-core-{version}.jar,jcseg-elasticsearch-{version}.jar到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+4. 拷贝一份jcseg.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
+6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
+7. mapping指定来使用 **Jcseg**分词插件(或者在query中指定)。
 
 
 可选的analyzer名字：
 
 ```
+jcseg           : 对应Jcseg的检索模式切分算法
 jcseg_complex   : 对应Jcseg的复杂模式切分算法 
 jcseg_simple    : 对应Jcseg的简易切分算法 
 jcseg_detect    : 对应Jcseg的检测模式切分算法
@@ -262,6 +269,13 @@ jcseg_nlp       : 对应Jcseg的NLP模式切分算法
 jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 
 ```
+
+配置测试地址：
+
+```
+http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币
+```
+
 
 也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](http://git.oschina.net/lionsoul/elasticsearch-jcseg)，开封就可以使用。
 
