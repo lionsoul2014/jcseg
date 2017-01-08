@@ -1,67 +1,9 @@
 # @Note: 
-# append the following setting to you elasticsearch.yml
-# -----------------------------------------------------
-# setting for jcseg analysis
-index:
-  analysis:
-  
-    tokenizer:   
-      jcseg_complex:
-        type: jcseg
-        seg_mode: complex
-        # config_file: self define jcseg.properties file path [optional]
-      jcseg_simple:
-        type: jcseg
-        seg_mode: simple
-        # config_file: self define jcseg.properties file path [optional]
-      jcseg_detect:
-        type: jcseg
-        seg_mode: detect
-        # config_file: self define jcseg.properties file path [optional]
-      jcseg_search:
-        type: jcseg
-        seg_mode: search
-        # config_file: self define jcseg.properties file path [optional]
-      jcseg_nlp:
-        type: jcseg
-        seg_mode: nlp
-        # config_file: self define jcseg.properties file path [optional]
-      jcseg_delimiter:
-        type: jcseg
-        seg_mode: delimiter
-        # config_file: self define jcseg.properties file path [optional]
-        
-    analyzer:
-      jcseg_complex:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_complex
-      jcseg_simple:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_simple
-      jcseg_detect:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_detect
-      jcseg_search:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_search
-      jcseg_nlp:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_nlp
-      jcseg_delimiter:
-        type: custom
-        filter:
-        - lowercase
-        tokenizer: jcseg_delimiter
-        
 # set Jcseg as the default analyzer
-index.analysis.analyzer.default.type : "jcseg"
+# disabled since elasticsearch 5.1.1
+# Please ensure all required values are updated on all indices by executing: 
+# 
+# curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
+#  "index.analysis.analyzer.default.type" : "jcseg"
+# }'
+# index.analysis.analyzer.default.type : "jcseg"
