@@ -80,6 +80,15 @@
   </build>
 
   <profiles>
+	  <profile>
+	    <id>java8-doclint-disabled</id>
+	    <activation>
+	      <jdk>[1.8,)</jdk>
+	    </activation>
+	    <properties>
+	      <javadoc.opts>-Xdoclint:none</javadoc.opts>
+	    </properties>
+	  </profile>
       <profile>
           <id>release</id>
           <build>
@@ -106,9 +115,12 @@
                       <executions>
                           <execution>
                               <phase>package</phase>
-                              <goals>
-                                  <goal>jar</goal>
-                              </goals>
+			                  <goals>
+			                    <goal>jar</goal>
+			                  </goals>
+			                  <configuration>
+			                    <additionalparam>${javadoc.opts}</additionalparam>
+			                  </configuration>
                           </execution>
                       </executions>
                   </plugin>
