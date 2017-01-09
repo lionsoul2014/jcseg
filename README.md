@@ -153,7 +153,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 //Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
 
 //lucene 6.3.0以及以上版本
-//Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
 //available constructor: 
 //1, JcsegAnalyzer(int mode)
 //2, JcsegAnalyzer(int mode, String proFile)
@@ -218,7 +218,7 @@ config.setAppendCJKPinyin();
 <b>备注：</b>
 
 1. 如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
-2. 如果是使用的是solr-6.3.0以下版本，包名路径为：org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory
+2. 如果是使用的是solr-6.3.0以下版本，JcsegTokenizerFactory包名路径为：org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory
 
 
 # **Jcseg** elasticsearch接口：
@@ -274,7 +274,7 @@ jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 配置测试地址：
 
 ```
-http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币
+[http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币](http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币)
 ```
 
 
