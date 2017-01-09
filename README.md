@@ -274,7 +274,7 @@ jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 配置测试地址：
 
 ```
-[http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币](http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币)
+http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币
 ```
 
 
@@ -284,7 +284,7 @@ jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 # **Jcseg**分词服务器:
 ------
 
-jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，给jcseg的全部功能都加上了restful接口，并且标准化了api结果的json输出格式，各大语言直接使用http客户端调用即可。
+jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，给jcseg的全部Api功能都加上了restful接口，并且标准化了api结果的json输出格式，各大语言直接使用http客户端调用即可。
 
 ### 编译jcseg: 
 1. maven编译jcseg，得到jcseg-server-{version}.jar, maven已经将依赖的jar包一起编译进去了，如果是ant编译运行时请将依赖包载入。
