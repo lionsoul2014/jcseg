@@ -1,11 +1,11 @@
 # Jcseg versions change histories
 
-### jcseg-2.0.2: (future version)
+### jcseg-2.1.1: (future version)
 
 * 1. 复杂模式，复杂中文的二次切分
 * 2. 文本自动分类
 
-### jcseg-2.0.1: (current version RC version)
+### jcseg-2.1.0: (current version RC version)
 
 * 01. 部分词库类别合并到主类别（中英组合，英中组合，英文标点，英文词库），方便维护，也是为Jcseg的NLP计划做准备。
 * 02. 优化Jcseg的英中组合词条的识别算法，之前的除类似“x射线”等英中混合词识别外，其他的类别的混合词维护过于麻烦，全部混合词库统一到lex-mixed.lex中管理或者新建词库。
@@ -17,11 +17,14 @@
 * 08. 优化了jcseg-server模块的api数据处理，简化了api数据返回格式。
 * 09. 词库优化，将ip2region中的全部地域词库合并到了lex-place.lex中作为统一地名词库。
 * 10. DictionaryFactory#createSingletonDictionary loadDic参数无效bug修复。
+* 11. 增加对目前最新版本的lucene-6.3.0的支持。
+* 12. 增加对目前最新版本的solr-6.3.0的支持。
+* 13. 增加对目前最新版本的elasticsearch-5.1.1的支持。
 
 升级指南：
 
 * 1, 如果之前自定义过混合词库，则需要将混合词库的第一行的类别标识更改为：CJK_WORD，不然会不兼容而出现没法识别混合词的情况。
-* 2, 如果之前自定义过词库文件格式，2.0.1开始词库文件硬编码使用“lex-”开头和“.lex”结尾，jcseg.properties中的配置项已经无效。
+* 2, 如果之前自定义过词库文件格式，2.1.0开始词库文件硬编码使用“lex-”开头和“.lex”结尾，jcseg.properties中的配置项已经无效。
 
 ### jcseg-2.0.0:
 

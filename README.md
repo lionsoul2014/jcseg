@@ -98,7 +98,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.0</version>
 </dependency>
 
 ```
@@ -109,7 +109,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -119,7 +119,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -129,7 +129,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -255,6 +255,7 @@ config.setAppendCJKPinyin();
 5. 拷贝一份jcseg-elasticsearch/plugin/plugin-descriptor.properties到{ES_HOME}/plugins/jcseg目录下（自己建立该文件夹，如果不存在）。
 6. 配置好jcseg.properties,尤其是配置lexicon.path指向正确的词库（或者将jcseg目录下的lexicon文件夹拷贝到{ES_HOME}/plugins/jcseg目录下）。
 7. mapping指定来使用 **Jcseg**分词插件(或者在query中指定)。
+
 
 
 可选的analyzer名字：

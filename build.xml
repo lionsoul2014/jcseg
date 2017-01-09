@@ -9,7 +9,7 @@
         <property name="jars" value="${basedir}"/>
         <property name="sources" value="${basedir}/src"/>
         <property name="classes" value="${basedir}/classes"/>
-        <property name="version" value="2.0.1"/>
+        <property name="version" value="2.1.0"/>
         <property name="lib.dir" value="${basedir}/vendors/lib"/>
         <property name="api" value="${basedir}/doc"/>
         
@@ -59,7 +59,6 @@
         <!--specifal resource to copy-->
         <copy file="${basedir}/jcseg.properties" todir="${classes}"/>
         <copy file="${basedir}/jcseg-server.properties" todir="${classes}"/>
-        <copy file="${basedir}/${elasticsearch}/src/main/resources/es-plugin.properties" todir="${classes}"/>
         <copy todir="${classes}/res">
             <fileset dir="${basedir}/${server}/${mvn.main}/res"/>
         </copy>
