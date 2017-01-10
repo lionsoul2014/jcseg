@@ -736,16 +736,13 @@ dic.load(new FileInputStream("/java/lex-main.lex"));
 //阅读下面的“如果自定义使用词库”来获取更多信息
 ```
 
-##### (3). 创建ISegment或者ASegment分词实例：
+##### (3). 创建ISegment分词实例：
 
-ASegment构造方法：
+ISegment接口核心分词方法：
 
 ```java
-Asegment(JcsegTaskConfig config, Adictionary dic)
-Asegment(Reader input, JcsegTaskConfig config, Adictionary dic)
-//config: 为上述的JcsegTaskConfig配置对象
-//dic: 为上述的ADictionary词库对象
-//input: 分词文本源的输入对象
+public IWord next();
+//返回下一个切分的词条
 ```
 
 demo代码：
@@ -760,7 +757,7 @@ demo代码：
 //JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
 //JcsegTaskConfig.DELIMITER_MODE表示创建DelimiterSeg Isegmengt分词对象.
 //JcsegTaskConfig.NLP_MODE表示创建NLPSeg Isegmengt分词对象.
-ASegment seg = SegmentFactory.createJcseg(
+ISegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{config, dic}
 );
@@ -787,7 +784,7 @@ ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 
 //依据给定的ADictionary和JcsegTaskConfig来创建ISegment
 //为了Api往后兼容，建议使用SegmentFactory来创建ISegment对象
-ASegment seg = SegmentFactory.createJcseg(
+ISegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{new StringReader(str), config, dic}
 );
