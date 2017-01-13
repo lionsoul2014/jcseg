@@ -357,7 +357,7 @@ public class NLPSeg extends ComplexSeg
         String str = isb.toString();
         
         /*
-         * special entity word check like email, url address
+         * special entity word check like email, URL, ip address
         */
         if ( atcount == 1 && EntityFormat.isMailAddress(str) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
@@ -377,7 +377,7 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        } 
+        }
         
         /* 
          * check the end condition.
@@ -437,7 +437,7 @@ public class NLPSeg extends ComplexSeg
         }
         
         /*
-         * the loop was broke by an unknown char and it is not a CJK char
+         * the loop was broken by an unknown char and it is not a CJK char
          * 1, check if the end char is a special single unit char like '℉,℃' and so on ..
          * 2, or do it as the end stream way like (ch == -1 or _wspace == true) 
         */
@@ -564,7 +564,7 @@ public class NLPSeg extends ComplexSeg
                 
                 sb.append((char)ch);
                 ialist.add(ch);
-                tstr = isb.toString();
+                tstr = sb.toString();
                 if ( dic.match(ILexicon.CJK_UNIT, tstr) ) {
                     unitWord = dic.get(ILexicon.CJK_UNIT, tstr);
                     mc = j + 1;
@@ -575,6 +575,11 @@ public class NLPSeg extends ComplexSeg
                 unitWord = unitWord.clone();
                 unitWord.setPosition(pos+str.length());
                 wordPool.add(unitWord);
+                
+                // reset the entity of the wd
+                if ( unitWord.getEntity() != null ) {
+                    wd.setEntity(entity+"#"+unitWord.getEntity());
+                }
             }
             
             for ( int i = j - 1; i >= mc; i-- ) {
