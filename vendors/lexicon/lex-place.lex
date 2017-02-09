@@ -1046,6 +1046,9 @@ CJK_WORD
 马公市/ns/ma gong shi/null
 马公/ns/ma gong/null
 河间县/ns/he jian xian/null
+台北县/ns/tai bei xian/null
+板桥市/ns/pan qiao shi/null
+板桥/ns/pan qiao/null
 :entity place.district
 东城区/ns/dong cheng qu/null
 西城区/ns/xi cheng qu/null
