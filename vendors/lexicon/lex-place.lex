@@ -3972,7 +3972,6 @@ CJK_WORD
 灌阳/ns/guan yang/null
 龙胜各族自治县/ns/long sheng ge zu zi zhi xian/null
 资源县/ns/zi yuan xian/null
-资源/ns/zi yuan/null
 平乐县/ns/ping yue xian/null
 平乐/ns/ping yue/null
 荔蒲县/ns/li pu xian/null
@@ -5291,7 +5290,6 @@ CJK_WORD
 东乡族自治县/ns/dong xiang zu zi zhi xian/null
 积石山保安族东乡族撒拉族自治县/ns/ji shi shan bao an zu dong xiang zu sa la zu zi zhi xian/null
 合作市/ns/he zuo shi/null
-合作/ns/he zuo/null
 临潭县/ns/lin tan xian/null
 临潭/ns/lin tan/null
 卓尼县/ns/zhuo ni xian/null
