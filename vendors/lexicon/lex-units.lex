@@ -44,6 +44,8 @@ CJK_UNIT
 人民币/currency.cny
 港元/currency.hkd
 美元/currency.usd
+美金/currency.usd
+刀/currency.usd
 澳门元/currency.mop
 澳元/currency.mop
 台币/currency.twd
