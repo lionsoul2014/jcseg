@@ -43,6 +43,7 @@ CJK_UNIT
 元/currency.cny
 人民币/currency.cny
 港元/currency.hkd
+港币/currency.hkd
 美元/currency.usd
 美金/currency.usd
 刀/currency.usd
