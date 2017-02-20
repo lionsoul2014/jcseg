@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttributeImpl;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
@@ -43,7 +44,7 @@ public class JcsegTokenizer extends Tokenizer
     //the default jcseg segmentor
     private ISegment segmentor;
 
-    private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+    private final CharTermAttributeImpl termAtt = (CharTermAttributeImpl)addAttribute(CharTermAttribute.class);
     private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
     private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
     
@@ -59,19 +60,16 @@ public class JcsegTokenizer extends Tokenizer
     @Override
     final public boolean incrementToken() throws IOException 
     {
-        clearAttributes();
         IWord word = segmentor.next();
-        
         if ( word == null ) {
-            end();
             return false;
         }
         
-        //termAtt.append(word.getValue());
-        //termAtt.setLength(word.getLength());
+        //char[] token = word.getValue().toCharArray();
+        //termAtt.copyBuffer(token, 0, token.length);
         
-        char[] token = word.getValue().toCharArray();
-        termAtt.copyBuffer(token, 0, token.length);
+        termAtt.clear();
+        termAtt.append(word.getValue());
         offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
         typeAtt.setType("word");
         
@@ -83,5 +81,6 @@ public class JcsegTokenizer extends Tokenizer
     {
         super.reset();
         segmentor.reset(input);
+        clearAttributes();
     }
 }

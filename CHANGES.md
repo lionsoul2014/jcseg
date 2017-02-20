@@ -2,8 +2,9 @@
 
 ### jcseg-2.1.1: (future version)
 
-* 1. 复杂模式，复杂中文的二次切分
-* 2. 文本自动分类
+* 1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。
+* 2. 复杂模式，复杂中文的二次切分
+* 3. 文本自动分类
 
 ### jcseg-2.1.0: (current version RC version)
 
