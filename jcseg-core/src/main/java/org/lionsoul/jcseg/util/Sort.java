@@ -3,7 +3,7 @@ package org.lionsoul.jcseg.util;
 /**
  * All kind of Sort algorithm implemented method use the default compare method
  * 
- * @author chenxin <chenxin619315@gmail.com>
+ * @author chenxin<chenxin619315@gmail.com>
  */
 public class Sort
 {    

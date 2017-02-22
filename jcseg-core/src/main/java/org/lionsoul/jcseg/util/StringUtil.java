@@ -16,7 +16,11 @@ public class StringUtil
     public static final int EN_PUNCTUATION = 2;
     public static final int EN_WHITESPACE = 3;
     public static final int EN_UNKNOW = -1;
-    private static final String EN_KEEP_CHAR = "@/-_=?%&.'#+";
+    
+    /**
+     * keep punctuation for NLP segmentation currently 
+    */
+    private static final String EN_KEEP_CHAR = "@/-_=?%&.'#+:";
     
     /**
      * check the specified char is CJK, Thai... char

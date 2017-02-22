@@ -16,7 +16,7 @@ public class EntityFormat
      * @param   str
      * @return  boolean
     */
-    public static boolean isMailAddress(String str)
+    public final static boolean isMailAddress(String str)
     {
         int atIndex = str.indexOf('@');
         if ( atIndex == -1 ) {
@@ -55,7 +55,7 @@ public class EntityFormat
      * @param   dic optional dictionary object
      * @return  boolean
     */
-    public static boolean isUrlAddress(String str, ADictionary dic)
+    public final static boolean isUrlAddress(String str, ADictionary dic)
     {
         int prIndex = str.indexOf("://");
         if ( prIndex > -1 && ! StringUtil.isLatin(str, 0, prIndex) ) {
@@ -124,7 +124,7 @@ public class EntityFormat
      * @param   str
      * @return  boolean
     */
-    public static boolean isMobileNumber(String str)
+    public static final boolean isMobileNumber(String str)
     {
         if ( str.length() != 11 ) {
             return false;
@@ -148,7 +148,7 @@ public class EntityFormat
      * @param   str
      * @return  boolean
     */
-    public static boolean isIpAddress(String str)
+    public static final boolean isIpAddress(String str)
     {
         if ( str.length() < 7 && str.length() > 15 ) {
             return false;
@@ -183,6 +183,105 @@ public class EntityFormat
         }
         
         return true;
+    }
+    
+    /**
+     * check if the specified string is an valid Latin Date string
+     * like "2017/02/22", "2017-02-22" or "2017.02.22"
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static final String isDate(String str)
+    {
+        int length = str.length();
+        if ( length > 10 ) {
+            return null;
+        }
+        
+        int i;
+        char delimiter = '0';
+        for ( i = 0; i < length; i++ ) {
+            char chr = str.charAt(i);
+            int type = StringUtil.getEnCharType(chr);
+            if ( type != StringUtil.EN_NUMERIC ) {
+                if ( "/-.".indexOf(chr) > -1 ) {
+                    delimiter = chr;
+                    break;
+                }
+                return null;
+            }
+        }
+ 
+        if ( i > 4 ) {
+            return null;
+        }
+        
+        String y = null, m = null, d = null;
+        String[] parts = str.split(delimiter+"");
+        int pLen = parts.length;
+        if ( pLen < 2 || pLen > 3 ) {
+            return null;
+        }
+        
+        if ( pLen == 2 ) {
+            y = parts[0];
+            m = parts[1];
+            d = "01";
+        } else {
+            y = parts[0];
+            m = parts[1];
+            d = parts[2];
+        }
+        
+        //year format check
+        if ( y.length() != 4 || ! StringUtil.isDigit(y) || y.charAt(0) == 0 ) {
+            return null;
+        }
+        
+        //month format check
+        int len = m.length();
+        if ( len == 1 ) {
+            char chr = m.charAt(0);
+            if ( chr < '1' || chr > '9' ) {
+                return null;
+            }
+            m = "0"+chr;
+        } else if ( len == 2 ) {
+            char chr1 = m.charAt(0);
+            char chr2 = m.charAt(1);
+            if ( ! (chr1 == '0' || chr1 == '1') ) {
+                return null;
+            }
+            if ( chr2 < '1' || chr2 > '9' ) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        
+        //day format check
+        len = m.length();
+        if ( len == 1 ) {
+            char chr = d.charAt(0);
+            if ( chr < '1' || chr > '9' ) {
+                return null;
+            }
+            d = "0"+d;
+        } else if ( len == 2 ) {
+            char chr1 = d.charAt(0);
+            char chr2 = d.charAt(1);
+            if ( "012".indexOf(chr1) == -1 ) {
+                return null;
+            }
+            if ( chr2 < '1' && chr2 > '9' ) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        
+        return (y+"/"+m+"/"+d);
     }
     
 }

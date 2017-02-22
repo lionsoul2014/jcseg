@@ -17,7 +17,7 @@ public class Entity
     public static final String E_MOBILE_NUMBER = "mobile";
     
     public static final String E_NUMERIC = "numeric";                       //数字
-    public static final String E_NUMERIC_ARABIC = "numeric.interger";      //整数
+    public static final String E_NUMERIC_ARABIC = "numeric.integer";       //整数
     public static final String E_NUMERIC_DECIMAL = "numeric.decimal";      //小数
     public static final String E_NUMERIC_FRACTION = "numeric.fraction";    //分数
     public static final String E_NUMERIC_CN = "numeric.cn";                 //中文数字
@@ -63,22 +63,28 @@ public class Entity
     public static final String E_DISTANCE_NMI = "distance.nmi"; //海里
     public static final String E_DISTANCE_LY  = "distance.ly";  //光年
     
-    public static final String E_TIME = "time";              //时间
-    public static final String E_TIME_YEAR = "time.year";   //年
-    public static final String E_TIME_MON  = "time.month";  //月
-    public static final String E_TIME_WEEK = "time.week";   //周
-    public static final String E_TIME_D   = "time.day";     //天
-    public static final String E_TIME_H   = "time.hour";    //时
-    public static final String E_TIME_MIN = "time.min";     //分
+    
+    public static final String E_DATETIME = "datetime";         //date time
+    public static final String E_DATETIME_Y = "datetime.y";     //年
+    public static final String E_DATETIME_M = "datetime.m";     //月
+    public static final String E_DATETIME_D = "datetime.d";     //日
+    public static final String E_DATETIME_H = "datetime.h";     //小时
+    public static final String E_DATETIME_I = "datetime.i";     //分
+    public static final String E_DATETIME_S = "datetime.s";     //秒
+    public static final String E_DATETIME_DATE = "datetime.date"; //date
+    public static final String E_DATETIME_TIME = "datetime.time"; //time
+    
+    public static final String E_TIME = "time";             //时间
+    public static final String E_TIME_YEAR = "time.y";      //年
+    public static final String E_TIME_MON  = "time.m";      //月
+    public static final String E_TIME_WEEK = "time.w";      //周
+    public static final String E_TIME_D   = "time.d";       //天
+    public static final String E_TIME_H   = "time.h";       //时
+    public static final String E_TIME_MIN = "time.i";       //分
     public static final String E_TIME_S   = "time.s";       //秒
     public static final String E_TIME_MS  = "time.ms";      //毫秒
     public static final String E_TIME_US  = "time.us";      //微妙
     public static final String E_TIME_NS  = "time.ns";      //纳秒
-    
-    public static final String E_DATE = "date";         //日期
-    public static final String E_DATE_Y = "date.y";     //年
-    public static final String E_DATE_M = "date.m";     //月
-    public static final String E_DATE_D = "date.d";     //天
     
     //check the following link for more information
     //http://baike.baidu.com/link?url=CwmERmQUN2_pIaGDUv9eeHgQnh3Do5g4VN7jp9HHuJg2qx5XedVKKUVhHstNymJJWd4eNsjVTptJJdLpxvGNwa

@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.tokenizer;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.LinkedList;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.Entity;
@@ -10,6 +11,7 @@ import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.ByteCharCounter;
 import org.lionsoul.jcseg.util.EntityFormat;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.NumericUtil;
@@ -24,6 +26,12 @@ import org.lionsoul.jcseg.util.StringUtil;
 */
 public class NLPSeg extends ComplexSeg
 {
+    /**
+     * word pool for NLP complex entity recognition 
+    */
+    private final LinkedList<IWord> eWordPool = new LinkedList<IWord>();
+    private final IStringBuffer buffer = new IStringBuffer(64);
+    
     public NLPSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         super(input, config, dic);
@@ -42,6 +50,44 @@ public class NLPSeg extends ComplexSeg
     public NLPSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         this(null, config, dic);
+    }
+    
+    /**
+     * Override the next method to add the date-time entity recognition
+     * And we also invoke the parent.next method to get the next token
+     * 
+     * @see ASegment#next()
+     * @throws IOException 
+    */
+    public IWord next() throws IOException
+    {
+        if ( eWordPool.size() > 0 ) {
+            return eWordPool.removeFirst();
+        }
+        
+        IWord word = super.next();
+        if ( word == null ) {
+            return null;
+        }
+        
+        String entity = word.getEntity();
+        if ( entity == null ) {
+            return word;
+        }
+        
+        if ( entity.startsWith("numeric.integer#time") ) {
+            String tEntity = null;
+            buffer.clear().append(word.getValue());
+            while ( (word = super.next()) != null ) {
+                tEntity = word.getEntity();
+                if ( tEntity == null ) {
+                    eWordPool.push(word);
+                    break;
+                }
+            }
+        }
+        
+        return word;
     }
     
     /**
@@ -265,7 +311,7 @@ public class NLPSeg extends ComplexSeg
         isb.append((char)c);
         
         boolean _check = false, _wspace = false;
-        int atcount = 0, ptcount = 0;
+        ByteCharCounter counter = new ByteCharCounter();
         int ch, _ctype = 0, tcount = 1;             //number of different char type.
         int _TYPE  = StringUtil.getEnCharType(c);   //current char type.
         
@@ -279,27 +325,11 @@ public class NLPSeg extends ComplexSeg
             }
             
             if ( _ctype == StringUtil.EN_PUNCTUATION ) {
-                if ( ch == '@' ) {
-                    atcount++;
-                } else if ( ch == '.' ) {
-                    ptcount++;
-                } else if ( ch == ':' ) {
-                    int nchr1 = readNext(), nchr2 = readNext();
-                    if ( nchr1 == '/' && nchr2 == '/' ) {
-                        isb.append((char)ch)
-                            .append((char)nchr1)
-                                .append((char)nchr2);
-                        ch = -1;
-                    } else {
-                        pushBack(nchr2);
-                        pushBack(nchr1);
-                        pushBack(ch);
-                        break;
-                    }
-                } else if ( ! StringUtil.isENKeepPunctuaton((char)ch) ) {
+                if ( ! StringUtil.isENKeepPunctuaton((char)ch) ) {
                     pushBack(ch);
                     break;
                 }
+                counter.increase((char)ch);
             }
             
             //Not EN_KNOW, and it could be letter, numeric.
@@ -355,11 +385,15 @@ public class NLPSeg extends ComplexSeg
         
         IWord wd   = null;
         String str = isb.toString();
+        String date = null;
         
         /*
          * special entity word check like email, URL, ip address
         */
-        if ( atcount == 1 && EntityFormat.isMailAddress(str) ) {
+        int colonNum = counter.get(':');
+        int pointNum = counter.get('.');
+        if ( counter.get('@') == 1 && pointNum > 0
+                && EntityFormat.isMailAddress(str) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_EMAIL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
@@ -373,8 +407,18 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_IP);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        } else if ( ptcount > 0 && EntityFormat.isUrlAddress(str, dic) ) {
+        } else if ( pointNum > 0 && colonNum == 1 
+                && EntityFormat.isUrlAddress(str, dic) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        } else if ( counter.get('-') == 2 || counter.get('/') == 2 
+                && (date = EntityFormat.isDate(str)) != null ) {
+            /*
+             * the StringUtil.isDate method will regroup the date string
+            */
+            str = null;
+            wd = new Word(date, IWord.T_BASIC_LATIN, Entity.E_DATETIME_DATE);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
         }

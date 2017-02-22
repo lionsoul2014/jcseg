@@ -25,7 +25,7 @@ public class Util
     }
     
     /**
-     * print the specifield matrix
+     * print the specified matrix
      * 
      * @param    double[][]
     */

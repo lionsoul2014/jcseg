@@ -25,20 +25,20 @@ CJK_UNIT
 海里/distance.nmi
 公里/distance.km
 光年/distance.ly
-##时间##
-年/time.year
-月/time.month
-周/time.week
+##时间 date('Y-m-d H:i:s')##
+年/time.y
+月/time.m
+周/time.w
 天/time.d
 日/time.d
 时/time.h
-分/time.min
+分/time.i
 秒/time.s
 毫秒/time.ms
 微秒/time.um
 纳秒/time.ns
 小时/time.h
-分钟/time.min
+分钟/time.m
 ##货币##
 元/currency.cny
 人民币/currency.cny
