@@ -76,18 +76,73 @@ public class NLPSeg extends ComplexSeg
         }
         
         if ( entity.startsWith("numeric.integer#time") ) {
-            String tEntity = null;
-            buffer.clear().append(word.getValue());
-            while ( (word = super.next()) != null ) {
-                tEntity = word.getEntity();
-                if ( tEntity == null ) {
-                    eWordPool.push(word);
-                    break;
-                }
+            /*IWord dWord = getNextTimeMergedWord(word);
+            if ( dWord != null ) {
+                return dWord;
+            }*/
+        }
+        
+        if ( entity.equals("datetime.ymd") ) {
+            IWord dWord = getNextDatetimeWord(word);
+            if ( dWord != null ) {
+                return dWord;
             }
         }
         
         return word;
+    }
+    
+    /**
+     * get and return the next date-time word 
+     * 
+     * @param   word
+     * @return  IWord
+     * @throws  IOException 
+    */
+    protected IWord getNextDatetimeWord(IWord word) throws IOException
+    {
+        IWord dWord = super.next();
+        if ( dWord == null ) {
+            return null;
+        }
+        
+        String entity = dWord.getEntity();
+        if ( entity == null || ! entity.startsWith("datetime.h") ) {
+            eWordPool.add(dWord);
+            return null;
+        }
+        
+        buffer.clear().append(word.getValue()).append(' ').append(dWord.getValue());
+        dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
+        dWord.setPartSpeech(word.getPartSpeech());
+        
+        //re-define the entity
+        buffer.clear().append(word.getEntity()).append(entity.substring(9));
+        dWord.setEntity(buffer.toString());
+        
+        return dWord;
+    }
+    
+    /**
+     * get and return the next time merged date-time word
+     * 
+     * @param   word
+     * @return  IWord
+     * @throws  IOException 
+    */
+    protected IWord getNextTimeMergedWord(IWord word) throws IOException
+    {
+        String tEntity = null;
+        buffer.clear().append(word.getValue());
+        while ( (word = super.next()) != null ) {
+            tEntity = word.getEntity();
+            if ( tEntity == null ) {
+                eWordPool.push(word);
+                break;
+            }
+        }
+        
+        return null;
     }
     
     /**
