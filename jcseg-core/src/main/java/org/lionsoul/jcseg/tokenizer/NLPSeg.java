@@ -402,7 +402,8 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_MOBILE_NUMBER);
             wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
             return wd;
-        } else if ( tcount == 7 && StringUtil.isEnNumeric(isb.first()) 
+        } else if ( tcount == 7 && pointNum == 3
+                && StringUtil.isEnNumeric(isb.first()) 
                 && EntityFormat.isIpAddress(str) ) {
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_IP);
             wd.setPartSpeech(IWord.EN_POSPEECH);
@@ -412,13 +413,23 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_URL);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
-        } else if ( counter.get('-') == 2 || counter.get('/') == 2 
-                && (date = EntityFormat.isDate(str)) != null ) {
-            /*
-             * the StringUtil.isDate method will regroup the date string
-            */
-            str = null;
-            wd = new Word(date, IWord.T_BASIC_LATIN, Entity.E_DATETIME_DATE);
+        } else if ( pointNum == 2 
+                && (date = EntityFormat.isDate(str, '.')) != null ) {
+            wd = new Word(date, IWord.T_BASIC_LATIN, Entity.E_DATETIME_YMD);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        } else if ( counter.get('-') >= 1 
+                && (date = EntityFormat.isDate(str, '-')) != null ) {
+            String entity = counter.get('-') == 1 
+                    ? Entity.E_DATETIME_YM : Entity.E_DATETIME_YMD;
+            wd = new Word(date, IWord.T_BASIC_LATIN, entity);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
+        } else if ( counter.get('/') >= 1 
+                && (date = EntityFormat.isDate(str, '/')) != null ) {
+            String entity = counter.get('/') == 1 
+                    ? Entity.E_DATETIME_YM : Entity.E_DATETIME_YMD;
+            wd = new Word(date, IWord.T_BASIC_LATIN, entity);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
         }

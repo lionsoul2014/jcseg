@@ -71,8 +71,11 @@ public class Entity
     public static final String E_DATETIME_H = "datetime.h";     //小时
     public static final String E_DATETIME_I = "datetime.i";     //分
     public static final String E_DATETIME_S = "datetime.s";     //秒
-    public static final String E_DATETIME_DATE = "datetime.date"; //date
-    public static final String E_DATETIME_TIME = "datetime.time"; //time
+    public static final String E_DATETIME_YM = "datetime.ym";   //year-month
+    public static final String E_DATETIME_YMD = "datetime.ymd"; //date
+    public static final String E_DATETIME_HI = "datetime.hi";   //hour-minute
+    public static final String E_DATETIME_HIS = "datetime.his"; //time
+    public static final String E_DATETIME_YMDHIS = "datetime.ymdhis";//full style
     
     public static final String E_TIME = "time";             //时间
     public static final String E_TIME_YEAR = "time.y";      //年

@@ -154,8 +154,9 @@ public class EntityFormat
             return false;
         }
         
-        int sIdx = 0, eIdx, diff;
+        int sIdx = 0, eIdx, diff, pcount = 0;
         while ( (eIdx = str.indexOf('.', sIdx)) > -1 ) {
+            pcount++;
             diff = eIdx - sIdx;
             switch ( diff ) {
             case 0:
@@ -182,7 +183,7 @@ public class EntityFormat
             sIdx = eIdx + 1;
         }
         
-        return true;
+        return pcount == 3;
     }
     
     /**
@@ -192,50 +193,45 @@ public class EntityFormat
      * @param   str
      * @return  boolean
     */
-    public static final String isDate(String str)
+    public static final String isDate(String str, char delimiter)
     {
         int length = str.length();
         if ( length > 10 ) {
             return null;
         }
         
-        int i;
-        char delimiter = '0';
-        for ( i = 0; i < length; i++ ) {
-            char chr = str.charAt(i);
-            int type = StringUtil.getEnCharType(chr);
-            if ( type != StringUtil.EN_NUMERIC ) {
-                if ( "/-.".indexOf(chr) > -1 ) {
-                    delimiter = chr;
-                    break;
-                }
+        int sIdx = 0, eIdx = 0, idx = 0;
+        String[] parts = new String[]{null,null,null};
+        while ( (eIdx = str.indexOf(delimiter, sIdx)) > -1 ) {
+            parts[idx++] = str.substring(sIdx, eIdx);
+            sIdx = eIdx + 1;
+            if ( idx > 2 ) {
                 return null;
             }
         }
- 
-        if ( i > 4 ) {
+        
+        if ( sIdx < str.length() ) {
+            parts[idx++] = str.substring(sIdx);
+        }
+        
+        if ( idx < 2 || idx > 3 ) {
             return null;
         }
         
-        String y = null, m = null, d = null;
-        String[] parts = str.split(delimiter+"");
-        int pLen = parts.length;
-        if ( pLen < 2 || pLen > 3 ) {
-            return null;
-        }
-        
-        if ( pLen == 2 ) {
+        String y = parts[0], m = null, d = null;
+        if ( idx == 2 ) {
             y = parts[0];
             m = parts[1];
-            d = "01";
         } else {
             y = parts[0];
             m = parts[1];
             d = parts[2];
         }
         
+        //System.out.println(y+","+m+","+d);
         //year format check
-        if ( y.length() != 4 || ! StringUtil.isDigit(y) || y.charAt(0) == 0 ) {
+        if ( y.length() != 4 || ! StringUtil.isDigit(y) 
+                || y.charAt(0) == '0' ) {
             return null;
         }
         
@@ -246,14 +242,17 @@ public class EntityFormat
             if ( chr < '1' || chr > '9' ) {
                 return null;
             }
-            m = "0"+chr;
         } else if ( len == 2 ) {
             char chr1 = m.charAt(0);
             char chr2 = m.charAt(1);
             if ( ! (chr1 == '0' || chr1 == '1') ) {
                 return null;
             }
-            if ( chr2 < '1' || chr2 > '9' ) {
+            if ( chr1 == '0' ) {
+                if ( chr2 < '1' || chr2 > '9' ) {
+                    return null;
+                }
+            } else if ( chr2 < '0' || chr2 > '2' ) {
                 return null;
             }
         } else {
@@ -261,27 +260,36 @@ public class EntityFormat
         }
         
         //day format check
-        len = m.length();
-        if ( len == 1 ) {
-            char chr = d.charAt(0);
-            if ( chr < '1' || chr > '9' ) {
+        if ( idx == 3 ) {
+            len = d.length();
+            if ( len == 1 ) {
+                char chr = d.charAt(0);
+                if ( chr < '1' || chr > '9' ) {
+                    return null;
+                }
+            } else if ( len == 2 ) {
+                char chr1 = d.charAt(0);
+                char chr2 = d.charAt(1);
+                if ( "0123".indexOf(chr1) == -1 ) {
+                    return null;
+                }
+                if ( chr1 < '3' ) {
+                    if ( chr2 < '1' && chr2 > '9' ) {
+                        return null;
+                    }
+                } else if ( chr2 < '0' || chr2 > '1' ) {
+                    return null;
+                }
+            } else {
                 return null;
             }
-            d = "0"+d;
-        } else if ( len == 2 ) {
-            char chr1 = d.charAt(0);
-            char chr2 = d.charAt(1);
-            if ( "012".indexOf(chr1) == -1 ) {
-                return null;
-            }
-            if ( chr2 < '1' && chr2 > '9' ) {
-                return null;
-            }
-        } else {
-            return null;
         }
         
-        return (y+"/"+m+"/"+d);
+        if ( delimiter == '.' ) {
+            return idx == 2 ? (y+"-"+m) : (y+"-"+m+"-"+d);
+        }
+        
+        return str;
     }
     
 }
