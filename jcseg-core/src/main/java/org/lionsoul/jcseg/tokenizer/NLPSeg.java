@@ -432,6 +432,13 @@ public class NLPSeg extends ComplexSeg
             wd = new Word(date, IWord.T_BASIC_LATIN, entity);
             wd.setPartSpeech(IWord.EN_POSPEECH);
             return wd;
+        } else if ( (tcount == 3 || tcount == 5) 
+                && colonNum >= 1 && EntityFormat.isTime(str) ) {
+            String entity = colonNum == 1
+                    ? Entity.E_DATETIME_HI : Entity.E_DATETIME_HIS;
+            wd = new Word(str, IWord.T_BASIC_LATIN, entity);
+            wd.setPartSpeech(IWord.EN_POSPEECH);
+            return wd;
         }
         
         /* 

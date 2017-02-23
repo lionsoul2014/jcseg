@@ -210,7 +210,7 @@ public class EntityFormat
             }
         }
         
-        if ( sIdx < str.length() ) {
+        if ( sIdx < length ) {
             parts[idx++] = str.substring(sIdx);
         }
         
@@ -218,7 +218,7 @@ public class EntityFormat
             return null;
         }
         
-        String y = parts[0], m = null, d = null;
+        String y, m, d = null;
         if ( idx == 2 ) {
             y = parts[0];
             m = parts[1];
@@ -237,6 +237,10 @@ public class EntityFormat
         
         //month format check
         int len = m.length();
+        if ( len < 1 || len > 2 ) {
+            return null;
+        }
+        
         if ( len == 1 ) {
             char chr = m.charAt(0);
             if ( chr < '1' || chr > '9' ) {
@@ -255,13 +259,15 @@ public class EntityFormat
             } else if ( chr2 < '0' || chr2 > '2' ) {
                 return null;
             }
-        } else {
-            return null;
         }
         
         //day format check
         if ( idx == 3 ) {
             len = d.length();
+            if ( len < 1 || len > 2 ) {
+                return null;
+            }
+            
             if ( len == 1 ) {
                 char chr = d.charAt(0);
                 if ( chr < '1' || chr > '9' ) {
@@ -280,8 +286,6 @@ public class EntityFormat
                 } else if ( chr2 < '0' || chr2 > '1' ) {
                     return null;
                 }
-            } else {
-                return null;
             }
         }
         
@@ -292,4 +296,123 @@ public class EntityFormat
         return str;
     }
     
+    /**
+     * check if the specified string is a valid time string
+     * like '12:45', '12:45:12'
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static final boolean isTime(String str)
+    {
+        int length = str.length();
+        if ( length > 8 ) {
+            return false;
+        }
+        
+        int sIdx = 0, eIdx = 0, idx = 0;
+        String[] parts = new String[]{null,null,null};
+        while ( (eIdx = str.indexOf(':', sIdx)) > -1 ) {
+            parts[idx++] = str.substring(sIdx, eIdx);
+            sIdx = eIdx + 1;
+            if ( idx > 2 ) {
+                return false;
+            }
+        }
+        
+        if ( sIdx < length ) {
+            parts[idx++] = str.substring(sIdx);
+        }
+        
+        if ( idx < 2 || idx > 3 ) {
+            return false;
+        }
+        
+        String h,i,s = null;
+        if ( idx == 2 ) {
+            h = parts[0];
+            i = parts[1];
+        } else {
+            h = parts[0];
+            i = parts[1];
+            s = parts[2];
+        }
+        
+        //hour format check
+        int len = h.length();
+        if ( len < 1 || len > 2 ) {
+            return false;
+        }
+        
+        if ( len == 1 ) {
+            char chr = h.charAt(0);
+            if ( chr < '0' || chr > '9' ) {
+                return false;
+            }
+        } else if ( len == 2 ) {
+            char chr1 = h.charAt(0);
+            char chr2 = h.charAt(1);
+            if ( chr1 == '0' || chr1 == '1' ) {
+                if ( chr2 < '0' || chr2 > '9' ) {
+                    return false;
+                }
+            } else if ( chr1 == '2' ) {
+                if ( chr2 < '0' || chr2 > '4' ) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        
+        //minute format check
+        len = i.length();
+        if ( len < 1 || len > 2 ) {
+            return false;
+        }
+        
+        if ( len == 1 ) {
+            char chr = i.charAt(0);
+            if ( chr < '0' || chr > '9' ) {
+                return false;
+            }
+        } else if ( len == 2 ) {
+            char chr1 = i.charAt(0);
+            char chr2 = i.charAt(1);
+            if ( chr1 >= '0' && chr1 <= '5' ) {
+                if ( chr2 < '0' || chr2 > '9' ) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        
+        //second format check
+        if ( idx == 3 ) {
+            len = s.length();
+            if ( len < 1 || len > 2 ) {
+                return false;
+            }
+            
+            if ( len == 1 ) {
+                char chr = s.charAt(0);
+                if ( chr < '0' || chr > '9' ) {
+                    return false;
+                }
+            } else if ( len == 2 ) {
+                char chr1 = s.charAt(0);
+                char chr2 = s.charAt(1);
+                if ( chr1 >= '0' && chr1 <= '5' ) {
+                    if ( chr2 < '0' || chr2 > '9' ) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
 }
