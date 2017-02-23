@@ -153,8 +153,8 @@ public class JcsegTest
         System.out.println("分词结果：");
         System.out.println(sb.toString());
         System.out.format("Done, total:"
-                + tokenizerSeg.getStreamPosition()+", split:" +
-                + counter + ", cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
+                + tokenizerSeg.getStreamPosition()+", tokens:" +
+                + counter + ", in %.5fsec\n", ((float)e - _start)/1E9);
     }
     
     public void resetMode( int mode ) throws JcsegException
@@ -179,7 +179,7 @@ public class JcsegTest
         long e = System.nanoTime();
         System.out.println("Top10关键词：");
         System.out.println(keywords);
-        System.out.format("Done, cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
+        System.out.format("Done in %.5fsec\n", ((float)e - _start)/1E9);
     }
     
     /**
@@ -195,7 +195,7 @@ public class JcsegTest
         long e = System.nanoTime();
         System.out.println("Top10关键短语：");
         System.out.println(keyphrase);
-        System.out.format("Done, cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
+        System.out.format("Done in %.5fsec\n", ((float)e - _start)/1E9);
     }
     
     /**
@@ -217,7 +217,7 @@ public class JcsegTest
             System.out.println(count + ": " + sen);
             count++;
         }
-        System.out.format("Done, cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
+        System.out.format("Done in %.5fsec\n", ((float)e - _start)/1E9);
     }
     
     /**
@@ -233,7 +233,7 @@ public class JcsegTest
         long e = System.nanoTime();
         System.out.println("摘要结果：");
         System.out.println(summary);
-        System.out.format("Done, cost: %.5fsec(less than)\n", ((float)e - _start)/1E9);
+        System.out.format("Done in %.5fsec\n", ((float)e - _start)/1E9);
     }
 
     /**
