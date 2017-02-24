@@ -16,6 +16,7 @@ import org.lionsoul.jcseg.util.EntityFormat;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
+import org.lionsoul.jcseg.util.TimeUtil;
 
 /**
  * NLP segmentation implementation
@@ -75,11 +76,12 @@ public class NLPSeg extends ComplexSeg
             return word;
         }
         
-        if ( entity.startsWith("numeric.integer#time") ) {
-            /*IWord dWord = getNextTimeMergedWord(word);
+        if ( entity.startsWith("time.") 
+                || entity.startsWith("numeric.integer#time.") ) {
+            IWord dWord = getNextTimeMergedWord(word);
             if ( dWord != null ) {
                 return dWord;
-            }*/
+            }
         }
         
         if ( entity.equals("datetime.ymd") ) {
@@ -90,6 +92,70 @@ public class NLPSeg extends ComplexSeg
         }
         
         return word;
+    }
+    
+    /**
+     * get and return the next time merged date-time word
+     * 
+     * @param   word
+     * @return  IWord
+     * @throws  IOException 
+    */
+    protected IWord getNextTimeMergedWord(IWord word) throws IOException
+    {
+        int pIdx = TimeUtil.getDateTimeIndex(word.getEntity());
+        if ( pIdx == TimeUtil.DATETIME_NONE ) {
+            return null;
+        }
+        
+        IWord[] wMask = TimeUtil.createDateTimePool();
+        TimeUtil.fillDateTimePool(wMask, pIdx, word);
+        
+        IWord dWord = null;
+        int mergedNum = 0;
+        while ( (dWord = super.next()) != null ) {
+            String entity = dWord.getEntity();
+            if ( entity == null ) {
+                eWordPool.push(dWord);
+                break;
+            }
+            
+            if ( ! ( entity.startsWith("time.") 
+                    || entity.startsWith("numeric.integer#time.") ) ) {
+                break;
+            }
+            
+            if ( TimeUtil.DATETIME_NONE == 
+                    TimeUtil.fillDateTimePool(wMask, dWord) ) {
+                break;
+            }
+            
+            mergedNum++;
+        }
+        
+        if ( mergedNum == 0 ) {
+            return null;
+        }
+        
+        buffer.clear();
+        for ( IWord w : wMask ) {
+            if ( w == null ) continue;
+            buffer.append(w.getValue());
+        }
+        
+        dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
+        dWord.setPartSpeech(IWord.TIME_POSPEECH);
+        
+        //check and define the entity
+        buffer.clear().append("datetime.");
+        for ( int i = 0; i < wMask.length; i += 2 ) {
+            if ( wMask[i] == null ) continue;
+            buffer.append(TimeUtil.getTimeKey(i));
+        }
+        
+        dWord.setEntity(buffer.toString());
+        
+        return dWord;
     }
     
     /**
@@ -114,35 +180,13 @@ public class NLPSeg extends ComplexSeg
         
         buffer.clear().append(word.getValue()).append(' ').append(dWord.getValue());
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
-        dWord.setPartSpeech(word.getPartSpeech());
+        dWord.setPartSpeech(IWord.TIME_POSPEECH);
         
         //re-define the entity
         buffer.clear().append(word.getEntity()).append(entity.substring(9));
         dWord.setEntity(buffer.toString());
         
         return dWord;
-    }
-    
-    /**
-     * get and return the next time merged date-time word
-     * 
-     * @param   word
-     * @return  IWord
-     * @throws  IOException 
-    */
-    protected IWord getNextTimeMergedWord(IWord word) throws IOException
-    {
-        String tEntity = null;
-        buffer.clear().append(word.getValue());
-        while ( (word = super.next()) != null ) {
-            tEntity = word.getEntity();
-            if ( tEntity == null ) {
-                eWordPool.push(word);
-                break;
-            }
-        }
-        
-        return null;
     }
     
     /**
@@ -471,28 +515,28 @@ public class NLPSeg extends ComplexSeg
         } else if ( pointNum == 2 
                 && (date = EntityFormat.isDate(str, '.')) != null ) {
             wd = new Word(date, IWord.T_BASIC_LATIN, Entity.E_DATETIME_YMD);
-            wd.setPartSpeech(IWord.EN_POSPEECH);
+            wd.setPartSpeech(IWord.TIME_POSPEECH);
             return wd;
         } else if ( counter.get('-') >= 1 
                 && (date = EntityFormat.isDate(str, '-')) != null ) {
             String entity = counter.get('-') == 1 
                     ? Entity.E_DATETIME_YM : Entity.E_DATETIME_YMD;
             wd = new Word(date, IWord.T_BASIC_LATIN, entity);
-            wd.setPartSpeech(IWord.EN_POSPEECH);
+            wd.setPartSpeech(IWord.TIME_POSPEECH);
             return wd;
         } else if ( counter.get('/') >= 1 
                 && (date = EntityFormat.isDate(str, '/')) != null ) {
             String entity = counter.get('/') == 1 
                     ? Entity.E_DATETIME_YM : Entity.E_DATETIME_YMD;
             wd = new Word(date, IWord.T_BASIC_LATIN, entity);
-            wd.setPartSpeech(IWord.EN_POSPEECH);
+            wd.setPartSpeech(IWord.TIME_POSPEECH);
             return wd;
         } else if ( (tcount == 3 || tcount == 5) 
                 && colonNum >= 1 && EntityFormat.isTime(str) ) {
             String entity = colonNum == 1
                     ? Entity.E_DATETIME_HI : Entity.E_DATETIME_HIS;
             wd = new Word(str, IWord.T_BASIC_LATIN, entity);
-            wd.setPartSpeech(IWord.EN_POSPEECH);
+            wd.setPartSpeech(IWord.TIME_POSPEECH);
             return wd;
         }
         

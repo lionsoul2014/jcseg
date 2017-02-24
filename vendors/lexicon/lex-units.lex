@@ -25,7 +25,7 @@ CJK_UNIT
 海里/distance.nmi
 公里/distance.km
 光年/distance.ly
-##时间 date('Y-m-d H:i:s')##
+##时间
 年/time.y
 月/time.m
 周/time.w

@@ -9,6 +9,7 @@ public interface IWord extends Cloneable
 {    
     public static final String[] NAME_POSPEECH = {"nr"};
     public static final String[] NUMERIC_POSPEECH = {"m"};
+    public static final String[] TIME_POSPEECH = {"t"};
     public static final String[] EN_POSPEECH  = {"en"};
     public static final String[] MIX_POSPEECH = {"mix"};
     public static final String[] PPT_POSPEECH = {"nz"};
