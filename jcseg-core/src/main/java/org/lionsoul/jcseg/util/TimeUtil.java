@@ -19,7 +19,7 @@ public class TimeUtil
      * +------+-------+-----+---------------+------+--------+--------+
      * and the numeric value before every part.
      * 
-     * Note:
+     * Note: {@link NLPSeg}'s date-time recognition base on this logic
      * 1, the odd index is the entity part
      * 2, the even index is the numeric value part
     */
@@ -30,8 +30,8 @@ public class TimeUtil
     public static final int DATETIME_M = 3;
     public static final int DATETIME_DV = 4;
     public static final int DATETIME_D = 5;
-    public static final int DATETIME_TMV = 6;
-    public static final int DATETIME_TM = 7;
+    public static final int DATETIME_AV = 6;
+    public static final int DATETIME_A = 7;
     public static final int DATETIME_HV = 8;
     public static final int DATETIME_H = 9;
     public static final int DATETIME_IV = 10;
@@ -41,7 +41,7 @@ public class TimeUtil
     
     private static final String[] KeyMap = {
         "y", "y", "m", "m", "d", "d", 
-        "tm",
+        "tm", "tm",
         "h", "h", "i", "i", "s", "s"
     };
     
@@ -75,21 +75,21 @@ public class TimeUtil
         }
         
         if ( aIdx == -1 ) { //time unit word value
-            if ( attr.equals("y") ) return DATETIME_Y;
-            if ( attr.equals("m") ) return DATETIME_M;
-            if ( attr.equals("d") ) return DATETIME_D;
-            if ( attr.equals("tm")) return DATETIME_TM;
-            if ( attr.equals("h") ) return DATETIME_H;
-            if ( attr.equals("i") ) return DATETIME_I;
-            if ( attr.equals("s") ) return DATETIME_S;
+            if ( attr.startsWith("y") ) return DATETIME_Y;
+            if ( attr.startsWith("m") ) return DATETIME_M;
+            if ( attr.startsWith("d") ) return DATETIME_D;
+            if ( attr.startsWith("a") ) return DATETIME_A;
+            if ( attr.startsWith("h") ) return DATETIME_H;
+            if ( attr.startsWith("i") ) return DATETIME_I;
+            if ( attr.startsWith("s") ) return DATETIME_S;
         }
         
-        if ( attr.equals("y") ) return DATETIME_YV;
-        if ( attr.equals("m") ) return DATETIME_MV;
-        if ( attr.equals("d") ) return DATETIME_DV;
-        if ( attr.equals("h") ) return DATETIME_HV;
-        if ( attr.equals("i") ) return DATETIME_IV;
-        if ( attr.equals("s") ) return DATETIME_SV;
+        if ( attr.startsWith("y") ) return DATETIME_YV;
+        if ( attr.startsWith("m") ) return DATETIME_MV;
+        if ( attr.startsWith("d") ) return DATETIME_DV;
+        if ( attr.startsWith("h") ) return DATETIME_HV;
+        if ( attr.startsWith("i") ) return DATETIME_IV;
+        if ( attr.startsWith("s") ) return DATETIME_SV;
           
         return DATETIME_NONE;
     }
@@ -170,7 +170,7 @@ public class TimeUtil
             sIdx = entity.indexOf('.');
         }
         
-        return entity.substring(sIdx);
+        return entity.substring(sIdx + 1);
     }
     
     public static final String getTimeKey(IWord word)

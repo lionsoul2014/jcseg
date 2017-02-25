@@ -68,14 +68,19 @@ public class Entity
     public static final String E_DATETIME_Y = "datetime.y";     //年
     public static final String E_DATETIME_M = "datetime.m";     //月
     public static final String E_DATETIME_D = "datetime.d";     //日
+    public static final String E_DATETIME_A = "datetime.a";     //时断：上午，下午
     public static final String E_DATETIME_H = "datetime.h";     //小时
     public static final String E_DATETIME_I = "datetime.i";     //分
     public static final String E_DATETIME_S = "datetime.s";     //秒
     public static final String E_DATETIME_YM = "datetime.ym";   //year-month
     public static final String E_DATETIME_YMD = "datetime.ymd"; //date
+    public static final String E_DATETIME_AH = "datetime.ah";
+    public static final String E_DATETIME_AHI = "datetime.ahi";
+    public static final String E_DATETIME_AHIS = "datetime.ahis";
     public static final String E_DATETIME_HI = "datetime.hi";   //hour-minute
     public static final String E_DATETIME_HIS = "datetime.his"; //time
-    public static final String E_DATETIME_YMDHIS = "datetime.ymdhis";//full style
+    public static final String E_DATETIME_YMDHIS = "datetime.ymdhis";//std style
+    public static final String E_DATETIME_YMDZHIS = "datetime.ymdahis";
     
     public static final String E_TIME = "time";             //时间
     public static final String E_TIME_YEAR = "time.y";      //年

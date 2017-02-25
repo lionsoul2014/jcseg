@@ -122,6 +122,7 @@ public class NLPSeg extends ComplexSeg
             
             if ( ! ( entity.startsWith("time.") 
                     || entity.startsWith("numeric.integer#time.") ) ) {
+                eWordPool.add(dWord);
                 break;
             }
             
@@ -138,9 +139,13 @@ public class NLPSeg extends ComplexSeg
         }
         
         buffer.clear();
-        for ( IWord w : wMask ) {
-            if ( w == null ) continue;
-            buffer.append(w.getValue());
+        for ( int i = 0; i < wMask.length; i++ ) {
+            if ( wMask[i] == null ) continue;
+            if ( buffer.length() > 0 
+                    && ((i & 0x01) == 0 || i == TimeUtil.DATETIME_A) ) {
+                buffer.append(' ');
+            }
+            buffer.append(wMask[i].getValue());
         }
         
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
@@ -148,9 +153,9 @@ public class NLPSeg extends ComplexSeg
         
         //check and define the entity
         buffer.clear().append("datetime.");
-        for ( int i = 0; i < wMask.length; i += 2 ) {
+        for ( int i = 1; i < wMask.length; i += 2 ) {
             if ( wMask[i] == null ) continue;
-            buffer.append(TimeUtil.getTimeKey(i));
+            buffer.append(TimeUtil.getTimeKey(wMask[i]));
         }
         
         dWord.setEntity(buffer.toString());
