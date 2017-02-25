@@ -32,6 +32,11 @@ CJK_UNIT
 天/time.d
 日/time.d
 时/time.h
+时半/time.hi
+时一刻/time.hi
+点/time.h
+点半/time.hi
+点一刻/time.hi
 分/time.i
 秒/time.s
 毫秒/time.ms
