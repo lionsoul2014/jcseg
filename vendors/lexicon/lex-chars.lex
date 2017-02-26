@@ -5628,7 +5628,7 @@ CJK_CHAR
 淋/v/lin/null/3413
 纹/n/wen/null/3656
 缛/n/ru/null/14
-家/nt,j,r,m,q,k,n/jia/null/6058
+家/nt,j,r,m,q,k,n/jia/null/99058
 浪/n/lang/null/34731
 淌/v/tang/null/907
 纺/j,n,v/fang/null/646
@@ -6488,7 +6488,7 @@ CJK_CHAR
 酐/null/gan/null/13
 耀/v/yao/null/396
 郯/null/tan/null/13
-老/f,nhf,k,v,j,d,n,h,a/lao/null/198538
+老/f,nhf,k,v,j,d,n,h,a/lao/null/98538
 郰/null/zou/null/6
 酒/v,n/jiu/null/30999
 郱/null/%/null/23

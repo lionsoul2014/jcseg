@@ -57,7 +57,6 @@ public class TimeUtil
             return -1;
         }
         
-        
         int sIdx, aIdx = entity.indexOf('#');
         if ( aIdx > -1 ) {
             sIdx = entity.indexOf('.', aIdx + 1);
