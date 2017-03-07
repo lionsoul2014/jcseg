@@ -10,7 +10,7 @@
 * 2. 修复Word#toString中json字符串的特殊字符转义bug，增加"和\的预处理。 reported by https://github.com/luohuan02
 * 3. 修复《》之间五内容切出空字符串的bug。 reported by http://git.oschina.net/fige
 * 4. NLP切分模式增加标准的datetime实体识别。例如：2017/03/07，2017-03-07。
-* 5. NLP切分模式增加中文通用datetime实体识别。例如：2017年3月7日，明天下午4点半，下周二上午８点４５分等。
+* 5. NLP切分模式增加中文通用datetime实体识别。例如：2017年3月7日，明天下午4点半，下周二上午８点４５分等，明天凌晨2点一刻。
 
 datetime实体识别测试demo（不同datetime部分使用空格分开，方便二次分词处理）：
 
@@ -35,7 +35,10 @@ jcseg~tokenzier:NLP>> 2017年03月08日下午15点半去见一个投资人
 分词结果：
 2017年 03月 08日 下午 15点半/t/datetime.ymdahi 去/q/null 见/n/null 一个/q/null 投资人/n/null
 Done, total:24, tokens:5, in 0.00000sec
-jcseg~tokenzier:NLP>> 
+jcseg~tokenzier:NLP>> 明天凌晨2点一刻产品升级开始
+分词结果：
+明天 凌晨 2点一刻/t/datetime.dahi 产品/n/null 升级/vn/null 开始/n/null
+Done, total:14, tokens:4, in 0.00000sec
 ```
 
 ### jcseg-2.1.0: 
