@@ -333,9 +333,22 @@ public class Word implements IWord,Cloneable
      */
     public String toString() 
     {
+            
         StringBuilder sb = new StringBuilder();
         sb.append('{');
-        sb.append("\"word\":\"").append(value).append('"');
+        
+        /*
+         * @Note: Check and pre-process the word value
+         * for if there is char "\"" or "\\" inside 
+         * the Json Anti-analysis will be end with parse error ...
+         */
+        if ( value.length() == 1 
+                && (value.charAt(0) == '"' || value.charAt(0) == '\\') ) {
+            sb.append("\"word\":\"\\").append(value).append('"');
+        } else {
+            sb.append("\"word\":\"").append(value).append('"');
+        }
+        
         sb.append(",\"position\":").append(position);
         sb.append(",\"length\":").append(getLength());
         
