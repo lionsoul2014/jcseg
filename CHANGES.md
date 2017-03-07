@@ -9,6 +9,34 @@
 * 1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。
 * 2. 修复Word#toString中json字符串的特殊字符转义bug，增加"和\的预处理。 reported by https://github.com/luohuan02
 * 3. 修复《》之间五内容切出空字符串的bug。 reported by http://git.oschina.net/fige
+* 4. NLP切分模式增加标准的datetime实体识别。例如：2017/03/07，2017-03-07。
+* 5. NLP切分模式增加中文通用datetime实体识别。例如：2017年3月7日，明天下午4点半，下周二上午８点４５分等。
+
+datetime实体识别测试demo（不同datetime部分使用空格分开，方便二次分词处理）：
+
+```shell
+jcseg~tokenzier:NLP>> 2017年3月2日
+分词结果：
+2017年 3月 2日/t/datetime.ymd
+Done, total:9, tokens:1, in 0.00105sec
+jcseg~tokenzier:NLP>> 2017年03月07日
+分词结果：
+2017年 03月 07日/t/datetime.ymd
+Done, total:11, tokens:1, in 0.00000sec
+jcseg~tokenzier:NLP>> 明天下午4点半
+分词结果：
+明天 下午 4点半/t/datetime.dahi
+Done, total:7, tokens:1, in 0.00000sec
+jcseg~tokenzier:NLP>> 下周二上午8点45分
+分词结果：
+下周二 上午 8点 45分/t/datetime.dahi
+Done, total:10, tokens:1, in 0.00000sec
+jcseg~tokenzier:NLP>> 2017年03月08日下午15点半去见一个投资人
+分词结果：
+2017年 03月 08日 下午 15点半/t/datetime.ymdahi 去/q/null 见/n/null 一个/q/null 投资人/n/null
+Done, total:24, tokens:5, in 0.00000sec
+jcseg~tokenzier:NLP>> 
+```
 
 ### jcseg-2.1.0: 
 

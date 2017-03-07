@@ -3101,7 +3101,7 @@ CJK_CHAR
 唋/null/%/null/9
 裼/x,n,v/xi/null/17
 襞/null/bi/null/9
-见/n,v/xian/null/183680
+见/v,n/xian/null/183680
 晜/null/kun/null/17
 骰/null/tou/null/454
 鬒/null/zhen/null/15
