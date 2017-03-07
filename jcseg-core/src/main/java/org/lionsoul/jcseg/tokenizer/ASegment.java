@@ -703,8 +703,9 @@ public abstract class ASegment implements ISegment
         }
         
         //handle the pair text.
-        if ( text != null && ! ( config.CLEAR_STOPWORD 
-                && dic.match(ILexicon.STOP_WORD, text) ) ) {
+        if ( text != null && text.length() > 0
+                && ! ( config.CLEAR_STOPWORD 
+                        && dic.match(ILexicon.STOP_WORD, text) ) ) {
             w2 = new Word( text, ILexicon.CJK_WORD );
             w2.setPartSpeech(IWord.PPT_POSPEECH);
             w2.setPosition(pos+1);

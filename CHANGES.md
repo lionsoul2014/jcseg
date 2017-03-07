@@ -1,12 +1,16 @@
 # Jcseg versions change histories
 
-### jcseg-2.1.1: (future version)
+### jcseg-2.1.2: (future version)
+* 1. 复杂模式，复杂中文的二次切分
+* 2. 文本自动分类
+
+### jcseg-2.1.1: (current version)
 
 * 1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。
-* 2. 复杂模式，复杂中文的二次切分
-* 3. 文本自动分类
+* 2. 修复Word#toString中json字符串的特殊字符转义bug，增加"和\的预处理。 reported by https://github.com/luohuan02
+* 3. 修复《》之间五内容切出空字符串的bug。 reported by http://git.oschina.net/fige
 
-### jcseg-2.1.0: (current version RC version)
+### jcseg-2.1.0: 
 
 * 01. 部分词库类别合并到主类别（中英组合，英中组合，英文标点，英文词库），方便维护，也是为Jcseg的NLP计划做准备。
 * 02. 优化Jcseg的英中组合词条的识别算法，之前的除类似“x射线”等英中混合词识别外，其他的类别的混合词维护过于麻烦，全部混合词库统一到lex-mixed.lex中管理或者新建词库。
