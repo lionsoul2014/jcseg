@@ -3729,7 +3729,7 @@ CJK_CHAR
 桍/null/%/null/24
 鰿/null/%/null/12
 鲡/null/li/null/18
-礼/",nhs,n/li/null/31007
+礼/nhs,n/li/null/31007
 鴃/null/jue/null/26
 稀/n,a/xi/null/4518
 諯/null/%/null/11
