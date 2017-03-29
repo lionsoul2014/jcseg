@@ -6,6 +6,11 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 /**
  * word class for Jcseg with the {@link org.lionsoul.jcseg.core.IWord} interface implemented
  * 
+ * at 2017/03/29: 
+ * make the synonyms series method {@link #getSyn()} {@link #setSyn(String[])} {@link #addSyn(String)}
+ * and the part of speech series method {@link #getPartSpeech()} {@link #setPartSpeech(String[])} {@link #addPartSpeech(String)}
+ * and the {@link #clone()} method synchronized for may coming concurrent access.
+ * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
 public class Word implements IWord,Cloneable
@@ -28,7 +33,7 @@ public class Word implements IWord,Cloneable
      * @Note added at 2016/11/12
      * word string entity name and 
      * it could be assign from the lexicon or the word item setting
-     * or assign dynamic during the cut runtime
+     * or assign dynamic during the segment runtime
     */
     private String entity = null;
     
@@ -154,36 +159,6 @@ public class Word implements IWord,Cloneable
     {
         return pinyin;
     }
-
-    /**
-     * @see IWord#getSyn() 
-     */
-    @Override
-    public String[] getSyn() 
-    {
-        return syn;
-    }
-
-    @Override
-    public void setSyn(String[] syn) 
-    {
-        this.syn = syn;
-    }
-    
-    /**
-     * @see IWord#getPartSpeech() 
-     */
-    @Override
-    public String[] getPartSpeech() 
-    {
-        return partspeech;
-    }
-    
-    @Override
-    public void setPartSpeech(String[] partspeech) 
-    {
-        this.partspeech = partspeech;
-    }
     
     /**
      * @see IWord#setPinying(String)
@@ -192,12 +167,63 @@ public class Word implements IWord,Cloneable
     {
         pinyin = py;
     }
+
+    /**
+     * @see IWord#getSyn() 
+     */
+    @Override
+    public synchronized String[] getSyn() 
+    {
+        return syn;
+    }
+
+    @Override
+    public synchronized void setSyn(String[] syn) 
+    {
+        this.syn = syn;
+    }
+    
+    /**
+     * @see IWord#addSyn(String) 
+     */
+    @Override
+    public synchronized void addSyn( String s ) 
+    {
+        if ( syn == null ) {
+            syn = new String[1];
+            syn[0] = s;
+        } else {
+            String[] tycA = syn;
+            syn = new String[syn.length + 1];
+            int j;
+            for ( j = 0; j < tycA.length; j++ ) {
+                syn[j] = tycA[j];
+            }
+            syn[j] = s;
+            tycA = null;
+        }
+    }
+    
+    /**
+     * @see IWord#getPartSpeech() 
+     */
+    @Override
+    public synchronized String[] getPartSpeech() 
+    {
+        return partspeech;
+    }
+    
+    @Override
+    public synchronized void setPartSpeech(String[] partspeech) 
+    {
+        this.partspeech = partspeech;
+    }
     
     /**
      * @see IWord#addPartSpeech( String );
      */
     @Override
-    public void addPartSpeech( String ps ) 
+    public synchronized void addPartSpeech( String ps ) 
     {
         if ( partspeech == null ) {
             partspeech = new String[1];
@@ -215,25 +241,23 @@ public class Word implements IWord,Cloneable
     }
     
     /**
-     * @see IWord#addSyn(String) 
+     * Interface to clone the current object
+     * 
+     * @return IWord
      */
     @Override
-    public void addSyn( String s ) 
+    public synchronized IWord clone()
     {
-        if ( syn == null ) {
-            syn = new String[1];
-            syn[0] = s;
-        } else {
-            String[] tycA = syn;
-            syn = new String[syn.length + 1];
-            int j;
-            for ( j = 0; j < tycA.length; j++ ) {
-                syn[j] = tycA[j];
-            }
-            syn[j] = s;
-            tycA = null;
+        IWord w = null;
+        try {
+            w = (IWord) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
+        
+        return w;
     }
+    
     
     /**
      * @see Object#equals(Object) 
@@ -259,25 +283,7 @@ public class Word implements IWord,Cloneable
     }
     
     /**
-     * Interface to clone the current object
-     * 
-     * @return IWord
-     */
-    @Override
-    public IWord clone()
-    {
-        IWord w = null;
-        try {
-            w = (IWord) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        
-        return w;
-    }
-    
-    /**
-     * for debug testing 
+     * for debug only 
     */
     public String __toString() 
     {
