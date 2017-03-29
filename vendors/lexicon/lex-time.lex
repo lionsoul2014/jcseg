@@ -166,6 +166,22 @@ CJK_WORD
 上上周7/t/shang shang zhou qi/null
 上上周日/t/shang shang zhou ri/null
 上上周天/t/shang shang zhou tian/null
+上上周星期一/t/shang shang zhou xing qi yi/null
+上上周星期1/t/shang shang zhou xing qi yi/null
+上上周星期二/t/shang shang zhou xing qi er/null
+上上周星期2/t/shang shang zhou xing qi er/null
+上上周星期三/t/shang shang zhou xing qi san/null
+上上周星期3/t/shang shang zhou xing qi san/null
+上上周星期四/t/shang shang zhou xing qi si/null
+上上周星期4/t/shang shang zhou xing qi si/null
+上上周星期五/t/shang shang zhou xing qi wu/null
+上上周星期5/t/shang shang zhou xing qi wu/null
+上上周星期六/t/shang shang zhou xing qi liu/null
+上上周星期6/t/shang shang zhou xing qi liu/null
+上上周星期七/t/shang shang zhou xing qi qi/null
+上上周星期7/t/shang shang zhou xing qi qi/null
+上上周星期日/t/shang shang zhou xing qi ri/null
+上上周星期天/t/shang shang zhou xing qi tian/null
 上周一/t/shang zhou yi/null
 上周1/t/shang zhou yi/null
 上周二/t/shang zhou er/null
@@ -182,6 +198,22 @@ CJK_WORD
 上周7/t/shang zhou qi/null
 上周日/t/shang zhou ri/null
 上周天/t/shang zhou tian/null
+上周星期一/t/shang zhou xing qi yi/null
+上周星期1/t/shang zhou xing qi yi/null
+上周星期二/t/shang zhou xing qi er/null
+上周星期2/t/shang zhou xing qi er/null
+上周星期三/t/shang zhou xing qi san/null
+上周星期3/t/shang zhou xing qi san/null
+上周星期四/t/shang zhou xing qi si/null
+上周星期4/t/shang zhou xing qi si/null
+上周星期五/t/shang zhou xing qi wu/null
+上周星期5/t/shang zhou xing qi wu/null
+上周星期六/t/shang zhou xing qi liu/null
+上周星期6/t/shang zhou xing qi liu/null
+上周星期七/t/shang zhou xing qi qi/null
+上周星期7/t/shang zhou xing qi qi/null
+上周星期日/t/shang zhou xing qi ri/null
+上周星期天/t/shang zhou xing qi tian/null
 周一/t/zhou yi/null
 周1/t/zhou yi/null
 周二/t/zhou er/null
@@ -198,6 +230,38 @@ CJK_WORD
 周7/t/zhou qi/null
 周日/t/zhou ri/null
 周天/t/zhou tian/null
+这周一/t/zhe zhou yi/null
+这周1/t/zhe zhou yi/null
+这周二/t/zhe zhou er/null
+这周2/t/zhe zhou er/null
+这周三/t/zhe zhou san/null
+这周3/t/zhe zhou san/null
+这周四/t/zhe zhou si/null
+这周4/t/zhe zhou si/null
+这周五/t/zhe zhou wu/null
+这周5/t/zhe zhou wu/null
+这周六/t/zhe zhou liu/null
+这周6/t/zhe zhou liu/null
+这周七/t/zhe zhou qi/null
+这周7/t/zhe zhou qi/null
+这周日/t/zhe zhou ri/null
+这周天/t/zhe zhou tian/null
+这周星期一/t/zhe zhou xing qi yi/null
+这周星期1/t/zhe zhou xing qi yi/null
+这周星期二/t/zhe zhou xing qi er/null
+这周星期2/t/zhe zhou xing qi er/null
+这周星期三/t/zhe zhou xing qi san/null
+这周星期3/t/zhe zhou xing qi san/null
+这周星期四/t/zhe zhou xing qi si/null
+这周星期4/t/zhe zhou xing qi si/null
+这周星期五/t/zhe zhou xing qi wu/null
+这周星期5/t/zhe zhou xing qi wu/null
+这周星期六/t/zhe zhou xing qi liu/null
+这周星期6/t/zhe zhou xing qi liu/null
+这周星期七/t/zhe zhou xing qi qi/null
+这周星期7/t/zhe zhou xing qi qi/null
+这周星期日/t/zhe zhou xing qi ri/null
+这周星期天/t/zhe zhou xing qi tian/null
 下周一/t/xia zhou yi/null
 下周1/t/xia zhou yi/null
 下周二/t/xia zhou er/null
@@ -214,6 +278,22 @@ CJK_WORD
 下周7/t/xia zhou qi/null
 下周日/t/xia zhou ri/null
 下周天/t/xia zhou tian/null
+下周星期一/t/xia zhou xing qi yi/null
+下周星期1/t/xia zhou xing qi yi/null
+下周星期二/t/xia zhou xing qi er/null
+下周星期2/t/xia zhou xing qi er/null
+下周星期三/t/xia zhou xing qi san/null
+下周星期3/t/xia zhou xing qi san/null
+下周星期四/t/xia zhou xing qi si/null
+下周星期4/t/xia zhou xing qi si/null
+下周星期五/t/xia zhou xing qi wu/null
+下周星期5/t/xia zhou xing qi wu/null
+下周星期六/t/xia zhou xing qi liu/null
+下周星期6/t/xia zhou xing qi liu/null
+下周星期七/t/xia zhou xing qi qi/null
+下周星期7/t/xia zhou xing qi qi/null
+下周星期日/t/xia zhou xing qi ri/null
+下周星期天/t/xia zhou xing qi tian/null
 下下周一/t/xia xia zhou yi/null
 下下周1/t/xia xia zhou yi/null
 下下周二/t/xia xia zhou er/null
@@ -230,6 +310,103 @@ CJK_WORD
 下下周7/t/xia xia zhou qi/null
 下下周日/t/xia xia zhou ri/null
 下下周天/t/xia xia zhou tian/null
+下下周星期一/t/xia xia zhou xing qi yi/null
+下下周星期1/t/xia xia zhou xing qi yi/null
+下下周星期二/t/xia xia zhou xing qi er/null
+下下周星期2/t/xia xia zhou xing qi er/null
+下下周星期三/t/xia xia zhou xing qi san/null
+下下周星期3/t/xia xia zhou xing qi san/null
+下下周星期四/t/xia xia zhou xing qi si/null
+下下周星期4/t/xia xia zhou xing qi si/null
+下下周星期五/t/xia xia zhou xing qi wu/null
+下下周星期5/t/xia xia zhou xing qi wu/null
+下下周星期六/t/xia xia zhou xing qi liu/null
+下下周星期6/t/xia xia zhou xing qi liu/null
+下下周星期七/t/xia xia zhou xing qi qi/null
+下下周星期7/t/xia xia zhou xing qi qi/null
+下下周星期日/t/xia xia zhou xing qi ri/null
+下下周星期天/t/xia xia zhou xing qi tian/null
+##无“周”字
+上上星期一/t/shang shang xing qi yi/null
+上上星期1/t/shang shang xing qi yi/null
+上上星期二/t/shang shang xing qi er/null
+上上星期2/t/shang shang xing qi er/null
+上上星期三/t/shang shang xing qi san/null
+上上星期3/t/shang shang xing qi san/null
+上上星期四/t/shang shang xing qi si/null
+上上星期4/t/shang shang xing qi si/null
+上上星期五/t/shang shang xing qi wu/null
+上上星期5/t/shang shang xing qi wu/null
+上上星期六/t/shang shang xing qi liu/null
+上上星期6/t/shang shang xing qi liu/null
+上上星期七/t/shang shang xing qi qi/null
+上上星期7/t/shang shang xing qi qi/null
+上上星期日/t/shang shang xing qi ri/null
+上上星期天/t/shang shang xing qi tian/null
+上星期一/t/shang xing qi yi/null
+上星期1/t/shang xing qi yi/null
+上星期二/t/shang xing qi er/null
+上星期2/t/shang xing qi er/null
+上星期三/t/shang xing qi san/null
+上星期3/t/shang xing qi san/null
+上星期四/t/shang xing qi si/null
+上星期4/t/shang xing qi si/null
+上星期五/t/shang xing qi wu/null
+上星期5/t/shang xing qi wu/null
+上星期六/t/shang xing qi liu/null
+上星期6/t/shang xing qi liu/null
+上星期七/t/shang xing qi qi/null
+上星期7/t/shang xing qi qi/null
+上星期日/t/shang xing qi ri/null
+上星期天/t/shang xing qi tian/null
+星期一/t/xing qi yi/null
+星期1/t/xing qi yi/null
+星期二/t/xing qi er/null
+星期2/t/xing qi er/null
+星期三/t/xing qi san/null
+星期3/t/xing qi san/null
+星期四/t/xing qi si/null
+星期4/t/xing qi si/null
+星期五/t/xing qi wu/null
+星期5/t/xing qi wu/null
+星期六/t/xing qi liu/null
+星期6/t/xing qi liu/null
+星期七/t/xing qi qi/null
+星期7/t/xing qi qi/null
+星期日/t/xing qi ri/null
+星期天/t/xing qi tian/null
+下星期一/t/xia xing qi yi/null
+下星期1/t/xia xing qi yi/null
+下星期二/t/xia xing qi er/null
+下星期2/t/xia xing qi er/null
+下星期三/t/xia xing qi san/null
+下星期3/t/xia xing qi san/null
+下星期四/t/xia xing qi si/null
+下星期4/t/xia xing qi si/null
+下星期五/t/xia xing qi wu/null
+下星期5/t/xia xing qi wu/null
+下星期六/t/xia xing qi liu/null
+下星期6/t/xia xing qi liu/null
+下星期七/t/xia xing qi qi/null
+下星期7/t/xia xing qi qi/null
+下星期日/t/xia xing qi ri/null
+下星期天/t/xia xing qi tian/null
+下下星期一/t/xia xing qi yi/null
+下下星期1/t/xia xia xing qi yi/null
+下下星期二/t/xia xia xing qi er/null
+下下星期2/t/xia xia xing qi er/null
+下下星期三/t/xia xia xing qi san/null
+下下星期3/t/xia xia xing qi san/null
+下下星期四/t/xia xia xing qi si/null
+下下星期4/t/xia xia xing qi si/null
+下下星期五/t/xia xia xing qi wu/null
+下下星期5/t/xia xia xing qi wu/null
+下下星期六/t/xia xia xing qi liu/null
+下下星期6/t/xia xia xing qi liu/null
+下下星期七/t/xia xia xing qi qi/null
+下下星期7/t/xia xia xing qi qi/null
+下下星期日/t/xia xia xing qi ri/null
+下下星期天/t/xia xia xing qi tian/null
 ##time.m类词条
 :entity time.m
 上上个月/t/shang shang ge yue/null
