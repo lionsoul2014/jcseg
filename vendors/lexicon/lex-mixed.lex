@@ -132,7 +132,7 @@ t型台/n/t xing tai/null
 160g硬盘/n/160g ying pan/null
 500g硬盘/n/500g ying pan/null
 #中文英文混合词词库
-卡拉ok/nz/ka la ok/null
+卡拉ok/nz/ka la ok/ktv
 漂亮mm/nz/piao lian mm/null
 拳皇ova/nz/quan huang ova/拳皇动漫
 奇都ktv/nz/qi du ktv/null
