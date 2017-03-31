@@ -535,6 +535,9 @@ public abstract class ASegment implements ISegment
             if ( (ctrlMask & ISegment.CHECK_CE_MASk) != 0 
                     && (chars.length - cjkidx) <= dic.mixPrefixLength ) {
                 ce = getNextMixedWord(chars, cjkidx);
+                if ( ce != null ) {
+                    T = -1;
+                }
             }
             
             /*
