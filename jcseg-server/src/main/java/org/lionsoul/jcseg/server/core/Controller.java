@@ -56,12 +56,12 @@ public abstract class Controller
      * contruct method
      * 
      * @param    config
-     * @param    resourcePool
+     * @param    globalResource
      * @param    uriEntry
      * @param    baseRequest
      * @param    request
      * @param    response
-     * @throws    IOException 
+     * @throws   IOException 
     */
     public Controller(
             ServerConfig config,
@@ -253,8 +253,8 @@ public abstract class Controller
     /**
      * redirect to the specifield controller/method
      * 
-     * @param    pathresponse
-     * @throws IOException 
+     * @param   path
+     * @throws  IOException 
     */
     public void redirect(String path) throws IOException
     {

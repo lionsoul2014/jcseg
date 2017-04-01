@@ -40,7 +40,7 @@ public class JSONWriter
      * put a new mapping with a string
      *
      * @param    key
-     * @param    object
+     * @param    obj
     */
     public JSONWriter put(String key, Object obj)
     {

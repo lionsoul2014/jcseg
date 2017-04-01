@@ -16,7 +16,7 @@ public abstract class AbstractRouter
     /**
      * construct method
      * 
-     * @param    defualtController
+     * @param   defaultController
     */
     public AbstractRouter(Class<? extends Controller> defaultController)
     {

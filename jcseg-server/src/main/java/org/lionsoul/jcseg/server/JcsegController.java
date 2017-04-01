@@ -98,8 +98,7 @@ public class JcsegController extends Controller
     /**
      * global map output protocol
      * 
-     * @param    status
-     * @param    errcode
+     * @param    code
      * @param    data
     */
     protected void response(int code, Map<String, Object> data)

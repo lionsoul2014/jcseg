@@ -44,6 +44,14 @@ jcseg~tokenzier:NLP>> 明天凌晨2点一刻产品升级开始
 分词结果：
 明天 凌晨 2点一刻/t/datetime.dahi 产品/n/null 升级/vn/null 开始/n/null
 Done, total:14, tokens:4, in 0.00000sec
+jcseg~tokenzier:NLP>> 明天下午15:45
+分词结果：
+明天 下午 15点 45分/t/datetime.dahi
+Done, total:9, tokens:1, in 0.00000sec
+jcseg~tokenzier:NLP>> 2017/03/15下午16:45:36开始生日party
+分词结果：
+2017/03/15 下午 16点 45分 36秒/t/datetime.ymdahis 开始/n/null 生日/n/null party/en/null
+Done, total:29, tokens:4, in 0.00210sec
 ```
 
 ### jcseg-2.1.0: 
