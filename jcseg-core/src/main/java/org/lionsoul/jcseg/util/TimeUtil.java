@@ -1,5 +1,7 @@
 package org.lionsoul.jcseg.util;
 
+import org.lionsoul.jcseg.tokenizer.Word;
+import org.lionsoul.jcseg.tokenizer.core.Entity;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 /**
@@ -191,4 +193,33 @@ public class TimeUtil
         
         return KeyMap[pIdx];
     }
+    
+    
+    /**
+     * fill a date-time time part with a standard time format like '15:45:36' 
+     * to the specified time pool
+     * 
+     * @param   wPool
+     * @param   timeVal
+    */
+    public static final void fillTimeToPool(
+            IWord[] wPool, String timeVal)
+    {
+        String[] p = timeVal.split(":");
+        TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_HV, 
+                new Word(p[0], IWord.T_BASIC_LATIN, /*"numeric.integer#"+*/Entity.E_TIME_H));
+        TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_H, 
+                new Word("点", IWord.T_CJK_WORD, Entity.E_TIME_H));
+        TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_IV, 
+                new Word(p[1], IWord.T_BASIC_LATIN, /*"numeric.integer#"+*/Entity.E_TIME_I));
+        TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_I, 
+                new Word("分", IWord.T_CJK_WORD, Entity.E_TIME_I));
+        if ( p.length == 3 ) {
+            TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_SV, 
+                    new Word(p[2], IWord.T_BASIC_LATIN, /*"numeric.integer#"*/Entity.E_TIME_S));
+            TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_S, 
+                    new Word("秒", IWord.T_CJK_WORD, Entity.E_TIME_S));
+        }
+    }
+    
 }

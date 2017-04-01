@@ -120,14 +120,19 @@ public class NLPSeg extends ComplexSeg
                 break;
             }
             
-            if ( ! ( entity.startsWith("time.") 
-                    || entity.startsWith("numeric.integer#time.") ) ) {
-                eWordPool.add(dWord);
-                break;
-            }
-            
-            if ( TimeUtil.DATETIME_NONE == 
-                    TimeUtil.fillDateTimePool(wMask, dWord) ) {
+            if ( entity.startsWith("time.") 
+                    || entity.startsWith("numeric.integer#time.") ) {
+                if ( TimeUtil.DATETIME_NONE == 
+                        TimeUtil.fillDateTimePool(wMask, dWord) ) {
+                    break;
+                }
+            } else if ( entity.startsWith("datetime.h") ) {
+                /*
+                 * check and merge the date time time part with a style
+                 * like 15:45 or 15:45:36 eg... 
+                */
+                TimeUtil.fillTimeToPool(wMask, dWord.getValue());
+            } else {
                 break;
             }
             
@@ -178,8 +183,37 @@ public class NLPSeg extends ComplexSeg
         }
         
         String entity = dWord.getEntity();
-        if ( entity == null || ! entity.startsWith("datetime.h") ) {
+        if ( entity == null ) {
             eWordPool.add(dWord);
+            return null;
+        }
+        
+        if ( entity.startsWith("datetime.h") ) {
+            //do nothing here
+        } else if ( entity.startsWith("time.") 
+                || entity.startsWith("numeric.integer#time.") ) {
+            /*
+             * @Note: added at 2017/04/01
+             * 1, A word start with time.h or datetime.h could be merged
+             * 2, if the new time merged word is could not be merged with the origin word
+             *  and we should put the dWord to the first of the eWordPool cuz #getNextTimeMergedWord
+             * may append some IWord to the end of eWordPool
+            */
+            IWord mWord = getNextTimeMergedWord(dWord);
+            if ( mWord == null ) {
+                eWordPool.addFirst(dWord);
+                return null;
+            }
+            
+            if ( ! ( mWord.getEntity().contains(".h") 
+                    || mWord.getEntity().contains(".a") ) ) {
+                eWordPool.addFirst(mWord);
+                return null;
+            }
+            
+            dWord  = mWord;
+            entity = dWord.getEntity();
+        } else {
             return null;
         }
         
@@ -188,7 +222,9 @@ public class NLPSeg extends ComplexSeg
         dWord.setPartSpeech(IWord.TIME_POSPEECH);
         
         //re-define the entity
-        buffer.clear().append(word.getEntity()).append(entity.substring(9));
+        //int sIdx = entity.indexOf('.') + 1;
+        int sIdx = entity.charAt(0) == 't' ? 5 : 9;
+        buffer.clear().append(word.getEntity()).append(entity.substring(sIdx));
         dWord.setEntity(buffer.toString());
         
         return dWord;

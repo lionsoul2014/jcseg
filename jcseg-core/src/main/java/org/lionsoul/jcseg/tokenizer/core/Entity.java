@@ -88,7 +88,7 @@ public class Entity
     public static final String E_TIME_WEEK = "time.w";      //周
     public static final String E_TIME_D   = "time.d";       //天
     public static final String E_TIME_H   = "time.h";       //时
-    public static final String E_TIME_MIN = "time.i";       //分
+    public static final String E_TIME_I   = "time.i";       //分
     public static final String E_TIME_S   = "time.s";       //秒
     public static final String E_TIME_MS  = "time.ms";      //毫秒
     public static final String E_TIME_US  = "time.us";      //微妙
