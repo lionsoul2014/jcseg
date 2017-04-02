@@ -510,7 +510,8 @@ public class NLPSeg extends ComplexSeg
          * and recount the tcount as needed
         */
         int oLen = isb.length();
-        for ( int i = oLen - 1; i > 0 && isb.charAt(i) == '.'; i-- ) {
+        for ( int i = oLen - 1; i > 0 
+                && StringUtil.isNoTailingPunctuation(isb.charAt(i)); i-- ) {
             pushBack(isb.charAt(i));
             isb.deleteCharAt(i);
             _check = false;

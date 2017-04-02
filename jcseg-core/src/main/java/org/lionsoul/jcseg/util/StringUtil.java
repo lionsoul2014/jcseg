@@ -18,9 +18,14 @@ public class StringUtil
     public static final int EN_UNKNOW = -1;
     
     /**
-     * keep punctuation for NLP segmentation currently 
+     * keep punctuation set for NLP segmentation currently 
     */
-    private static final String EN_KEEP_CHAR = "@/-_=?%&.'#+:";
+    private static final String EN_KEEP_PUNCS = "@/-_=?%&.'#+:";
+    
+    /**
+     * Need to be cleared tailing punctuation set
+    */
+    private static final String EN_NO_TAILING_PUNCS = ".?@:'";
     
     /**
      * check the specified char is CJK, Thai... char
@@ -98,11 +103,22 @@ public class StringUtil
      * check the given char is English keep punctuation
      * 
      * @param    c
-     * @return    boolean
+     * @return  boolean
      */
     public static boolean isENKeepPunctuaton( char c )
     {
-        return (EN_KEEP_CHAR.indexOf(c) > -1);
+        return (EN_KEEP_PUNCS.indexOf(c) > -1);
+    }
+    
+    /**
+     * check if the given punctuation is the one that need to be cleared
+     * 
+     * @param   c
+     * @return  boolean
+    */
+    public static boolean isNoTailingPunctuation(char c)
+    {
+        return (EN_NO_TAILING_PUNCS.indexOf(c) > -1);
     }
     
     public static boolean isUpperCaseLetter( int u )
