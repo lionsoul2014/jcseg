@@ -148,39 +148,65 @@ public class EntityFormat
      * @param   str
      * @return  boolean
     */
+    private static final boolean ipPartCheck(
+            String str, int sIdx, int eIdx) 
+    {
+        int len = eIdx - sIdx;
+        if ( len < 1 ) {
+            return false;
+        }
+        
+        switch ( len ) {
+        case 1:
+        case 2:
+            if ( ! StringUtil.isNumeric(str, sIdx, eIdx) ) return false;
+            break;
+        case 3:
+            char chr1 = str.charAt(sIdx);
+            if ( chr1 == '1' ) {
+                if ( ! StringUtil.isNumeric(str, sIdx+1, eIdx) ) return false;
+            } else if ( chr1 == '2' ) {
+                char chr2 = str.charAt(sIdx+1);
+                if ( chr2 < '0' || chr2 > '5' ) return false;
+                char chr3 = str.charAt(sIdx+2);   //the third numeric
+                if ( chr2 == '5' ) {
+                    if ( chr3 < '0' || chr3 > '5' ) return false;
+                } else {
+                    if ( chr3 < '0' || chr3 > '9' ) return false;
+                }
+            }
+            break;
+        default:
+            return false;
+        }
+        
+        return true;
+    }
+    
     public static final boolean isIpAddress(String str)
     {
         if ( str.length() < 7 && str.length() > 15 ) {
             return false;
         }
         
-        int sIdx = 0, eIdx, diff, pcount = 0;
+        int sIdx = 0, eIdx, pcount = 0;
         while ( (eIdx = str.indexOf('.', sIdx)) > -1 ) {
             pcount++;
-            diff = eIdx - sIdx;
-            switch ( diff ) {
-            case 0:
-                return false;
-            case 1:
-            case 2:
-                if ( ! StringUtil.isNumeric(str, sIdx, eIdx) ) return false;
-                break;
-            case 3:
-                char chr = str.charAt(sIdx);
-                if ( chr == '1' ) {
-                    if ( ! StringUtil.isNumeric(str, sIdx+1, eIdx) ) return false;
-                } else if ( chr == '2' ) {
-                    chr = str.charAt(sIdx+1);
-                    if ( chr < 48 || chr > 53 ) return false;
-                    chr = str.charAt(sIdx+2);
-                    if ( chr < 48 || chr > 53 ) return false;
-                }
-                break;
-            default:
+            if ( ! ipPartCheck(str, sIdx, eIdx) ) {
                 return false;
             }
             
             sIdx = eIdx + 1;
+        }
+        
+        /*
+         * bug fixed at 2017/02/12
+         * for the last part of the ip address not checked
+        */
+        if ( sIdx < str.length() ) {
+            if ( ! ipPartCheck(str, sIdx, str.length()) ) {
+                return false;
+            }
         }
         
         return pcount == 3;
@@ -414,5 +440,13 @@ public class EntityFormat
         }
         
         return true;
+    }
+    
+    
+    public static void main(String[] args) 
+    {
+        for ( int i = 32; i < 120; i++ ) {
+            System.out.println(i + ": " + ((char)i));
+        }
     }
 }
