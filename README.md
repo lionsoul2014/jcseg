@@ -348,23 +348,23 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
         # maximum length for chinese last name andron.
         "jcseg_cnmaxlnadron": 1,
         
-        # Wether to clear the stopwords.
+        # Whether to clear the stopwords.
         # (set true to clear stopwords and false to close it)
         "jcseg_clearstopword": false,
         
-        # Wether to convert the chinese numeric to arabic number. 
+        # Whether to convert the chinese numeric to arabic number. 
         # (set to true open it and false to close it) like '\u4E09\u4E07' to 30000.
         "jcseg_cnnumtoarabic": true,
         
-        # Wether to convert the chinese fraction to arabic fraction.
+        # Whether to convert the chinese fraction to arabic fraction.
         # @Note: for lucene,solr,elasticsearch eg.. close it.
         "jcseg_cnfratoarabic": false,
         
-        # Wether to keep the unrecognized word. 
+        # Whether to keep the unrecognized word. 
         # (set true to keep unrecognized word and false to clear it)
         "jcseg_keepunregword": true,
         
-        # Wether to start the secondary segmentation for the complex english words.
+        # Whether to start the secondary segmentation for the complex english words.
         "jcseg_ensencondseg": true,
         
         # min length of the secondary simple token. 
@@ -390,19 +390,19 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
                 #"/java/JavaSE/jcseg/lexicon"
             ],
             
-            # wether to load the part of speech of the words
+            # Whether to load the part of speech of the words
             "loadpos": true,
 
-            # Wether to load the pinyin of the words.
+            # Whether to load the pinyin of the words.
             "loadpinyin": true,
 
-            # Wether to load the synoyms words of the words.
+            # Whether to load the synoyms words of the words.
             "loadsyn": true,
 
             # whether to load the entity of the words.
             "loadentity": true,
                     
-            # Wether to load the modified lexicon file auto.
+            # Whether to load the modified lexicon file auto.
             "autoload": true,
         
             # Poll time for auto load. (in seconds)
