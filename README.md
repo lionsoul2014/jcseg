@@ -861,7 +861,7 @@ config.setClearStopwords(true);     //设置过滤停止词
 config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-Segment seg = SegmentFactory.createJcseg(
+ISegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{config, dic}
 );
@@ -901,7 +901,7 @@ config.setClearStopwords(true);     //设置过滤停止词
 config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-Segment seg = SegmentFactory.createJcseg(
+ISegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{config, dic}
 );
@@ -946,7 +946,7 @@ config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 config.setEnSecondSeg(false);       //关闭英文自动二次切分
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-Segment seg = SegmentFactory.createJcseg(
+ISegment seg = SegmentFactory.createJcseg(
     JcsegTaskConfig.COMPLEX_MODE, 
     new Object[]{config, dic}
 );
