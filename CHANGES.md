@@ -7,6 +7,9 @@
 * 4. 文本自动分类
 * 5. 情感分析
 
+### jcseg 2.1.2:
+* 1. 检索模式SearchSeg增加粒度控制，切分单字，例如：”人民币“切分为”人，民，币，人民，人民币“
+
 ### jcseg-2.1.1: (current version)
 
 * 1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。

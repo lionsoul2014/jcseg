@@ -12,7 +12,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * search mode implementation all the possible combination will be returned, 
- * and build it for search of course.
+ * and build it for information retrieval of course.
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  * @since   1.9.8
@@ -37,7 +37,8 @@ public class SearchSeg extends ASegment
      * @see ASegment#getNextCJKWord(int, int)
      * @throws IOException 
     */
-    @Override protected IWord getNextCJKWord(int c, int pos) throws IOException
+    @Override 
+    protected IWord getNextCJKWord(int c, int pos) throws IOException
     {
         String key = null;
         char[] chars = nextCJKSentence(c);
@@ -46,6 +47,15 @@ public class SearchSeg extends ASegment
         ArrayList<IWord> mList = new ArrayList<IWord>(8);
         
         while ( cjkidx < chars.length ) {
+            /// @Note added at 2017/04/29
+            /// check and append the single char word
+            String sstr = String.valueOf(chars[cjkidx]);
+            if ( dic.match(ILexicon.CJK_WORD, sstr) ) {
+                IWord sWord = dic.get(ILexicon.CJK_WORD, sstr).clone();
+                sWord.setPosition(pos+cjkidx);
+                mList.add(sWord);
+            }
+            
             mnum = 0;
             isb.clear().append(chars[cjkidx]);
             //System.out.println("ignore idx: " + ignidx);
