@@ -44,6 +44,7 @@ CJK_UNIT
 点三刻/time.hi
 分/time.i
 秒/time.s
+秒钟/time.s
 毫秒/time.ms
 微秒/time.um
 纳秒/time.ns
