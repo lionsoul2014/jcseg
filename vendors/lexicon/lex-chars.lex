@@ -10208,7 +10208,7 @@ CJK_CHAR
 坍/v/tan/null/240
 计/n,v/ji/null/137149
 栻/null/shi/null/9
-调/n,v/tiao/null/61916
+调/v,n/tiao/null/361916
 鳱/null/%/null/9
 秮/null/%/null/10
 穑/null/se/null/17
