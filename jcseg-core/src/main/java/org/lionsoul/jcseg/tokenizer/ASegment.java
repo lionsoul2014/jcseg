@@ -477,12 +477,17 @@ public abstract class ASegment implements ISegment
             
             IChunk chunk = getBestCJKChunk(chars, cjkidx);
             w = chunk.getWords()[0];
+            String wps = w.getPartSpeech()==null ? null : w.getPartSpeech()[0];
             
             /* 
              * check and try to find a Chinese name.
+             * 
+             * @Note at 2017/05/19
+             * add the origin part of speech check, if the
+             * w is a Chinese name already and just let it go
             */
             int T = -1;
-            if ( config.I_CN_NAME
+            if ( config.I_CN_NAME && (!"nr".equals(wps))
                     && w.getLength() <= 2 && chunk.getWords().length > 1  ) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(w.getValue());
