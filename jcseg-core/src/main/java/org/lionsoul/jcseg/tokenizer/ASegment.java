@@ -275,7 +275,7 @@ public abstract class ASegment implements ISegment
                 word.setPosition(pos);
             }
             /* @reader: (2013-09-25) 
-             * unrecognized char will cause unknow problem for different system.
+             * unrecognized char will cause unknown problem for different system.
              * keep it or clear it ?
              * if you use jcseg for search, better shut it down.
             */
