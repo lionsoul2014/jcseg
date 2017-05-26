@@ -14,6 +14,7 @@ public interface IWord extends Cloneable
     public static final String[] MIX_POSPEECH = {"mix"};
     public static final String[] PPT_POSPEECH = {"nz"};
     public static final String[] PUNCTUATION  = {"w"};
+    public static final String[] QUANTIFIER = {"q"};
     public static final String[] UNRECOGNIZE  = {"urg"};
             
     /**

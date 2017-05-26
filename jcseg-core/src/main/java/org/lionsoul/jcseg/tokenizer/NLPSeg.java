@@ -83,6 +83,7 @@ public class NLPSeg extends ComplexSeg
         if ( entity == null && word.getValue().charAt(0) == '第' ) {
             IWord dWord = getNextTheWord(word);
             if ( dWord != null ) {
+                dWord.setPartSpeech(IWord.QUANTIFIER);
                 return dWord;
             }
         }
