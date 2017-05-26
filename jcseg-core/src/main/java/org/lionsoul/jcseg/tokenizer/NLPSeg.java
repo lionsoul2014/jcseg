@@ -70,8 +70,23 @@ public class NLPSeg extends ComplexSeg
         if ( word == null ) {
             return null;
         }
-        
+
         String entity = word.getEntity();
+        
+        
+        /*
+         * This is a temporary program for
+         * the_number or the_episode entity recognition.
+         * ignore this if the entity is not null
+         * added at 2017/05/25
+        */
+        if ( entity == null && word.getValue().charAt(0) == '第' ) {
+            IWord dWord = getNextTheWord(word);
+            if ( dWord != null ) {
+                return dWord;
+            }
+        }
+        
         if ( entity == null ) {
             return word;
         }
@@ -93,6 +108,125 @@ public class NLPSeg extends ComplexSeg
         
         return word;
     }
+    
+    /**
+     * get the next the_xxx word like '第x个', '第x集' EG ...
+     * 
+     * @param  word
+     * @return IWord
+     * @throws IOException 
+    */
+    protected IWord getNextTheWord(IWord word) throws IOException
+    {
+        String wVal = word.getValue();
+        int wLen = word.getValue().length();
+        IWord dWord = null;
+        
+        //the only 'the' word
+        if ( wLen == 1 ) {
+            return _nextNumberWord(word);
+        }
+        
+        //template like '第三'
+        if ( wLen == 2 ) {
+            if ( NumericUtil.isCNNumeric(wVal.charAt(1)) == -1 
+                    && ! StringUtil.isEnNumeric(wVal.charAt(1)) ) {
+                return null;
+            }
+
+            //update the word's entity
+            word.setEntity(Entity.E_THE_NUMBER);
+            return _nextNumberWord(word);
+        }
+        
+        //template like '第x个'
+        IWord unit = dic.get(ILexicon.NUMBER_UNIT, ""+wVal.charAt(wLen-1));
+        if ( unit != null ) {
+            if ( ! NumericUtil.isCNNumericString(wVal, 1, wLen-1)
+                    && ! StringUtil.isDigit(wVal, 1, wLen-1) ) {
+                return null;
+            }
+            
+            dWord = word;
+            dWord.setEntity(unit.getEntity());
+            return dWord;
+        }
+        
+        //the left template '第xxx'
+        if ( ! NumericUtil.isCNNumericString(wVal, 1, wLen) 
+                && ! StringUtil.isDigit(wVal, 1, wLen) ) {
+            return null;
+        }
+        
+        word.setEntity(Entity.E_THE_NUMBER);
+        return _nextNumberWord(word);
+    }
+    
+    /**
+     * child logic for {@link #getNextTheWord(IWord)}
+     * 
+     * @param   word
+     * @return  IWord
+     * @throws  IOException 
+    */
+    private IWord _nextNumberWord(IWord word) throws IOException
+    {
+        IWord dWord = null, unit = null;
+        IWord dw1 = super.next();
+        if ( dw1 == null ) {
+            return null;
+        }
+        
+        String w1Entity = dw1.getEntity();
+        int w1Len = dw1.getValue().length();
+        
+        //pure numeric
+        if ( Entity.E_NUMERIC_ARABIC.equals(w1Entity) ) {
+            IWord dw2 = super.next();
+            if ( dw2 == null ) {
+                dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
+                dWord.setPosition(word.getPosition());
+                dWord.setEntity(Entity.E_THE_NUMBER);
+                return dWord;
+            } 
+            
+            int w2Len = dw2.getValue().length();
+            
+            //template like '个', 'xx个'
+            unit = dic.get(ILexicon.NUMBER_UNIT, ""+dw2.getValue().charAt(0));
+            if ( unit != null ) {
+                String w2Val = dw2.getValue();
+                if ( w2Len == 1 || NumericUtil.isCNNumericString(w2Val, 0, w2Len-1) 
+                        || StringUtil.isDigit(w2Val, 0, w2Len-1) ) {
+                    dWord = new Word(word.getValue()+dw1.getValue()+w2Val, IWord.T_CJK_WORD);
+                    dWord.setEntity(unit.getEntity());
+                    return dWord;
+                }
+            }
+            
+            eWordPool.push(dw2);
+            dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
+            dWord.setPosition(word.getPosition());
+            dWord.setEntity(Entity.E_THE_NUMBER);
+            return dWord;
+        }
+        
+        //template like '个', 'x个'
+        unit = dic.get(ILexicon.NUMBER_UNIT, ""+dw1.getValue().charAt(w1Len-1));
+        if ( unit != null ) {
+            String w1Val = dw1.getValue();
+            if ( w1Len == 1 || NumericUtil.isCNNumericString(w1Val, 0, w1Len-1)
+                    || StringUtil.isDigit(w1Val, 0, w1Len-1) ) {
+                dWord = new Word(word.getValue()+w1Val, IWord.T_CJK_WORD);
+                dWord.setEntity(unit.getEntity());
+                return dWord;
+            }
+        }
+        
+        eWordPool.push(dw1);
+        return null;
+    }
+    
     
     /**
      * get and return the next time merged date-time word
@@ -154,6 +288,7 @@ public class NLPSeg extends ComplexSeg
         }
         
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
+        dWord.setPosition(word.getPosition());
         dWord.setPartSpeech(IWord.TIME_POSPEECH);
         
         //check and define the entity
@@ -219,6 +354,7 @@ public class NLPSeg extends ComplexSeg
         
         buffer.clear().append(word.getValue()).append(' ').append(dWord.getValue());
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
+        dWord.setPosition(word.getPosition());
         dWord.setPartSpeech(IWord.TIME_POSPEECH);
         
         //re-define the entity

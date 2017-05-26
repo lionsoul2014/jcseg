@@ -58,6 +58,21 @@ public class NumericUtil
         return i.intValue();
     }
     
+    /**
+     * check if the specified string is a Chinese numeric string
+     * 
+     * @param   str
+     * @return  boolean
+    */
+    public static boolean isCNNumericString(String str , int sIdx, int eIdx)
+    {
+        for ( int i = sIdx; i < eIdx; i++ ) {
+            if ( ! cnNumeric.containsKey(str.charAt(0)) ) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     /**
      * a static method to turn the Chinese numeric to Arabic numbers

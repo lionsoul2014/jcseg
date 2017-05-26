@@ -7,7 +7,7 @@ package org.lionsoul.jcseg.tokenizer.core;
  */
 public interface ILexicon
 {
-    public static final int T_LEN = 10;
+    public static final int T_LEN = 11;
     
     /**
      * Chinese, JPanese, Korean words
@@ -65,14 +65,16 @@ public interface ILexicon
     */
     public static final int DOMAIN_SUFFIX = 9;
     
+    public static final int NUMBER_UNIT = 10;
+    
     
     /**
      * CJK single word
     */
-    public static final int CJK_CHAR = 11;
+    public static final int CJK_CHAR = 15;
     
     /**
      * unmatched word
      */
-    public static final int UNMATCH_CJK_WORD = 12;
+    public static final int UNMATCH_CJK_WORD = 16;
 }

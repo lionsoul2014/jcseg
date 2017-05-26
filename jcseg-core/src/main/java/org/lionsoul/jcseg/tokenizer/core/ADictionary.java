@@ -379,6 +379,8 @@ public abstract class ADictionary
             return ILexicon.STOP_WORD;
         } else if ( key.startsWith("DOMAIN_SUFFIX") ) {
             return ILexicon.DOMAIN_SUFFIX;
+        } else if ( key.startsWith("NUMBER_UNIT") ) {
+            return ILexicon.NUMBER_UNIT;
         }
             
         return ILexicon.CJK_WORD;
@@ -486,6 +488,18 @@ public abstract class ADictionary
                     dic.add(t, line, IWord.T_CJK_WORD);
                 }
                 break;
+            case ILexicon.NUMBER_UNIT:
+                wd = line.split("\\s*/\\s*");
+                IWord uw = dic.add(t, wd[0], IWord.T_CJK_WORD);
+                if ( wd.length == 1 ) {
+                    dic.add(ILexicon.CJK_WORD, uw);
+                } else if ( wd.length == 2 ) {
+                    String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
+                    uw.setEntity(entity);
+                    dic.add(ILexicon.CJK_CHAR, uw);
+                }
+                
+                break;
             case ILexicon.CJK_UNIT:
                 /*
                  * for the entity recognition
@@ -501,7 +515,6 @@ public abstract class ADictionary
                     String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
                     w.setEntity(entity);
                     dic.add(ILexicon.CJK_WORD, w).setEntity(entity);;
-                    
                 } else if ( wd.length > 4) {
                     String entity = "null".equals(wd[4]) ? null : Entity.get(wd[4]);
                     w.setEntity(entity);
