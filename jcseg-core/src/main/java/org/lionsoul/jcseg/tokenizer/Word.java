@@ -1,6 +1,7 @@
 package org.lionsoul.jcseg.tokenizer;
 
 import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.util.ArrayUtil;
 
 
 /**
@@ -34,8 +35,10 @@ public class Word implements IWord,Cloneable
      * word string entity name and 
      * it could be assign from the lexicon or the word item setting
      * or assign dynamic during the segment runtime
+     * 
+     * @Note make it an Array at 2017/06/06
     */
-    private String entity = null;
+    private String[] entity = null;
     
     private String pinyin = null;
     private String[] partspeech = null;
@@ -49,7 +52,7 @@ public class Word implements IWord,Cloneable
      * @param   type
      * @param   entity
     */
-    public Word(String value, int fre, int type, String entity)
+    public Word(String value, int fre, int type, String[] entity)
     {
         this.value  = value;
         this.fre    = fre;
@@ -67,7 +70,7 @@ public class Word implements IWord,Cloneable
         this(value, 0, type, null);
     }
     
-    public Word(String value, int type, String entity)
+    public Word(String value, int type, String entity[])
     {
         this(value, 0, type, entity);
     }
@@ -138,17 +141,50 @@ public class Word implements IWord,Cloneable
     /**
      * @see IWord#getEntity()
     */
-    public String getEntity() 
+    public synchronized String[] getEntity() 
     {
         return entity;
     }
     
     /**
+     * @see IWord#getEntity(int)
+    */
+    public synchronized String getEntity(int idx) 
+    {
+        if ( entity == null ) {
+            return null;
+        }
+        
+        if ( idx < 0 || idx > entity.length ) {
+            return null;
+        }
+        
+        return entity[idx];
+    }
+    
+    /**
      * @see IWord#setEntity(String)
     */
-    public void setEntity(String entity) 
+    public synchronized void setEntity(String[] entity) 
     {
         this.entity = entity;
+    }
+    
+    /**
+     * @see IWord#addEntity(String) 
+    */
+    public synchronized void addEntity(String e)
+    {
+        if ( e == null ) {
+            
+        } else if ( entity == null ) {
+            entity = new String[]{e};
+        } else if ( ArrayUtil.indexOf(e, entity) == -1 ) {
+            String[] dest = new String[entity.length+1];
+            System.arraycopy(entity, 0, dest, 0, entity.length);
+            dest[entity.length] = e;
+            entity = dest;
+        }
     }
     
     /**
@@ -193,14 +229,10 @@ public class Word implements IWord,Cloneable
             syn = new String[1];
             syn[0] = s;
         } else {
-            String[] tycA = syn;
-            syn = new String[syn.length + 1];
-            int j;
-            for ( j = 0; j < tycA.length; j++ ) {
-                syn[j] = tycA[j];
-            }
-            syn[j] = s;
-            tycA = null;
+            String[] dest = new String[syn.length+1];
+            System.arraycopy(syn, 0, dest, 0, syn.length);
+            dest[syn.length] = s;
+            syn = dest;
         }
     }
     
@@ -226,17 +258,12 @@ public class Word implements IWord,Cloneable
     public synchronized void addPartSpeech( String ps ) 
     {
         if ( partspeech == null ) {
-            partspeech = new String[1];
-            partspeech[0] = ps;
-        } else {
-            String[] bak = partspeech;
-            partspeech = new String[partspeech.length + 1];
-            int j;
-            for ( j = 0; j < bak.length; j++ ) {
-                partspeech[j] = bak[j];
-            }
-            partspeech[j] = ps;
-            bak = null;
+            partspeech = new String[]{ps};
+        } else {            
+            String[] dest = new String[partspeech.length+1];
+            System.arraycopy(partspeech, 0, dest, 0, partspeech.length);
+            dest[partspeech.length] = ps;
+            partspeech = dest;
         }
     }
     
@@ -328,7 +355,7 @@ public class Word implements IWord,Cloneable
         
         if ( entity != null ) {
             sb.append('/');
-            sb.append(entity);
+            sb.append(ArrayUtil.implode("|", entity));
         }
         
         return sb.toString();
@@ -371,7 +398,9 @@ public class Word implements IWord,Cloneable
         }
         
         if ( entity != null ) {
-            sb.append(",\"entity\":\"").append(entity).append('"');
+            sb.append(",\"entity\":\"")
+                .append(ArrayUtil.implode("|", entity))
+                    .append('"');
         } else {
             sb.append(",\"entity\":null");
         }

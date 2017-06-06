@@ -22,6 +22,7 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
+import org.lionsoul.jcseg.util.ArrayUtil;
 
 /**
  * Jcseg test program.
@@ -141,7 +142,7 @@ public class JcsegTest
             //check and append the entity recognition
             if ( entity ) {
                 sb.append('/');
-                sb.append(word.getEntity());
+                sb.append(ArrayUtil.implode("|", word.getEntity()));
             }
             
             //clear the allocations of the word.

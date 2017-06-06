@@ -69,10 +69,10 @@ public class Dictionary extends ADictionary
     }
 
     /**
-     * @see ADictionary#add(int, String, int, int, String) 
+     * @see ADictionary#add(int, String, int, int, String[]) 
     */
     @Override
-    public IWord add(int t, String key, int fre, int type, String entity)
+    public IWord add(int t, String key, int fre, int type, String entity[])
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
             if ( dics[t].containsKey(key) ) {
@@ -106,10 +106,10 @@ public class Dictionary extends ADictionary
     }
 
     /**
-     * @see ADictionary#add(int, String, int, String) 
+     * @see ADictionary#add(int, String, int, String[]) 
     */
     @Override
-    public IWord add(int t, String key, int type, String entity)
+    public IWord add(int t, String key, int type, String entity[])
     {
         return add(t, key, 0, type, entity);
     }

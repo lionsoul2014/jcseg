@@ -121,18 +121,33 @@ public interface IWord extends Cloneable
     public int getPosition();
     
     /**
-     * get the entity name of the word
+     * get the entity name array of the word
      * 
-     * @return  String
+     * @return  String[]
     */
-    public String getEntity();
+    public String[] getEntity();
     
     /**
-     * set the entity name of the word
+     * get the specified entity by index
+     * 
+     * @param   idx
+     * @return  String
+    */
+    public String getEntity(int idx);
+    
+    /**
+     * set the entity name array of the word
      * 
      * @param   entity
     */
-    public void setEntity(String entity);
+    public void setEntity(String[] entity);
+    
+    /**
+     * append a new entity
+     * 
+     * @param   e
+    */
+    public void addEntity(String e);
     
     /**
      * return the pinying of the word 

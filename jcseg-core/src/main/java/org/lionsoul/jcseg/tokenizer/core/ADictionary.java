@@ -16,7 +16,6 @@ import java.util.zip.ZipInputStream;
 
 import org.lionsoul.jcseg.util.StringUtil;
 
-
 /**
  * Dictionary abstract super class
  * 
@@ -283,10 +282,10 @@ public abstract class ADictionary
      * @param   key
      * @param   fre
      * @param   type
-     * @param   entity
+     * @param   entity[]
      * @return  IWord
      */
-    public abstract IWord add( int t, String key, int fre, int type, String entity );
+    public abstract IWord add( int t, String key, int fre, int type, String[] entity );
     
     /**
      * add a new word to the dictionary
@@ -315,10 +314,10 @@ public abstract class ADictionary
      * @param   t
      * @param   key
      * @param   type
-     * @param   entity
+     * @param   entity[]
      * @param   IWord
      */
-    public abstract IWord add( int t, String key, int type, String entity );
+    public abstract IWord add( int t, String key, int type, String[] entity );
     
     /**
      * return the IWord associate with the given key.
@@ -495,7 +494,7 @@ public abstract class ADictionary
                     dic.add(ILexicon.CJK_WORD, uw);
                 } else if ( wd.length == 2 ) {
                     String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
-                    uw.setEntity(entity);
+                    uw.addEntity(entity);
                     dic.add(ILexicon.CJK_CHAR, uw);
                 }
                 
@@ -513,12 +512,12 @@ public abstract class ADictionary
                     dic.add(ILexicon.CJK_WORD, w);
                 } else if ( wd.length == 2 ) {
                     String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
-                    w.setEntity(entity);
-                    dic.add(ILexicon.CJK_WORD, w).setEntity(entity);;
+                    w.addEntity(entity);
+                    dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
                 } else if ( wd.length > 4) {
                     String entity = "null".equals(wd[4]) ? null : Entity.get(wd[4]);
-                    w.setEntity(entity);
-                    dic.add(ILexicon.CJK_WORD, w).setEntity(entity);;
+                    w.addEntity(entity);
+                    dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
                     tword = w;
                 } else {
                     dic.add(ILexicon.CJK_WORD, w);
@@ -566,7 +565,8 @@ public abstract class ADictionary
                 tword = dic.get(t, wd[0]);
                 if ( tword == null ) {
                     if ( t == ILexicon.CJK_CHAR ) {
-                        tword = dic.add(ILexicon.CJK_WORD, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                        tword = dic.add(ILexicon.CJK_WORD, wd[0], 
+                                Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
                     } else {
                         tword = dic.add(t, wd[0], IWord.T_CJK_WORD);
                     }
@@ -577,22 +577,12 @@ public abstract class ADictionary
                  * update the entity string for CJK and English words only 
                 */
                 if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
-                    String oEntity = tword.getEntity();
-                    if ( oEntity == null ) {
-                        if ( wd.length > 4 ) {
-                            tword.setEntity("null".equals(wd[4]) ? null : Entity.get(wd[4]));
-                        } else {
-                            tword.setEntity(gEntity);
+                    if ( wd.length > 4 ) {
+                        if ( ! "null".equals(wd[4]) ) {
+                            tword.addEntity(Entity.get(wd[4]));
                         }
-                    } else if ( wd.length > 4 ) {
-                        if ( "null".equals(wd[4]) ) {
-                            tword.setEntity(null);
-                        } else if ( wd[4].length() > oEntity.length() ) {
-                            tword.setEntity(Entity.get(wd[4]));
-                        }
-                    } else if ( gEntity != null 
-                            && gEntity.length() > oEntity.length() ) {
-                        tword.setEntity(gEntity);
+                    } else if ( gEntity != null ) {
+                        tword.addEntity(gEntity);
                     }
                 }
                 

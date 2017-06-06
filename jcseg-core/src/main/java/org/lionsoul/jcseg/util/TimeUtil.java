@@ -130,7 +130,7 @@ public class TimeUtil
     */
     public static final int fillDateTimePool(IWord[] wPool, IWord word)
     {
-        int pIdx = getDateTimeIndex(word.getEntity());
+        int pIdx = getDateTimeIndex(word.getEntity(0));
         if ( pIdx == DATETIME_NONE ) {
             return DATETIME_NONE;
         }
@@ -176,7 +176,7 @@ public class TimeUtil
     
     public static final String getTimeKey(IWord word)
     {
-        return getTimeKey(word.getEntity());
+        return getTimeKey(word.getEntity(0));
     }
     
     /**
@@ -207,18 +207,21 @@ public class TimeUtil
     {
         String[] p = timeVal.split(":");
         TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_HV, 
-                new Word(p[0], IWord.T_BASIC_LATIN, /*"numeric.integer#"+*/Entity.E_TIME_H));
+                new Word(p[0], IWord.T_BASIC_LATIN, 
+                        new String[]{/*"numeric.integer#"+*/Entity.E_TIME_H}));
         TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_H, 
-                new Word("点", IWord.T_CJK_WORD, Entity.E_TIME_H));
+                new Word("点", IWord.T_CJK_WORD, new String[]{Entity.E_TIME_H}));
         TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_IV, 
-                new Word(p[1], IWord.T_BASIC_LATIN, /*"numeric.integer#"+*/Entity.E_TIME_I));
+                new Word(p[1], IWord.T_BASIC_LATIN, 
+                        new String[]{/*"numeric.integer#"+*/Entity.E_TIME_I}));
         TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_I, 
-                new Word("分", IWord.T_CJK_WORD, Entity.E_TIME_I));
+                new Word("分", IWord.T_CJK_WORD, new String[]{Entity.E_TIME_I}));
         if ( p.length == 3 ) {
             TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_SV, 
-                    new Word(p[2], IWord.T_BASIC_LATIN, /*"numeric.integer#"*/Entity.E_TIME_S));
+                    new Word(p[2], IWord.T_BASIC_LATIN, 
+                            new String[]{/*"numeric.integer#"*/Entity.E_TIME_S}));
             TimeUtil.fillDateTimePool(wPool, TimeUtil.DATETIME_S, 
-                    new Word("秒", IWord.T_CJK_WORD, Entity.E_TIME_S));
+                    new Word("秒", IWord.T_CJK_WORD, new String[]{Entity.E_TIME_S}));
         }
     }
     
