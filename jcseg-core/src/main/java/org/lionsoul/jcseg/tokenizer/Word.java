@@ -398,9 +398,8 @@ public class Word implements IWord,Cloneable
         }
         
         if ( entity != null ) {
-            sb.append(",\"entity\":\"")
-                .append(ArrayUtil.implode("|", entity))
-                    .append('"');
+            sb.append(",\"entity\":")
+                .append(ArrayUtil.toJsonObject(entity));
         } else {
             sb.append(",\"entity\":null");
         }

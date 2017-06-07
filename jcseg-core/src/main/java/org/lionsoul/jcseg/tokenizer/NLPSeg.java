@@ -72,8 +72,7 @@ public class NLPSeg extends ComplexSeg
             return null;
         }
 
-        String entity = word.getEntity(0);
-        
+        String[] entity = word.getEntity();
         
         /*
          * This is a temporary program for
@@ -93,16 +92,17 @@ public class NLPSeg extends ComplexSeg
             return word;
         }
         
-        if ( entity.startsWith("time.")
-                || entity.startsWith("numeric.integer#time.") ) {
-            IWord dWord = getNextTimeMergedWord(word);
+        int eIdx = 0;
+        if ( (eIdx = ArrayUtil.startsWith("time.", entity)) > -1
+                || (eIdx = ArrayUtil.startsWith("numeric.integer#time.", entity)) > -1 ) {
+            IWord dWord = getNextTimeMergedWord(word, eIdx);
             if ( dWord != null ) {
                 return dWord;
             }
         }
         
-        if ( entity.startsWith("datetime.ymd") ) {
-            IWord dWord = getNextDatetimeWord(word);
+        if ( (eIdx = ArrayUtil.startsWith("datetime.ymd", entity)) > -1 ) {
+            IWord dWord = getNextDatetimeWord(word, eIdx);
             if ( dWord != null ) {
                 return dWord;
             }
@@ -188,9 +188,9 @@ public class NLPSeg extends ComplexSeg
             if ( dw2 == null ) {
                 dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
                 dWord.setPosition(word.getPosition());
-                dWord.addEntity(Entity.E_THE_NUMBER);
+                dWord.setEntity(new String[]{Entity.E_THE_NUMBER});
                 return dWord;
-            } 
+            }
             
             int w2Len = dw2.getValue().length();
             
@@ -234,12 +234,13 @@ public class NLPSeg extends ComplexSeg
      * get and return the next time merged date-time word
      * 
      * @param   word
+     * @param   eIdx
      * @return  IWord
      * @throws  IOException 
     */
-    protected IWord getNextTimeMergedWord(IWord word) throws IOException
+    protected IWord getNextTimeMergedWord(IWord word, int eIdx) throws IOException
     {
-        int pIdx = TimeUtil.getDateTimeIndex(word.getEntity(0));
+        int pIdx = TimeUtil.getDateTimeIndex(word.getEntity(eIdx));
         if ( pIdx == TimeUtil.DATETIME_NONE ) {
             return null;
         }
@@ -249,20 +250,20 @@ public class NLPSeg extends ComplexSeg
         
         IWord dWord = null;
         int mergedNum = 0;
-        while ( (dWord = super.next()) != null ) {
-            String entity = dWord.getEntity(0);
+        while ( (dWord = super.next()) != null ) {  
+            String[] entity = dWord.getEntity();
             if ( entity == null ) {
                 eWordPool.push(dWord);
                 break;
             }
             
-            if ( entity.startsWith("time.") 
-                    || entity.startsWith("numeric.integer#time.") ) {
+            if ( ArrayUtil.startsWith("time.", entity) > -1
+                    || ArrayUtil.startsWith("numeric.integer#time.", entity) > -1 ) {
                 if ( TimeUtil.DATETIME_NONE == 
                         TimeUtil.fillDateTimePool(wMask, dWord) ) {
                     break;
                 }
-            } else if ( entity.startsWith("datetime.h") ) {
+            } else if ( ArrayUtil.startsWith("datetime.h", entity) > -1 ) {
                 /*
                  * check and merge the date time time part with a style
                  * like 15:45 or 15:45:36 eg... 
@@ -300,7 +301,7 @@ public class NLPSeg extends ComplexSeg
             buffer.append(TimeUtil.getTimeKey(wMask[i]));
         }
         
-        dWord.addEntity(buffer.toString());
+        dWord.setEntity(new String[]{buffer.toString()});
         
         return dWord;
     }
@@ -309,26 +310,28 @@ public class NLPSeg extends ComplexSeg
      * get and return the next date-time word 
      * 
      * @param   word
+     * @param   entityIdx
      * @return  IWord
      * @throws  IOException 
     */
-    protected IWord getNextDatetimeWord(IWord word) throws IOException
+    protected IWord getNextDatetimeWord(IWord word, int entityIdx) throws IOException
     {
         IWord dWord = super.next();
         if ( dWord == null ) {
             return null;
         }
         
-        String entity = dWord.getEntity(0);
+        String[] entity = dWord.getEntity();
         if ( entity == null ) {
             eWordPool.add(dWord);
             return null;
         }
         
-        if ( entity.startsWith("datetime.h") ) {
+        int eIdx = 0;
+        if ( (eIdx = ArrayUtil.startsWith("datetime.h", entity)) > -1 ) {
             //do nothing here
-        } else if ( entity.startsWith("time.") 
-                || entity.startsWith("numeric.integer#time.") ) {
+        } else if ( (eIdx = ArrayUtil.startsWith("time.", entity)) > -1 
+                || (eIdx = ArrayUtil.startsWith("numeric.integer#time.", entity)) > -1 ) {
             /*
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
@@ -336,20 +339,21 @@ public class NLPSeg extends ComplexSeg
              *  and we should put the dWord to the first of the eWordPool cuz #getNextTimeMergedWord
              * may append some IWord to the end of eWordPool
             */
-            IWord mWord = getNextTimeMergedWord(dWord);
+            IWord mWord = getNextTimeMergedWord(dWord, eIdx);
             if ( mWord == null ) {
                 eWordPool.addFirst(dWord);
                 return null;
             }
             
             String mEntity = mWord.getEntity(0);
-            if ( ! ( mEntity.contains(".h") || mEntity.contains(".a") ) ) {
+            if ( ! (mEntity.contains(".h") || mEntity.contains(".a")) ) {
                 eWordPool.addFirst(mWord);
                 return null;
             }
             
+            eIdx   = 0;
             dWord  = mWord;
-            entity = dWord.getEntity(0);
+            entity = dWord.getEntity();
         } else {
             return null;
         }
@@ -361,8 +365,8 @@ public class NLPSeg extends ComplexSeg
         
         //re-define the entity
         //int sIdx = entity.indexOf('.') + 1;
-        int sIdx = entity.charAt(0) == 't' ? 5 : 9;
-        buffer.clear().append(word.getEntity(0)).append(entity.substring(sIdx));
+        int sIdx = entity[eIdx].charAt(0) == 't' ? 5 : 9;
+        buffer.clear().append(word.getEntity(0)).append(entity[eIdx].substring(sIdx));
         dWord.addEntity(buffer.toString());
         
         return dWord;
