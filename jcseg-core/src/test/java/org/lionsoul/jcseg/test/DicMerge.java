@@ -35,7 +35,7 @@ import org.lionsoul.jcseg.util.Sort;
  */
 public class DicMerge {
     
-    private static boolean inArray( String[] arr, String item ) {
+    protected static boolean inArray( String[] arr, String item ) {
         for ( int j = 0; j < arr.length; j++ ) {
             if ( arr[j].equals(item) ) return true;
         }
@@ -98,8 +98,8 @@ public class DicMerge {
                     if ( ! ( splits[2].equals("%")
                             || splits[2].equals("null")) )    //pinyin
                         word.setPinyin(splits[2]);
-                    if ( ! splits[3].equals("null") )        //synonyms
-                        word.setSyn(splits[3].split(","));
+                    /*if ( ! splits[3].equals("null") )        //synonyms
+                        word.setSyn(splits[3].split(","));*/
                     entries.put(splits[0], word);
                 } 
                 else {
@@ -110,9 +110,9 @@ public class DicMerge {
                         if ( word.getPartSpeech() == null)
                                 word.setPartSpeech(pps);
                         else {
-                            String[] ps = word.getPartSpeech();
+                            /*String[] ps = word.getPartSpeech();
                             for ( int i = 0; i < pps.length; i++ )
-                                if ( ! inArray(ps, pps[i]) ) word.addSyn(pps[i]);
+                                if ( ! inArray(ps, pps[i]) ) word.addSyn(pps[i]);*/
                         }
                         pps = null;
                     }
@@ -123,7 +123,7 @@ public class DicMerge {
                         word.setPinyin(splits[2]);
                     
                     //check the synonyms.
-                    if ( ! splits[3].equals("null") ) {
+                    /*if ( ! splits[3].equals("null") ) {
                         String[] syns = splits[3].split(",");
                         if ( word.getSyn() == null )
                             word.setSyn(syns);
@@ -133,7 +133,7 @@ public class DicMerge {
                                 if ( ! inArray(syn, syns[i]) ) word.addSyn(syns[i]);
                         }
                         syns = null;
-                    }
+                    }*/
                 }
                 
             } //end of while
@@ -193,7 +193,7 @@ public class DicMerge {
             
             isb.append('/');
             
-            if ( word.getSyn() == null )                //synonyms
+            /*if ( word.getSyn() == null )                //synonyms
                 isb.append("null");
             else {
                 String[] syn = word.getSyn();
@@ -205,7 +205,7 @@ public class DicMerge {
                         isb.append(syn[i]);
                     }
                 }
-            }
+            }*/
             
             if ( word.getType() == 2 ) {                //single word degree
                 isb.append('/');

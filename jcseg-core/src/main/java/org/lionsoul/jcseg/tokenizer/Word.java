@@ -1,6 +1,9 @@
 package org.lionsoul.jcseg.tokenizer;
 
+import java.util.List;
+
 import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.tokenizer.core.SynonymsEntry;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 
@@ -8,7 +11,7 @@ import org.lionsoul.jcseg.util.ArrayUtil;
  * word class for Jcseg with the {@link org.lionsoul.jcseg.core.IWord} interface implemented
  * 
  * at 2017/03/29: 
- * make the synonyms series method {@link #getSyn()} {@link #setSyn(String[])} {@link #addSyn(String)}
+ * make the synonyms series method {@link #getSyn()} {@link #setSyn(SynonymsEntry)} 
  * and the part of speech series method {@link #getPartSpeech()} {@link #setPartSpeech(String[])} {@link #addPartSpeech(String)}
  * and the {@link #clone()} method synchronized for may coming concurrent access.
  * 
@@ -42,7 +45,7 @@ public class Word implements IWord,Cloneable
     
     private String pinyin = null;
     private String[] partspeech = null;
-    private String[] syn = null;
+    private volatile SynonymsEntry syn = null;
     
     /**
      * construct method to initialize the newly created Word instance
@@ -208,32 +211,15 @@ public class Word implements IWord,Cloneable
      * @see IWord#getSyn() 
      */
     @Override
-    public synchronized String[] getSyn() 
+    public SynonymsEntry getSyn() 
     {
         return syn;
     }
 
     @Override
-    public synchronized void setSyn(String[] syn) 
+    public void setSyn(SynonymsEntry syn) 
     {
         this.syn = syn;
-    }
-    
-    /**
-     * @see IWord#addSyn(String) 
-     */
-    @Override
-    public synchronized void addSyn( String s ) 
-    {
-        if ( syn == null ) {
-            syn = new String[1];
-            syn[0] = s;
-        } else {
-            String[] dest = new String[syn.length+1];
-            System.arraycopy(syn, 0, dest, 0, syn.length);
-            dest[syn.length] = s;
-            syn = dest;
-        }
     }
     
     /**
@@ -334,14 +320,17 @@ public class Word implements IWord,Cloneable
         sb.append('/');
         sb.append(pinyin);
         sb.append('/');
-        //append the tyc
+        
         if ( syn != null ) {
-            for ( int j = 0; j < syn.length; j++ ) {
-                if ( j == 0 ) {
-                    sb.append(syn[j]);
-                } else {
-                    sb.append(',');
-                    sb.append(syn[j]);
+            List<IWord> synsList = syn.getList();
+            synchronized ( synsList ) {
+                for ( int i = 0; i < synsList.size(); i++ ) {
+                    if ( i == 0 ) {
+                        sb.append(synsList.get(i));
+                    } else {
+                        sb.append(',');
+                        sb.append(synsList.get(i));
+                    }
                 }
             }
         } else {
@@ -402,6 +391,14 @@ public class Word implements IWord,Cloneable
                 .append(ArrayUtil.toJsonObject(entity));
         } else {
             sb.append(",\"entity\":null");
+        }
+        
+        //check and append the base word of the synonyms
+        SynonymsEntry synEntry = getSyn();
+        if ( synEntry != null ) {
+            sb.append(",\"root_word\":\"")
+                .append(synEntry.getRootWord().getValue())
+                    .append('"');
         }
         
         sb.append('}');

@@ -88,6 +88,12 @@ public class DictionaryFactory
                 for ( String lpath : lexpath )      dic.loadDirectory(lpath);
                 if ( dic.getConfig().isAutoload() ) dic.startAutoload();
             }
+            
+            /*
+             * added at 2017/06/10
+             * check and reset synonyms net of the current Dictionry 
+            */
+            dic.resetSynonymsNet();
         } catch (IOException e) {
             e.printStackTrace();
         }

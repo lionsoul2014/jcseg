@@ -1,9 +1,9 @@
 CJK_WORD
 七七纪念日/t/qi qi ji nian ri/null
-七夕/t/qi xi/七夕情人节,情人节,中国情人节
-七夕情人节/t/qi xi qing ren jie/七夕,中国情人节,情人节
-七夕节/t/qi xi jie/七夕,情人节,中国情人节
-万圣节/t/wan sheng jie/鬼节
+七夕/t/qi xi/null
+七夕情人节/t/qi xi qing ren jie/null
+七夕节/t/qi xi jie/null
+万圣节/t/wan sheng jie/null
 世界人权日/t/shi jie ren quan ri/null
 世界儿歌节/t/shi jie r ge jie/null
 世界儿童节/t/shi jie r tong jie/null

@@ -11,9 +11,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.lionsoul.jcseg.tokenizer.Word;
 import org.lionsoul.jcseg.util.StringUtil;
 
 /**
@@ -45,6 +50,12 @@ public abstract class ADictionary
     volatile public int mixPrefixLength = 1;
     
     /**
+     * synonyms buffer
+    */
+    private final List<String[]> synBuffer = Collections
+            .synchronizedList(new ArrayList<String[]>());
+    
+    /**
      * initialize the ADictionary
      * 
      * @param   config
@@ -67,7 +78,7 @@ public abstract class ADictionary
     public void load( File file ) 
             throws NumberFormatException, FileNotFoundException, IOException
     {
-        loadWords(config, this, file);
+        loadWords(config, this, file, synBuffer);
     }
     
     /**
@@ -81,7 +92,7 @@ public abstract class ADictionary
     public void load( String file ) 
             throws NumberFormatException, FileNotFoundException, IOException
     {
-        loadWords(config, this, file);
+        loadWords(config, this, file, synBuffer);
     }
     
     /**
@@ -93,7 +104,7 @@ public abstract class ADictionary
     */
     public void load( InputStream is ) throws NumberFormatException, IOException
     {
-        loadWords(config, this, is);
+        loadWords(config, this, is, synBuffer);
     }
     
     /**
@@ -167,6 +178,72 @@ public abstract class ADictionary
     }
     
     /**
+     * 1, synonyms words to synonyms entry
+     * 2, loop each synonyms word and set the IWord#synEntry
+     * 3, clear the synonyms buffer
+    */
+    public void resetSynonymsNet()
+    {
+        synchronized (synBuffer) {
+            if ( synBuffer.size() == 0 ) {
+                return;
+            }
+            
+            Iterator<String[]> it = synBuffer.iterator();
+            while ( it.hasNext() ) {
+                String[] synLine = it.next();
+                
+                if ( synLine[0].length() > config.MAX_LENGTH ) {
+                    continue;
+                }
+                
+                //check if the baseWord is exists or not
+                IWord baseWord = get(ILexicon.CJK_WORD, synLine[0]);
+                if ( baseWord == null ) {
+                    continue;
+                }
+                
+                SynonymsEntry synEntry = new SynonymsEntry(baseWord);
+                synEntry.add(baseWord); //add the base word first
+                
+                for ( int i = 1; i < synLine.length; i++ ) {
+                    String[] parts = synLine[i].split("\\s*/\\s*");
+                    if ( parts[0].length() > config.MAX_LENGTH ) {
+                        continue;
+                    }
+                    
+                    //check if the word is exists or not
+                    //  or create a new one
+                    IWord synWord = get(ILexicon.CJK_WORD, parts[0]);
+                    if ( synWord == null ) {
+                        synWord = new Word(parts[0], IWord.T_CJK_WORD);
+                        add(ILexicon.CJK_WORD, synWord);
+                    }
+                    
+                    //check and extends the part of speech from the baseWord
+                    if ( synWord.getPartSpeech() == null ) {
+                        synWord.setPartSpeech(baseWord.getPartSpeech());
+                    }
+                    
+                    //check and extends the entity from the baseWord
+                    if ( synWord.getEntity() == null ) {
+                        synWord.setEntity(baseWord.getEntity());
+                    }
+                    
+                    //check and set the pinyin
+                    if ( parts.length > 1 ) {
+                        synWord.setPinyin(parts[1]);
+                    }
+                    
+                    synEntry.add(synWord);
+                }
+            }
+            
+            synBuffer.clear();
+        }
+    }
+    
+    /**
      * start the lexicon autoload thread
     */
     public void startAutoload() 
@@ -235,6 +312,8 @@ public abstract class ADictionary
                         }
                     }
                     
+                    //flush the synonyms buffer
+                    resetSynonymsNet();
                 }
             }
             
@@ -380,6 +459,8 @@ public abstract class ADictionary
             return ILexicon.DOMAIN_SUFFIX;
         } else if ( key.startsWith("NUMBER_UNIT") ) {
             return ILexicon.NUMBER_UNIT;
+        } else if ( key.startsWith("CJK_SYN") ) {
+            return ILexicon.CJK_SYN;
         }
             
         return ILexicon.CJK_WORD;
@@ -401,14 +482,16 @@ public abstract class ADictionary
      * @param   config
      * @param   dic
      * @param   file
+     * @param   buffer
      * @throws  IOException 
      * @throws  FileNotFoundException 
      * @throws  NumberFormatException 
      */
-    public static void loadWords( JcsegTaskConfig config, ADictionary dic, File file ) 
+    public static void loadWords( 
+            JcsegTaskConfig config, ADictionary dic, File file, List<String[]> buffer ) 
             throws NumberFormatException, FileNotFoundException, IOException 
     {
-        loadWords(config, dic, new FileInputStream(file));
+        loadWords(config, dic, new FileInputStream(file), buffer);
     }
     
     /**
@@ -417,14 +500,16 @@ public abstract class ADictionary
      * @param   config
      * @param   dic
      * @param   file
+     * @param   buffer
      * @throws  IOException 
      * @throws  FileNotFoundException 
      * @throws  NumberFormatException 
     */
-    public static void loadWords( JcsegTaskConfig config, ADictionary dic, String file ) 
+    public static void loadWords( 
+            JcsegTaskConfig config, ADictionary dic, String file, List<String[]> buffer ) 
             throws NumberFormatException, FileNotFoundException, IOException
     {
-        loadWords(config, dic, new FileInputStream(file));
+        loadWords(config, dic, new FileInputStream(file), buffer);
     }
     
     /**
@@ -433,10 +518,12 @@ public abstract class ADictionary
      * @param   config
      * @param   dic
      * @param   is
+     * @param   buffer
      * @throws  IOException 
      * @throws  NumberFormatException 
     */
-    public static void loadWords( JcsegTaskConfig config, ADictionary dic, InputStream is ) 
+    public static void loadWords( 
+            JcsegTaskConfig config, ADictionary dic, InputStream is, List<String[]> buffer ) 
             throws NumberFormatException, IOException
     {
         boolean isFirstLine = true;
@@ -540,6 +627,13 @@ public abstract class ADictionary
                 dic.add(t, wd[0], IWord.T_BASIC_LATIN);
                 //@Note access the explanation through wd[1]
                 break;
+            case ILexicon.CJK_SYN:
+                wd = line.split(",");
+                if ( wd.length > 1 && buffer != null ) {
+                    buffer.add(wd);
+                }
+                wd = null;
+                break;
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
                 wd = line.split("\\s*/\\s*");
@@ -612,7 +706,7 @@ public abstract class ADictionary
             
             /*
              * check and append the attributes of tword
-             * like the Pinyin, the synonym words and the part of speech
+             * like the pinyin and the part of speech
             */
             if ( tword != null ) {
                 //set the Pinyin of the word.
@@ -621,26 +715,27 @@ public abstract class ADictionary
                 }
                 
                 //update the synonym of the word.
-                String[] arr = tword.getSyn();
+                //@Deprecated at 2017/06/10
+                /*String[] arr = tword.getSyn();
                 if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
                     String[] syns = wd[3].split(",");
                     for ( int j = 0; j < syns.length; j++ ) {
                         syns[j] = syns[j].trim();
-                        /* Here:
+                         Here:
                          * filter the synonym that its length 
                          * is greater than config.MAX_LENGTH
-                         */
+                         
                         if ( t == ILexicon.CJK_WORD 
                                 && syns[j].length() > config.MAX_LENGTH ) {
                             continue;
                         }
                         
-                        /* Here:
+                         Here:
                          * check the synonym is not exists, make sure
                          * the same synonym won't appended. (dictionary reload)
                          * 
                          * @date 2013-09-02
-                         */
+                         
                         boolean add = true;
                         if ( arr != null ) {
                             for ( int i = 0; i < arr.length; i++ )  {
@@ -655,10 +750,10 @@ public abstract class ADictionary
                             tword.addSyn(syns[j]);
                         }
                     }
-                }
+                }*/
                 
                 //update the word's part of speech
-                arr = tword.getPartSpeech();
+                String[] arr = tword.getPartSpeech();
                 if ( config.LOAD_CJK_POS && ! "null".equals(wd[1]) ) {
                     String[] pos = wd[1].split(",");
                     

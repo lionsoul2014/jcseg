@@ -1,16 +1,16 @@
 CJK_WORD
-人事部/nt/ren shi bu/人事管理部门,人事管理部
-人事管理部/nt/ren shi guan li bu/人事管理部门,人事部
+人事部/nt/ren shi bu/null
+人事管理部/nt/ren shi guan li bu/null
 信息产业部/nt/xin xi chan ye bu/null
 农业部/nt/nong ye bu/null
-医管局/nt/yi guan ju/医疗管理部门,医疗管理部,医疗管理局
-医疗管理部/nt/yi liao guan li bu/医疗管理部门,医管局
-医疗管理部门/nt/yi liao guan li bu men/医管局,医疗管理部
+医管局/nt/yi guan ju/null
+医疗管理部/nt/yi liao guan li bu/null
+医疗管理部门/nt/yi liao guan li bu men/null
 发改委/nt/fa gai wei/null
 国土资源部/nt/guo tu zi yuan bu/null
-国防部/nt/guo fang bu/人民武装力量部,军事部,防卫厅
-军事部/nt/jun shi bu/人民武装力量部,防卫厅
-外交部/nt/wai jiao bu/国务院,政治部,对外关系部,外务省
+国防部/nt/guo fang bu/null
+军事部/nt/jun shi bu/null
+外交部/nt/wai jiao bu/null
 外交部长/r/wai jiao bu zhang/null
 教育部/nt/jiao yu bu/null
 文化部/nt/wen hua bu/null

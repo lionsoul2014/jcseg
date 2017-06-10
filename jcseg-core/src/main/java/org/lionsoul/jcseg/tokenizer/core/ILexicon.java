@@ -74,7 +74,13 @@ public interface ILexicon
     public static final int CJK_CHAR = 15;
     
     /**
+     * CJK synonyms
+    */
+    public static final int CJK_SYN = 16;
+    
+    /**
      * unmatched word
      */
-    public static final int UNMATCH_CJK_WORD = 16;
+    public static final int UNMATCH_CJK_WORD = 17;
+
 }

@@ -12,6 +12,7 @@ import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.tokenizer.core.SegKit;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
 import org.lionsoul.jcseg.util.IPushbackReader;
@@ -751,17 +752,9 @@ public abstract class ASegment implements ISegment
         }
         
         //add the synonyms words to the pool
-        String[] syns = null;
-        IWord syn = null;
         if ( config.APPEND_CJK_SYN 
-                && config.LOAD_CJK_SYN && (syns = word.getSyn()) != null ) {
-            for ( int j = 0; j < syns.length; j++ ) {
-                syn = new Word(syns[j], word.getType());
-                syn.setPartSpeech(word.getPartSpeech());
-                syn.setPosition(word.getPosition());
-                syn.setEntity(word.getEntity());
-                wordPool.add(syn);
-            }
+                && config.LOAD_CJK_SYN && word.getSyn() != null ) {
+            SegKit.appendSynonyms(wordPool, word);
         }
     }
     
@@ -787,14 +780,7 @@ public abstract class ASegment implements ISegment
         }
         
         if (  ew != null && ew.getSyn() != null ) {
-            IWord sw = null;
-            String[] syns = ew.getSyn();
-            for ( int j = 0; j < syns.length; j++ ) {
-                sw = new Word(syns[j], w.getType());
-                sw.setPartSpeech(w.getPartSpeech());
-                sw.setPosition(w.getPosition());
-                wordPool.add(sw);
-            }
+            SegKit.appendSynonyms(wordPool, ew);
         }
     }
     

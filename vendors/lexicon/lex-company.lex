@@ -21,7 +21,7 @@ CJK_WORD
 维基百科/nt/wei ji bai ke/null
 巨人网络/nt/ju ren wang luo/null
 阿里巴巴/nt/a li ba ba/null
-阿里旺旺/nt/a li ba ba/旺旺
+阿里旺旺/nt/a li ba ba/null
 旺旺/n/wang wang/null
 淘宝/nt/tao bao/null
 赶集网/nt/gan ji wang/null
@@ -57,11 +57,11 @@ CJK_WORD
 越策越开心/nt/yue ce yue kai xin/null
 超级男声/nt/chao ji nan sheng/null
 超男/nt/chao nan/null
-超级女声/nt/chao ji nu sheng/超女
-超女/nt/chao nu/超级女声
+超级女声/nt/chao ji nu sheng/null
+超女/nt/chao nu/null
 好声音/nt/hao sheng yin/null
-快乐男声/nt/kuai yue nan sheng/快男
-快男/nt/kuai nan/快乐男声
+快乐男声/nt/kuai yue nan sheng/null
+快男/nt/kuai nan/null
 快乐女声/nt/kuai yue nu sheng/null
 快女/nt/kuai nu/null
 德克士/nt/de ke shi/null

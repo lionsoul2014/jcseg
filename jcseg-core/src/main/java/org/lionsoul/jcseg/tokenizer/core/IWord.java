@@ -155,13 +155,13 @@ public interface IWord extends Cloneable
     public String getPinyin();
     
     /**
-     * return the syn words of the word.
+     * return the synonyms entry of the word.
      * 
-     * @return String[]
+     * @return SynonymsEntry
      */
-    public String[] getSyn();
+    public SynonymsEntry getSyn();
     
-    public void setSyn( String[] syn );
+    public void setSyn( SynonymsEntry syn );
     
     /**
      * return the part of speech of the word.
@@ -185,13 +185,6 @@ public interface IWord extends Cloneable
      * @param ps
      */
     public void addPartSpeech( String ps );
-    
-    /**
-     * add a new syn word to the word.
-     * 
-     * @param s
-     */
-    public void addSyn( String s );
     
     /**
      * I mean: you have to rewrite the equals method

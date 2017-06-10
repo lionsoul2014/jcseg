@@ -21,9 +21,10 @@ CJK_WORD
 矮穷挫/n/ai qiong cuo/null
 白富美/n/bai fu mei/null
 狮子的魂/nz/shi zi de hun/null
-仓老师/nz/cang lao shi/仓井空
+仓井空/nz/cang jing kong/null
 菇凉/n/gu liang/null
 科比/nr/ke bi/null
-麦迪/nr/mai di/tmac
-柯基/nr/ke ji/柯基犬
-柯基犬/nr/ke ji quan/柯基
+麦迪/nr/mai di/null
+柯基犬/nr/ke ji quan/null
+拳皇动漫/n/quan huang dong man/null
+码农/n/ma nong/null
