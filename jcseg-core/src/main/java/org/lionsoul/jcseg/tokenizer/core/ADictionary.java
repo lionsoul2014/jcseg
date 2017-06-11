@@ -213,9 +213,8 @@ public abstract class ADictionary
                 if ( synEntry == null ) {
                     synEntry = new SynonymsEntry(baseWord);
                     rootMap.put(baseWord.getValue(), synEntry);
+                    synEntry.add(baseWord); //add the base word first
                 }
-                
-                synEntry.add(baseWord); //add the base word first
                 
                 for ( int i = 1; i < synLine.length; i++ ) {
                     String[] parts = synLine[i].split("\\s*/\\s*");
@@ -627,11 +626,12 @@ public abstract class ADictionary
                 dic.add(t, line, IWord.T_CJK_WORD);
                 break;
             case ILexicon.STOP_WORD:
-                char fChar = line.charAt(0);
+                /*char fChar = line.charAt(0);
                 if ( fChar <= 127 || (fChar > 127 
                         && line.length() <= config.MAX_LENGTH) ) {
                     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
-                }
+                }*/
+                dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
                 break;
             case ILexicon.DOMAIN_SUFFIX:
                 wd = line.split("\\s*/\\s*");
@@ -663,9 +663,13 @@ public abstract class ADictionary
                 
                 //length limit(CJK_WORD only)
                 int latinIndex = StringUtil.latinIndexOf(wd[0]);
-                if ( latinIndex == -1 && wd[0].length() > config.MAX_LENGTH ) {
-                    continue;
-                }
+                
+                //added at 2017/06/11
+                //here we clear the length filter for we may change the config.MAX_LENGTH
+                // at token analysis run time
+                ///if ( latinIndex == -1 && wd[0].length() > config.MAX_LENGTH ) {
+                ///    continue;
+                ///}
                 
                 tword = dic.get(t, wd[0]);
                 if ( tword == null ) {
