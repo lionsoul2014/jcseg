@@ -396,9 +396,16 @@ public class Word implements IWord,Cloneable
         //check and append the base word of the synonyms
         SynonymsEntry synEntry = getSyn();
         if ( synEntry != null ) {
-            sb.append(",\"root_word\":\"")
-                .append(synEntry.getRootWord().getValue())
-                    .append('"');
+            IWord rootWord = synEntry.getRootWord();
+            sb.append(",\"root\":{").append("\"value\":\"")
+                .append(rootWord.getValue()).append("\",\"pinyin\":");
+            if ( rootWord.getPinyin() == null ) {
+                sb.append("null");
+            } else {
+                sb.append('"').append(rootWord.getPinyin()).append('"');
+            }
+            
+            sb.append('}');
         }
         
         sb.append('}');
