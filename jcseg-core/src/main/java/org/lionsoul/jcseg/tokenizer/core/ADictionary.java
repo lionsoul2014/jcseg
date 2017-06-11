@@ -13,8 +13,10 @@ import java.io.InputStreamReader;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -52,8 +54,8 @@ public abstract class ADictionary
     /**
      * synonyms buffer
     */
-    private final List<String[]> synBuffer = Collections
-            .synchronizedList(new ArrayList<String[]>());
+    private final List<String[]> synBuffer = Collections.synchronizedList(new ArrayList<String[]>());
+    private final Map<String, SynonymsEntry> rootMap = new HashMap<String, SynonymsEntry>();
     
     /**
      * initialize the ADictionary
@@ -203,7 +205,16 @@ public abstract class ADictionary
                     continue;
                 }
                 
-                SynonymsEntry synEntry = new SynonymsEntry(baseWord);
+                /*
+                 * first get the synonyms entry from the root map
+                 * create a new one and map it with the root word if it not exists 
+                */
+                SynonymsEntry synEntry = rootMap.get(baseWord.getValue());
+                if ( synEntry == null ) {
+                    synEntry = new SynonymsEntry(baseWord);
+                    rootMap.put(baseWord.getValue(), synEntry);
+                }
+                
                 synEntry.add(baseWord); //add the base word first
                 
                 for ( int i = 1; i < synLine.length; i++ ) {
