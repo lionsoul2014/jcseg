@@ -397,7 +397,7 @@ public class Word implements IWord,Cloneable
         SynonymsEntry synEntry = getSyn();
         if ( synEntry != null ) {
             IWord rootWord = synEntry.getRootWord();
-            sb.append(",\"root\":{").append("\"value\":\"")
+            sb.append(",\"root\":{").append("\"word\":\"")
                 .append(rootWord.getValue()).append("\",\"pinyin\":");
             if ( rootWord.getPinyin() == null ) {
                 sb.append("null");
