@@ -406,6 +406,8 @@ public class Word implements IWord,Cloneable
             }
             
             sb.append('}');
+        } else {
+            sb.append(",\"root\":null");
         }
         
         sb.append('}');
