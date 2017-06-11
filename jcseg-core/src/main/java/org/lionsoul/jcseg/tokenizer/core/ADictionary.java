@@ -193,9 +193,9 @@ public abstract class ADictionary
             while ( it.hasNext() ) {
                 String[] synLine = it.next();
                 
-                if ( synLine[0].length() > config.MAX_LENGTH ) {
-                    continue;
-                }
+                ///if ( synLine[0].length() > config.MAX_LENGTH ) {
+                ///    continue;
+                ///}
                 
                 //check if the baseWord is exists or not
                 IWord baseWord = get(ILexicon.CJK_WORD, synLine[0]);
@@ -208,9 +208,9 @@ public abstract class ADictionary
                 
                 for ( int i = 1; i < synLine.length; i++ ) {
                     String[] parts = synLine[i].split("\\s*/\\s*");
-                    if ( parts[0].length() > config.MAX_LENGTH ) {
-                        continue;
-                    }
+                    ///if ( parts[0].length() > config.MAX_LENGTH ) {
+                    ///    continue;
+                    ///}
                     
                     //check if the word is exists or not
                     //  or create a new one
