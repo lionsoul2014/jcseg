@@ -250,7 +250,7 @@ public class NLPSeg extends ComplexSeg
         
         IWord dWord = null;
         int mergedNum = 0;
-        while ( (dWord = super.next()) != null ) {  
+        while ( (dWord = super.next()) != null ) {
             String[] entity = dWord.getEntity();
             if ( entity == null ) {
                 eWordPool.push(dWord);
@@ -270,6 +270,7 @@ public class NLPSeg extends ComplexSeg
                 */
                 TimeUtil.fillTimeToPool(wMask, dWord.getValue());
             } else {
+                eWordPool.push(dWord);
                 break;
             }
             
@@ -355,6 +356,7 @@ public class NLPSeg extends ComplexSeg
             dWord  = mWord;
             entity = dWord.getEntity();
         } else {
+            eWordPool.add(dWord);
             return null;
         }
         
