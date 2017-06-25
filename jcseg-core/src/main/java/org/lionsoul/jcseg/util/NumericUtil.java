@@ -67,7 +67,7 @@ public class NumericUtil
     public static boolean isCNNumericString(String str , int sIdx, int eIdx)
     {
         for ( int i = sIdx; i < eIdx; i++ ) {
-            if ( ! cnNumeric.containsKey(str.charAt(0)) ) {
+            if ( ! cnNumeric.containsKey(str.charAt(i)) ) {
                 return false;
             }
         }
