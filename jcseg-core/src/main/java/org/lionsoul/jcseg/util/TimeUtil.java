@@ -135,8 +135,12 @@ public class TimeUtil
             return DATETIME_NONE;
         }
         
-        wPool[pIdx] = word;
-        return pIdx;
+        if ( wPool[pIdx] == null ) {
+            wPool[pIdx] = word;
+            return pIdx;
+        }
+        
+        return DATETIME_NONE;
     }
     
     /**
@@ -149,7 +153,9 @@ public class TimeUtil
     public static final void fillDateTimePool(
             IWord[] wPool, int pIdx, IWord word)
     {
-        wPool[pIdx] = word;
+        if ( wPool[pIdx] == null ) {
+            wPool[pIdx] = word;
+        }
     }
 
     /**
