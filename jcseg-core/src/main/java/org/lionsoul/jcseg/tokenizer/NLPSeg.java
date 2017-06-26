@@ -261,6 +261,7 @@ public class NLPSeg extends ComplexSeg
                     || ArrayUtil.startsWith("numeric.integer#time.", entity) > -1 ) {
                 if ( TimeUtil.DATETIME_NONE == 
                         TimeUtil.fillDateTimePool(wMask, dWord) ) {
+                    eWordPool.push(dWord);
                     break;
                 }
             } else if ( ArrayUtil.startsWith("datetime.h", entity) > -1 ) {
