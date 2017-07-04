@@ -147,7 +147,9 @@ public class ComplexSeg extends ASegment
         }
         
         //consider this as the final rule
-        return afterChunks[0];
+        //Change it to return the last chunk at 2017/07/04
+        //return afterChunks[0];
+        return afterChunks[afterChunks.length - 1];
     }
     
 }

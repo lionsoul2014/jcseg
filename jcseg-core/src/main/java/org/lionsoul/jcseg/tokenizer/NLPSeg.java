@@ -251,7 +251,6 @@ public class NLPSeg extends ComplexSeg
         IWord dWord = null;
         int mergedNum = 0;
         while ( (dWord = super.next()) != null ) {
-            System.out.println(dWord);
             String[] entity = dWord.getEntity();
             if ( entity == null ) {
                 eWordPool.push(dWord);
@@ -265,7 +264,6 @@ public class NLPSeg extends ComplexSeg
                     eWordPool.push(dWord);
                     break;
                 }
-                System.out.println("StartWith="+dWord);
             } else if ( ArrayUtil.startsWith("datetime.h", entity) > -1 ) {
                 /*
                  * check and merge the date time time part with a style
@@ -306,7 +304,6 @@ public class NLPSeg extends ComplexSeg
         }
         
         dWord.setEntity(new String[]{buffer.toString()});
-        System.out.println("dWord="+dWord);
         
         return dWord;
     }
