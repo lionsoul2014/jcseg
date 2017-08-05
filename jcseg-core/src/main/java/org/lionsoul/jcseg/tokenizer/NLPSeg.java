@@ -848,12 +848,18 @@ public class NLPSeg extends ComplexSeg
          * we do not check the type of the char read next.
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
+         * 
+         * @Note added at 2017/08/05
+         * Add the ibuffer.length checking logic to follow the limitation 
+         * of the maximum length of the current token 
         */
         IStringBuffer ibuffer = new IStringBuffer(str);
         String tstr = null;
         int mc = 0, j = 0;        //the number of char that read from the stream.
         ialist.clear();
-        for ( ; j < dic.mixSuffixLength && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < dic.mixSuffixLength 
+                && ibuffer.length() < config.MAX_LENGTH 
+                    && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
              * it is a accident that Jcseg works fine for 

@@ -1345,8 +1345,14 @@ public abstract class ASegment implements ISegment
          * we do not check the type of the char readed next.
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
+         * 
+         * @Note added at 2017/08/05
+         * Add the ibuffer.length checking logic to follow the limitation 
+         * of the maximum length of the current token 
         */
-        for ( ; j < dic.mixSuffixLength && (ch = readNext()) != -1; j++ ) {
+        for ( ; j < dic.mixSuffixLength 
+                && ibuffer.length() < config.MAX_LENGTH 
+                    && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
              *  it is a accident that Jcseg works fine for 
