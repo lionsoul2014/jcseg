@@ -1349,7 +1349,7 @@ public abstract class ASegment implements ISegment
         for ( ; j < dic.mixSuffixLength && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
-             *  it is a accident that Jcseg works find for 
+             *  it is a accident that Jcseg works fine for 
              *  we break the loop directly when we meet a whitespace.
              *  1. if a EC word is found, unit check process will be ignore.
              *  2. if matches no EC word, certainly return of readNext() 
