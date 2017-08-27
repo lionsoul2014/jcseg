@@ -996,13 +996,13 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 
 * 03)，格式和要求说明：
 ```
-1)，第一个词为同义词的根词条，这个词条必须是CJK_WORD词库中必须存在的词条，如果不存在，这条同义词定义会被忽略。
-2)，根词会作为不同行同义词集合的区别，如果两行同义词定义的根词一样，会自动合并成一个同义词集合。
-3)，jcseg中使用org.lionsoul.jcseg.tokenizer.core.SynonymsEntry来管理同义词集合，每个IWord词条对象都会有一个SynonymsEntry属性来指向自己的同义词集合。
-4)，SynonymsEntry.rootWord存储了同义词集合的根词，同义词的合并建议统一替换成根词。
-5)，除去根词外的其他同义词，jcseg会自动检测并且创建相关的IWord词条对象并且将其加入CJK_WORD词库中，也就是说其他同义词不一定要是CJK_WORD词库中存在的词条。
-6)，其他同义词会自动继承词根的词性和实体定义，也会继承CJK_WORD词库中该词条的拼音定义（如果存在该词），也可以在词条后面通过增加"/拼音"来单独定义拼音。
-7)，同一同义词定义的集合中的全部IWord词条都指向同一个SynonymsEntry对象，也就是同义词之间会自动相互引用。
+1，第一个词为同义词的根词条，这个词条必须是CJK_WORD词库中必须存在的词条，如果不存在，这条同义词定义会被忽略。
+2，根词会作为不同行同义词集合的区别，如果两行同义词定义的根词一样，会自动合并成一个同义词集合。
+3，jcseg中使用org.lionsoul.jcseg.tokenizer.core.SynonymsEntry来管理同义词集合，每个IWord词条对象都会有一个SynonymsEntry属性来指向自己的同义词集合。
+4，SynonymsEntry.rootWord存储了同义词集合的根词，同义词的合并建议统一替换成根词。
+5，除去根词外的其他同义词，jcseg会自动检测并且创建相关的IWord词条对象并且将其加入CJK_WORD词库中，也就是说其他同义词不一定要是CJK_WORD词库中存在的词条。
+6，其他同义词会自动继承词根的词性和实体定义，也会继承CJK_WORD词库中该词条的拼音定义（如果存在该词），也可以在词条后面通过增加"/拼音"来单独定义拼音。
+7，同一同义词定义的集合中的全部IWord词条都指向同一个SynonymsEntry对象，也就是同义词之间会自动相互引用。
 ```
 
 
