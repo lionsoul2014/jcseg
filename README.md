@@ -99,7 +99,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 
 ```
@@ -110,7 +110,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -120,7 +120,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -130,7 +130,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
