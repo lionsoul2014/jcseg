@@ -981,7 +981,6 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 从2.2.0版本开始jcseg将同义词统一成了一个单独的类别-CJK_SYN，你可以将你的同义词定义直接追加到现有的同义词词库vendors/lexicons/lex-synonyms.lex中，也可以新建一个独立的词库，然后在首行增加CJK_SYN定义，将该词库归类为同义词词库，然后按照下面介绍的格式逐行或者分行增加同义词的定义。
 
 * 02，统一的同义词格式：
-
 ```
 词根,同义词1[/可选拼音],同义词2[/可选拼音],...,同义词n[/可选拼音]
 ```
@@ -989,12 +988,9 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 例如：
 
 1)，单行定义：
-```
 研究,研讨,钻研,研磨/yan mo,研发
-```
 
 2)，多行定义：(只要词根一样，定义的全部同义词就都属于同一个集合)
-```
 中央一台,央视一台,中央第一台
 中央一台,中央第一频道,央视第一台,央视第一频道
 ```
