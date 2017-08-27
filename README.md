@@ -975,4 +975,25 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 名词n、时间词t、处所词s、方位词f、数词m、量词q、区别词b、代词r、动词v、形容词a、状态词z、副词d、介词p、连词c、助词u、语气词y、叹词e、拟声词o、成语i、习惯用语l、简称j、前接成分h、后接成分k、语素g、非语素字x、标点符号w）外，从语料库应用的角度，增加了专有名词（人名nr、地名ns、机构名称nt、其他专有名词nz）。
 
 
+### 2，Jcseg的同义词：
+
+##### 1，统一的词库分类:
+从2.2.0版本开始jcseg将同义词统一成了一个单独的类别-CJK_SYN，你可以将你的同义词定义直接追加到现有的同义词词库vendors/lexicons/lex-synonyms.lex中，也可以新建一个独立的词库，然后在首行增加CJK_SYN定义，将该词库归类为同义词词库。
+
+##### 2，同义词格式：
+
+同义词的统一格式如下：
+> 词根,同义词1[/可选拼音],同义词2[/可选拼音],...,同义词n[/可选拼音]
+
+例如：
+> 研究,研讨,钻研,研磨/yan mo,研发
+
+##### 3，格式和要求说明：
+01，第一个词为同义词的根词条，这个词条必须是CJK_WORD词库中必须存在的词条，如果不存在，这条同义词定义会被忽略。
+02，根词会作为不同行同义词定义的区别，如果两行同义词定义的根词一样，会自动合并成一个同义词集合。
+03，jcseg中使用org.lionsoul.jcseg.tokenizer.core.SynonymsEntry来管理同义词集合，每个词条都会有一个SynonymsEntry属性来指向自己的同义词集合。
+04，SynonymsEntry.rootWord存储了同义词集合的根词，同义词的合并建议统一替换成根词。
+05，除去跟次外的其他同义词，jcseg会自动创建相关的IWord对象并且将其加入CJK_WORD词库中，也就是说其他同义词不一定要是CJK_WORD词库中存在的词条。
+06，同一同义词定义的集合中的全部IWord词条都指向同一个SynonymsEntry对象，也就是同义词之间会自动相互引用。
+
 > This is the end line and thanks for reading !!!
