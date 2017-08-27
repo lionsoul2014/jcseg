@@ -1,17 +1,17 @@
 # Jcseg versions change histories
 
 ### TODO List: 
-* 1. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合
-* 2. 复杂模式，复杂中文的二次切分
-* 3. 文本自动分类
-* 4. 情感分析
+1. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合
+2. 复杂模式，复杂中文的二次切分
+3. 文本自动分类
+4. 情感分析
 
 ### jcseg 2.2.0:
-* 1. 检索模式SearchSeg增加粒度控制，切分单字，例如：”人民币“切分为”人，民，币，人民，人民币“
-* 2. 同义词统一解决方案：同义词单独管理，同义词之间自动相互引用，同义词追加和自动合并
-* 3. 单个词条多实体支持，词条的实体可以定义多个，IWord#Entity变为数组
-* 4. NLP切分优化，修复datetime实体识别和其他部分bug
-* 5. 词库优化
+1. 检索模式SearchSeg增加粒度控制，切分单字，例如：”人民币“切分为”人，民，币，人民，人民币“
+2. 同义词统一解决方案：同义词单独管理，同义词之间自动相互引用，同义词追加和自动合并
+3. 单个词条多实体支持，词条的实体可以定义多个，IWord#Entity变为数组
+4. NLP切分优化，修复datetime,time实体识别和其他部分bug
+5. 词库优化
 ```
 关于同义词：
 
@@ -30,15 +30,16 @@
 03)，同义词会继承词根的词性和实体定义，也会继承本词条的拼音（如果该词条存在），也可以在其后自定义拼音。
 ```
 
+
 ### jcseg-2.1.1: (current version)
 
-* 1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。
-* 2. 修复Word#toString中json字符串的特殊字符转义bug，增加"和\的预处理。 reported by https://github.com/luohuan02
-* 3. 修复《》之间五内容切出空字符串的bug。 reported by http://git.oschina.net/fige
-* 4. NLP切分模式增加标准的datetime实体识别。例如：2017/03/07，2017-03-07。
-* 5. NLP切分模式增加中文通用datetime实体识别。例如：2017年3月7日，明天下午4点半，下周二上午８点４５分等，明天凌晨2点一刻。
-* 6. NLP切分模式增加混合dateime实体识别。例如：明天下午15:45，下周二10:30，2017-03-15下午三点半，2017/12/24下午15:45。
-* 7. 优化了IWord词条对象的可能的并发访问问题，目前主要是出现在开启词库更新自动加载的情况下IWord.clone()调用时，更新线程和切分线程的竞争。
+1. 优化JcsegTokenizer的实现：clearAttributes改为到reset中调用，去除end()的调用，方便TokenStream外引用做相关统计查询工作。
+2. 修复Word#toString中json字符串的特殊字符转义bug，增加"和\的预处理。 reported by https://github.com/luohuan02
+3. 修复《》之间五内容切出空字符串的bug。 reported by http://git.oschina.net/fige
+4. NLP切分模式增加标准的datetime实体识别。例如：2017/03/07，2017-03-07。
+5. NLP切分模式增加中文通用datetime实体识别。例如：2017年3月7日，明天下午4点半，下周二上午８点４５分等，明天凌晨2点一刻。
+6. NLP切分模式增加混合dateime实体识别。例如：明天下午15:45，下周二10:30，2017-03-15下午三点半，2017/12/24下午15:45。
+7. 优化了IWord词条对象的可能的并发访问问题，目前主要是出现在开启词库更新自动加载的情况下IWord.clone()调用时，更新线程和切分线程的竞争。
 
 datetime实体识别测试demo（不同datetime部分使用空格分开，方便二次分词处理）：
 
@@ -79,19 +80,19 @@ Done, total:29, tokens:4, in 0.00210sec
 
 ### jcseg-2.1.0: 
 
-* 01. 部分词库类别合并到主类别（中英组合，英中组合，英文标点，英文词库），方便维护，也是为Jcseg的NLP计划做准备。
-* 02. 优化Jcseg的英中组合词条的识别算法，之前的除类似“x射线”等英中混合词识别外，其他的类别的混合词维护过于麻烦，全部混合词库统一到lex-mixed.lex中管理或者新建词库。
-* 03. 分隔符切分模式，对输入流直接按照单个分隔符（默认是空格）切分，特殊应用场景需求。
-* 04. 词库增加词条实体标识和识别，方便应用对切分出来的词条做词条类别识别和应用，例如：时间，地点（比词性和实体识别更灵活，可以持有n种自定义实体类别）。
-* 05. 优化了词库加载的检测（关于各类词条对于config.max_length的检测验证）。
-* 06. 增加英文词条最大长度为64个字符的限制，防止输入很长的无空白英文字符串导致内存溢出
-* 07. 新增了NLPSeg切分模式，用于NLP分析，继承自复杂模式，修改了数字，单位等词条的组合形式，增加电子邮件，大陆手机号码，网址，地名，人名，货币等实体的自动识别。
-* 08. 优化了jcseg-server模块的api数据处理，简化了api数据返回格式。
-* 09. 词库优化，将ip2region中的全部地域词库合并到了lex-place.lex中作为统一地名词库。
-* 10. DictionaryFactory#createSingletonDictionary loadDic参数无效bug修复。
-* 11. 增加对目前最新版本的lucene-6.3.0的支持。
-* 12. 增加对目前最新版本的solr-6.3.0的支持。
-* 13. 增加对目前最新版本的elasticsearch-5.1.1的支持。
+01. 部分词库类别合并到主类别（中英组合，英中组合，英文标点，英文词库），方便维护，也是为Jcseg的NLP计划做准备。
+02. 优化Jcseg的英中组合词条的识别算法，之前的除类似“x射线”等英中混合词识别外，其他的类别的混合词维护过于麻烦，全部混合词库统一到lex-mixed.lex中管理或者新建词库。
+03. 分隔符切分模式，对输入流直接按照单个分隔符（默认是空格）切分，特殊应用场景需求。
+04. 词库增加词条实体标识和识别，方便应用对切分出来的词条做词条类别识别和应用，例如：时间，地点（比词性和实体识别更灵活，可以持有n种自定义实体类别）。
+05. 优化了词库加载的检测（关于各类词条对于config.max_length的检测验证）。
+06. 增加英文词条最大长度为64个字符的限制，防止输入很长的无空白英文字符串导致内存溢出
+07. 新增了NLPSeg切分模式，用于NLP分析，继承自复杂模式，修改了数字，单位等词条的组合形式，增加电子邮件，大陆手机号码，网址，地名，人名，货币等实体的自动识别。
+08. 优化了jcseg-server模块的api数据处理，简化了api数据返回格式。
+09. 词库优化，将ip2region中的全部地域词库合并到了lex-place.lex中作为统一地名词库。
+10. DictionaryFactory#createSingletonDictionary loadDic参数无效bug修复。
+11. 增加对目前最新版本的lucene-6.3.0的支持。
+12. 增加对目前最新版本的solr-6.3.0的支持。
+13. 增加对目前最新版本的elasticsearch-5.1.1的支持。
 
 升级指南：
 
@@ -100,10 +101,10 @@ Done, total:29, tokens:4, in 0.00210sec
 
 ### jcseg-2.0.0:
 
-* 1. 增加自定义词库开发文档
-* 2. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
-* 3. 文档增加词库自动加载lex-autoload.todo权限提示
-* 4. DictionaryFactory增加如下两个接口方便自定义词库开发
+1. 增加自定义词库开发文档
+2. 完善关键字提取，关键短语提取，关键句子，自动摘要提取的自定义开发文档
+3. 文档增加词库自动加载lex-autoload.todo权限提示
+4. DictionaryFactory增加如下两个接口方便自定义词库开发
 
 ```java
 createDefaultDictionary(JcsegTaskConfig config, boolean sync, boolean loadDic)
@@ -114,8 +115,8 @@ createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
 */
 ```
 
-* 5. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
-* 6. 优化了复杂英文组合的二次切分，确保返回词条后者的startOffset大于等于前者的
+5. 修复了并发情况下IWord#position可能的污染bug，这个bug会导致lucene的高亮错误
+6. 优化了复杂英文组合的二次切分，确保返回词条后者的startOffset大于等于前者的
 
 ### jcseg-1.9.9: 
 
@@ -199,21 +200,21 @@ loadClassPath()                 //从classpath中载入全部词条
 
 ### jcseg-1.9.8: 
 
-* 1. 增加检索切分模式（SEARCH_MODE），实现细粒度切分，专业为搜索。
-* 2. 增加DictionaryFactory#createSingletonDictionary，用于创建单例词库。
-* 3. 将analyzer,elasticsearch接口词库更改为单例创建，节省内存，同时避免了多实例的下词库自动加载无法全局更新的问题。
-* 4. 提供对lucene,solr 6.0以上版本的支持，elasticsearch 2.3.1以上版本的支持。
-* 5. 增加JcsegAnalyzer5X如下构造方法方便lucene应用的打包发布：
+1. 增加检索切分模式（SEARCH_MODE），实现细粒度切分，专业为搜索。
+2. 增加DictionaryFactory#createSingletonDictionary，用于创建单例词库。
+3. 将analyzer,elasticsearch接口词库更改为单例创建，节省内存，同时避免了多实例的下词库自动加载无法全局更新的问题。
+4. 提供对lucene,solr 6.0以上版本的支持，elasticsearch 2.3.1以上版本的支持。
+5. 增加JcsegAnalyzer5X如下构造方法方便lucene应用的打包发布：
 
 ```java
 JcsegAnalyzer5X(int mode, String proFile)
 JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
 JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
 ```
-* 6. 代码格式标准化，例如：4空格代替tab，花括号的换行等。
-* 7. 词库优化（去除些许无用词，完善部分词条词性定义）
-* 8. 修复jcseg-server.properties#jcseg_global_setting名称错误, 更改为：jcseg_global_config。
-* 9. 修复JcsegServer#http_config设置bug和TokenizerController#pos拼写错误。
+6. 代码格式标准化，例如：4空格代替tab，花括号的换行等。
+7. 词库优化（去除些许无用词，完善部分词条词性定义）
+8. 修复jcseg-server.properties#jcseg_global_setting名称错误, 更改为：jcseg_global_config。
+9. 修复JcsegServer#http_config设置bug和TokenizerController#pos拼写错误。
 
 
 ### jcseg-1.9.7:
