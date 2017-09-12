@@ -905,8 +905,7 @@ CJK_WORD
 下下个礼拜7/t/xia xia ge li bai qi/null
 下下个礼拜日/t/xia xia ge li bai ri/null
 下下个礼拜天/t/xia xia ge li bai tian/null
-#
-#
+# end time.d
 ##time.m类词条
 :entity time.m
 上上个月/t/shang shang ge yue/null
