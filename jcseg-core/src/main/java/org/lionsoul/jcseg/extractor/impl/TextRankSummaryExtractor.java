@@ -148,7 +148,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
             
             /*
              * count the relevance for document sentence[i]
-             * with all the queries setence[i]  
+             * with all the queries sentence[i]  
             */
             for ( List<IWord> query : senWords ) {
                 double score = 0F;
@@ -180,7 +180,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     }
     
     /**
-     * sum the specifield double array
+     * sum the specified double array
      * 
      * @param   score
      * @return  double
@@ -204,7 +204,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     {
         int docNum = sentence.size();
     
-        //documents relavance matrix build
+        //documents relevance matrix build
         double[][] relevance = BM25RelevanceMatixBuild(sentence, senWords);
         //org.lionsoul.jcseg.util.Util.printMatrix(relevance);
         
@@ -222,7 +222,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
                 for ( int j = 0; j < docNum; j++ ) {
                     if ( i == j || weight_sum[j] == 0 ) continue;
                     /*
-                     * ws(vj) * wji / sigema(wjk) with k in Out(Vj) 
+                     * ws(vj) * wji / sigma(wjk) with k in Out(Vj) 
                      * ws(vj): score[j] the score of document[j]
                      * wji: relevance score bettween document[j] and document[i]
                      * sigema(wjk): weight sum for document[j]
@@ -305,7 +305,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         /*
          * substring length chars from the position
          * of the document with the greatest text rank score.
-         * if still not enought start ahead of it...
+         * if still not enough start ahead of it...
         */
         int less = length, sIdx = docs[0].getIndex();
         for ( int i = docs[0].getIndex(); i < docNum; i++ ) {
@@ -313,7 +313,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
             if ( less <= 0 ) break;
         }
         
-        //not enought: check the sentence ahead of it
+        //not enough: check the sentence ahead of it
         if ( less > 0 ) {
             for ( int i = docs[0].getIndex() - 1; i >= 0; i-- ) {
                 less -= sentence.get(i).getLength();

@@ -83,7 +83,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
             }
         }
         
-        ///do the page rank socres count
+        ///do the page rank scores count
         Map<IWord, Float> score = new HashMap<IWord, Float>();
         for ( int c = 0; c < maxIterateNum; c++ ) {
             for ( Map.Entry<IWord, List<IWord>> entry : winMap.entrySet() ) {

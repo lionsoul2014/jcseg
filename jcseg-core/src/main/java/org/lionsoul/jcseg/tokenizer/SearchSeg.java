@@ -79,22 +79,14 @@ public class SearchSeg extends ASegment
             */
             if ( mnum == 0 && (cjkidx == 0 || cjkidx > ignidx) ) {
                 String temp = String.valueOf(chars[cjkidx]);
-                if ( dic.match(ILexicon.CJK_WORD, temp) == false ) {
+                if ( ! dic.match(ILexicon.CJK_WORD, temp) ) {
                     word = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
                     word.setPosition(pos+cjkidx);
-                    mList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
-                } else {
-                    word = dic.get(ILexicon.CJK_WORD, temp).clone();
-                    word.setPosition(pos+cjkidx);
                     mList.add(word);
-                    appendWordFeatures(word);
                 }
             }
             
             cjkidx++;
-            if ( cjkidx > chars.length ) {
-                break;
-            }
         }
         
         /*
