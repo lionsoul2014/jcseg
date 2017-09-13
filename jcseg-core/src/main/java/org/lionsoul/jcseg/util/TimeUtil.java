@@ -105,16 +105,22 @@ public class TimeUtil
         return new IWord[]{
             null,   //year value
             null,   //year
+            
             null,   //month value
             null,   //month
+            
             null,   //day value
             null,   //day
+            
             null,   //timing method value
             null,   //timing method
+            
             null,   //hour value
             null,   //hour
+            
             null,   //minute value
             null,   //minute
+            
             null,   //second value
             null,   //seconds
         };

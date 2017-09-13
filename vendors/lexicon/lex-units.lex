@@ -49,6 +49,7 @@ CJK_UNIT
 微秒/time.um
 纳秒/time.ns
 小时/time.h
+个小时/time.h
 分钟/time.m
 ##货币##
 元/currency.cny

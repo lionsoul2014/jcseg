@@ -284,12 +284,15 @@ public class NLPSeg extends ComplexSeg
         
         buffer.clear();
         for ( int i = 0; i < wMask.length; i++ ) {
-            if ( wMask[i] == null ) continue;
-            if ( buffer.length() > 0 
-                    && ((i & 0x01) == 0 || i == TimeUtil.DATETIME_A) ) {
+            int ni = i + 1;
+            if ( buffer.length() > 0 && ((i & 0x01) == 0) 
+                    && ni < wMask.length && wMask[ni] != null ) {
                 buffer.append(' ');
             }
-            buffer.append(wMask[i].getValue());
+            
+            if ( wMask[i] != null ) {
+                buffer.append(wMask[i].getValue());
+            }
         }
         
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
@@ -360,6 +363,7 @@ public class NLPSeg extends ComplexSeg
             eWordPool.add(dWord);
             return null;
         }
+        
         
         buffer.clear().append(word.getValue()).append(' ').append(dWord.getValue());
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);

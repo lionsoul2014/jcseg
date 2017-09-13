@@ -1,10 +1,13 @@
 # Jcseg versions change histories
 
 ### TODO List: 
-1. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合
-2. 复杂模式，复杂中文的二次切分
-3. 文本自动分类
-4. 情感分析
+1. NLP切分部分时间实体没有使用空格隔开的bug，例如：“2017年大年初三”，应该结果：“2017年 大年初三”。  --done
+2. 检索模式重复输出的bug。report at https://gitee.com/lionsoul/jcseg/issues/IEZLN
+3. 自动摘要自定义输出的长度失效bug。
+4. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合
+5. 复杂模式，复杂中文的二次切分
+6. 文本自动分类
+7. 情感分析
 
 ### jcseg 2.2.0:
 1. 检索模式SearchSeg增加粒度控制，切分单字，例如：”人民币“切分为”人，民，币，人民，人民币“
