@@ -307,10 +307,14 @@ public class TextRankSummaryExtractor extends SummaryExtractor
          * of the document with the greatest text rank score.
          * if still not enough start ahead of it...
         */
+        boolean allAfter = false;
         int less = length, sIdx = docs[0].getIndex();
         for ( int i = docs[0].getIndex(); i < docNum; i++ ) {
             less -= sentence.get(i).getLength();
-            if ( less <= 0 ) break;
+            if ( less <= 0 ) {
+                allAfter = true;
+                break;
+            }
         }
         
         //not enough: check the sentence ahead of it
@@ -336,6 +340,16 @@ public class TextRankSummaryExtractor extends SummaryExtractor
             } else {
                 break;
             }
+        }
+        
+        /*
+         * do the length limit and substring
+         * if all the sentence are after the key one
+         * 
+         * Added at 2017/09/17
+        */
+        if ( allAfter && isb.length() > length ) {
+            isb.setLength(length);
         }
         
         //let gc do its work

@@ -233,6 +233,20 @@ public class IStringBuffer
     }
     
     /**
+     * set the length of the buffer
+     * actually it just override the count and the actual buffer
+     * has nothing changed
+     * 
+     * @param   int
+    */
+    public int setLength(int length)
+    {
+        int oldCount = count;
+        count = length;
+        return oldCount;
+    }
+    
+    /**
      * get the char at a specified position in the buffer
     */
     public char charAt( int idx )
