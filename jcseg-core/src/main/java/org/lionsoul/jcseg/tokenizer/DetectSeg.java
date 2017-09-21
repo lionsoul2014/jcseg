@@ -3,12 +3,14 @@ package org.lionsoul.jcseg.tokenizer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.LinkedList;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.tokenizer.core.SegKit;
 import org.lionsoul.jcseg.util.StringUtil;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
@@ -35,6 +37,7 @@ public class DetectSeg implements ISegment
     */
     private IPushbackReader reader = null;
     private IStringBuffer isb = null;
+    protected LinkedList<IWord> wordPool = null;
     
     /**
      * the dictionary and task configuration
@@ -66,6 +69,8 @@ public class DetectSeg implements ISegment
     {
         this.config = config;
         this.dic    = dic;
+        
+        wordPool = new LinkedList<IWord>();
         isb = new IStringBuffer(64);
         reset(input);    //reset the stream
     }
@@ -164,6 +169,15 @@ public class DetectSeg implements ISegment
     @Override
     public IWord next() throws IOException 
     {
+        /*
+         * @Note: 
+         * check and get the token directly from the word pool
+         */
+        if ( wordPool.size() > 0 ) {
+            return wordPool.remove();
+        }
+        
+        
         int c, i, pos;
         IWord   w = null;
         String  T = null;
@@ -242,6 +256,24 @@ public class DetectSeg implements ISegment
             //add position record
             w = w.clone();
             w.setPosition(pos);
+            
+            
+            /* 
+             * check and append the word features
+             * 1, check and append the Pinyin
+             * 2, check and append the synonyms
+            */
+            if ( config.APPEND_CJK_PINYIN 
+                    && config.LOAD_CJK_PINYIN && w.getPinyin() != null ) {
+                IWord pinyin = new Word(w.getPinyin(), IWord.T_CJK_PINYIN);
+                pinyin.setPosition(pos);
+                wordPool.add(pinyin);
+            }
+            
+            if ( config.APPEND_CJK_SYN 
+                    && config.LOAD_CJK_SYN && w.getSyn() != null ) {
+                SegKit.appendSynonyms(wordPool, w);
+            }
             
             return w;
         }
