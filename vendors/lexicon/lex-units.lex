@@ -1,21 +1,21 @@
 CJK_UNIT
 #中文单位词库
 ##长度##
-千米/q/qian mi/公里/length.km
-米/q/mi/null/length.m
-分米/q/fen mi/null/length.dm
-厘米/q/li mi/null/length.cm
-毫米/q/hao mi/null/length.mm
-微米/q/wei mi/null/length.um
-纳米/q/na mi/null/length.nm
-英寸/q/ying cun/null/length.in
-英尺/q/ying chi/null/length.ft
-码/q/ma/null/length.yd
-英寻/q/ying xun/null/length.fm
-弗隆/q/fu long/null/length.fur
-丈/q/zhang/null/length.tft
-尺/q/chi/null/length.cft
-寸/q/cun/null/length.cin
+千米/q/qian mi/length.km
+米/q/mi/length.m
+分米/q/fen mi/length.dm
+厘米/q/li mi/length.cm
+毫米/q/hao mi/length.mm
+微米/q/wei mi/length.um
+纳米/q/na mi/length.nm
+英寸/q/ying cun/length.in
+英尺/q/ying chi/length.ft
+码/q/ma/length.yd
+英寻/q/ying xun/length.fm
+弗隆/q/fu long/length.fur
+丈/q/zhang/length.tft
+尺/q/chi/length.cft
+寸/q/cun/length.cin
 #分
 #厘
 #毫

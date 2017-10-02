@@ -4,3 +4,5 @@ NUMBER_UNIT
 个/the_number
 张/the_card
 集/the_episode
+部/the_part
+季/the_season

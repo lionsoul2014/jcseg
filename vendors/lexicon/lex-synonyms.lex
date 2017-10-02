@@ -43,7 +43,7 @@ t恤,t恤衫/t xue shan
 卡拉ok,ktv/k t v
 
 ### lang
-汉语,中文/zhong wen,国语/guo yu
+汉语,中文/zhong wen,国语/guo yu,普通话/pu tong hua
 台湾话,台语/tai yu
 法语,法文/fa wen
 粤语,广东话/guang dong hua,香港话/xiang gang hua
@@ -62,3 +62,8 @@ t恤,t恤衫/t xue shan
 国防部,军事部/jun shi bu,防卫厅/fang wei ting
 外交部,对外关系部/dui wai guan xi bu
 柯基犬,柯基/nr/ke ji
+
+##英文
+decimal,decimals,fraction
+spirit,mind
+admire,appreciate,like,love,enjoy

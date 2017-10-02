@@ -786,8 +786,8 @@ CJK_WORD
 重庆市/ns/zhong qing shi/null
 重庆/ns/zhong qing/null
 成都市/ns/cheng du shi/null
-成都/ns/cheng du/锦城
-锦城/ns/jin cheng/成都
+成都/ns/cheng du/null
+锦城/ns/jin cheng/null
 自贡市/ns/zi gong shi/null
 自贡/ns/zi gong/null
 攀枝花市/ns/pan zhi hua shi/null

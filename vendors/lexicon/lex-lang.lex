@@ -1,6 +1,7 @@
 CJK_WORD
 中文/n/zhong wen/null
 国语/n/guo yu/null
+普通话/n/pu tong hua/null
 台湾话/n/tai wan hua/null
 台语/n/tai yu/null
 客家话/n/ke jia hua/null
