@@ -187,6 +187,20 @@ public interface IWord extends Cloneable
     public void addPartSpeech( String ps );
     
     /**
+     * return the additional parameters
+     * 
+     * @return  String
+    */
+    public String getParameter();
+    
+    /**
+     * set the string parameters
+     * 
+     * @param   parameters
+    */
+    public void setParameter(String param);
+    
+    /**
      * I mean: you have to rewrite the equals method
      *  cause the Jcseg require it 
      */

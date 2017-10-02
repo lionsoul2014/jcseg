@@ -91,7 +91,7 @@ public class DictionaryFactory
             
             /*
              * added at 2017/06/10
-             * check and reset synonyms net of the current Dictionry 
+             * check and reset synonyms net of the current Dictionary 
             */
             dic.resetSynonymsNet();
         } catch (IOException e) {

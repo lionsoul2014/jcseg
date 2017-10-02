@@ -48,6 +48,13 @@ public class Word implements IWord,Cloneable
     private volatile SynonymsEntry syn = null;
     
     /**
+     * @Note added at 2017/10/02
+     * 
+     * with IWord additional parameter support
+    */
+    private String parameter = null;
+    
+    /**
      * construct method to initialize the newly created Word instance
      * 
      * @param   value
@@ -253,6 +260,19 @@ public class Word implements IWord,Cloneable
         }
     }
     
+
+    @Override
+    public String getParameter()
+    {
+        return parameter;
+    }
+
+    @Override
+    public void setParameter(String param)
+    {
+        this.parameter = param;
+    }
+    
     /**
      * Interface to clone the current object
      * 
@@ -347,6 +367,11 @@ public class Word implements IWord,Cloneable
             sb.append(ArrayUtil.implode("|", entity));
         }
         
+        if ( parameter != null ) {
+            sb.append('/');
+            sb.append(parameter);
+        }
+        
         return sb.toString();
     }
     
@@ -410,6 +435,14 @@ public class Word implements IWord,Cloneable
             sb.append('}');
         } else {
             sb.append(",\"root\":null");
+        }
+        
+        //check and append the parameter
+        if ( parameter != null ) {
+            sb.append(",\"parameter\":\"");
+            sb.append(parameter.replaceAll("\"", "\\\\\"")).append('"');
+        } else {
+            sb.append(",\"parameter\":null");
         }
         
         sb.append('}');

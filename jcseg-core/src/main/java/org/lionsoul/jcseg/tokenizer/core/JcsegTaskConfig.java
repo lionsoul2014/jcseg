@@ -68,6 +68,9 @@ public class JcsegTaskConfig implements Cloneable
     /**whether to load the entity define*/
     public boolean LOAD_CJK_ENTITY = true;
     
+    /**whether to load the self-define parameter*/
+    public boolean LOAD_PARAMETER = true;
+    
     /**
      * do the entity recognition ? 
     */
@@ -278,6 +281,9 @@ public class JcsegTaskConfig implements Cloneable
         if ( lexPro.getProperty("jcseg.loadentity") != null
                 && lexPro.getProperty("jcseg.loadentity").equals("0")) 
             LOAD_CJK_ENTITY = false;
+        if ( lexPro.getProperty("jcseg.loadparameter") != null
+                && lexPro.getProperty("jcseg.loadparameter").equals("0")) 
+            LOAD_PARAMETER = false;
         if ( lexPro.getProperty("jcseg.clearstopword") != null
                 && lexPro.getProperty("jcseg.clearstopword").equals("1"))
             CLEAR_STOPWORD = true;

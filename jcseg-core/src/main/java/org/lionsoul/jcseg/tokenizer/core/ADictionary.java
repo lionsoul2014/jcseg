@@ -110,7 +110,7 @@ public abstract class ADictionary
     }
     
     /**
-     * load the all the words form all the files under a specified lexicon directory
+     * load the all the words from all the files under a specified lexicon directory
      * 
      * @param   lexDir
      * @throws  IOException
@@ -611,8 +611,8 @@ public abstract class ADictionary
                     String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
                     w.addEntity(entity);
                     dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
-                } else if ( wd.length > 4) {
-                    String entity = "null".equals(wd[4]) ? null : Entity.get(wd[4]);
+                } else if ( wd.length > 3 ) {
+                    String entity = "null".equals(wd[3]) ? null : Entity.get(wd[3]);
                     w.addEntity(entity);
                     dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
                     tword = w;
@@ -639,7 +639,7 @@ public abstract class ADictionary
                 //@Note access the explanation through wd[1]
                 break;
             case ILexicon.CJK_SYN:
-                wd = line.split(",");
+                wd = line.split("\\s*,\\s*");
                 if ( wd.length > 1 && buffer != null ) {
                     buffer.add(wd);
                 }
@@ -686,12 +686,23 @@ public abstract class ADictionary
                  * update the entity string for CJK and English words only 
                 */
                 if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
-                    if ( wd.length > 4 ) {
-                        if ( ! "null".equals(wd[4]) ) {
-                            tword.addEntity(Entity.get(wd[4]));
+                    if ( wd.length > 3 ) {
+                        if ( ! "null".equals(wd[3]) ) {
+                            tword.addEntity(Entity.get(wd[3]));
                         }
                     } else if ( gEntity != null ) {
                         tword.addEntity(gEntity);
+                    }
+                }
+                
+                /*
+                 * @Note: added at 2017/10/02
+                 * check and set the word parameter override the original one
+                 * if the current one with parameter set up 
+                */
+                if ( config.LOAD_PARAMETER && t != ILexicon.CJK_CHAR ) {
+                    if ( wd.length > 4 && ! wd[4].equals("null") ) {
+                        tword.setParameter(wd[4]);
                     }
                 }
                 
