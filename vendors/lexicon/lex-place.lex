@@ -1,6 +1,6 @@
 CJK_WORD
 :entity place.continent
-亚洲/ns/ya zhou/null
+亚洲/ns/ya zhou/null/null
 非洲/ns/fei zhou/null
 北美洲/ns/bei mei zhou/null
 南美洲/ns/nan mei zhou/null

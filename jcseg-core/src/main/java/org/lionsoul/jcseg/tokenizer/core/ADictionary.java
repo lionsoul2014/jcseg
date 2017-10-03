@@ -647,7 +647,7 @@ public abstract class ADictionary
                 break;
             case ILexicon.CJK_WORD:
             case ILexicon.CJK_CHAR:
-                wd = line.split("\\s*/\\s*");
+                wd = line.split("\\s*/\\s*", 5);
                 if ( wd.length < 4 ) {    //format check
                     System.out.println("Word: \"" + wd[0] + "\" format error. -ignored");
                     continue;
@@ -687,7 +687,13 @@ public abstract class ADictionary
                 */
                 if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
                     if ( wd.length > 3 ) {
-                        if ( ! "null".equals(wd[3]) ) {
+                        if ( "unset".equals(wd[3]) ) {
+                            tword.setEntity(null);
+                        } else if ( "extend".equals(wd[3]) ) {
+                            tword.addEntity(gEntity);
+                        } else if ( "null".equals(wd[3]) ) {
+                            tword.addEntity(gEntity);
+                        } else {
                             tword.addEntity(Entity.get(wd[3]));
                         }
                     } else if ( gEntity != null ) {
