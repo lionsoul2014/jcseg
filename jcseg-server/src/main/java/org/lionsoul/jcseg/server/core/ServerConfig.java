@@ -165,7 +165,7 @@ public class ServerConfig
     }
     
     /**
-     * check the server use the default iso-8859-1 chaset 
+     * check the server use the default iso-8859-1 charset
      * 
      * @return    boolean
     */
