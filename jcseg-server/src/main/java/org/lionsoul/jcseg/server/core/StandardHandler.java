@@ -33,7 +33,7 @@ public class StandardHandler extends AbstractHandler
     protected AbstractRouter router = null;
     
     /**
-     * contruct method
+     * construct method
      * 
      * @param    resourcePool
      * @param    router

@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
+import org.lionsoul.jcseg.json.JSONObject;
 
 /**
  * base controller class 
@@ -53,7 +55,7 @@ public abstract class Controller
     
     
     /**
-     * contruct method
+     * construct method
      * 
      * @param    config
      * @param    globalResource
@@ -99,8 +101,8 @@ public abstract class Controller
     /**
      * handle the current request
      * 
-     * @param    method
-     * @throws IOException
+     * @param   method
+     * @throws  IOException
     */
     protected void run(String method) throws IOException
     {
@@ -111,8 +113,8 @@ public abstract class Controller
      * get a String argument, 
      * encoding will be check and Re-encode maybe.
      * 
-     * @param    name
-     * @return    String
+     * @param   name
+     * @return  String
     */
     public String getString(String name)
     {
@@ -138,8 +140,8 @@ public abstract class Controller
     /**
      * get a integer arguments
      * 
-     * @param    name
-     * @return    int
+     * @param   name
+     * @return  int
     */
     public int getInt(String name)
     {
@@ -161,8 +163,8 @@ public abstract class Controller
     /**
      * get a float arguments
      * 
-     * @param    name
-     * @return    float
+     * @param   name
+     * @return  float
     */
     public float getFloat(String name)
     {
@@ -184,8 +186,8 @@ public abstract class Controller
     /**
      * get a long argument
      * 
-     * @param    name
-     * @return    long
+     * @param   name
+     * @return  long
     */
     public long getLong(String name)
     {
@@ -207,8 +209,8 @@ public abstract class Controller
     /**
      * get a double argument
      * 
-     * @param    name
-     * @return    double
+     * @param   name
+     * @return  double
     */
     public double getDouble(String name)
     {
@@ -230,8 +232,8 @@ public abstract class Controller
     /**
      * get a boolean argument
      * 
-     * @param    name
-     * @return    boolean
+     * @param   name
+     * @return  boolean
     */
     public boolean getBoolean(String name)
     {
@@ -251,7 +253,7 @@ public abstract class Controller
     }
     
     /**
-     * redirect to the specifield controller/method
+     * redirect to the specified controller/method
      * 
      * @param   path
      * @throws  IOException 
@@ -261,5 +263,69 @@ public abstract class Controller
         //response.setHeader("Location", path.charAt(0)=='/' ? path : "/"+path);
         response.sendRedirect(path.charAt(0)=='/' ? path : "/"+path);
         output.close();
+    }
+    
+    /**
+     * get the original raw data
+     * 
+     * @return  byte[]
+     * @throws  IOException 
+    */
+    public byte[] getRawData() throws IOException
+    {
+        int contentLength = request.getContentLength();
+        if( contentLength<0 ) {
+            return null;
+        }
+        
+        byte[] buffer = new byte[contentLength];
+        ServletInputStream is = request.getInputStream();
+        for (int i = 0; i < contentLength; ) {
+            int rLen = is.read(buffer, i, contentLength - i);
+            if ( rLen == -1 ) {
+                break;
+            }
+            
+            i += rLen;
+        }
+        
+        return buffer;
+    }
+    
+    /**
+     * get the original request raw data as String
+     * 
+     * @return  String
+     * @throws  IOException 
+    */
+    public String getRawDataAsString() throws IOException
+    {
+        byte[] buffer = getRawData();
+        if ( buffer == null ) {
+            return null;
+        }
+        
+        String encoding = request.getCharacterEncoding();
+        if ( encoding == null ) {
+            encoding = "utf-8";
+        }
+        
+        return new String(buffer, encoding);
+    }
+    
+    /**
+     * get the original request raw data as json
+     * 
+     * @return  JSONObject
+     * @throws  IOException 
+    */
+    public JSONObject getRawDataAsJson() throws IOException
+    {
+        String input = getRawDataAsString();
+        if ( input == null ) {
+            return null;
+        }
+        
+        return new JSONObject(input);
     }
 }

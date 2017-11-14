@@ -32,7 +32,7 @@ public abstract class AbstractRouter
     public abstract void addMapping(String path, Class<? extends Controller> _class);
     
     /**
-     * remove the specifield mapping 
+     * remove the specified mapping 
      * 
      * @param    path
     */

@@ -39,7 +39,7 @@ public class JcsegServerConfig extends ServerConfig
     }
     
     /**
-     * initialize it from the specifield config file
+     * initialize it from the specified config file
      * 
      * @param    configFile
      * @throws IOException 
@@ -66,19 +66,23 @@ public class JcsegServerConfig extends ServerConfig
         reader = null;
     }
 
-    public String getConfigFile() {
+    public String getConfigFile()
+    {
         return configFile;
     }
 
-    public void setConfigFile(String configFile) {
+    public void setConfigFile(String configFile)
+    {
         this.configFile = configFile;
     }
 
-    public JSONObject getGlobalConfig() {
+    public JSONObject getGlobalConfig()
+    {
         return globalConfig;
     }
 
-    public void setGlobalConfig(JSONObject globalConfig) {
+    public void setGlobalConfig(JSONObject globalConfig)
+    {
         this.globalConfig = globalConfig;
     }
 
