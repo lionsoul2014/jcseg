@@ -449,42 +449,86 @@ public class NLPSeg extends ComplexSeg
                     
                     /*
                      * try to find the word that made up with the numeric
-                     * like: "五四运动"
+                     * like: "五四运动" or "五月天" eg ...
+                     * Take the maximum matching word as the final token
+                     * IIF the max matching word is longer than the unit word
                     */
-                    if ( unitWord == null ) {
-                        IWord wd = null;
-                        sb.clear().append(num);
-                        for ( int j = num.length();
-                                (cjkidx + j) < chars.length 
-                                    && j < config.MAX_LENGTH; j++ ) {
-                            sb.append(chars[cjkidx+j]);
-                            temp = sb.toString();
-                            if ( dic.match(ILexicon.CJK_WORD, temp) ) {
-                                wd = dic.get(ILexicon.CJK_WORD, temp);
+                    IWord mmwd = null;
+                    sb.clear().append(num);
+                    for ( int j = num.length();
+                            (cjkidx + j) < chars.length 
+                                && j < config.MAX_LENGTH; j++ ) {
+                        sb.append(chars[cjkidx+j]);
+                        temp = sb.toString();
+                        if ( dic.match(ILexicon.CJK_WORD, temp) ) {
+                            mmwd = dic.get(ILexicon.CJK_WORD, temp);
+                        }
+                    }
+                    
+                    if ( mmwd == null ) {
+                        if ( unitWord == null ) {
+                            if ( config.CNNUM_TO_ARABIC ) {
+                                String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+                                w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_ARABIC});
+                                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                            } else {
+                                w = new Word(num, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_CN});
+                                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                            }
+                        } else {
+                            if ( config.CNNUM_TO_ARABIC ) {
+                                String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+                                String entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity(0);
+                                w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{entity});
+                                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                            } else {
+                                String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity(0);
+                                w = new Word(num, IWord.T_CJK_WORD, new String[]{entity});
+                                w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                             }
                         }
-                        
-                        if ( wd != null ) {
-                            w = wd.clone();
+                    } else {
+                        if ( unitWord == null ) {
+                            w = mmwd.clone();
                             wordLen = w.getLength();
+                        } else if ( mmwd.getLength() > num.length() + unitWord.getLength() ) {
+                            w = mmwd.clone();
+                            wordLen = w.getLength();
+                            unitWord = null;    // clear the match unit word
                         } else if ( config.CNNUM_TO_ARABIC ) {
                             String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
-                            w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_ARABIC});
+                            String entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity(0);
+                            w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{entity});
                             w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                         } else {
-                            w = new Word(num, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_CN});
+                            String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity(0);
+                            w = new Word(num, IWord.T_CJK_WORD, new String[]{entity});
                             w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                         }
-                    } else if ( config.CNNUM_TO_ARABIC ) {
-                        String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
-                        String entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity(0);
-                        w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{entity});
-                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
-                    } else {
-                        String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity(0);
-                        w = new Word(num, IWord.T_CJK_WORD, new String[]{entity});
-                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                     }
+                    
+//                    if ( unitWord == null ) {
+//                        if ( mmwd != null ) {
+//                            w = mmwd.clone();
+//                            wordLen = w.getLength();
+//                        } else if ( config.CNNUM_TO_ARABIC ) {
+//                            String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+//                            w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_ARABIC});
+//                            w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+//                        } else {
+//                            w = new Word(num, IWord.T_CN_NUMERIC, new String[]{Entity.E_NUMERIC_CN});
+//                            w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+//                        }
+//                    } else if ( config.CNNUM_TO_ARABIC ) {
+//                        String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
+//                        String entity = Entity.E_NUMERIC_ARABIC+"#"+unitWord.getEntity(0);
+//                        w = new Word(arabic, IWord.T_CN_NUMERIC, new String[]{entity});
+//                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+//                    } else {
+//                        String entity = Entity.E_NUMERIC_CN+"#"+unitWord.getEntity(0);
+//                        w = new Word(num, IWord.T_CJK_WORD, new String[]{entity});
+//                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+//                    }
                 }
                 
                 wordPool.add(w);
