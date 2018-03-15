@@ -614,6 +614,16 @@ public abstract class ADictionary
                 } else if ( wd.length > 3 ) {
                     String entity = "null".equals(wd[3]) ? null : Entity.get(wd[3]);
                     w.addEntity(entity);
+                    
+                    /*
+                     * @Note: added at 2018/03/15
+                     * check and set the word parameter override the original one
+                     * if the current one with parameter set up 
+                    */
+                    if ( config.LOAD_PARAMETER && wd.length > 4 && ! wd[4].equals("null") ) {
+                        w.setParameter(wd[4]);
+                    }
+                    
                     dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
                     tword = w;
                 } else {
