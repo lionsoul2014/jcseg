@@ -396,6 +396,7 @@ public class Word implements IWord,Cloneable
             sb.append("\"word\":\"").append(value).append('"');
         }
         
+        sb.append(",\"type\":").append(type);
         sb.append(",\"position\":").append(position);
         sb.append(",\"length\":").append(getLength());
         
