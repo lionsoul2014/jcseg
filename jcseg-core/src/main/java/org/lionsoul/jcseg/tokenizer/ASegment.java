@@ -780,6 +780,7 @@ public abstract class ASegment implements ISegment
         }
         
         if (  ew != null && ew.getSyn() != null ) {
+            ew.setPosition(w.getPosition());
             SegKit.appendSynonyms(wordPool, ew);
         }
     }

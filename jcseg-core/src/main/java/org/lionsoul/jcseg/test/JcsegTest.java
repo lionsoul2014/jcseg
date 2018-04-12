@@ -81,7 +81,6 @@ public class JcsegTest
         trkp.setMaxWordsNum(4);
         
         //append pinyin
-        //config.setAppendCJKPinyin(true);
         System.out.println("jcseg参数设置：");
         System.out.println("当前加载的配置文件："+tokenizerConfig.getPropertieFile());
         System.out.println("最大切分匹配词数："+tokenizerConfig.MAX_LENGTH);
@@ -111,7 +110,7 @@ public class JcsegTest
     {
         StringBuffer sb = new StringBuffer();
         //seg.setLastRule(null);
-        IWord word = null;
+        IWord word = null/*, lastWord = null*/;
         
         long _start = System.nanoTime();
         boolean isFirst = true, entity = (tokenizerSeg instanceof NLPSeg);
@@ -145,6 +144,33 @@ public class JcsegTest
                 sb.append(ArrayUtil.implode("|", word.getEntity()));
             }
             
+            // check the word offset and position
+//            if ( lastWord == null ) {
+//                lastWord = word;
+//            } else {
+//                if ( word.getPosition() < lastWord.getPosition() ) {
+//                    sb.append("/PositionError:["+word.getPosition()+","+lastWord.getPosition()+"]");
+//                } else if ( word.getPosition() + word.getLength() < 
+//                        lastWord.getPosition() + lastWord.getLength() ) {
+//                    sb.append("/OffsetError:["+(word.getPosition()+word.getLength())+
+//                            ", "+(lastWord.getPosition()+lastWord.getLength())+"]");
+//                }
+//                
+//                lastWord = word;
+//            }
+            
+//            if ( word.getPosition() < 0 ) {
+//                System.out.println("Nagetive position: " + word);
+//            } else if ( lastWord == null  ) {
+//                lastWord = word;
+//            } else if ( word.getPosition() < lastWord.getPosition() ) {
+//                System.out.println("Word position go backwords: " + word);
+//                lastWord = word;
+//            } else if ( word.getPosition() > word.getPosition() + word.getLength() ) {
+//                lastWord = word;
+//                System.out.println("startOffset > endOffset" + word);
+//            }
+            
             //clear the allocations of the word.
             word = null;
             counter++;
@@ -154,7 +180,7 @@ public class JcsegTest
         System.out.println("分词结果：");
         System.out.println(sb.toString());
         System.out.format("Done, total:"
-                + tokenizerSeg.getStreamPosition()+", tokens:" +
+                + tokenizerSeg.getStreamPosition() + ", tokens:" +
                 + counter + ", in %.5fsec\n", ((float)e - _start)/1E9);
     }
     

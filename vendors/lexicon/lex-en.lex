@@ -6,3 +6,4 @@ spirit/n/null/null
 admire/v/null/null
 chenxin12/n/null/null
 kilometer/q/null/length.km
+hex/n/null/null

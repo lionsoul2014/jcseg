@@ -67,3 +67,4 @@ t恤,t恤衫/t xue shan
 decimal,decimals,fraction
 spirit,mind
 admire,appreciate,like,love,enjoy
+hex,hex-x,hex_x
