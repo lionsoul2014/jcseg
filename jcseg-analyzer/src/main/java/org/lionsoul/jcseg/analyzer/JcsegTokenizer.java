@@ -48,6 +48,12 @@ public class JcsegTokenizer extends Tokenizer
     private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
     private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
     
+    /**
+     * field level offset tracker for multiple-value field
+     * like the Array field in Elasticseach 
+    */
+    private int fieldOffset = 0;
+    
     public JcsegTokenizer(
         int mode,
         JcsegTaskConfig config,
@@ -67,13 +73,24 @@ public class JcsegTokenizer extends Tokenizer
         
         //char[] token = word.getValue().toCharArray();
         //termAtt.copyBuffer(token, 0, token.length);
+        int startOffset = fieldOffset + word.getPosition();
         
         termAtt.clear();
         termAtt.append(word.getValue());
-        offsetAtt.setOffset(word.getPosition(), word.getPosition() + word.getLength());
+        offsetAtt.setOffset(startOffset, startOffset + word.getLength());
         typeAtt.setType("word");
         
         return true;
+    }
+    
+    /**
+     * reset the field-level offset 
+    */
+    @Override
+    public void end() throws IOException
+    {
+        super.end();
+        fieldOffset = 0;
     }
     
     @Override
@@ -83,4 +100,5 @@ public class JcsegTokenizer extends Tokenizer
         segmentor.reset(input);
         clearAttributes();
     }
+    
 }
