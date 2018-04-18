@@ -98,6 +98,7 @@ public class JcsegTokenizer extends Tokenizer
     {
         super.reset();
         segmentor.reset(input);
+        fieldOffset = offsetAtt.endOffset();
         clearAttributes();
     }
     
