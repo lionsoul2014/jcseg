@@ -41,7 +41,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  */
 public class JcsegTokenizer extends Tokenizer 
 {
-    //the default jcseg segmentor
+    // The default jcseg segmentor
     private ISegment segmentor;
 
     private final CharTermAttributeImpl termAtt = (CharTermAttributeImpl)addAttribute(CharTermAttribute.class);
@@ -68,29 +68,31 @@ public class JcsegTokenizer extends Tokenizer
     {
         IWord word = segmentor.next();
         if ( word == null ) {
+            fieldOffset = offsetAtt.endOffset();
+            /// System.out.println("set fieldOffset=" + fieldOffset);
             return false;
         }
         
+        clearAttributes();
         //char[] token = word.getValue().toCharArray();
         //termAtt.copyBuffer(token, 0, token.length);
-        int startOffset = fieldOffset + word.getPosition();
-        
         termAtt.clear();
         termAtt.append(word.getValue());
-        offsetAtt.setOffset(startOffset, startOffset + word.getLength());
+        offsetAtt.setOffset(
+            correctOffset(word.getPosition()), 
+            correctOffset(word.getPosition() + word.getLength())
+        );
         typeAtt.setType("word");
         
         return true;
     }
     
-    /**
-     * reset the field-level offset 
-    */
     @Override
     public void end() throws IOException
     {
         super.end();
-        fieldOffset = 0;
+        offsetAtt.setOffset(fieldOffset, fieldOffset);
+        fieldOffset = 0;    // reset the field-level offset
     }
     
     @Override
@@ -98,8 +100,6 @@ public class JcsegTokenizer extends Tokenizer
     {
         super.reset();
         segmentor.reset(input);
-        fieldOffset = offsetAtt.endOffset();
-        clearAttributes();
     }
     
 }
