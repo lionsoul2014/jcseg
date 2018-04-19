@@ -79,8 +79,8 @@ public class JcsegTokenizer extends Tokenizer
         termAtt.clear();
         termAtt.append(word.getValue());
         offsetAtt.setOffset(
-            correctOffset(word.getPosition()), 
-            correctOffset(word.getPosition() + word.getLength())
+            correctOffset(fieldOffset + word.getPosition()), 
+            correctOffset(fieldOffset + word.getPosition() + word.getLength())
         );
         typeAtt.setType("word");
         
