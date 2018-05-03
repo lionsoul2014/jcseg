@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.server;
 
 import java.io.File;
 
+import org.lionsoul.jcseg.server.util.JettyEmptyLogger;
 import org.lionsoul.jcseg.util.Util;
 
 /**
@@ -46,6 +47,9 @@ public class Bootstrap
                     + "\"path of file jcseg-server properties\"");
             return;
         }
+        
+        // disable the logging
+        org.eclipse.jetty.util.log.Log.setLog(new JettyEmptyLogger());
         
         try {
             System.out.println("+-Try to load and parse server property file \"" + proFile + "\"");
