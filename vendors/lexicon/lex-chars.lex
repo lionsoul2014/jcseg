@@ -542,7 +542,7 @@ CJK_CHAR
 炸/v/zha/null/7863
 焚/v/fen/null/1243
 苌/null/chang/null/7
-点/u,k,m,v,nt,q,n/dian/null/319559
+点/u,k,m,v,nt,q,n/dian/null/619559
 钀/null/%/null/7
 焛/null/%/null/21
 苍/n,a/cang/null/16589
@@ -2859,7 +2859,7 @@ CJK_CHAR
 敶/null/%/null/12
 骏/null/jun/null/2764
 瞌/v/ke/null/866
-吧/o,v,u/ba/null/295069
+吧/o,v,u/ba/null/525069
 敷/v/fu/null/1547
 旚/null/%/null/11
 骐/null/qi/null/568
@@ -3446,7 +3446,7 @@ CJK_CHAR
 唾/v/tuo/null/1685
 礅/null/dun/null/21
 嘂/null/jiao/null/25
-曲/nhf,v,q,a,k,n/qu/null/239
+曲/nhf,v,q,a,k,n/qu/null/99239
 碤/null/%/null/11
 喡/null/%/null/12
 曳/x,v/ye/null/889
@@ -4890,7 +4890,7 @@ CJK_CHAR
 粜/v/tiao/null/11
 夷/a,v,n/yi/null/1728
 妙/a/miao/null/13233
-歌/v,n/ge/null/80050
+歌/v,n/ge/null/2980050
 鼾/null/han/null/211
 龠/null/yue/null/9
 簻/null/ke/null/8
@@ -6190,7 +6190,7 @@ CJK_CHAR
 弥/d,v,a/mi/null/1137
 徇/null/xun/null/28
 弦/n/xian/null/2487
-很/m,d/hen/null/417617
+很/m,d/hen/null/877617
 弧/n/hu/null/970
 徉/null/yang/null/540
 弨/null/chao/null/6
@@ -6229,7 +6229,7 @@ CJK_CHAR
 弼/null/bi/null/241
 乏/a,v/fa/null/7468
 徟/null/%/null/14
-乐/a,v,n/yue/null/168280
+乐/a,v,n/yue/null/178280
 御/a,v/yu/null/1585
 乒/o,j/ping/null/239
 乓/n/pang/null/227
@@ -6244,7 +6244,7 @@ CJK_CHAR
 徫/null/%/null/30
 乜/v/mie/null/69
 徭/n/yao/null/15
-九/j,m/jiu/null/60561
+九/j,m/jiu/null/369561
 微/n,h,d,a/wei/null/32489
 乞/v/qi/null/1137
 什/m/shen/null/276297
@@ -6847,7 +6847,7 @@ CJK_CHAR
 节/k,nh,v,q,n/jie/null/52773
 鍱/null/ye/null/20
 鏔/null/%/null/12
-灯/n/deng/null/25149
+灯/n/deng/null/251499
 烑/null/%/null/15
 舡/null/gang/null/10
 芃/null/peng/null/51
@@ -7238,7 +7238,7 @@ CJK_CHAR
 莘/null/xin/null/691
 怳/null/%/null/17
 悕/null/%/null/20
-版/q,n/ban/null/146807
+版/q,n/ban/null/516807
 茷/null/fa/null/32
 莙/null/jun/null/15
 怴/null/%/null/14
@@ -8197,7 +8197,7 @@ CJK_CHAR
 靲/null/%/null/10
 韔/null/chang/null/6
 瑮/null/%/null/76
-八/m/ba/null/85474
+八/m/ba/null/385474
 凎/null/%/null/49
 抽/v/chou/null/17572
 挟/v/xie/null/760
@@ -8213,7 +8213,7 @@ CJK_CHAR
 掂/v/dian/null/63
 瑰/nhs,a/gui/null/7583
 瓒/null/zan/null/92
-六/j,m/liu/null/71823
+六/j,m/liu/null/371823
 凐/null/%/null/41
 蘤/null/wei/null/6
 抿/v/min/null/45
@@ -8713,7 +8713,7 @@ CJK_CHAR
 痢/n/li/null/146
 剽/a,x,v/piao/null/249
 募/v/mu/null/2824
-十/m/shi/null/222525
+十/m/shi/null/372525
 蜳/null/%/null/7
 搯/null/%/null/19
 撑/v/cheng/null/6444
@@ -10118,7 +10118,7 @@ CJK_CHAR
 鱿/null/you/null/271
 祼/null/guan/null/52
 秞/null/%/null/14
-四/n,j,m/si/null/165306
+四/n,j,m/si/null/375306
 謯/null/%/null/9
 鳢/null/li/null/73
 祽/null/%/null/14
@@ -12389,7 +12389,7 @@ CJK_CHAR
 归/p,v/gui/null/26976
 廱/null/yong/null/6
 当/a,vl,o,d,vu,n,v,p/dang/null/20
-七/nt,n,j,m/qi/null/62853
+七/nt,n,j,m/qi/null/368853
 廲/null/%/null/9
 彔/null/lu/null/8
 录/n,v/lu/null/82888
@@ -12399,7 +12399,7 @@ CJK_CHAR
 丈/q/zhang/null/5182
 延/n,j,v/yan/null/13893
 彘/null/zhi/null/38
-三/q,j,n,m/san/null/301762
+三/q,j,n,m/san/null/371762
 廷/n/ting/null/6457
 上/ns,j,p,nl,n,vd,v,nd/shang/null/828394
 下/q,t/xia/null/589356
@@ -12470,7 +12470,7 @@ CJK_CHAR
 事/i,v,n/shi/null/312553
 役/v,n/yi/null/11706
 个/a,r,n,mq,m,q/ge/null/211
-二/j,m/er/null/260189
+二/j,m/er/null/370189
 丫/n/ya/null/601
 亍/n/chu/null/66
 彻/v/che/null/6856
@@ -12493,7 +12493,7 @@ CJK_CHAR
 亓/null/qi/null/25
 忣/null/%/null/8
 串/n,v,q/chuan/null/8282
-五/nhs,m/wu/null/122901
+五/nhs,m/wu/null/372901
 忤/null/wu/null/64
 丳/null/chan/null/9
 井/n/jing/null/12829
