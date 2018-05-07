@@ -56,7 +56,7 @@
             <outputDirectory>${basedir}/target/classes</outputDirectory>
             <resources>          
                <resource>
-                  <directory>../</directory>
+                  <directory>./</directory>
                   <includes>
                       <include>jcseg.properties</include>
                   </includes>

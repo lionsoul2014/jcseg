@@ -288,12 +288,34 @@ http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多�
 jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，给jcseg的全部Api功能都加上了restful接口，并且标准化了api结果的json输出格式，各大语言直接使用http客户端调用即可。
 
 ### 编译jcseg: 
+
+##### 2.3.0之前的版本:
 1. maven编译jcseg，得到jcseg-server-{version}.jar, maven已经将依赖的jar包一起编译进去了，如果是ant编译运行时请将依赖包载入。
 2. 启动jcseg server：
-
 ```bash
 # 在最后传入jcseg-server.properties配置文件的路径
 java -jar jcseg-server-{version}.jar ./jcseg-server.properties
+```
+
+##### 2.3.0之后的版本：
+1. maven编译jcseg，jcseg会在jcseg-server/target/jcseg-server目录下打包一个完整的项目，木结构如下：
+```bash
+01, config: 配置目录，jcseg-server.properties管理服务器和词库的配置，jvm.options管理jvm的参数，例如内存分配等，默认1G
+02, lib: 全部以来的jar包目录
+03, jcseg-server: 启动管理脚本, 仅限linux
+```
+2. 启动jcseg server：
+```bash
+# 将jcseg-server/target/jcseg-server整个目录拷贝到安装目录，设为$JS_DIR
+
+cd $JS_DIR
+
+# 初次运行给jcseg-server增加+x权限
+# 同步运行
+./jcseg-server
+
+# 后台运行
+./jcseg-server -d
 ```
 
 ### jcseg-server.properties:

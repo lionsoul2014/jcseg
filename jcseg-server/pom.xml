@@ -68,7 +68,7 @@
           <outputDirectory>${basedir}/target/classes</outputDirectory>
           <resources>          
              <resource>
-                <directory>../</directory>
+                <directory>./</directory>
                 <includes>
                     <include>jcseg-server.properties</include>
                 </includes>
@@ -155,12 +155,51 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              <outputDirectory>${project.build.directory}/jcseg-server/lib</outputDirectory>
               <includeScope>runtime</includeScope>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-lib-src-webapps</id>
+              <phase>package</phase>
+              <configuration>
+                <tasks>
+                  <!-- <delete dir="src/main/webapp/WEB-INF/lib" />-->
+                  <copy todir="${project.build.directory}/jcseg-server/lib">
+                    <fileset dir="${project.build.directory}">
+                      <include name="jcseg-server-${project.version}.jar" />
+                    </fileset>
+                  </copy>
+                  <copy todir="${project.build.directory}/jcseg-server/config">
+                    <fileset dir="./">
+                      <include name="jcseg-server.properties" />
+                      <include name="jvm.options" />
+                    </fileset>
+                  </copy>
+                  <copy todir="${project.build.directory}/jcseg-server">
+                    <fileset dir="./">
+                      <include name="jcseg-server" />
+                    </fileset>
+                  </copy>
+                  <copy todir="${project.build.directory}/jcseg-server/lexicon">
+                    <fileset dir="../vendors/lexicon">
+                      <include name="*" />
+                    </fileset>
+                  </copy>
+                </tasks>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       
     </plugins>
   </build>
