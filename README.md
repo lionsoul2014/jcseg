@@ -298,11 +298,12 @@ java -jar jcseg-server-{version}.jar ./jcseg-server.properties
 ```
 
 ##### 2.3.0之后的版本：
-1. maven编译jcseg，jcseg会在jcseg-server/target/jcseg-server目录下打包一个完整的项目，木结构如下：
+1. maven编译jcseg，jcseg会在jcseg-server/target/jcseg-server目录下打包一个完整的项目，目录结构如下：
 ```bash
-01, config: 配置目录，jcseg-server.properties管理服务器和词库的配置，jvm.options管理jvm的参数，例如内存分配等，默认1G
-02, lib: 全部以来的jar包目录
-03, jcseg-server: 启动管理脚本, 仅限linux
+01, config: 配置目录，jcseg-server.properties管理服务器和词库的配置，jvm.options管理jvm的参数，例如内存分配等，默认1.5G
+02, lib: 全部依赖的jar包目录
+03, lexicon: jcseg词库目录，在此更改管理词库即可
+04, jcseg-server: 启动管理脚本, 仅限linux 增加-d参数可以后台启动
 ```
 2. 启动jcseg server：
 ```bash
