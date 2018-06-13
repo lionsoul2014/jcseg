@@ -668,6 +668,8 @@ cd $JS_DIR
 
 ### 1. Jcseg中文分词Api: 
 
+Javadoc参考：[Jcseg Javadoc](https://apidoc.gitee.com/lionsoul/jcseg/)
+
 ##### (1). 创建JcsegTaskConfig配置对象：
 
 jcseg.properties查找步骤：
