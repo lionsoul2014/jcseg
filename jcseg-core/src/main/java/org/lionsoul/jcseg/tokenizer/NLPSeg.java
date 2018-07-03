@@ -257,10 +257,16 @@ public class NLPSeg extends ComplexSeg
                 break;
             }
             
-            if ( ArrayUtil.startsWith("time.", entity) > -1
-                    || ArrayUtil.startsWith("numeric.integer#time.", entity) > -1 ) {
-                if ( TimeUtil.DATETIME_NONE == 
+            if ( ArrayUtil.startsWith("time.a", entity) > -1 
+            		|| ArrayUtil.startsWith("numeric.integer#time.", entity) > -1 ) {
+            	if ( TimeUtil.DATETIME_NONE == 
                         TimeUtil.fillDateTimePool(wMask, dWord) ) {
+                    eWordPool.push(dWord);
+                    break;
+                }
+            } else if ( ArrayUtil.startsWith("time.", entity) > -1 ) {
+            	int tIdx = TimeUtil.fillDateTimePool(wMask, dWord);
+            	if ( tIdx == TimeUtil.DATETIME_NONE || wMask[tIdx-1] == null ) {
                     eWordPool.push(dWord);
                     break;
                 }
