@@ -38,10 +38,10 @@ CJK_UNIT
 时二刻/time.hi
 时三刻/time.hi
 点/time.h
-点半/time.hi
-点一刻/time.hi
-点二刻/time.hi
-点三刻/time.hi
+点半/time.h
+点一刻/time.h
+点二刻/time.h
+点三刻/time.h
 分/time.i
 秒/time.s
 秒钟/time.s

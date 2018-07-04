@@ -9,28 +9,70 @@ import java.lang.reflect.Field;
 */
 public class Entity
 {
+	/**
+	 * prefix for numeric and unit composed word entity
+	*/
+	public static final String E_NUC_PREFIX = "nuc_";
+	
     public static final String E_EMAIL = "email";
+    public static final String[] E_EMAIL_A = new String[] {E_EMAIL};
+    
     public static final String E_URL = "url";
+    public static final String[] E_URL_A = new String[] {E_URL};
+    
     public static final String E_URL_HTTP = "url.http";
+    public static final String[] E_URL_HTTP_A = new String[] {E_URL_HTTP};
+    
     public static final String E_URL_FTP = "url.ftp";
+    public static final String[] E_URL_FTP_A = new String[] {E_URL_FTP};
+    
     public static final String E_IP = "ip";
-    public static final String E_MOBILE_NUMBER = "mobile";
+    public static final String[] E_IP_A = new String[] {E_IP};
+    
+    public static final String E_MOBILE = "mobile";
+    public static final String[] E_MOBILE_A = new String[] {E_MOBILE};
+    
     public static final String E_THE_NUMBER = "the_number";
+    public static final String[] E_THE_NUMBER_A = new String[] {E_THE_NUMBER};
+    
     public static final String E_THE_CARD = "the_card";
+    public static final String[] E_THE_CARD_A = new String[] {E_THE_CARD};
+    
     public static final String E_THE_EPISODE = "the_spisode";
+    public static final String[] E_THE_EPISODE_A = new String[] {E_THE_EPISODE};
     
     public static final String E_NUMERIC = "numeric";                       //数字
+    public static final String[] E_NUMERIC_A = new String[] {E_NUMERIC};
+    
     public static final String E_NUMERIC_ARABIC = "numeric.integer";       //整数
+    public static final String[] E_NUMERIC_ARABIC_A = new String[] {E_NUMERIC_ARABIC};
+    
     public static final String E_NUMERIC_DECIMAL = "numeric.decimal";      //小数
+    public static final String[] E_NUMERIC_DECIMAL_A = new String[] {E_NUMERIC_DECIMAL};
+    
     public static final String E_NUMERIC_FRACTION = "numeric.fraction";    //分数
+    public static final String[] E_NUMERIC_FRACTION_A = new String[] {E_NUMERIC_FRACTION};
+    
     public static final String E_NUMERIC_CN = "numeric.cn";                 //中文数字
+    public static final String[] E_NUMERIC_CN_A = new String[] {E_NUMERIC_CN};
+    
     public static final String E_NUMERIC_CN_FRACTION = "numeric.cn.fraction";  //中文分数
+    public static final String[] E_NUMERIC_CN_FRACTION_A = new String[] {E_NUMERIC_CN_FRACTION};
+    
     public static final String E_NUMERIC_PERCENTAGE = "numeric.percentage"; //百分比
+    public static final String[] E_NUMERIC_PERCENTAGE_A = new String[] {E_NUMERIC_PERCENTAGE};
     
     public static final String E_NAME = "name";                     //人名
+    public static final String[] E_NAME_A = new String[] {E_NAME};
+    
     public static final String E_NAME_CN = "name.cn";               //中国
+    public static final String[] E_NAME_CN_A = new String[] {E_NAME_CN};
+    
     public static final String E_NAME_FOREIGN = "name.foreign";    //国外
+    public static final String[] E_NAME_FOREIGN_A = new String[] {E_NAME_FOREIGN};
+    
     public static final String E_NAME_NICKNAME = "name.nickname";  //昵称
+    public static final String[] E_NAME_NICKNAME_A = new String[] {E_NAME_NICKNAME};
     
     public static final String E_PLACE = "place";                        //地区
     public static final String E_PLACE_CONTINENT = "place.continent";   //洲
@@ -68,6 +110,8 @@ public class Entity
     
     
     public static final String E_DATETIME = "datetime";         //date time
+    public static final String NUC_DATETIME_P = E_NUC_PREFIX + E_DATETIME + ".";
+    
     public static final String E_DATETIME_Y = "datetime.y";     //年
     public static final String E_DATETIME_M = "datetime.m";     //月
     public static final String E_DATETIME_D = "datetime.d";     //日
@@ -75,24 +119,43 @@ public class Entity
     public static final String E_DATETIME_H = "datetime.h";     //小时
     public static final String E_DATETIME_I = "datetime.i";     //分
     public static final String E_DATETIME_S = "datetime.s";     //秒
+    
     public static final String E_DATETIME_YM = "datetime.ym";   //year-month
+    public static final String[] E_DATETIME_YM_A = new String[] {E_DATETIME_YM};
+    
     public static final String E_DATETIME_YMD = "datetime.ymd"; //date
+    public static final String[] E_DATETIME_YMD_A = new String[] {E_DATETIME_YMD};
+    
     public static final String E_DATETIME_AH = "datetime.ah";
     public static final String E_DATETIME_AHI = "datetime.ahi";
     public static final String E_DATETIME_AHIS = "datetime.ahis";
+    
     public static final String E_DATETIME_HI = "datetime.hi";   //hour-minute
+    public static final String[] E_DATETIME_HI_A = new String[] {E_DATETIME_HI};
+    
     public static final String E_DATETIME_HIS = "datetime.his"; //time
+    public static final String[] E_DATETIME_HIS_A = new String[] {E_DATETIME_HIS};
+    
     public static final String E_DATETIME_YMDHIS = "datetime.ymdhis";//std style
     public static final String E_DATETIME_YMDZHIS = "datetime.ymdahis";
     
     public static final String E_TIME = "time";             //时间
+    public static final String NUC_TIME_P = E_NUC_PREFIX + E_TIME + ".";
+    
     public static final String E_TIME_YEAR = "time.y";      //年
     public static final String E_TIME_MON  = "time.m";      //月
     public static final String E_TIME_WEEK = "time.w";      //周
     public static final String E_TIME_D   = "time.d";       //天
+    
     public static final String E_TIME_H   = "time.h";       //时
+    public static final String[] E_TIME_H_A = new String[] {E_TIME_H};
+    
     public static final String E_TIME_I   = "time.i";       //分
+    public static final String[] E_TIME_I_A = new String[] {E_TIME_I};
+    
     public static final String E_TIME_S   = "time.s";       //秒
+    public static final String[] E_TIME_S_A = new String[] {E_TIME_S};
+    
     public static final String E_TIME_MS  = "time.ms";      //毫秒
     public static final String E_TIME_US  = "time.us";      //微妙
     public static final String E_TIME_NS  = "time.ns";      //纳秒
@@ -258,6 +321,10 @@ public class Entity
             for ( Field f : fields ) {
                 if ( ! f.getName().startsWith("E_") ) {
                     continue;
+                }
+                
+                if ( f.getName().endsWith("_A") ) {
+                	continue;
                 }
                 
                 fieldsArr[i++] = (String) f.get(Entity.class);
