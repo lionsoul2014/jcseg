@@ -68,7 +68,7 @@ CJK_WORD
 肯德基/nt/ken de ji/null
 奥利奥/nt/ao li ao/null
 回头客/nt/hui tou ke/null
-苏波尔/nt/su bo er/null
+苏泊尔/nt/su bo er/null
 苏宁/nt/su ning/null
 苏宁电器/nt/su ning dian qi/null
 苏宁易购/nt/su ning yi gou/null
