@@ -44,7 +44,7 @@ CJK_WORD
 ##酉时（17-19点）：傍晚
 ##戌时（19-21点）：晚上
 ##亥时（21-23点）：深夜
-:entity nuc_time.h
+:entity datetime.h
 子时/t/zi shi/null
 丑时/t/chou shi/null
 寅时/t/yin shi/null
@@ -58,7 +58,7 @@ CJK_WORD
 戌时/t/xu shi/null
 亥时/t/hai shi/null
 ## time.d类词条
-:entity nuc_time.d
+:entity datetime.d
 大年初一/t/da nian chu yi/null
 大年初1/t/da nian chu yi/null
 大年初二/t/da nian chu er/null
@@ -905,9 +905,9 @@ CJK_WORD
 下下个礼拜7/t/xia xia ge li bai qi/null
 下下个礼拜日/t/xia xia ge li bai ri/null
 下下个礼拜天/t/xia xia ge li bai tian/null
-# end nuc_time.d
+# end datetime.d
 ##time.m类词条
-:entity nuc_time.m
+:entity datetime.m
 上上个月/t/shang shang ge yue/null
 上个月/t/shang ge yue/null
 这月/t/zhe yue/null
@@ -921,7 +921,7 @@ CJK_WORD
 腊月/t/la yue/null
 腊月份/t/la yue fen/null
 ##time.y类词条
-:entity nuc_time.y
+:entity datetime.y
 大前年/t/da qian nian/null
 前年/t/qian nian/null
 去年/t/qu nian/null

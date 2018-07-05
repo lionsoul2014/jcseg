@@ -109,8 +109,8 @@ public class Entity
     public static final String E_DISTANCE_LY  = "distance.ly";  //光年
     
     
-    public static final String E_DATETIME = "datetime";         //date time
-    public static final String NUC_DATETIME_P = E_NUC_PREFIX + E_DATETIME + ".";
+    public static final String E_DATETIME   = "datetime";        //date time
+    public static final String E_DATETIME_P = E_DATETIME + ".";
     
     public static final String E_DATETIME_Y = "datetime.y";     //年
     public static final String E_DATETIME_M = "datetime.m";     //月
@@ -140,7 +140,7 @@ public class Entity
     public static final String E_DATETIME_YMDZHIS = "datetime.ymdahis";
     
     public static final String E_TIME = "time";             //时间
-    public static final String NUC_TIME_P = E_NUC_PREFIX + E_TIME + ".";
+    public static final String E_TIME_P = E_TIME + ".";
     
     public static final String E_TIME_YEAR = "time.y";      //年
     public static final String E_TIME_MON  = "time.m";      //月

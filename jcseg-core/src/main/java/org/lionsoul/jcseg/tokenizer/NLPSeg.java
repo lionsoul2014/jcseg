@@ -94,7 +94,8 @@ public class NLPSeg extends ComplexSeg
         
         int eIdx = 0;
         if ( (eIdx = ArrayUtil.startsWith("time.a", entity)) > -1 
-        		|| (eIdx = ArrayUtil.startsWith(Entity.NUC_TIME_P, entity)) > -1 ) {
+        		|| (eIdx = ArrayUtil.startsWith(
+        				Entity.E_DATETIME_P, entity)) > -1 ) {
             IWord dWord = getNextTimeMergedWord(word, eIdx);
             if ( dWord != null ) {
                 return dWord;
@@ -263,18 +264,18 @@ public class NLPSeg extends ComplexSeg
                     eWordPool.push(dWord);
                     break;
                 }
-            } else if ( ArrayUtil.startsWith(Entity.NUC_TIME_P, entity) > -1 ) {
-            	int tIdx = TimeUtil.fillDateTimePool(wMask, dWord);
-            	if ( tIdx == TimeUtil.DATETIME_NONE || wMask[tIdx-1] == null ) {
-                    eWordPool.push(dWord);
-                    break;
-                }
-            } else if ( ArrayUtil.startsWith("datetime.h", entity) > -1 ) {
+            } else if ( ArrayUtil.startsWith("datetime.hi", entity) > -1 ) {
                 /*
                  * check and merge the date time time part with a style
                  * like 15:45 or 15:45:36 eg... 
                 */
                 TimeUtil.fillTimeToPool(wMask, dWord.getValue());
+            } else if ( ArrayUtil.startsWith(Entity.E_DATETIME_P, entity) > -1 ) {
+            	int tIdx = TimeUtil.fillDateTimePool(wMask, dWord);
+            	if ( tIdx == TimeUtil.DATETIME_NONE || wMask[tIdx-1] == null ) {
+                    eWordPool.push(dWord);
+                    break;
+                }
             } else {
                 eWordPool.push(dWord);
                 break;
@@ -342,7 +343,7 @@ public class NLPSeg extends ComplexSeg
         if ( (eIdx = ArrayUtil.startsWith("datetime.h", entity)) > -1 ) {
             // do nothing here
         } else if ( (eIdx = ArrayUtil.startsWith("time.a", entity)) > -1 
-                || (eIdx = ArrayUtil.startsWith(Entity.NUC_TIME_P, entity)) > -1 ) {
+                || (eIdx = ArrayUtil.startsWith(Entity.E_TIME_P, entity)) > -1 ) {
             /*
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
@@ -383,6 +384,40 @@ public class NLPSeg extends ComplexSeg
         dWord.addEntity(buffer.toString());
         
         return dWord;
+    }
+    
+    /**
+     * internal method to define the composed entity
+     * for numeric and unit word composed word 
+     * 
+     * @param	numeric
+     * @param	unitWord
+     * @return	IWord
+    */
+    private IWord getNumericUnitComposedWord(String numeric, IWord unitWord)
+    {
+    	IStringBuffer sb = new IStringBuffer();
+    	sb.clear().append(numeric).append(unitWord.getValue());
+	    IWord wd = new Word(sb.toString(), IWord.T_CJK_WORD);
+	    
+	    String[] entity = unitWord.getEntity();
+	    int eIdx = ArrayUtil.startsWith(Entity.E_TIME_P, entity);
+	    if ( eIdx > -1 ) {
+	    	sb.clear().append(entity[eIdx].replace("time.", "datetime."));
+	    } else {
+	    	sb.clear().append(Entity.E_NUC_PREFIX ).append(unitWord.getEntity(0));
+	    }
+	    
+	    wd.setEntity(new String[] {sb.toString()});
+	    wd.setPartSpeech(IWord.QUANTIFIER);
+	    sb.clear();sb = null;
+	    
+	    return wd;
+    }
+    
+    public IWord getNumericUnitComposedWord(int numeric, IWord unitWord)
+    {
+    	return getNumericUnitComposedWord(String.valueOf(numeric), unitWord);
     }
     
     /**
@@ -475,8 +510,9 @@ public class NLPSeg extends ComplexSeg
                     if ( mmwd == null ) {
                         if ( unitWord == null ) {
                             if ( config.CNNUM_TO_ARABIC ) {
-                                String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
-                                w = new Word(arabic, IWord.T_CN_NUMERIC);
+                                w = new Word(String.valueOf(NumericUtil
+                                		.cnNumericToArabic(num, true)), 
+                                		IWord.T_CN_NUMERIC);
                                 w.setEntity(Entity.E_NUMERIC_ARABIC_A);
                                 w.setPartSpeech(IWord.NUMERIC_POSPEECH);
                                 wordLen = num.length();
@@ -487,22 +523,11 @@ public class NLPSeg extends ComplexSeg
                             }
                         } else {
                             if ( config.CNNUM_TO_ARABIC ) {
-                            	sb.clear()
-                            		.append(NumericUtil.cnNumericToArabic(num, true))
-                            			.append(unitWord.getValue());
-                                w = new Word(sb.toString(), IWord.T_CJK_WORD);
-                                sb.clear().append(Entity.E_NUC_PREFIX)
-                                	.append(unitWord.getEntity(0));
-                                w.setEntity(new String[] {sb.toString()});
-                                w.setPartSpeech(IWord.QUANTIFIER);
+                                w = getNumericUnitComposedWord(NumericUtil
+                                		.cnNumericToArabic(num, true), unitWord);
                                 wordLen = num.length() + unitWord.getLength();
                             } else {
-                            	sb.clear().append(num).append(unitWord.getValue());
-                                w = new Word(sb.toString(), IWord.T_CJK_WORD);
-                                sb.clear().append(Entity.E_NUC_PREFIX)
-                                	.append(unitWord.getEntity(0));
-                                w.setEntity(new String[] {sb.toString()});
-                                w.setPartSpeech(IWord.QUANTIFIER);
+                                w = getNumericUnitComposedWord(num, unitWord);
                             }
                         }
                     } else {
@@ -512,22 +537,11 @@ public class NLPSeg extends ComplexSeg
                         		> num.length() + unitWord.getLength() ) {
                             w = mmwd.clone();
                         } else if ( config.CNNUM_TO_ARABIC ) {
-                        	sb.clear()
-                        		.append(NumericUtil.cnNumericToArabic(num, true))
-                        			.append(unitWord.getValue());
-                            w = new Word(sb.toString(), IWord.T_CJK_WORD);
-                            sb.clear().append(Entity.E_NUC_PREFIX)
-                            	.append(unitWord.getEntity(0));
-                            w.setEntity(new String[] {sb.toString()});
-                            w.setPartSpeech(IWord.QUANTIFIER);
+                            w = getNumericUnitComposedWord(NumericUtil
+                            		.cnNumericToArabic(num, true), unitWord);
                             wordLen = num.length() + unitWord.getLength();
                         } else {
-                        	sb.clear().append(num).append(unitWord.getValue());
-                            w = new Word(sb.toString(), IWord.T_CJK_WORD);
-                            sb.clear().append(Entity.E_NUC_PREFIX)
-                            	.append(unitWord.getEntity(0));
-                            w.setEntity(new String[] {sb.toString()});
-                            w.setPartSpeech(IWord.QUANTIFIER);
+                        	w = getNumericUnitComposedWord(num, unitWord);
                         }
                     }
                 }
@@ -547,7 +561,8 @@ public class NLPSeg extends ComplexSeg
              * check and try to find a Chinese name.
             */
             int T = -1;
-            if ( config.I_CN_NAME && w.getLength() <= 2 && chunk.getWords().length > 1 ) {
+            if ( config.I_CN_NAME && w.getLength() <= 2 
+            		&& chunk.getWords().length > 1 ) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(w.getValue());
                 String str = null;
@@ -845,14 +860,8 @@ public class NLPSeg extends ComplexSeg
                 ch = readNext();
                 String unit = ((char)ch)+"";
                 if ( dic.match(ILexicon.CJK_UNIT, unit) ) {
-                    IWord unitWord = dic.get(ILexicon.CJK_UNIT, unit);
-                    IStringBuffer sb = new IStringBuffer();
-                    sb.clear().append(str).append(unitWord.getValue());
-                    wd = new Word(sb.toString(), IWord.T_BASIC_LATIN);
-                    sb.clear().append(Entity.E_NUC_PREFIX)
-                    	.append(unitWord.getEntity(0));
-                    wd.setEntity(new String[] {sb.toString()});
-                    wd.setPartSpeech(IWord.EN_POSPEECH);
+                    wd = getNumericUnitComposedWord(
+                    		str, dic.get(ILexicon.CJK_UNIT, unit));
                 } else {
                     String[] entity = isDigit 
                     		? Entity.E_NUMERIC_ARABIC_A 
@@ -884,7 +893,8 @@ public class NLPSeg extends ComplexSeg
         int length = isb.length();
         if ( length > 1 && isb.charAt(length-1) == '%' 
                 && StringUtil.isEnNumeric(isb.charAt(length-2)) ) {
-            wd = new Word(str, IWord.T_BASIC_LATIN, Entity.E_NUMERIC_PERCENTAGE_A);
+            wd = new Word(str, IWord.T_BASIC_LATIN, 
+            		Entity.E_NUMERIC_PERCENTAGE_A);
             wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
             return wd;
         }
@@ -980,11 +990,7 @@ public class NLPSeg extends ComplexSeg
                 wd = new Word(str, IWord.T_BASIC_LATIN, entity);
                 wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
             } else {
-            	sb.clear().append(str).append(unitWord.getValue());
-            	wd = new Word(sb.toString(), IWord.T_CJK_WORD);
-            	sb.clear().append(Entity.E_NUC_PREFIX)
-            		.append(unitWord.getEntity(0));
-            	wd.setEntity(new String[] {sb.toString()});
+            	wd = getNumericUnitComposedWord(str, unitWord);
             }
             
             for ( int i = j - 1; i >= mc; i-- ) {
