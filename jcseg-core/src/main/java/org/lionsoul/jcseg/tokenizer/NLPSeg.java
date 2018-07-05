@@ -307,7 +307,7 @@ public class NLPSeg extends ComplexSeg
         
         //check and define the entity
         buffer.clear().append("datetime.");
-        for ( int i = 1; i < wMask.length; i++ ) {
+        for ( int i = 0; i < wMask.length; i++ ) {
             if ( wMask[i] == null ) continue;
             buffer.append(TimeUtil.getTimeKey(wMask[i]));
         }
@@ -340,13 +340,13 @@ public class NLPSeg extends ComplexSeg
         
         int eIdx = 0;
         if ( (eIdx = ArrayUtil.startsWith("datetime.h", entity)) > -1 ) {
-            //do nothing here
+            // do nothing here
         } else if ( (eIdx = ArrayUtil.startsWith("time.a", entity)) > -1 
                 || (eIdx = ArrayUtil.startsWith(Entity.NUC_TIME_P, entity)) > -1 ) {
             /*
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
-             * 2, if the new time merged word is could not be merged with the origin word
+             * 2, if the new time merged word could not be merged with the origin word
              *  and we should put the dWord to the first of the eWordPool cuz #getNextTimeMergedWord
              * may append some IWord to the end of eWordPool
             */
