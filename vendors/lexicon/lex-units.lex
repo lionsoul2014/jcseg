@@ -28,7 +28,9 @@ CJK_UNIT
 光年/length.ly
 ##时间
 年/time.y
+载/time.y
 月/time.m
+个月/time.m
 月份/time.m
 周/time.w
 天/time.d

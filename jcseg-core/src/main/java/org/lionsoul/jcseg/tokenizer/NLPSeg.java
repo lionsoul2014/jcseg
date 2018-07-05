@@ -188,7 +188,7 @@ public class NLPSeg extends ComplexSeg
             if ( dw2 == null ) {
                 dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
                 dWord.setPosition(word.getPosition());
-                dWord.setEntity(new String[]{Entity.E_THE_NUMBER});
+                dWord.setEntity(Entity.E_THE_NUMBER_A);
                 return dWord;
             }
             
@@ -209,7 +209,7 @@ public class NLPSeg extends ComplexSeg
             eWordPool.push(dw2);
             dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
             dWord.setPosition(word.getPosition());
-            dWord.setEntity(new String[]{Entity.E_THE_NUMBER});
+            dWord.setEntity(Entity.E_THE_NUMBER_A);
             return dWord;
         }
         
@@ -479,6 +479,7 @@ public class NLPSeg extends ComplexSeg
                                 w = new Word(arabic, IWord.T_CN_NUMERIC);
                                 w.setEntity(Entity.E_NUMERIC_ARABIC_A);
                                 w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                                wordLen = num.length();
                             } else {
                                 w = new Word(num, IWord.T_CN_NUMERIC);
                                 w.setEntity(Entity.E_NUMERIC_CN_A);
@@ -494,6 +495,7 @@ public class NLPSeg extends ComplexSeg
                                 	.append(unitWord.getEntity(0));
                                 w.setEntity(new String[] {sb.toString()});
                                 w.setPartSpeech(IWord.QUANTIFIER);
+                                wordLen = num.length() + unitWord.getLength();
                             } else {
                             	sb.clear().append(num).append(unitWord.getValue());
                                 w = new Word(sb.toString(), IWord.T_CJK_WORD);
@@ -506,12 +508,9 @@ public class NLPSeg extends ComplexSeg
                     } else {
                         if ( unitWord == null ) {
                             w = mmwd.clone();
-                            wordLen = w.getLength();
                         } else if ( mmwd.getLength() 
                         		> num.length() + unitWord.getLength() ) {
                             w = mmwd.clone();
-                            wordLen = w.getLength();
-                            unitWord = null;    // clear the match unit word
                         } else if ( config.CNNUM_TO_ARABIC ) {
                         	sb.clear()
                         		.append(NumericUtil.cnNumericToArabic(num, true))
@@ -521,6 +520,7 @@ public class NLPSeg extends ComplexSeg
                             	.append(unitWord.getEntity(0));
                             w.setEntity(new String[] {sb.toString()});
                             w.setPartSpeech(IWord.QUANTIFIER);
+                            wordLen = num.length() + unitWord.getLength();
                         } else {
                         	sb.clear().append(num).append(unitWord.getValue());
                             w = new Word(sb.toString(), IWord.T_CJK_WORD);
