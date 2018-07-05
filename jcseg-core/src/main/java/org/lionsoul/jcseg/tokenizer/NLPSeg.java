@@ -343,7 +343,7 @@ public class NLPSeg extends ComplexSeg
         if ( (eIdx = ArrayUtil.startsWith("datetime.h", entity)) > -1 ) {
             // do nothing here
         } else if ( (eIdx = ArrayUtil.startsWith("time.a", entity)) > -1 
-                || (eIdx = ArrayUtil.startsWith(Entity.E_TIME_P, entity)) > -1 ) {
+                || (eIdx = ArrayUtil.startsWith(Entity.E_DATETIME_P, entity)) > -1 ) {
             /*
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
@@ -379,7 +379,8 @@ public class NLPSeg extends ComplexSeg
         
         //re-define the entity
         //int sIdx = entity.indexOf('.') + 1;
-        int sIdx = entity[eIdx].charAt(0) == 't' ? 5 : 9;
+        // int sIdx = entity[eIdx].charAt(0) == 't' ? 5 : 9;
+        int sIdx = 9;	// datetime
         buffer.clear().append(word.getEntity(0)).append(entity[eIdx].substring(sIdx));
         dWord.addEntity(buffer.toString());
         
