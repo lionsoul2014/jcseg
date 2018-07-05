@@ -20,11 +20,12 @@ CJK_UNIT
 #厘
 #毫
 ##距离##
-里/distance.li
-英里/distance.mi
-海里/distance.nmi
-公里/distance.km
-光年/distance.ly
+## merged into length at 2018/07/05
+里/length.li
+英里/length.mi
+海里/length.nmi
+公里/length.km
+光年/length.ly
 ##时间
 年/time.y
 月/time.m
@@ -33,10 +34,10 @@ CJK_UNIT
 天/time.d
 日/time.d
 时/time.h
-时半/time.hi
-时一刻/time.hi
-时二刻/time.hi
-时三刻/time.hi
+时半/time.h
+时一刻/time.h
+时二刻/time.h
+时三刻/time.h
 点/time.h
 点半/time.h
 点一刻/time.h
