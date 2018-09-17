@@ -46,7 +46,7 @@ public class JcsegAnalyzer extends Analyzer
     }
     
     /**
-     * initialize the analyzer with the specifield mode and configuration
+     * initialize the analyzer with the specified mode and configuration
      * 
      * @param   mode tokenizer mode
      * @param   config
