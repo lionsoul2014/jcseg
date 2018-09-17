@@ -153,7 +153,7 @@ public class JcsegServer
         if ( globalConfig.has("server_config") ) {
             JSONObject serverSetting = globalConfig.getJSONObject("server_config");
             if ( serverSetting.has("host") ) {
-                config.setPort(serverSetting.getInt("host"));
+                config.setHost(serverSetting.getString("host"));
             }
             if ( serverSetting.has("port") ) {
                 config.setPort(serverSetting.getInt("port"));
