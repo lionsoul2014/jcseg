@@ -2795,7 +2795,7 @@ CJK_CHAR
 骆/n,nhf/luo/null/1098
 瞃/null/wo/null/12
 吞/v/tun/null/3112
-咀/v/zui/null/378
+咀/v/ju/null/378
 衲/v/na/null/172
 裔/n/yi/null/833
 騥/null/rou/null/15
@@ -2932,7 +2932,7 @@ CJK_CHAR
 眴/null/xuan/null/23
 咒/n,v/zhou/null/3729
 骚/a/sao/null/6768
-吱/o/zi/null/558
+吱/o/zhi/null/558
 裧/null/chan/null/6
 襉/null/jian/null/11
 日/v,d,ns,n,j,nt/ri/null/273090
@@ -3176,7 +3176,7 @@ CJK_CHAR
 觋/n/xi/null/13
 晦/v,n,a/hui/null/1336
 曈/null/tong/null/14
-咳/o,v,e/hai/null/3080
+咳/o,v,e/ke/null/3080
 襩/null/shu/null/13
 觌/null/di/null/9
 骻/null/kua/null/12
@@ -3238,7 +3238,7 @@ CJK_CHAR
 晰/o/xi/null/1302
 曒/null/jiao/null/8
 鮇/null/wei/null/13
-砢/null/luo/null/40
+砢/null/ke/null/40
 咽/n,e,v/yan/null/302
 碄/null/lin/null/7
 喁/null/yong/null/17
@@ -3506,7 +3506,7 @@ CJK_CHAR
 礒/null/yi/null/18
 喭/null/yan/null/11
 嘏/null/gu/null/31
-曾/p,h,nhf,d/zeng/null/93394
+曾/p,h,nhf,d/ceng/null/93394
 諅/null/ji/null/41
 杠/v,n/gang/null/48
 柂/null/yi/null/9
@@ -6388,7 +6388,7 @@ CJK_CHAR
 俣/null/yu/null/11
 俦/null/chou/null/128
 俨/d/yan/null/569
-俩/r,m/lia/null/4966
+俩/r,m/liang/null/4966
 俪/null/li/null/451
 俬/null/si/null/28
 俭/a/jian/null/522
@@ -6884,7 +6884,7 @@ CJK_CHAR
 烛/n/zhu/null/2074
 舫/null/fang/null/215
 芍/null/shao/null/85
-般/u,a,n/pan/null/87661
+般/u,a,n/ban/null/87661
 芎/null/xiong/null/193
 灺/null/xie/null/19
 烜/a/xuan/null/316
@@ -9417,7 +9417,7 @@ CJK_CHAR
 矙/null/kan/null/17
 呴/null/hou/null/32
 哖/null/nian/null/53
-褪/v/tun/null/629
+褪/v/tui/null/629
 昨/nt/zuo/null/27059
 暊/null/xu/null/12
 驼/v,n/tuo/null/2716
@@ -9798,7 +9798,7 @@ CJK_CHAR
 嗜/v/shi/null/1520
 磠/null/lu/null/5
 誓/n,v/shi/null/6960
-朮/null/zhu/null/1062
+朮/null/shu/null/1062
 析/x,v/xi/null/16630
 硾/null/zhui/null/9
 鱆/null/zhang/null/34
@@ -10197,7 +10197,7 @@ CJK_CHAR
 坋/null/fen/null/11
 謽/null/jiang/null/11
 讟/null/du/null/7
-谁/r/shei/null/132063
+谁/r/shui/null/132063
 秬/null/ju/null/12
 坌/null/ben/null/17
 栺/null/zhi/null/17
@@ -10443,7 +10443,7 @@ CJK_CHAR
 竖/n,v,a/shu/null/1778
 坱/null/yang/null/14
 谧/null/mi/null/214
-貉/n/mo/null/84
+貉/n/he/null/84
 穵/null/wa/null/15
 坲/null/fo/null/7
 埔/null/pu/null/3889
