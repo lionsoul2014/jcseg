@@ -1,15 +1,16 @@
 package org.lionsoul.jcseg.elasticsearch.util;
 
+import org.elasticsearch.common.io.PathUtils;
 import org.elasticsearch.common.settings.Settings;
+import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+
+import java.io.File;
+import java.nio.file.Path;
 
 public class CommonUtil 
 {
-    /**
-     * The default jcseg configuration file 
-    */
-    public static final String JcsegConfigFile = "plugins/jcseg/jcseg.properties";
-    
+
     /**
      * get the sementation mode and default to COMPLEX_MODE
      * 
@@ -25,7 +26,7 @@ public class CommonUtil
      * get the segmentation mode
      * 
      * @param   settings
-     * @param   int
+     * @param   default_mode
      * @return  int
     */
     public static int getSegMode(Settings settings, int default_mode)
@@ -51,6 +52,18 @@ public class CommonUtil
         }
         
         return mode;
+    }
+
+    /**
+     * Quick interface to get a safe file path
+     *
+     * @param   file
+     */
+    private static final String pluginBase = AnalysisJcsegPlugin.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+    private static final Path safePath = PathUtils.get(new File(pluginBase).getParent()).toAbsolutePath();
+    public static File getPluginSafeFile(String file)
+    {
+        return safePath.resolve(file).toFile();
     }
     
 }

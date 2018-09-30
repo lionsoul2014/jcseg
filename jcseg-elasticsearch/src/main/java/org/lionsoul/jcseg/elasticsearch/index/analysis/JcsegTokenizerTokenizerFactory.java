@@ -1,6 +1,6 @@
 package org.lionsoul.jcseg.elasticsearch.index.analysis;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
@@ -17,16 +17,16 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
 {
-    private JcsegTaskConfig config;
-    private ADictionary dic;
-    private int mode;
+    private final JcsegTaskConfig config;
+    private final ADictionary dic;
+    private final int mode;
     
     public JcsegTokenizerTokenizerFactory(
-            IndexSettings indexSettings, Environment environment, String name, Settings settings) {
+            IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        File proFile = new File(settings.get("config_file", CommonUtil.JcsegConfigFile));
-        config = proFile.exists() ? new JcsegTaskConfig(proFile.getPath()) : new JcsegTaskConfig(true);
+        config = new JcsegTaskConfig(new FileInputStream(CommonUtil.getPluginSafeFile("jcseg.properties")));
+        config.setAutoload(false);          // disable the autoload of the lexicon
         mode = CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE);
         dic  = DictionaryFactory.createSingletonDictionary(config);
     }
@@ -36,12 +36,10 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
     {
         try {
             return new JcsegTokenizer(mode, config, dic);
-        } catch (JcsegException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JcsegException | IOException e) {
             e.printStackTrace();
         }
-        
+
         return null;
     }
 }

@@ -15,3 +15,7 @@ target/
 .project
 # vim swp file #
 *.swp
+
+# for idea
+.idea/
+*.iml

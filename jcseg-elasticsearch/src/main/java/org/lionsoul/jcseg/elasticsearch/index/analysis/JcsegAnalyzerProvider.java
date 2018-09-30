@@ -1,6 +1,7 @@
 package org.lionsoul.jcseg.elasticsearch.index.analysis;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
@@ -9,6 +10,7 @@ import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
 import org.lionsoul.jcseg.elasticsearch.util.CommonUtil;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * JcsegAnalyzerProvider
@@ -22,14 +24,12 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
     
     @Inject
     public JcsegAnalyzerProvider(
-            IndexSettings indexSettings, Environment env, String name, Settings settings) 
-    {
+            IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        File proFile = new File(settings.get("config_file", CommonUtil.JcsegConfigFile));
-        analyzer = proFile.exists() ? 
-            new JcsegAnalyzer(this.getSegMode(), proFile.getPath()) : 
-                new JcsegAnalyzer(this.getSegMode());
+        JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(CommonUtil.getPluginSafeFile("jcseg.properties")));
+        config.setAutoload(false);      // disable the autoload of the lexicon
+        analyzer = new JcsegAnalyzer(this.getSegMode(), config);
     }
     
     protected abstract int getSegMode();

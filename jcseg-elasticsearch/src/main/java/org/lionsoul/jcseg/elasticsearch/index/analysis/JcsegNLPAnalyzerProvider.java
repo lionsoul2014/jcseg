@@ -5,6 +5,8 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
+import java.io.IOException;
+
 /**
  * Jcseg simple Analyzer Provider
  * 
@@ -13,8 +15,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 public class JcsegNLPAnalyzerProvider extends JcsegAnalyzerProvider
 {
     public JcsegNLPAnalyzerProvider(IndexSettings indexSettings,
-            Environment env, String name, Settings settings)
-    {
+            Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
 
