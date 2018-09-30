@@ -118,7 +118,7 @@ public abstract class ADictionary
     public void loadDirectory( String lexDir ) throws IOException
     {
         File path = new File(lexDir);
-        if ( path.exists() == false ) {
+        if ( ! path.exists() ) {
             throw new IOException("Lexicon directory ["+lexDir+"] does'n exists.");
         }
         

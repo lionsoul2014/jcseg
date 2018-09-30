@@ -21,16 +21,53 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
 {
     /**default Jcseg tokenizer instance*/
     private final JcsegAnalyzer analyzer;
-    
+
     @Inject
     public JcsegAnalyzerProvider(
             IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
         JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(CommonUtil.getPluginSafeFile("jcseg.properties")));
-        config.setAutoload(false);      // disable the autoload of the lexicon
         analyzer = new JcsegAnalyzer(this.getSegMode(), config);
     }
+
+    /**
+     * internal method to load the lexicon under the plugin directory
+     *
+     * @param   config
+     * @param   dic
+     */
+//    protected void loadLexicon(JcsegTaskConfig config, ADictionary dic) throws IOException {
+//        String[] lexPath = config.getLexiconPath();
+//        if ( lexPath == null ) {
+//            dic.loadClassPath();
+//        } else {
+//            for ( String path : lexPath ) {
+//                final File safeDir = CommonUtil.getPluginSafeFile(path);
+//                if ( ! safeDir.exists() ) {
+//                    continue;
+//                }
+//
+//                File[] files = safeDir.listFiles(new FilenameFilter(){
+//                    @Override
+//                    public boolean accept(File dir, String name) {
+//                        return (name.startsWith("lex-") && name.endsWith(".lex"));
+//                    }
+//                });
+//
+//                for ( File f : files ) {
+//                    System.out.println(f.getAbsolutePath());
+//                    dic.load(CommonUtil.getPluginSafeFile(f.getAbsolutePath()));
+//                }
+//            }
+//
+//            if ( config.isAutoload() ) {
+//                dic.startAutoload();
+//            }
+//        }
+//
+//        dic.resetSynonymsNet();
+//    }
     
     protected abstract int getSegMode();
     
