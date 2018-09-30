@@ -7798,7 +7798,7 @@ CJK_CHAR
 僇/null/lu/null/8
 蒺/null/ji/null/23
 蔜/null/ao/null/11
-戙/null/%/null/10
+戙/null/dong/null/10
 陭/null/qi/null/17
 雏/n,a/chu/null/1237
 獩/null/hui/null/10
@@ -9704,7 +9704,7 @@ CJK_CHAR
 磎/null/xi/null/6
 嗋/null/xie/null/7
 暺/null/tan/null/10
-魰/null/%/null/12
+魰/null/wen/null/12
 硭/null/mang/null/20
 磏/null/lian/null/9
 啪/o/pa/null/9800
