@@ -9,9 +9,8 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
 import org.lionsoul.jcseg.analyzer.JcsegTokenizer;
-import org.lionsoul.jcseg.elasticsearch.util.CommonUtil;
+import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
@@ -20,15 +19,30 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
     private final JcsegTaskConfig config;
     private final ADictionary dic;
     private final int mode;
-    
+
     public JcsegTokenizerTokenizerFactory(
             IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        config = new JcsegTaskConfig(new FileInputStream(CommonUtil.getPluginSafeFile("jcseg.properties")));
-        config.setAutoload(false);          // disable the autoload of the lexicon
-        mode = CommonUtil.getSegMode(settings, JcsegTaskConfig.SEARCH_MODE);
-        dic  = DictionaryFactory.createSingletonDictionary(config);
+        config = new JcsegTaskConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        dic = AnalysisJcsegPlugin.createSingletonDictionary(config);
+
+        String seg_mode = settings.get("seg_mode");
+        if( "complex".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.COMPLEX_MODE;
+        } else if ( "simple".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.SIMPLE_MODE;
+        } else if ( "detect".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.DETECT_MODE;
+        } else if ( "search".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.SEARCH_MODE;
+        } else if ( "nlp".equals(seg_mode) ){
+            mode = JcsegTaskConfig.NLP_MODE;
+        } else if ( "delimiter".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.DELIMITER_MODE;
+        } else {
+            mode = JcsegTaskConfig.SEARCH_MODE;
+        }
     }
 
     @Override
