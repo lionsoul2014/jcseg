@@ -83,7 +83,7 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
      * @param   dic
      */
     private static ADictionary dic = null;
-    public static final ADictionary createSingletonDictionary(JcsegTaskConfig config) throws IOException {
+    public static final synchronized ADictionary createSingletonDictionary(JcsegTaskConfig config) throws IOException {
         if ( dic != null ) {
             return dic;
         }
