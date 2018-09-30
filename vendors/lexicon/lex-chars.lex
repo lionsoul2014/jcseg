@@ -3671,7 +3671,7 @@ CJK_CHAR
 鰴/null/hui/null/26
 鲖/null/tong/null/11
 禓/null/yang/null/6
-板/v,n/pan/null/10638
+板/v,n/ban/null/10638
 桃/n/tao/null/11651
 禔/null/zhi/null/19
 譇/null/zha/null/14
