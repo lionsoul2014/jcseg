@@ -99,7 +99,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
 </dependency>
 
 ```
@@ -110,7 +110,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
 </dependency>
 ```
 
@@ -120,7 +120,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
 </dependency>
 ```
 
@@ -130,7 +130,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
 </dependency>
 ```
 
@@ -1030,5 +1030,8 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 7，同一同义词定义的集合中的全部IWord词条都指向同一个SynonymsEntry对象，也就是同义词之间会自动相互引用。
 ```
 
+### 3，技术交流分享
+* 1，官方使用案例：[原语智能](http://yuanyu.ai)
+* 2，NLP交流分享：微信：lionsoul2014，ＱＱ：1187582057
 
 > This is the end line and thanks for reading !!!
