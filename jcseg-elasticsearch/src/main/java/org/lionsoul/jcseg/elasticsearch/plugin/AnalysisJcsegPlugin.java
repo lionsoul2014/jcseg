@@ -33,7 +33,7 @@ import static java.util.Collections.singletonMap;
  * elasticsearch jcseg analysis plugin
  * 
  * @author  chenxin<chenxin619315@gmail.com>
- * @date    2017/01/08
+ * @since   2017/01/08
  */
 public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin 
 {

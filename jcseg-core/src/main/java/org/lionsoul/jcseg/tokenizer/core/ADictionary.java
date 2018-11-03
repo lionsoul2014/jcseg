@@ -144,8 +144,7 @@ public abstract class ADictionary
      * added at 2016/07/12:
      * only in the jar file could the ZipInputStream available
      * add IDE classpath supported here
-     * 
-     * @param   lexDir
+     *
      * @since   1.9.9
      * @throws  IOException
     */
@@ -360,7 +359,6 @@ public abstract class ADictionary
      * 
      * @param   t
      * @param   word
-     * @param   IWord
     */
     public abstract IWord add( int t, IWord word );
     
@@ -371,7 +369,7 @@ public abstract class ADictionary
      * @param   key
      * @param   fre
      * @param   type
-     * @param   entity[]
+     * @param   entity
      * @return  IWord
      */
     public abstract IWord add( int t, String key, int fre, int type, String[] entity );
@@ -383,7 +381,7 @@ public abstract class ADictionary
      * @param   key
      * @param   fre
      * @param   type
-     * @param   IWord
+     * @return  IWord
      */
     public abstract IWord add( int t, String key, int fre, int type );
     
@@ -393,7 +391,7 @@ public abstract class ADictionary
      * @param   t
      * @param   key
      * @param   type
-     * @param   IWord
+     * @return  IWord
      */
     public abstract IWord add( int t, String key, int type );
     
@@ -403,8 +401,8 @@ public abstract class ADictionary
      * @param   t
      * @param   key
      * @param   type
-     * @param   entity[]
-     * @param   IWord
+     * @param   entity
+     * @return  IWord
      */
     public abstract IWord add( int t, String key, int type, String[] entity );
     

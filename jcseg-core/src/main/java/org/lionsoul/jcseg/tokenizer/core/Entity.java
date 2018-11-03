@@ -335,7 +335,7 @@ public class Entity
     
     /**
      * get the entity string by the specified key
-     * @Note well, this may puzzle you more or less
+     * Note well, this may puzzle you more or less
      * thousands of word items quote the same string constants
      * of course, this will save lots of runtime memory (constants string pool)
     */

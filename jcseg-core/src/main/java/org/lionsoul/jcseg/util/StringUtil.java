@@ -269,8 +269,7 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isDigit(String str) {return isDigit(str, 0, str.length());}
-    public static boolean isDigit(String str, int beginIndex, int endIndex) 
+    public static boolean isDigit(String str, int beginIndex, int endIndex)
     {
         char c;
         for ( int j = beginIndex; j < endIndex; j++ ) {
@@ -281,9 +280,12 @@ public class StringUtil
                 return false;
             }
         }
-        
+
         return true;
     }
+
+    public static boolean isDigit(String str) {return isDigit(str, 0, str.length());}
+
     
     /**
      * check the specified char is a decimal including the full-width char
@@ -293,14 +295,13 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isDecimal(String str) {return isDecimal(str, 0, str.length());}
-    public static boolean isDecimal(String str, int beginIndex, int endIndex) 
+    public static boolean isDecimal(String str, int beginIndex, int endIndex)
     {
-        if ( str.charAt(str.length() - 1) == '.' 
+        if ( str.charAt(str.length() - 1) == '.'
                 || str.charAt(0) == '.' ) {
             return false;
         }
-        
+
         char c;
         int p= 0;        //number of point
         for ( int j = 1; j < str.length(); j++ ) {
@@ -313,9 +314,12 @@ public class StringUtil
                 if ( c < 48 || c > 57 ) return false;
             }
         }
-        
+
         return (p==1);
     }
+
+    public static boolean isDecimal(String str) {return isDecimal(str, 0, str.length());}
+
     
     /**
      * check if the specified string is all Latin chars
@@ -325,7 +329,6 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isLatin(String str) {return isLatin(str, 0, str.length());}
     public static boolean isLatin(String str, int beginIndex, int endIndex)
     {
         for ( int j = beginIndex; j < endIndex; j++ ) {
@@ -333,10 +336,12 @@ public class StringUtil
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
+    public static boolean isLatin(String str) {return isLatin(str, 0, str.length());}
+
     /**
      * check if the specified string is all CJK chars
      * 
@@ -345,7 +350,6 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isCJK(String str) {return isCJK(str, 0, str.length());}
     public static boolean isCJK(String str, int beginIndex, int endIndex)
     {
         for ( int j = beginIndex; j < endIndex; j++ ) {
@@ -353,9 +357,11 @@ public class StringUtil
                 return false;
             }
         }
-        
+
         return true;
     }
+
+    public static boolean isCJK(String str) {return isCJK(str, 0, str.length());}
     
     /**
      * check if the specified string is Latin numeric or letter
@@ -365,20 +371,21 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isLetterOrNumeric(String str) {return isLetterOrNumeric(str, 0, str.length());}
     public static boolean isLetterOrNumeric(String str, int beginIndex, int endIndex)
     {
         for ( int i = beginIndex; i < endIndex; i++ ) {
             char chr = str.charAt(i);
-            if ( ! StringUtil.isEnLetter(chr) 
+            if ( ! StringUtil.isEnLetter(chr)
                     && ! StringUtil.isEnNumeric(chr) ) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
+    public static boolean isLetterOrNumeric(String str) {return isLetterOrNumeric(str, 0, str.length());}
+
     /**
      * check if the specified string is Latin letter
      * 
@@ -387,8 +394,7 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isLetter(String str) {return isLetter(str, 0, str.length());} 
-    public static boolean isLetter(String str, int beginIndex, int endIndex) 
+    public static boolean isLetter(String str, int beginIndex, int endIndex)
     {
         for ( int i = beginIndex; i < endIndex; i++ ) {
             char chr = str.charAt(i);
@@ -396,9 +402,11 @@ public class StringUtil
                 return false;
             }
         }
-        
+
         return true;
     }
+
+    public static boolean isLetter(String str) {return isLetter(str, 0, str.length());}
     
     /**
      * check if the specified string it Latin numeric
@@ -408,7 +416,6 @@ public class StringUtil
      * @param   endIndex
      * @return  boolean
     */
-    public static boolean isNumeric(String str) {return isNumeric(str, 0, str.length());}
     public static boolean isNumeric(String str, int beginIndex, int endIndex)
     {
         for ( int i = beginIndex; i < endIndex; i++ ) {
@@ -417,9 +424,11 @@ public class StringUtil
                 return false;
             }
         }
-        
+
         return true;
     }
+
+    public static boolean isNumeric(String str) {return isNumeric(str, 0, str.length());}
     
     /**
      * get the index of the first Latin char of the specified string

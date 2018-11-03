@@ -26,7 +26,7 @@ public class JcsegAnalyzer extends Analyzer
      * And Jcseg will look for the default configuration file
      * 
      * @param   mode tokenizer mode
-     * @see     org.lionsoul.jcseg.core.JcsegTaskConfig
+     * @see     org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
     */
     public JcsegAnalyzer(int mode) 
     {

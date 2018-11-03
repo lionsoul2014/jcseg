@@ -21,7 +21,7 @@ public class TimeUtil
      * +------+-------+-----+---------------+------+--------+--------+
      * and the numeric value before every part.
      * 
-     * Note: {@link NLPSeg}'s date-time recognition base on this logic
+     * Note: {@link org.lionsoul.jcseg.tokenizer.NLPSeg}'s date-time recognition base on this logic
      * 1, the odd index is the entity part
      * 2, the even index is the numeric value part
     */
@@ -116,7 +116,7 @@ public class TimeUtil
      * fill the date-time pool specified part with part index constant
      * 
      * @param   wPool
-     * @param   int
+     * @param   pIdx
      * @param   word
     */
     public static final void fillDateTimePool(
@@ -155,7 +155,7 @@ public class TimeUtil
     /**
      * get and return the time key part with the part index value
      * 
-     * @param   int
+     * @param   pIdx
      * @return  String
     */
     public static final String getTimeKey(int pIdx)

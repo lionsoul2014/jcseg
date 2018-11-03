@@ -53,7 +53,7 @@ public abstract class SummaryExtractor
     /**
      * get key sentence from a file path
      * 
-     * @param   doc
+     * @param   file
      * @return  List<String>
      * @throws  IOException
     */

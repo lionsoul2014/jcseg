@@ -91,7 +91,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * IDF(qi) = log((N-n(qi)+0.5)/(n(qi)+0.5))
      * 
      * @param   sentence
-     * @param   sendWords
+     * @param   senWords
      * @return  double[]
     */
     double[][] BM25RelevanceMatixBuild(
@@ -468,7 +468,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
          * override the compareTo method
          * compare document with its relevance score
          * 
-         * @param   Document
+         * @param   o
         */
         @Override
         public int compareTo(Document o) 

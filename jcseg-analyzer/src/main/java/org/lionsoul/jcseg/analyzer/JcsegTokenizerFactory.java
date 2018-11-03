@@ -27,7 +27,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
      * set the mode arguments in the schema.xml 
      *     configuration file to change the segment mode for jcseg
      * 
-     * @see TokenizerFactory#TokenizerFactory(Map<String, String)
+     * @see TokenizerFactory#TokenizerFactory(Map)
      */
     public JcsegTokenizerFactory(Map<String, String> args)
     {

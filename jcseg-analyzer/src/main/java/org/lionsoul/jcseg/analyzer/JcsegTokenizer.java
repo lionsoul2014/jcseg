@@ -17,7 +17,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 /**
  * <p>
- * here is the documentation from {@link org.apache.lucene.analysis.tokenizer}
+ * here is the documentation from {@link org.apache.lucene.analysis.Tokenizer}
  * A Tokenizer is a TokenStream whose input is a Reader.
  * </p>
  * 
@@ -27,7 +27,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  * 
  * <p>
  * NOTE: Subclasses overriding {@link #incrementToken()} must
- * call {@link AttributeSource#clearAttributes()} before setting attributes
+ * call {@link #clearAttributes()} before setting attributes
  * </p>
  *
  * <p>

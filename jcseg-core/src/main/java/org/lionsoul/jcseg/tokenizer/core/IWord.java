@@ -196,7 +196,7 @@ public interface IWord extends Cloneable
     /**
      * set the string parameters
      * 
-     * @param   parameters
+     * @param   param
     */
     public void setParameter(String param);
     

@@ -142,7 +142,7 @@ public class DictionaryFactory
      * 
      * @param   config
      * @param   loadDic
-     * @param   ADictionary
+     * @return  ADictionary
     */
     public static ADictionary createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
     {

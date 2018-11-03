@@ -12,7 +12,7 @@ public interface ILexicon
     /**
      * Chinese, JPanese, Korean words
      * 
-     * @Note since version 2.0.1 the Chinese English mixed words
+     * Note: since version 2.0.1 the Chinese English mixed words
      * and the English punctuation mixed words are all included here.
      * implemented at 2016/11/09
     */
