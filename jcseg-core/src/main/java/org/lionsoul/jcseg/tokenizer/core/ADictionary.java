@@ -28,8 +28,9 @@ import org.lionsoul.jcseg.util.StringUtil;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public abstract class ADictionary 
+public abstract class ADictionary implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     /**
      * the default auto load task file name 
     */

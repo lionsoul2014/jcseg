@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.tokenizer;
 
+import java.io.Serializable;
 import java.util.HashMap;
 //import java.util.Hashtable;
 import java.util.Map;
@@ -15,8 +16,9 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class Dictionary extends ADictionary
+public class Dictionary extends ADictionary implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     
     /**hash table for the words*/
     private Map<String, IWord>[] dics = null;
