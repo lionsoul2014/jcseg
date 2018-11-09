@@ -49,8 +49,8 @@ public class DelimiterSeg implements ISegment
     /**
      * method to create a new ISegment
      * 
-     * @param   input
-     * @param   maxLen
+     * @param   config
+     * @param   dic
      * @throws  IOException
     */
     public DelimiterSeg(JcsegTaskConfig config,  ADictionary dic) throws IOException
@@ -62,8 +62,8 @@ public class DelimiterSeg implements ISegment
      * method to create a new ISegment
      * 
      * @param   input
-     * @param   delimiter
-     * @param   maxLen
+     * @param   config
+     * @param   dic
      * @throws  IOException
      */
     public DelimiterSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException 

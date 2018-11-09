@@ -67,7 +67,7 @@ public class SynonymsEntry
      * and the newly added word will extends the part of speech and the entity 
      *  from the base word if there are not set
      * 
-     * @param   IWord
+     * @param   word
     */
     public void add(IWord word)
     {

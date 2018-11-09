@@ -132,7 +132,7 @@ public abstract class ASegment implements ISegment
     /**
      * push back a string to the stream
      * 
-     * @param   data
+     * @param   str
     */
     protected void pushBack(String str)
     {
@@ -1418,7 +1418,7 @@ public abstract class ASegment implements ISegment
      * the simple version of the next basic Latin fetch logic
      * Just return the next Latin string with the keep punctuation after it
      * 
-     * @param   int c
+     * @param   c
      * @return  String
      * @throws  IOException 
     */

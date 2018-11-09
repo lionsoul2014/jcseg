@@ -208,7 +208,7 @@ public class IStringBuffer implements Serializable
     /**
      * append a float value
      * 
-     * @param    doublev
+     * @param   floatv
     */
     public IStringBuffer append(float floatv)
     {
@@ -240,7 +240,7 @@ public class IStringBuffer implements Serializable
      * actually it just override the count and the actual buffer
      * has nothing changed
      * 
-     * @param   int
+     * @param   length
     */
     public int setLength(int length)
     {

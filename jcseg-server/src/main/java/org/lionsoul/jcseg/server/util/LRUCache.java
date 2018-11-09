@@ -168,7 +168,7 @@ public class LRUCache<E, T> {
     /**
      * print the list 
      * 
-     * @NOTE for test
+     * NOTE: for test only
      * */
     public synchronized void printList(){
         Entry<E, T> entry = this.head.next;

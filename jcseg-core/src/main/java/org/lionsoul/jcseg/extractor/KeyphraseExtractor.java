@@ -34,7 +34,7 @@ public abstract class KeyphraseExtractor
     /**
      * word item filter
      * 
-     * @param   work
+     * @param   word
      * @return  boolean
     */
     protected boolean filter(IWord word)

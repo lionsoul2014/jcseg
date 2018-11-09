@@ -27,7 +27,7 @@ public class Util
     /**
      * print the specified matrix
      * 
-     * @param    double[][]
+     * @param   matrix
     */
     public static void printMatrix(double[][] matrix)
     {

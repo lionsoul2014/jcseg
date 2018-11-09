@@ -9,7 +9,7 @@ import org.lionsoul.jcseg.util.ArrayUtil;
 
 
 /**
- * word class for Jcseg with the {@link org.lionsoul.jcseg.core.IWord} interface implemented
+ * word class for Jcseg with the {@link org.lionsoul.jcseg.tokenizer.core.IWord} interface implemented
  * 
  * at 2017/03/29: 
  * make the synonyms series method {@link #getSyn()} {@link #setSyn(SynonymsEntry)} 
@@ -175,7 +175,7 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
-     * @see IWord#setEntity(String)
+     * @see IWord#setEntity(String[])
     */
     public synchronized void setEntity(String[] entity) 
     {
@@ -200,7 +200,7 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
-     * @see IWord#getPinying() 
+     * @see IWord#getPinyin()
      */
     @Override
     public String getPinyin() 
@@ -209,7 +209,7 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
-     * @see IWord#setPinying(String)
+     * @see IWord#setPinyin(String)
      */
     public void setPinyin( String py ) 
     {
@@ -247,7 +247,7 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
-     * @see IWord#addPartSpeech( String );
+     * @see IWord#addPartSpeech(String)
      */
     @Override
     public synchronized void addPartSpeech( String ps ) 
