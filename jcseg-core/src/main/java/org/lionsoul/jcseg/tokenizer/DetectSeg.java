@@ -3,6 +3,7 @@ package org.lionsoul.jcseg.tokenizer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
@@ -25,8 +26,9 @@ import org.lionsoul.jcseg.util.IStringBuffer;
  * @author  chenxin <chenxin619315@gmail.com>
  * @since   1.9.4
 */
-public class DetectSeg implements ISegment
+public class DetectSeg implements ISegment, Serializable
 {
+    private static final long serialVersionUID = 1L;
     /**
      * the index of the current input stream 
     */

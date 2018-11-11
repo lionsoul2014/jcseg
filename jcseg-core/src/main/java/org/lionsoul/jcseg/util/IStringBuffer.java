@@ -1,12 +1,15 @@
 package org.lionsoul.jcseg.util;
 
+import java.io.Serializable;
+
 /**
  * string buffer class
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public class IStringBuffer
+public class IStringBuffer implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     /**
      * buffer char array. 
     */

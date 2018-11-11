@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.tokenizer;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.lionsoul.jcseg.tokenizer.core.IWord;
@@ -17,8 +18,9 @@ import org.lionsoul.jcseg.util.ArrayUtil;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public class Word implements IWord,Cloneable
+public class Word implements IWord,Cloneable, Serializable
 {
+    private static final long serialVersionUID = 1L;
     private String value;
     private int fre = 0;
     private int type;

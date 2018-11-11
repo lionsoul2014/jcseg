@@ -14,8 +14,9 @@ import org.lionsoul.jcseg.util.Util;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTaskConfig implements Cloneable
+public class JcsegTaskConfig implements Cloneable, Serializable
 {
+    private static final long serialVersionUID = 1L;
     /**default lexicon property file name*/
     public static final String LEX_PROPERTY_FILE = "jcseg.properties";
     

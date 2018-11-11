@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.tokenizer;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //import java.util.Iterator;
@@ -31,8 +32,9 @@ import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public class ComplexSeg extends ASegment
+public class ComplexSeg extends ASegment implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     
     public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
