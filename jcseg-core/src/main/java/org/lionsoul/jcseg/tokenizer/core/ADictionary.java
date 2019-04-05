@@ -1,15 +1,6 @@
 package org.lionsoul.jcseg.tokenizer.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +22,7 @@ import org.lionsoul.jcseg.util.StringUtil;
 public abstract class ADictionary implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
     /**
      * the default auto load task file name 
     */
@@ -78,7 +70,7 @@ public abstract class ADictionary implements Serializable
      * @throws  FileNotFoundException 
      * @throws  NumberFormatException 
      */
-    public void load( File file ) 
+    public void load( File file )
             throws NumberFormatException, FileNotFoundException, IOException
     {
         loadWords(config, this, file, synBuffer);
