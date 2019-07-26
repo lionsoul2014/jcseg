@@ -28,7 +28,10 @@ import org.lionsoul.jcseg.util.TimeUtil;
 */
 public class NLPSeg extends ComplexSeg
 {
-    /**
+	
+	private static final long serialVersionUID = -8686944894332423915L;
+	
+	/**
      * word pool for NLP complex entity recognition
     */
     private final LinkedList<IWord> eWordPool = new LinkedList<IWord>();
