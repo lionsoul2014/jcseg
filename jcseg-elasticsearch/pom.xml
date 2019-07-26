@@ -35,7 +35,7 @@
     <dependency>
       <groupId>org.elasticsearch</groupId>
       <artifactId>elasticsearch</artifactId>
-      <version>6.2.4</version>
+      <version>7.2.0</version>
     </dependency>
     
     <dependency>
@@ -74,6 +74,17 @@
           </execution>
         </executions>
       </plugin>
+      
+      <!-- <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>3.8.1</version>
+		<configuration>
+			<source>${maven.compiler.source}</source>
+			<target>${maven.compiler.target}</target>
+			<skip>true</skip>
+		</configuration>
+	  </plugin>  -->
       
       <plugin>          
         <groupId>org.apache.maven.plugins</groupId>
