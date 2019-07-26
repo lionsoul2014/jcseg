@@ -32,6 +32,7 @@ import org.lionsoul.jcseg.util.StringUtil;
 public abstract class ADictionary implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
     /**
      * the default auto load task file name 
     */
@@ -79,7 +80,7 @@ public abstract class ADictionary implements Serializable
      * @throws  FileNotFoundException 
      * @throws  NumberFormatException 
      */
-    public void load( File file ) 
+    public void load( File file )
             throws NumberFormatException, FileNotFoundException, IOException
     {
         loadWords(config, this, file, synBuffer);
