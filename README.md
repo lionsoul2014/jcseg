@@ -277,6 +277,140 @@ jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 ```
 http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币
 ```
+7.x版本请使用如下方式测试：
+```shell
+curl 'http://localhost:9200/_analyze?pretty=true' -H 'Content-Type:application/json' -d'
+{
+    "analyzer": "jcseg_search",
+    "text": "一百美元等于多少人民币"
+}'
+```
+打印结果如下：
+```json
+{
+  "tokens" : [
+    {
+      "token" : "一",
+      "start_offset" : 0,
+      "end_offset" : 1,
+      "type" : "word",
+      "position" : 0
+    },
+    {
+      "token" : "一百",
+      "start_offset" : 0,
+      "end_offset" : 2,
+      "type" : "word",
+      "position" : 1
+    },
+    {
+      "token" : "百",
+      "start_offset" : 1,
+      "end_offset" : 2,
+      "type" : "word",
+      "position" : 2
+    },
+    {
+      "token" : "美",
+      "start_offset" : 2,
+      "end_offset" : 3,
+      "type" : "word",
+      "position" : 3
+    },
+    {
+      "token" : "美元",
+      "start_offset" : 2,
+      "end_offset" : 4,
+      "type" : "word",
+      "position" : 4
+    },
+    {
+      "token" : "元",
+      "start_offset" : 3,
+      "end_offset" : 4,
+      "type" : "word",
+      "position" : 5
+    },
+    {
+      "token" : "等",
+      "start_offset" : 4,
+      "end_offset" : 5,
+      "type" : "word",
+      "position" : 6
+    },
+    {
+      "token" : "等于",
+      "start_offset" : 4,
+      "end_offset" : 6,
+      "type" : "word",
+      "position" : 7
+    },
+    {
+      "token" : "于",
+      "start_offset" : 5,
+      "end_offset" : 6,
+      "type" : "word",
+      "position" : 8
+    },
+    {
+      "token" : "多",
+      "start_offset" : 6,
+      "end_offset" : 7,
+      "type" : "word",
+      "position" : 9
+    },
+    {
+      "token" : "多少",
+      "start_offset" : 6,
+      "end_offset" : 8,
+      "type" : "word",
+      "position" : 10
+    },
+    {
+      "token" : "少",
+      "start_offset" : 7,
+      "end_offset" : 8,
+      "type" : "word",
+      "position" : 11
+    },
+    {
+      "token" : "人",
+      "start_offset" : 8,
+      "end_offset" : 9,
+      "type" : "word",
+      "position" : 12
+    },
+    {
+      "token" : "人民",
+      "start_offset" : 8,
+      "end_offset" : 10,
+      "type" : "word",
+      "position" : 13
+    },
+    {
+      "token" : "人民币",
+      "start_offset" : 8,
+      "end_offset" : 11,
+      "type" : "word",
+      "position" : 14
+    },
+    {
+      "token" : "民",
+      "start_offset" : 9,
+      "end_offset" : 10,
+      "type" : "word",
+      "position" : 15
+    },
+    {
+      "token" : "币",
+      "start_offset" : 10,
+      "end_offset" : 11,
+      "type" : "word",
+      "position" : 16
+    }
+  ]
+}
+```
 
 
 也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](http://git.oschina.net/lionsoul/elasticsearch-jcseg)，开封就可以使用。
