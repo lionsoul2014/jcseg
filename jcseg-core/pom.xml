@@ -44,7 +44,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>properties-file-copy</id>
@@ -87,7 +87,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -113,7 +113,7 @@
       <plugin>          
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -123,6 +123,9 @@
             </goals>
             <configuration>
               <additionalparam>${javadoc.opts}</additionalparam>
+              <additionalOptions>
+                <additionalOption>-Xdoclint:none</additionalOption>
+              </additionalOptions>
             </configuration>
           </execution>
         </executions>
@@ -134,7 +137,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <phase>package</phase>
