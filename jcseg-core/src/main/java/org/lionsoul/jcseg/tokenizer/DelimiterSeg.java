@@ -164,7 +164,7 @@ public class DelimiterSeg implements ISegment
             } else {
                 wd = new Word(val, IWord.T_CJK_WORD);
                 if ( StringUtil.isLatin(val) ) {
-                    wd.setPartSpeech(IWord.EN_POSPEECH);
+                    wd.setPartSpeechForNull(IWord.EN_POSPEECH);
                 }
             }
             

@@ -182,6 +182,13 @@ public class Word implements IWord,Cloneable, Serializable
         this.entity = entity;
     }
     
+    public synchronized void setEntityForNull(String[] entity)
+    {
+    	if ( this.entity == null ) {
+    		this.entity = entity;
+    	}
+    }
+    
     /**
      * @see IWord#addEntity(String) 
     */
@@ -244,6 +251,13 @@ public class Word implements IWord,Cloneable, Serializable
     public synchronized void setPartSpeech(String[] partspeech) 
     {
         this.partspeech = partspeech;
+    }
+    
+    public synchronized void setPartSpeechForNull(String[] partspeech)
+    {
+    	if ( this.partspeech == null ) {
+    		this.partspeech = partspeech;
+    	}
     }
     
     /**

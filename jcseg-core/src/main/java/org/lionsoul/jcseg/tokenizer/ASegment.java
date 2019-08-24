@@ -246,7 +246,7 @@ public abstract class ASegment implements ISegment
                 }
                 
                 word = new Word(val, IWord.T_OTHER_NUMBER);
-                word.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                word.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                 word.setPosition(pos);
             }
             /* other number like '①⑩⑽㈩';
@@ -259,7 +259,7 @@ public abstract class ASegment implements ISegment
                 }
                 
                 word = new Word(val, IWord.T_OTHER_NUMBER);
-                word.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                word.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                 word.setPosition(pos);
             } 
             /* Chinese punctuation.
@@ -272,7 +272,7 @@ public abstract class ASegment implements ISegment
                 }
                 
                 word = new Word(str, IWord.T_PUNCTUATION);
-                word.setPartSpeech(IWord.PUNCTUATION);
+                word.setPartSpeechForNull(IWord.PUNCTUATION);
                 word.setPosition(pos);
             }
             /* @reader: (2013-09-25) 
@@ -288,7 +288,7 @@ public abstract class ASegment implements ISegment
                 }
                 
                 word = new Word(str, IWord.T_UNRECOGNIZE_WORD);
-                word.setPartSpeech(IWord.UNRECOGNIZE);
+                word.setPartSpeechForNull(IWord.UNRECOGNIZE);
                 word.setPosition(pos);
             }
             
@@ -363,7 +363,7 @@ public abstract class ASegment implements ISegment
                 if ( (ctrlMask & ISegment.CHECK_CF_MASK) != 0  ) {
                     w = new Word(num, IWord.T_CN_NUMERIC);
                     w.setPosition(pos+cjkidx);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                    w.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                     wordPool.add(w);
                     
                     /* 
@@ -379,7 +379,7 @@ public abstract class ASegment implements ISegment
                             IWord.T_CN_NUMERIC
                         );
                         wd.setPosition(w.getPosition());
-                        wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        wd.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                         wordPool.add(wd);
                     }
                 }
@@ -435,7 +435,7 @@ public abstract class ASegment implements ISegment
                         }
                         
                         wd = new Word( arabic, IWord.T_CN_NUMERIC);
-                        wd.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        wd.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                         wd.setPosition(pos+cjkidx);
                     }
                     
@@ -456,7 +456,7 @@ public abstract class ASegment implements ISegment
                     */
                     if ( w == null ) {
                         w = new Word(num, IWord.T_CN_NUMERIC);
-                        w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                        w.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                     } else {
                         w = w.clone();
                     }
@@ -521,7 +521,7 @@ public abstract class ASegment implements ISegment
                 
                 if ( T != -1 ) {
                     w = new Word(sb.toString(), T);
-                    w.setPartSpeech(IWord.NAME_POSPEECH);
+                    w.setPartSpeechForNull(IWord.NAME_POSPEECH);
                 }
             }
             
@@ -599,7 +599,7 @@ public abstract class ASegment implements ISegment
             
             IWord w = new Word(str, IWord.T_PUNCTUATION);
             w.setPosition(pos);
-            w.setPartSpeech(IWord.PUNCTUATION);
+            w.setPartSpeechForNull(IWord.PUNCTUATION);
             return w;
         }
         
@@ -707,7 +707,7 @@ public abstract class ASegment implements ISegment
         if ( ! ( config.CLEAR_STOPWORD 
                 && dic.match(ILexicon.STOP_WORD, str) ) ) {
             w = new Word(str, IWord.T_PUNCTUATION);
-            w.setPartSpeech(IWord.PUNCTUATION);
+            w.setPartSpeechForNull(IWord.PUNCTUATION);
             w.setPosition(pos);
         }
         
@@ -716,7 +716,7 @@ public abstract class ASegment implements ISegment
                 && ! ( config.CLEAR_STOPWORD 
                         && dic.match(ILexicon.STOP_WORD, text) ) ) {
             w2 = new Word( text, ILexicon.CJK_WORD );
-            w2.setPartSpeech(IWord.PPT_POSPEECH);
+            w2.setPartSpeechForNull(IWord.PPT_POSPEECH);
             w2.setPosition(pos+1);
             
             if ( w == null ) w = w2;
@@ -838,7 +838,7 @@ public abstract class ASegment implements ISegment
                     if ( ! ( config.CLEAR_STOPWORD
                             && dic.match(ILexicon.STOP_WORD, _str) ) ) {
                         sword = new Word(_str, w.getType());
-                        sword.setPartSpeech(w.getPartSpeech());
+                        sword.setPartSpeechForNull(w.getPartSpeech());
                         sword.setPosition(w.getPosition() + start);
                         if ( retfw && fword == null ) fword = sword;
                         else wordPool.add(sword);
@@ -860,7 +860,7 @@ public abstract class ASegment implements ISegment
             if ( ! ( config.CLEAR_STOPWORD
                     && dic.match(ILexicon.STOP_WORD, _str) ) ) {
                 sword = new Word(_str, w.getType());
-                sword.setPartSpeech(w.getPartSpeech());
+                sword.setPartSpeechForNull(w.getPartSpeech());
                 sword.setPosition(w.getPosition() + start);
                 if ( retfw && fword == null ) fword = sword;
                 else wordPool.add(sword);
@@ -1264,7 +1264,7 @@ public abstract class ASegment implements ISegment
             */
             if ( dic.match(ILexicon.CJK_WORD, __str) ) {
                 w = dic.get(ILexicon.CJK_WORD, __str).clone();
-                w.setPartSpeech(IWord.EN_POSPEECH);
+                w.setPartSpeechForNull(IWord.EN_POSPEECH);
                 chkunits = false;
                 break;
             }
@@ -1294,13 +1294,13 @@ public abstract class ASegment implements ISegment
          * @added 2013-11-19 
         */
         if ( ch == -1 || _wspace ) {
-            w = new Word(__str, IWord.T_BASIC_LATIN);
-            w.setPartSpeech(IWord.EN_POSPEECH);
+            w = wordNewOrClone(ILexicon.CJK_WORD, __str, IWord.T_BASIC_LATIN);
+            w.setPartSpeechForNull(IWord.EN_POSPEECH);
             if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
             return w;
         }
         
-        if ( ! _check ) {    
+        if ( ! _check ) {
             /* 
              * @reader: (2013-09-25)
              * we check the units here, so we can recognize
@@ -1310,16 +1310,16 @@ public abstract class ASegment implements ISegment
                         || StringUtil.isDecimal(__str) ) ) {
                 ch = readNext();
                 if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
-                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                    w = wordNewOrClone(ILexicon.CJK_WORD, new String(__str+((char)ch)), IWord.T_MIXED_WORD);
+                    w.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                 } else {
                     pushBack(ch);
                 }
             }
             
             if ( w == null ) {
-                w = new Word(__str, IWord.T_BASIC_LATIN);
-                w.setPartSpeech(IWord.EN_POSPEECH);
+                w = wordNewOrClone(ILexicon.CJK_WORD, __str, IWord.T_BASIC_LATIN);
+                w.setPartSpeechForNull(IWord.EN_POSPEECH);
                 if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
             }
             
@@ -1392,8 +1392,8 @@ public abstract class ASegment implements ISegment
             if ( StringUtil.isDigit(__str) || StringUtil.isDecimal(__str) ) {
                 ch = readNext();
                 if ( dic.match(ILexicon.CJK_UNIT, ((char)ch)+"") ) {
-                    w = new Word(new String(__str+((char)ch)), IWord.T_MIXED_WORD);
-                    w.setPartSpeech(IWord.NUMERIC_POSPEECH);
+                    w = wordNewOrClone(ILexicon.CJK_WORD, new String(__str+((char)ch)), IWord.T_MIXED_WORD);
+                    w.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                 } else {
                     pushBack(ch);
                 }
@@ -1404,8 +1404,8 @@ public abstract class ASegment implements ISegment
          * numeric, English punctuation if matches no single units or EC word.
         */
         if ( w == null ) {
-            w = new Word(__str, IWord.T_BASIC_LATIN);
-            w.setPartSpeech(IWord.EN_POSPEECH);
+            w = wordNewOrClone(ILexicon.CJK_WORD, __str, IWord.T_BASIC_LATIN);
+            w.setPartSpeechForNull(IWord.EN_POSPEECH);
             if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
         } else if ( mc > 0 ) {
             w = w.clone();
@@ -1636,6 +1636,20 @@ public abstract class ASegment implements ISegment
         }
         
         return isb.toString();
+    }
+    
+    
+    /**
+     * check if the specified word is existed in a specified dictionary
+     * and if does clone it or create a new one.
+     * 
+     * @param	t
+     * @param	str
+     * @param	type
+    */
+    public IWord wordNewOrClone(int t, String str, int type)
+    {
+    	return dic.match(t, str) ? dic.get(t, str).clone() : new Word(str, type);
     }
     
     /**

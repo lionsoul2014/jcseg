@@ -132,13 +132,13 @@ public class JcsegTest
             sb.append(word.getLength());
             sb.append("]");*/
             
-            //append the part of the speech
+            // append the part of the speech
             if ( word.getPartSpeech() != null ) {
                 sb.append('/');
                 sb.append(word.getPartSpeech()[0]);
             }
             
-            //check and append the entity recognition
+            // check and append the entity recognition
             if ( entity ) {
                 sb.append('/');
                 sb.append(ArrayUtil.implode("|", word.getEntity()));

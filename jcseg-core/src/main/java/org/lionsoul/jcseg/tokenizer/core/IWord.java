@@ -141,6 +141,7 @@ public interface IWord extends Cloneable
      * @param   entity
     */
     public void setEntity(String[] entity);
+    public void setEntityForNull(String[] entity);
     
     /**
      * append a new entity
@@ -171,6 +172,8 @@ public interface IWord extends Cloneable
     public String[] getPartSpeech();
     
     public void setPartSpeech( String[] ps );
+    
+    public void setPartSpeechForNull( String[] ps );
     
     /**
      * set the pinying of the word
