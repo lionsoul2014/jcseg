@@ -88,8 +88,10 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
             return dic;
         }
 
-        config.setAutoload(false);  // Disable the default autoload for lexicon
+        boolean autoLoad = config.isAutoload();		// backup the autoload
+        config.setAutoload(false); 		// Disable the default autoload for lexicon
         dic = DictionaryFactory.createDefaultDictionary(config);
+        config.setAutoload(autoLoad);	// restore the autoload setting
 
         String[] lexPath = config.getLexiconPath();
         if ( lexPath == null ) {
