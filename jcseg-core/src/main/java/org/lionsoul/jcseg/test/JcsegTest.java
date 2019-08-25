@@ -126,11 +126,11 @@ public class JcsegTest
             }
             
             //----for testing append word position and length
-            /*sb.append("[");
+            sb.append("[");
             sb.append(word.getPosition());
-            sb.append("/");
+            sb.append(",");
             sb.append(word.getLength());
-            sb.append("]");*/
+            sb.append("]");
             
             // append the part of the speech
             if ( word.getPartSpeech() != null ) {
@@ -171,7 +171,7 @@ public class JcsegTest
 //                System.out.println("startOffset > endOffset" + word);
 //            }
             
-            //clear the allocations of the word.
+            // clear the allocations of the word.
             word = null;
             counter++;
         }

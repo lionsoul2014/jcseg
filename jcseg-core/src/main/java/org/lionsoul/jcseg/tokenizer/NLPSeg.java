@@ -128,24 +128,24 @@ public class NLPSeg extends ComplexSeg
         int wLen = word.getValue().length();
         IWord dWord = null;
 
-        //the only 'the' word
+        // the only 'the' word
         if ( wLen == 1 ) {
             return _nextNumberWord(word);
         }
 
-        //template like '第三'
+        // template like '第三'
         if ( wLen == 2 ) {
             if ( NumericUtil.isCNNumeric(wVal.charAt(1)) == -1
                     && ! StringUtil.isEnNumeric(wVal.charAt(1)) ) {
                 return null;
             }
 
-            //update the word's entity
+            // update the word's entity
             word.addEntity(Entity.E_THE_NUMBER);
             return _nextNumberWord(word);
         }
 
-        //template like '第x个'
+        // template like '第x个'
         IWord unit = dic.get(ILexicon.NUMBER_UNIT, ""+wVal.charAt(wLen-1));
         if ( unit != null ) {
             if ( ! NumericUtil.isCNNumericString(wVal, 1, wLen-1)
@@ -158,7 +158,7 @@ public class NLPSeg extends ComplexSeg
             return dWord;
         }
 
-        //the left template '第xxx'
+        // the left template '第xxx'
         if ( ! NumericUtil.isCNNumericString(wVal, 1, wLen)
                 && ! StringUtil.isDigit(wVal, 1, wLen) ) {
             return null;
@@ -186,7 +186,7 @@ public class NLPSeg extends ComplexSeg
         String[] w1Entity = dw1.getEntity();
         int w1Len = dw1.getValue().length();
 
-        //pure numeric
+        // pure numeric
         if ( ArrayUtil.indexOf(Entity.E_NUMERIC_ARABIC, w1Entity) > -1 ) {
             IWord dw2 = super.next();
             if ( dw2 == null ) {
@@ -198,13 +198,14 @@ public class NLPSeg extends ComplexSeg
 
             int w2Len = dw2.getValue().length();
 
-            //template like '个', 'xx个'
+            // template like '个', 'xx个'
             unit = dic.get(ILexicon.NUMBER_UNIT, ""+dw2.getValue().charAt(0));
             if ( unit != null ) {
                 String w2Val = dw2.getValue();
                 if ( w2Len == 1 || NumericUtil.isCNNumericString(w2Val, 0, w2Len-1)
                         || StringUtil.isDigit(w2Val, 0, w2Len-1) ) {
                     dWord = new Word(word.getValue()+dw1.getValue()+w2Val, IWord.T_CJK_WORD);
+                    dWord.setPosition(word.getPosition());
                     dWord.setEntity(unit.getEntity());
                     return dWord;
                 }
@@ -217,13 +218,14 @@ public class NLPSeg extends ComplexSeg
             return dWord;
         }
 
-        //template like '个', 'x个'
+        // template like '个', 'x个'
         unit = dic.get(ILexicon.NUMBER_UNIT, ""+dw1.getValue().charAt(w1Len-1));
         if ( unit != null ) {
             String w1Val = dw1.getValue();
             if ( w1Len == 1 || NumericUtil.isCNNumericString(w1Val, 0, w1Len-1)
                     || StringUtil.isDigit(w1Val, 0, w1Len-1) ) {
                 dWord = new Word(word.getValue()+w1Val, IWord.T_CJK_WORD);
+                dWord.setPosition(word.getPosition());
                 dWord.setEntity(unit.getEntity());
                 return dWord;
             }
