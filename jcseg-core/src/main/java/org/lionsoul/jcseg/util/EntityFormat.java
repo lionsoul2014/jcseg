@@ -442,11 +442,4 @@ public class EntityFormat
         return true;
     }
     
-    
-    public static void main(String[] args) 
-    {
-        for ( int i = 32; i < 120; i++ ) {
-            System.out.println(i + ": " + ((char)i));
-        }
-    }
 }

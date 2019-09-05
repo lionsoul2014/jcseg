@@ -30,6 +30,7 @@ public class SegKit
                 
                 IWord synWord = synList.get(j).clone();
                 synWord.setPosition(wd.getPosition());
+                synWord.setLength(wd.getLength());	/* Force the length equals to the root word's */
                 wordPool.add(synWord);
             }
         }
