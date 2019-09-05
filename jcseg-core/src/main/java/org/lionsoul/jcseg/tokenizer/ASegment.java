@@ -770,20 +770,22 @@ public abstract class ASegment implements ISegment
     {
         IWord ew;
         
-        /*
-         * @added 2014-07-07
-         * w maybe EC_MIX_WORD, so check its syn first
-         * and make sure it is not a EC_MIX_WORD then check the EN_WORD 
-        */
-        if ( w.getSyn() == null ) {
-            ew = dic.get(ILexicon.CJK_WORD, w.getValue());
-        } else {
-            ew = w;
-        }
-        
-        if (  ew != null && ew.getSyn() != null ) {
-            ew.setPosition(w.getPosition());
-            SegKit.appendSynonyms(wordPool, ew);
+        if ( config.LOAD_CJK_SYN && config.APPEND_CJK_SYN ) {
+            /*
+             * @added 2014-07-07
+             * w maybe EC_MIX_WORD, so check its syn first
+             * and make sure it is not a EC_MIX_WORD then check the EN_WORD 
+            */
+            if ( w.getSyn() == null ) {
+                ew = dic.get(ILexicon.CJK_WORD, w.getValue());
+            } else {
+                ew = w;
+            }
+            
+            if (  ew != null && ew.getSyn() != null ) {
+                ew.setPosition(w.getPosition());
+                SegKit.appendSynonyms(wordPool, ew);
+            }
         }
     }
     

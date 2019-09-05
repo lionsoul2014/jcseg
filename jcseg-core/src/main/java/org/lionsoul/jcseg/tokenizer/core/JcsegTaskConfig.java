@@ -260,60 +260,79 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         }
         
         //reset all the options
-        if ( lexPro.getProperty("jcseg.maxlen") != null )
+        if ( lexPro.getProperty("jcseg.maxlen") != null ) {
             MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.maxlen"));
+        }
         if ( lexPro.getProperty("jcseg.icnname") != null
-                && lexPro.getProperty("jcseg.icnname").equals("1"))
+                && lexPro.getProperty("jcseg.icnname").equals("1")) {
             I_CN_NAME = true;
-        if ( lexPro.getProperty("jcseg.cnmaxlnadron") != null )
+        }
+        if ( lexPro.getProperty("jcseg.cnmaxlnadron") != null ) {
             MAX_CN_LNADRON = Integer.parseInt(lexPro.getProperty("jcseg.cnmaxlnadron"));
-        if ( lexPro.getProperty("jcseg.nsthreshold") != null )
+        }
+        if ( lexPro.getProperty("jcseg.nsthreshold") != null ) {
             NAME_SINGLE_THRESHOLD = Integer.parseInt(lexPro.getProperty("jcseg.nsthreshold"));
-        if ( lexPro.getProperty("jcseg.pptmaxlen") != null ) 
+        }
+        if ( lexPro.getProperty("jcseg.pptmaxlen") != null ) {
             PPT_MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.pptmaxlen"));
+        }
         if ( lexPro.getProperty("jcseg.loadpinyin") != null
-                && lexPro.getProperty("jcseg.loadpinyin").equals("1")) 
+                && lexPro.getProperty("jcseg.loadpinyin").equals("1")) {
             LOAD_CJK_PINYIN = true;
+        }
         if ( lexPro.getProperty("jcseg.loadsyn") != null
-                && lexPro.getProperty("jcseg.loadsyn").equals("1") )
+                && lexPro.getProperty("jcseg.loadsyn").equals("1") ) {
             LOAD_CJK_SYN = true;
+        }
         if ( lexPro.getProperty("jcseg.loadpos") != null
-                && lexPro.getProperty("jcseg.loadpos").equals("1")) 
+                && lexPro.getProperty("jcseg.loadpos").equals("1")) {
             LOAD_CJK_POS = true;
+        }
         if ( lexPro.getProperty("jcseg.loadentity") != null
-                && lexPro.getProperty("jcseg.loadentity").equals("0")) 
+                && lexPro.getProperty("jcseg.loadentity").equals("0")) {
             LOAD_CJK_ENTITY = false;
+        }
         if ( lexPro.getProperty("jcseg.loadparameter") != null
-                && lexPro.getProperty("jcseg.loadparameter").equals("0")) 
+                && lexPro.getProperty("jcseg.loadparameter").equals("0")) {
             LOAD_PARAMETER = false;
+        }
         if ( lexPro.getProperty("jcseg.clearstopword") != null
-                && lexPro.getProperty("jcseg.clearstopword").equals("1"))
+                && lexPro.getProperty("jcseg.clearstopword").equals("1")) {
             CLEAR_STOPWORD = true;
+        }
         if ( lexPro.getProperty("jcseg.cnnumtoarabic") != null
-                && lexPro.getProperty("jcseg.cnnumtoarabic").equals("0"))
+                && lexPro.getProperty("jcseg.cnnumtoarabic").equals("0")) {
             CNNUM_TO_ARABIC = false;
+        }
         if ( lexPro.getProperty("jcseg.cnfratoarabic") != null
-                && lexPro.getProperty("jcseg.cnfratoarabic").equals("0"))
+                && lexPro.getProperty("jcseg.cnfratoarabic").equals("0")) {
             CNFRA_TO_ARABIC = false;
+        }
         if ( lexPro.getProperty("jcseg.keepunregword") != null
-                && lexPro.getProperty("jcseg.keepunregword").equals("1"))
+                && lexPro.getProperty("jcseg.keepunregword").equals("1")) {
             KEEP_UNREG_WORDS = true;
+        }
         if ( lexPro.getProperty("lexicon.autoload") != null
-                && lexPro.getProperty("lexicon.autoload").equals("1"))
+                && lexPro.getProperty("lexicon.autoload").equals("1")) {
             lexAutoload = true;
-        if ( lexPro.getProperty("lexicon.polltime") != null )
+        }
+        if ( lexPro.getProperty("lexicon.polltime") != null ) {
             polltime = Integer.parseInt(lexPro.getProperty("lexicon.polltime"));
+        }
         
         //secondary split
         if ( lexPro.getProperty("jcseg.ensencondseg") != null
-                && lexPro.getProperty("jcseg.ensencondseg").equals("0"))
+                && lexPro.getProperty("jcseg.ensencondseg").equals("0")) {
             EN_SECOND_SEG = false;
-        if ( lexPro.getProperty("jcseg.stokenminlen") != null )
+        }
+        if ( lexPro.getProperty("jcseg.stokenminlen") != null ) {
             STOKEN_MIN_LEN = Integer.parseInt(lexPro.getProperty("jcseg.stokenminlen"));
+        }
         
         //load the keep punctuation
-        if ( lexPro.getProperty("jcseg.keeppunctuations") != null )
+        if ( lexPro.getProperty("jcseg.keeppunctuations") != null ) {
             KEEP_PUNCTUATIONS = lexPro.getProperty("jcseg.keeppunctuations");
+        }
     }
     
     /**return the lexicon directory path*/
