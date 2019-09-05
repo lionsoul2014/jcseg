@@ -180,6 +180,7 @@ public class DelimiterSeg implements ISegment
                     && config.LOAD_CJK_PINYIN && wd.getPinyin() != null ) {
                 IWord pinyin = new Word(wd.getPinyin(), IWord.T_CJK_PINYIN);
                 pinyin.setPosition(pos);
+                pinyin.setLength(wd.getLength());
                 wordPool.add(pinyin);
             }
             

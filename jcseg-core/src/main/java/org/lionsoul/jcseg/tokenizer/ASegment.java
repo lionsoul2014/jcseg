@@ -434,12 +434,13 @@ public abstract class ASegment implements ISegment
                             num += units; arabic += units;
                         }
                         
-                        wd = new Word( arabic, IWord.T_CN_NUMERIC);
-                        wd.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
+                        wd = new Word(arabic, IWord.T_CN_NUMERIC);
                         wd.setPosition(pos+cjkidx);
+                        wd.setLength(num.length());
+                        wd.setPartSpeechForNull(IWord.NUMERIC_POSPEECH);
                     }
                     
-                    //clear the stop words as need
+                    // clear the stop words as need
                     if ( config.CLEAR_STOPWORD 
                             && dic.match(ILexicon.STOP_WORD, num) ) {
                         cjkidx += num.length();
@@ -451,7 +452,7 @@ public abstract class ASegment implements ISegment
                      * we cannot share the position with the original word item in the
                      * global dictionary accessed with this.dic
                      * 
-                     * cuz at the concurrency that will lead to the position error
+                     * CUZ under the concurrency ENV that will lead to the position error
                      * so, we clone it if the word is directly get from the dictionary
                     */
                     if ( w == null ) {
@@ -747,6 +748,7 @@ public abstract class ASegment implements ISegment
                 && config.LOAD_CJK_PINYIN && word.getPinyin() != null ) {
             IWord pinyin = new Word(word.getPinyin(), IWord.T_CJK_PINYIN);
             pinyin.setPosition(word.getPosition());
+            pinyin.setLength(word.getLength());
             pinyin.setEntity(word.getEntity());
             wordPool.add(pinyin);
         }

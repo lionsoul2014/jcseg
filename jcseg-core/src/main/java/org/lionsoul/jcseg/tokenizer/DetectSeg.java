@@ -269,6 +269,7 @@ public class DetectSeg implements ISegment, Serializable
                     && config.LOAD_CJK_PINYIN && w.getPinyin() != null ) {
                 IWord pinyin = new Word(w.getPinyin(), IWord.T_CJK_PINYIN);
                 pinyin.setPosition(pos);
+                pinyin.setLength(w.getLength());
                 wordPool.add(pinyin);
             }
             
