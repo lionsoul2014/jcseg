@@ -1,6 +1,3 @@
-
-![Jcseg logo](http://dongyado.github.io/images/logo-x56.png)
-
 # **Jcseg**是什么？
 ------
 
