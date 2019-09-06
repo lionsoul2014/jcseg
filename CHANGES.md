@@ -1,11 +1,22 @@
 # Jcseg versions change histories
 
 ### TODO List: 
-1. 词条格式调整为：“词条/词性集合/拼音/实体集合/自定义参数”
-2. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合
-3. 复杂模式，复杂中文的二次切分
-4. 文本自动分类
-5. 情感分析
+1. 文本自动分类
+2. 知识图谱抽取模型
+3. 情感分析
+
+### jcseg 2.5.0:
+1. 词条格式调整为：“词条/词性集合/拼音/实体集合/自定义参数”                 --done
+2. lucene,solr,elasticsearch检索同义词解决方案与Jcseg同义词方案结合         --done
+3. 修复了lucene以及其扩展产品Elasticsearch, solr等同义词以及派生词
+    （例如，中文数字转阿拉伯数字）的高亮的bug.                              --done
+3. 修复NLP模式下部分“第xx”实体识别的position错误的bug                       --done
+4. 修复elasticsearch插件的词库autoload的bug                                 --done
+5. 对于全部的切分模式增加同义词自动词性继承                                 --done
+6. 增加elasticsearch 7.2.0支持和lucene, solr 8.0.0支持                      --done
+7. jccseg-server更改jetty版本号为：9.4.18.v20190429                         --done
+8. 少量词库优化                                                             --done
+
 
 ### jcseg 2.3.0
 1. NLP切分部分时间实体没有使用空格隔开的bug，例如：“2017年大年初三”，应该结果：“2017年 大年初三”。  --done
