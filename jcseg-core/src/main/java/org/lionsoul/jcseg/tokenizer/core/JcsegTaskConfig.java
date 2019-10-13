@@ -209,8 +209,8 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         }
             
         /*
-         * jcseg properties file loading status report,
-         * show the crorrent properties file location information
+         * Jsceg properties file loading status report,
+         * show the current properties file location information
          * 
          * @date 2013-07-06
          */
@@ -234,104 +234,81 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         Properties lexPro = new Properties();
         lexPro.load(new BufferedInputStream(is));
         
-        //about the lexicon, the lexicon path
-        String lexDirs = lexPro.getProperty("lexicon.path");
-        if ( lexDirs == null ) {
-            throw new IOException("Missing lexicon.path property in jcseg.properties file!!!");
+        for ( java.util.Map.Entry<Object, Object> entry : lexPro.entrySet() ) {
+        	set(entry.getKey().toString(), entry.getValue().toString());
         }
-        
-        if ( ! "null".equalsIgnoreCase(lexDirs) ) {
-            if ( lexDirs.indexOf("{jar.dir}") > -1 ) {
-                lexDirs = lexDirs.replace("{jar.dir}", Util.getJarHome(this));
-            }
-            
-            //Multiple path for lexicon.path.
-            lexPath = lexDirs.split(";");
-            File f  = null;
-            for ( int i = 0; i < lexPath.length; i++ ) {
-                lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
-                f = new File(lexPath[i]);
-                if ( ! f.exists() ) {
-                    throw new IOException("Invalid sub lexicon path " + lexPath[i] 
-                            + " for lexicon.path in jcseg.properties");
+    }
+    
+    /**
+     * set the option value from a specified key and value define in jcseg.properties
+     * 
+     * @param	key
+     * @param	value
+     * @throws IOException 
+    */
+    public void set(String key, String value) throws IOException
+    {
+    	if ( "lexicon.path".equals(key) ) {
+    		if ( value == null ) {
+    			throw new IOException("Missing lexicon.path property in jcseg.properties file!!!");
+    		}
+    		
+            if ( ! "null".equalsIgnoreCase(value) ) {
+                if ( value.indexOf("{jar.dir}") > -1 ) {
+                	value = value.replace("{jar.dir}", Util.getJarHome(this));
                 }
-                f = null;    //Let gc do its work
+                
+                // Multiple path for lexicon.path.
+                lexPath = value.split(";");
+                File f  = null;
+                for ( int i = 0; i < lexPath.length; i++ ) {
+                    lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
+                    f = new File(lexPath[i]);
+                    if ( ! f.exists() ) {
+                        throw new IOException("Invalid sub lexicon path " + lexPath[i] 
+                                + " for lexicon.path in jcseg.properties");
+                    }
+                    f = null;    //Let gc do its work
+                }
             }
-        }
-        
-        //reset all the options
-        if ( lexPro.getProperty("jcseg.maxlen") != null ) {
-            MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.maxlen"));
-        }
-        if ( lexPro.getProperty("jcseg.icnname") != null
-                && lexPro.getProperty("jcseg.icnname").equals("1")) {
-            I_CN_NAME = true;
-        }
-        if ( lexPro.getProperty("jcseg.cnmaxlnadron") != null ) {
-            MAX_CN_LNADRON = Integer.parseInt(lexPro.getProperty("jcseg.cnmaxlnadron"));
-        }
-        if ( lexPro.getProperty("jcseg.nsthreshold") != null ) {
-            NAME_SINGLE_THRESHOLD = Integer.parseInt(lexPro.getProperty("jcseg.nsthreshold"));
-        }
-        if ( lexPro.getProperty("jcseg.pptmaxlen") != null ) {
-            PPT_MAX_LENGTH = Integer.parseInt(lexPro.getProperty("jcseg.pptmaxlen"));
-        }
-        if ( lexPro.getProperty("jcseg.loadpinyin") != null
-                && lexPro.getProperty("jcseg.loadpinyin").equals("1")) {
-            LOAD_CJK_PINYIN = true;
-        }
-        if ( lexPro.getProperty("jcseg.loadsyn") != null
-                && lexPro.getProperty("jcseg.loadsyn").equals("1") ) {
-            LOAD_CJK_SYN = true;
-        }
-        if ( lexPro.getProperty("jcseg.loadpos") != null
-                && lexPro.getProperty("jcseg.loadpos").equals("1")) {
-            LOAD_CJK_POS = true;
-        }
-        if ( lexPro.getProperty("jcseg.loadentity") != null
-                && lexPro.getProperty("jcseg.loadentity").equals("0")) {
-            LOAD_CJK_ENTITY = false;
-        }
-        if ( lexPro.getProperty("jcseg.loadparameter") != null
-                && lexPro.getProperty("jcseg.loadparameter").equals("0")) {
-            LOAD_PARAMETER = false;
-        }
-        if ( lexPro.getProperty("jcseg.clearstopword") != null
-                && lexPro.getProperty("jcseg.clearstopword").equals("1")) {
-            CLEAR_STOPWORD = true;
-        }
-        if ( lexPro.getProperty("jcseg.cnnumtoarabic") != null
-                && lexPro.getProperty("jcseg.cnnumtoarabic").equals("0")) {
-            CNNUM_TO_ARABIC = false;
-        }
-        if ( lexPro.getProperty("jcseg.cnfratoarabic") != null
-                && lexPro.getProperty("jcseg.cnfratoarabic").equals("0")) {
-            CNFRA_TO_ARABIC = false;
-        }
-        if ( lexPro.getProperty("jcseg.keepunregword") != null
-                && lexPro.getProperty("jcseg.keepunregword").equals("1")) {
-            KEEP_UNREG_WORDS = true;
-        }
-        if ( lexPro.getProperty("lexicon.autoload") != null
-                && lexPro.getProperty("lexicon.autoload").equals("1")) {
-            lexAutoload = true;
-        }
-        if ( lexPro.getProperty("lexicon.polltime") != null ) {
-            polltime = Integer.parseInt(lexPro.getProperty("lexicon.polltime"));
-        }
-        
-        //secondary split
-        if ( lexPro.getProperty("jcseg.ensencondseg") != null
-                && lexPro.getProperty("jcseg.ensencondseg").equals("0")) {
-            EN_SECOND_SEG = false;
-        }
-        if ( lexPro.getProperty("jcseg.stokenminlen") != null ) {
-            STOKEN_MIN_LEN = Integer.parseInt(lexPro.getProperty("jcseg.stokenminlen"));
-        }
-        
-        //load the keep punctuation
-        if ( lexPro.getProperty("jcseg.keeppunctuations") != null ) {
-            KEEP_PUNCTUATIONS = lexPro.getProperty("jcseg.keeppunctuations");
+    	} else if ( "jcseg.maxlen".equals(key) ) {
+            MAX_LENGTH = Integer.parseInt(value);
+        } else if ( "jcseg.icnname".equals(key) ) {
+        	I_CN_NAME = value.equals("1") ? true : false;
+        } else if ( "jcseg.cnmaxlnadron".equals(key) ) {
+            MAX_CN_LNADRON = Integer.parseInt(value);
+        } else if ( "jcseg.nsthreshold".equals(key) ) {
+            NAME_SINGLE_THRESHOLD = Integer.parseInt(value);
+        } else if ( "jcseg.pptmaxlen".equals(key) ) {
+            PPT_MAX_LENGTH = Integer.parseInt(value);
+        } else if ( "jcseg.loadpinyin".equals(key) ) {
+        	LOAD_CJK_PINYIN = value.equals("1") ? true : false;
+        } else if ( "jcseg.loadsyn".equals(key) ) {
+        	LOAD_CJK_SYN = value.equals("1") ? true : false;
+        } else if ( "jcseg.loadpos".equals(key) ) {
+        	LOAD_CJK_POS = value.equals("1") ? true : false;
+        } else if ( "jcseg.loadentity".equals(key) ) {
+        	LOAD_CJK_ENTITY = value.equals("1") ? true : false;
+        } else if ( "jcseg.loadparameter".equals(key) ) {
+        	LOAD_PARAMETER = value.equals("1") ? true : false;
+        } else if ( "jcseg.clearstopword".equals(key) ) {
+        	CLEAR_STOPWORD = value.equals("1") ? true : false;
+        } else if ( "jcseg.cnnumtoarabic".equals(key) ) {
+        	CNNUM_TO_ARABIC = value.equals("1") ? true : false;
+        } else if ( "jcseg.cnfratoarabic".equals(key) ) {
+        	CNFRA_TO_ARABIC = value.equals("1") ? true : false;
+        } else if ( "jcseg.keepunregword".equals(key) ) {
+        	KEEP_UNREG_WORDS = value.equals("1") ? true : false;
+        } else if ( "lexicon.autoload".equals(key) ) {
+        	lexAutoload = value.equals("1") ? true : false;
+        } else if ( "lexicon.polltime".equals(key) ) {
+            polltime = Integer.parseInt(value);
+        } else if ( "jcseg.ensencondseg".equals(key) ) {
+        	EN_SECOND_SEG = value.equals("1") ? true : false;
+        } else if ( "jcseg.stokenminlen".equals(key) ) {
+            STOKEN_MIN_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.keeppunctuations".equals(key) ) {
+            KEEP_PUNCTUATIONS = value;
         }
     }
     
