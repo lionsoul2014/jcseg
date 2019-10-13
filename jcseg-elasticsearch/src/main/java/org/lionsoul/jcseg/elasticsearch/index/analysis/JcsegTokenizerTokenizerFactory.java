@@ -28,8 +28,8 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         
         /* Load and apply the self-define arguments for Jcseg */
         for ( String key : settings.names() ) {
-        	if ( key.startsWith("jcseg.") ) {
-        		config.set(key, settings.get(key));
+        	if ( key.startsWith("jcseg_") ) {
+        		config.set(key.replace("jcseg_", "jcseg."), settings.get(key));
         	}
         }
         

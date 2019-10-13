@@ -217,6 +217,14 @@ config.setAppendCJKPinyin();
 
 1. 如果使用的是solr-4.x版本，请下载v1.9.7-release tag下的源码编译得到对应的jar，然后将上述xml中的v5x改成v4x即可。
 2. 如果是使用的是solr-6.3.0以下版本，JcsegTokenizerFactory包名路径为：org.lionsoul.jcseg.analyzer.v5x.JcsegTokenizerFactory
+3. tokenizer定义中可以使用jcseg.properties中定义的任何配置来自定义配置，区别就是将配置名称的"."替换成"_"即可，开启同义词:
+```xml
+<fieldtype name="textComplex" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="complex" jsceg_loadsyn="1"/>
+    </analyzer>
+</fieldtype>
+```
 
 
 # **Jcseg** elasticsearch接口：
@@ -267,6 +275,22 @@ jcseg_search    : 对应Jcseg的检索模式切分算法
 jcseg_nlp       : 对应Jcseg的NLP模式切分算法
 jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 
+```
+
+索引级别的自定义配置：
+从2.5.0以上的版本开始，你可以在elasticsearch mapping的时候使用jcseg.properties中定义的任何参数来覆盖配置，区别就是将配置名称的"."替换为"_"即可，例如：设置加载同义词：
+```json
+"settings": {
+    "analysis": {
+        "analyzer": {
+            "jcseg_complex_v3": {
+                "type": "jcseg_complex",
+                "jcseg_maxlen": "3",
+                "jcseg_loadsyn": "1"
+            }
+        }
+    }
+}
 ```
 
 配置测试地址：

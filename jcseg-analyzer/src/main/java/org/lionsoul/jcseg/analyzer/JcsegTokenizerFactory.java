@@ -59,8 +59,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         config = new JcsegTaskConfig(true);
         // check and apply this-level Jcseg settings
         for ( Entry<String, String> entry : args.entrySet() ) {
-        	if ( entry.getKey().startsWith("jcseg.") ) {
-        		config.set(entry.getKey(), entry.getValue());
+        	if ( entry.getKey().startsWith("jcseg_") ) {
+        		config.set(entry.getKey().replace("jcseg_", "jcseg."), entry.getValue());
         	}
         }
         

@@ -29,6 +29,14 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
         
         JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(
                 AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        
+        /* Load and apply the self-define arguments for Jcseg */
+        for ( String key : settings.names() ) {
+        	if ( key.startsWith("jcseg_") ) {
+        		config.set(key.replace("jcseg_", "jcseg."), settings.get(key));
+        	}
+        }
+        
         analyzer = new JcsegAnalyzer(this.getSegMode(), config, AnalysisJcsegPlugin.createSingletonDictionary(config));
     }
 
