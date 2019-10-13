@@ -105,6 +105,7 @@ usb记忆棒/n/usb ji yi bang/null
 #letter v
 visa卡/n/visa ka/null
 v沟/n/v gou/null
+v信/n/v xin/null
 #letter z
 z盘/n/z pan/null
 #letter q
