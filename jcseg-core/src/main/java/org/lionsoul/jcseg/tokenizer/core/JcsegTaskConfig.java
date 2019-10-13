@@ -53,7 +53,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     public boolean LOAD_CJK_PINYIN = false;
     
     /**append the Pinyin to the splited IWord*/
-    public boolean APPEND_CJK_PINYIN = false;
+    public boolean APPEND_CJK_PINYIN = true;
     
     /**append the part of speech.*/
     public boolean APPEND_PART_OF_SPEECH = false;

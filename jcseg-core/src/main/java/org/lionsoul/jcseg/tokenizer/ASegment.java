@@ -746,11 +746,18 @@ public abstract class ASegment implements ISegment
         //add the pinyin to the pool
         if ( config.APPEND_CJK_PINYIN 
                 && config.LOAD_CJK_PINYIN && word.getPinyin() != null ) {
-            IWord pinyin = new Word(word.getPinyin(), IWord.T_CJK_PINYIN);
-            pinyin.setPosition(word.getPosition());
-            pinyin.setLength(word.getLength());
-            pinyin.setEntity(word.getEntity());
-            wordPool.add(pinyin);
+        	/* 
+        	 * For search, you know this is a complex topic for pinyin process 
+        	 * You may add your logic for processing the Pinyin for search here.
+        	 * By default we just merge them and take it as single word item. 
+        	*/
+        	final String pinyin = word.getPinyin().replaceAll("\\s+", "");
+            IWord pyWord = new Word(pinyin, IWord.T_CJK_PINYIN);
+            pyWord.setPosition(word.getPosition());
+            pyWord.setLength(word.getLength());
+            pyWord.setEntity(word.getEntity());
+            pyWord.setPartSpeech(word.getPartSpeech());
+            wordPool.add(pyWord);
         }
         
         //add the synonyms words to the pool
