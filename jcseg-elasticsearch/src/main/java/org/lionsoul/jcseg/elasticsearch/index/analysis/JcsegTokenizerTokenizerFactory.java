@@ -25,6 +25,14 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         super(indexSettings, settings);
         
         config = new JcsegTaskConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        
+        /* Load and apply the self-define arguments for Jcseg */
+        for ( String key : settings.names() ) {
+        	if ( key.startsWith("jcseg.") ) {
+        		config.set(key, settings.get(key));
+        	}
+        }
+        
         dic = AnalysisJcsegPlugin.createSingletonDictionary(config);
 
         String seg_mode = settings.get("seg_mode");

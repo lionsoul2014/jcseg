@@ -8,7 +8,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import java.io.IOException;
 
 /**
- * Jcseg simple Analyzer Provider
+ * Jcseg Search Analyzer Provider
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
