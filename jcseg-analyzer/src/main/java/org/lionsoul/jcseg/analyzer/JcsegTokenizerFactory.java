@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.analyzer;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
@@ -12,7 +13,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
- * jcseg tokenizer factory class for solr
+ * Jcseg tokenizer factory class for solr
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
@@ -26,10 +27,11 @@ public class JcsegTokenizerFactory extends TokenizerFactory
     /**
      * set the mode arguments in the schema.xml 
      *     configuration file to change the segment mode for jcseg
+     * @throws IOException 
      * 
      * @see TokenizerFactory#TokenizerFactory(Map)
      */
-    public JcsegTokenizerFactory(Map<String, String> args)
+    public JcsegTokenizerFactory(Map<String, String> args) throws IOException
     {
         super(args);
         
@@ -53,8 +55,15 @@ public class JcsegTokenizerFactory extends TokenizerFactory
             }
         }
         
-        //initialize the task configuration and the dictionary
+        // initialize the task configuration and the dictionary
         config = new JcsegTaskConfig(true);
+        // check and apply this-level Jcseg settings
+        for ( Entry<String, String> entry : args.entrySet() ) {
+        	if ( entry.getKey().startsWith("jcseg.") ) {
+        		config.set(entry.getKey(), entry.getValue());
+        	}
+        }
+        
         dic = DictionaryFactory.createSingletonDictionary(config);
     }
     
