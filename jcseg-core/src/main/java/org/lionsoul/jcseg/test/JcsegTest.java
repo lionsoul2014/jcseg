@@ -31,11 +31,11 @@ import org.lionsoul.jcseg.util.ArrayUtil;
  */
 public class JcsegTest 
 {
-    JcsegTaskConfig tokenizerConfig = null;
-    ADictionary dic = null;
+    final JcsegTaskConfig tokenizerConfig;
+    final ADictionary dic;
     
-    ISegment tokenizerSeg = null;
-    ISegment extractorSeg = null;
+    ISegment tokenizerSeg;
+    ISegment extractorSeg;
     
     KeywordsExtractor keywordsExtractor = null;
     KeyphraseExtractor keyphraseExtractor = null;

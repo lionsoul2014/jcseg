@@ -76,56 +76,60 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
         return safePath.resolve(file).toFile();
     }
 
+    private static ADictionary dic = null;
+    private static final Object LOCK = new Object();
+    
     /**
      * internal method to load the lexicon under the plugin directory
      *
      * @param   config
      * @param   dic
-     */
-    private static ADictionary dic = null;
-    public static final synchronized ADictionary createSingletonDictionary(JcsegTaskConfig config) throws IOException {
-        if ( dic != null ) {
-            return dic;
-        }
+    */
+    public static final ADictionary createSingletonDictionary(JcsegTaskConfig config) throws IOException {
+    	synchronized ( LOCK ) {
+    		if ( dic != null ) {
+                return dic;
+            }
 
-        boolean autoLoad = config.isAutoload();		// backup the autoload
-        config.setAutoload(false); 		// Disable the default autoload for lexicon
-        dic = DictionaryFactory.createDefaultDictionary(config);
-        config.setAutoload(autoLoad);	// restore the autoload setting
+            boolean autoLoad = config.isAutoload();		// backup the autoload
+            config.setAutoload(false); 		// Disable the default autoload for lexicon
+            dic = DictionaryFactory.createDefaultDictionary(config, false);
+            config.setAutoload(autoLoad);	// restore the autoload setting
 
-        String[] lexPath = config.getLexiconPath();
-        if ( lexPath == null ) {
-            dic.loadClassPath();
+            String[] lexPath = config.getLexiconPath();
+            if ( lexPath == null ) {
+                dic.loadClassPath();
+                dic.resetSynonymsNet();
+                return dic;
+            }
+
+            /* Check and load the lexicon from all the lexicon path */
+            for ( String path : lexPath ) {
+                final File safeDir = getPluginSafeFile(path);
+                if ( ! safeDir.exists() ) {
+                    continue;
+                }
+
+                File[] files = safeDir.listFiles(new FilenameFilter(){
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return (name.startsWith("lex-") && name.endsWith(".lex"));
+                    }
+                });
+
+                for ( File f : files ) {
+                    // System.out.println(f.getAbsolutePath());
+                    dic.load(getPluginSafeFile(f.getAbsolutePath()));
+                }
+            }
+
+            if ( config.isAutoload() ) {
+                // dic.startAutoload();
+            }
+
             dic.resetSynonymsNet();
             return dic;
-        }
-
-        /* Check and load the lexicon from all the lexicon path */
-        for ( String path : lexPath ) {
-            final File safeDir = getPluginSafeFile(path);
-            if ( ! safeDir.exists() ) {
-                continue;
-            }
-
-            File[] files = safeDir.listFiles(new FilenameFilter(){
-                @Override
-                public boolean accept(File dir, String name) {
-                    return (name.startsWith("lex-") && name.endsWith(".lex"));
-                }
-            });
-
-            for ( File f : files ) {
-                // System.out.println(f.getAbsolutePath());
-                dic.load(getPluginSafeFile(f.getAbsolutePath()));
-            }
-        }
-
-        if ( config.isAutoload() ) {
-            dic.startAutoload();
-        }
-
-        dic.resetSynonymsNet();
-        return dic;
+    	}
     }
 
 }

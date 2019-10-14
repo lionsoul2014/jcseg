@@ -224,6 +224,13 @@ public abstract class ADictionary implements Serializable
                     ///    continue;
                     ///}
                     
+                    /* Ignore the synonyms define that is already existed */
+                    for ( final IWord w : synEntry.getList() ) {
+                    	if ( w.getValue().equals(parts[0]) ) {
+                    		continue;
+                    	}
+                    }
+                    
                     //check if the word is exists or not
                     //  or create a new one
                     IWord synWord = get(ILexicon.CJK_WORD, parts[0]);

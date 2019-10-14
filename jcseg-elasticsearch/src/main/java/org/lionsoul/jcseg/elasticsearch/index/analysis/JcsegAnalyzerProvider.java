@@ -27,7 +27,7 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
             IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(
+        final JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(
                 AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
         
         /* Load and apply the self-define arguments for Jcseg */

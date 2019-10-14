@@ -42,7 +42,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 public class JcsegTokenizer extends Tokenizer 
 {
     // The default jcseg segmentor
-    private ISegment segmentor;
+    private final ISegment segmentor;
 
     private final CharTermAttributeImpl termAtt = (CharTermAttributeImpl)addAttribute(CharTermAttribute.class);
     private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
@@ -66,7 +66,7 @@ public class JcsegTokenizer extends Tokenizer
     @Override
     final public boolean incrementToken() throws IOException 
     {
-        IWord word = segmentor.next();
+        final IWord word = segmentor.next();
         if ( word == null ) {
             fieldOffset = offsetAtt.endOffset();
             /// System.out.println("set fieldOffset=" + fieldOffset);

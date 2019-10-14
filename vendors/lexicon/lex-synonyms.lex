@@ -16,7 +16,7 @@ CJK_SYN
 道恩强森,巨石强森/ju shi qiang sen
 仓井空,仓老师/nz/cang lao shi
 特雷西麦克格雷迪,麦迪/mai di
-微信,v信/v xin,w信/w xin,wechat
+微信,weixin,v信/v xin,w信/w xin,wechat
 c#,csharp
 c++,cpp,cplusplus,c加加/c jia jia
 android,安卓

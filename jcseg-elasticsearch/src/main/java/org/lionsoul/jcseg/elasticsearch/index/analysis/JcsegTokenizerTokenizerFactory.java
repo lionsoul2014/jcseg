@@ -34,7 +34,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         }
         
         dic = AnalysisJcsegPlugin.createSingletonDictionary(config);
-
+        
         String seg_mode = settings.get("seg_mode");
         if( "complex".equals(seg_mode) ) {
             mode = JcsegTaskConfig.COMPLEX_MODE;

@@ -25,7 +25,7 @@ public class SegKit
         final List<IWord> synList = wd.getSyn().getList();
         synchronized (synList) {
             for ( int j = 0; j < synList.size(); j++ ) {
-                final IWord curWord = synList.get(j);
+            	final IWord curWord = synList.get(j);
                 if ( curWord.getValue()
                         .equals(wd.getValue()) ) {
                     continue;
@@ -35,6 +35,7 @@ public class SegKit
                 synWord.setPosition(wd.getPosition());
                 synWord.setLength(wd.getLength());	/* Force the length equals to the root word's */
                 wordPool.add(synWord);
+                System.out.println(synWord);
                 
                 // check and append its Pinyin
                 if ( config.APPEND_CJK_PINYIN 
