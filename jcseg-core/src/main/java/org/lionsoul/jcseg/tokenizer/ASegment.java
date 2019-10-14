@@ -746,24 +746,13 @@ public abstract class ASegment implements ISegment
         //add the pinyin to the pool
         if ( config.APPEND_CJK_PINYIN 
                 && config.LOAD_CJK_PINYIN && word.getPinyin() != null ) {
-        	/* 
-        	 * For search, you know this is a complex topic for pinyin process 
-        	 * You may add your logic for processing the Pinyin for search here.
-        	 * By default we just merge them and take it as single word item. 
-        	*/
-        	final String pinyin = word.getPinyin().replaceAll("\\s+", "");
-            IWord pyWord = new Word(pinyin, IWord.T_CJK_PINYIN);
-            pyWord.setPosition(word.getPosition());
-            pyWord.setLength(word.getLength());
-            pyWord.setEntity(word.getEntity());
-            pyWord.setPartSpeech(word.getPartSpeech());
-            wordPool.add(pyWord);
+        	SegKit.appendPinyin(config, wordPool, word);
         }
         
         //add the synonyms words to the pool
         if ( config.APPEND_CJK_SYN 
                 && config.LOAD_CJK_SYN && word.getSyn() != null ) {
-            SegKit.appendSynonyms(wordPool, word);
+            SegKit.appendSynonyms(config, wordPool, word);
         }
     }
     
@@ -791,7 +780,7 @@ public abstract class ASegment implements ISegment
             
             if (  ew != null && ew.getSyn() != null ) {
                 ew.setPosition(w.getPosition());
-                SegKit.appendSynonyms(wordPool, ew);
+                SegKit.appendSynonyms(config, wordPool, ew);
             }
         }
     }

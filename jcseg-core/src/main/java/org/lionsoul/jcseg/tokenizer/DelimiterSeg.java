@@ -186,7 +186,7 @@ public class DelimiterSeg implements ISegment
             
             if ( dic != null && config.APPEND_CJK_SYN 
                     && config.LOAD_CJK_SYN && wd.getSyn() != null ) {
-                SegKit.appendSynonyms(wordPool, wd);
+                SegKit.appendSynonyms(config, wordPool, wd);
             }
             
             return wd;

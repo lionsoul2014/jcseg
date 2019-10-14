@@ -275,7 +275,7 @@ public class DetectSeg implements ISegment, Serializable
             
             if ( config.APPEND_CJK_SYN 
                     && config.LOAD_CJK_SYN && w.getSyn() != null ) {
-                SegKit.appendSynonyms(wordPool, w);
+                SegKit.appendSynonyms(config, wordPool, w);
             }
             
             return w;
