@@ -69,48 +69,45 @@ CJK_WORD
 马来西亚/ns/ma lai xi ya/null
 文莱/ns/wen lai/null
 新加坡/ns/xin jia po/null
-印度尼西亚/ns/yi se lie/null
-东帝汶  /ns/yi se lie/null
-尼泊尔/ns/yi se lie/null
-不丹/ns/yi se lie/null
-孟加拉国/ns/yi se lie/null
-印度/ns/yi se lie/null
-巴基斯坦/ns/yi se lie/null
-斯里兰卡/ns/yi se lie/null
-马尔代夫 /ns/yi se lie/null
-哈萨克斯坦/ns/yi se lie/null
-吉尔吉斯斯坦/ns/yi se lie/null
-塔吉克斯坦/ns/yi se lie/null
-乌兹别克斯坦/ns/yi se lie/null
-土库曼斯坦 /ns/yi se lie/null
-阿富汗/ns/yi se lie/null
-伊拉克/ns/yi se lie/null
-伊朗/ns/yi se lie/null
-叙利亚/ns/yi se lie/null
-约旦/ns/yi se lie/null
-黎巴嫩/ns/yi se lie/null
-以色列/ns/yi se lie/null
-巴勒斯坦/ns/yi se lie/null
-沙特阿拉伯/ns/yi se lie/null
-巴林/ns/yi se lie/null
-卡塔尔/ns/yi se lie/null
-科威特/ns/yi se lie/null
-阿拉伯联合酋长国/ns/yi se lie/null
-阿曼/ns/yi se lie/null
-也门/ns/yi se lie/null
-格鲁吉亚/ns/yi se lie/null
-亚美尼亚/ns/yi se lie/null
-阿塞拜疆/ns/yi se lie/null
-土耳其/ns/yi se lie/null
-塞浦路斯  /ns/yi se lie/null
-芬兰/ns/yi se lie/null
-瑞典/ns/yi se lie/null
-挪威/ns/yi se lie/null
-冰岛/ns/yi se lie/null
+印度尼西亚/ns/yin du ni xi ya/null
+东帝汶/ns/dong di wen/null
+尼泊尔/ns/ni bo er/null
+不丹/ns/bu dan/null
+孟加拉国/ns/meng jia la guo/null
+印度/ns/yin du/null
+巴基斯坦/ns/ba ji si tan/null
+斯里兰卡/ns/si li lan ka/null
+马尔代夫 /ns/ma er dai fu/null
+哈萨克斯坦/ns/ha sa ke si tan/null
+吉尔吉斯斯坦/ns/ji er ji si si tan/null
+塔吉克斯坦/ns/ta ji ke si tan/null
+乌兹别克斯坦/ns/wu zi bie ke si tan/null
+土库曼斯坦 /ns/tu ku man si tan/null
+阿富汗/ns/a fu han/null
+叙利亚/ns/xu li ya/null
+约旦/ns/yue dan/null
+黎巴嫩/ns/li ba nen/null
+巴勒斯坦/ns/ba le si tan/null
+沙特阿拉伯/ns/sha te a la bo/null
+巴林/ns/ba lin/null
+卡塔尔/ns/ka ta er/null
+科威特/ns/ke wei te/null
+阿拉伯联合酋长国/ns/a la bo lian he qiu zhang guo/null
+阿曼/ns/a man/null
+也门/ns/ye man/null
+格鲁吉亚/ns/ge lu ji ya/null
+亚美尼亚/ns/ya mei ni ya/null
+阿塞拜疆/ns/a sai bai jiang/null
+土耳其/ns/tu er qi/null
+塞浦路斯/ns/sai pu lu si/null
+芬兰/ns/fen lan/null
+瑞典/ns/rui dian/null
+挪威/ns/nuo wei/null
+冰岛/ns/bing dao/null
 丹麦/ns/dan mai/null
 法罗群岛/ns/fa luo qun dao/null
-爱沙尼亚/ns/yi se lie/null
-拉脱维亚/ns/yi se lie/null
+爱沙尼亚/ns/a sha ni ya/null
+拉脱维亚/ns/la tuo wei ya/null
 立陶宛/ns/yi se lie/null
 白俄罗斯/ns/yi se lie/null
 俄罗斯/ns/yi se lie/null
