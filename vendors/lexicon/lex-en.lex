@@ -8,3 +8,5 @@ chenxin12/n/null/null
 kilometer/q/null/length.km
 hex/n/null/null
 jcseg/n/null/null
+android/n/null/null
+iphone/n/null/null

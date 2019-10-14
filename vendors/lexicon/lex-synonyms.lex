@@ -16,9 +16,11 @@ CJK_SYN
 道恩强森,巨石强森/ju shi qiang sen
 仓井空,仓老师/nz/cang lao shi
 特雷西麦克格雷迪,麦迪/mai di
-微信,weixin,v信,w信,wechat
+微信,v信/v xin,w信/w xin,wechat
 c#,csharp
-c++,cpp,cplusplus,cjiajia,c加加
+c++,cpp,cplusplus,c加加/c jia jia
+android,安卓
+iphone,ios,苹果
 
 ### 混合词条
 a片,毛片/mao pian,av
