@@ -4,7 +4,7 @@
 
   <groupId>org.lionsoul</groupId>
   <artifactId>jcseg</artifactId>
-  <version>2.5.0</version>
+  <version>2.5.1</version>
   <packaging>pom</packaging>
 
   <name>jcseg</name>
@@ -20,9 +20,9 @@
   </licenses>
   
   <scm>
-      <url>git@git.oschina.net:lionsoul/jcseg.git</url>
-      <connection>scm:git:git@git.oschina.net:lionsoul/jcseg.git</connection>
-      <developerConnection>scm:git:git@git.oschina.net:lionsoul/jcseg.git</developerConnection>
+      <url>git@gitee.com:lionsoul/jcseg.git</url>
+      <connection>scm:git:git@gitee.com:lionsoul/jcseg.git</connection>
+      <developerConnection>scm:git:git@gitee.com:lionsoul/jcseg.git</developerConnection>
   </scm>
   
   <developers>
@@ -34,8 +34,8 @@
   </developers>
   
   <issueManagement>
-      <url>http://git.oschina.net/lionsoul/jcseg/issues</url>
-      <system>mayun issues</system>
+      <url>http://gitee.com/lionsoul/jcseg/issues</url>
+      <system>Gitee issues</system>
   </issueManagement>
 
   <properties>

@@ -22,7 +22,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
 
     public JcsegTokenizerTokenizerFactory(
             IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
-        super(indexSettings, settings);
+        super(indexSettings, settings, name);
         
         config = new JcsegTaskConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
         
