@@ -31,11 +31,10 @@ public class SegKit
                     continue;
                 }
                 
-                IWord synWord = synList.get(j).clone();
+                final IWord synWord = synList.get(j).clone();
                 synWord.setPosition(wd.getPosition());
                 synWord.setLength(wd.getLength());	/* Force the length equals to the root word's */
                 wordPool.add(synWord);
-                System.out.println(synWord);
                 
                 // check and append its Pinyin
                 if ( config.APPEND_CJK_PINYIN 
