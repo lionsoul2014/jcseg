@@ -17,6 +17,8 @@ CJK_SYN
 仓井空,仓老师/nz/cang lao shi
 特雷西麦克格雷迪,麦迪/mai di
 微信,weixin,v信,w信,wechat
+c#,csharp
+c++,cpp,cplusplus,cjiajia,c加加
 
 ### 混合词条
 a片,毛片/mao pian,av
