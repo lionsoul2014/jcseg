@@ -36,12 +36,12 @@ public class Word implements IWord,Cloneable, Serializable
     private int h = -1;
     
     /**
-     * @Note added at 2016/11/12
+     * NOTE added at 2016/11/12
      * word string entity name and 
      * it could be assign from the lexicon or the word item setting
      * or assign dynamic during the segment runtime
      * 
-     * @Note make it an Array at 2017/06/06
+     * NOTE make it an Array at 2017/06/06
     */
     private String[] entity = null;
     
@@ -50,7 +50,7 @@ public class Word implements IWord,Cloneable, Serializable
     private volatile SynonymsEntry syn = null;
     
     /**
-     * @Note added at 2017/10/02
+     * NOTE added at 2017/10/02
      * 
      * with IWord additional parameter support
     */

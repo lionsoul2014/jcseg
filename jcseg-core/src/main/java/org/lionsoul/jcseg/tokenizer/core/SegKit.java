@@ -38,8 +38,8 @@ public class SegKit
                 
                 // check and append its Pinyin
                 if ( config.APPEND_CJK_PINYIN 
-                        && config.LOAD_CJK_PINYIN && curWord.getPinyin() != null ) {
-                	appendPinyin(config, wordPool, curWord);
+                        && config.LOAD_CJK_PINYIN && synWord.getPinyin() != null ) {
+                	appendPinyin(config, wordPool, synWord);
                 }
             }
         }
@@ -47,13 +47,13 @@ public class SegKit
     
     /**
      * Quick interface to do the pinyin word append.
-     * You got to check if the specified word has the pinyin atrribute
+     * You got to check if the specified word has the pinyin attribute
      * 
      * @param	config
      * @param	wordPool
      * @param	wd
     */
-    public final static void appendPinyin(JcsegTaskConfig confg, LinkedList<IWord> wordPool, IWord wd)
+    public final static void appendPinyin(JcsegTaskConfig config, LinkedList<IWord> wordPool, IWord wd)
     {
     	/* 
     	 * For search, you know this is a complex topic for pinyin process 
