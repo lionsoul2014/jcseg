@@ -107,7 +107,7 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
             for ( String path : lexPath ) {
                 final File safeDir = getPluginSafeFile(path);
                 if ( ! safeDir.exists() ) {
-                    continue;
+                    throw new IOException("Lexicon directory ["+safeDir+"] does'n exists.");
                 }
 
                 File[] files = safeDir.listFiles(new FilenameFilter(){
@@ -118,13 +118,13 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
                 });
 
                 for ( File f : files ) {
-                    // System.out.println(f.getAbsolutePath());
+                	// System.out.println(f.getAbsolutePath());
                     dic.load(getPluginSafeFile(f.getAbsolutePath()));
                 }
             }
 
             if ( config.isAutoload() ) {
-                // dic.startAutoload();
+            	dic.startAutoload();
             }
 
             dic.resetSynonymsNet();
