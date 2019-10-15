@@ -29,12 +29,10 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     public static final int DELIMITER_MODE = 5;
     public static final int NLP_MODE = 6;
     
-    /**maximum length for maximum match(5-7)*/
+    /**maximum length for maximum match(5-7) */
     public int MAX_LENGTH = 5;
     
-    /**
-     * maximum length for Latin words 
-    */
+    /**maximum length for Latin words */
     public int MAX_LATIN_LENGTH = 64;
     
     /**
@@ -50,33 +48,31 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     public int MAX_CN_LNADRON = 1;
     
     /**whether to load the Pinyin of the CJK_WORDS*/
-    public boolean LOAD_CJK_PINYIN = false;
+    public boolean LOAD_CJK_PINYIN = true;
     
     /**append the Pinyin to the splited IWord*/
-    public boolean APPEND_CJK_PINYIN = true;
+    public boolean APPEND_CJK_PINYIN = false;
+    
+    /**whether to load the word's part of speech*/
+    public boolean LOAD_CJK_POS = true;
     
     /**append the part of speech.*/
     public boolean APPEND_PART_OF_SPEECH = false;
     
-    /**whether to load the syn word of the CJK_WORDS.*/
-    public boolean LOAD_CJK_SYN = false;
+    /**whether to load the synonyms word of the CJK_WORDS.*/
+    public boolean LOAD_CJK_SYN = true;
     
     /**append the syn word to the splited IWord.*/
-    public boolean APPEND_CJK_SYN = true;
-    
-    /**whether to load the word's part of speech*/
-    public boolean LOAD_CJK_POS = false;
-    
+    public boolean APPEND_CJK_SYN = false;
+
     /**whether to load the entity define*/
     public boolean LOAD_CJK_ENTITY = true;
     
+    /**do the entity recognition ? */
+    public boolean APPEND_CJK_ENTITY = true;
+    
     /**whether to load the self-define parameter*/
     public boolean LOAD_PARAMETER = true;
-    
-    /**
-     * do the entity recognition ? 
-    */
-    public boolean APPEND_CJK_ENTITY = true;
     
     /**
      * the threshold of the single word that is a single word
@@ -240,6 +236,17 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     }
     
     /**
+     * internal method to check if the specified configuration item is open or not
+     * 
+     * @param	value
+     * @return	boolean
+    */
+    private static final boolean configBoolStatus(String value)
+    {
+    	return (value.equals("1") || value.equals("true") || value.equals("on")) ? true : false;
+    }
+    
+    /**
      * set the option value from a specified key and value define in jcseg.properties
      * 
      * @param	key
@@ -260,21 +267,19 @@ public class JcsegTaskConfig implements Cloneable, Serializable
                 
                 // Multiple path for lexicon.path.
                 lexPath = value.split(";");
-                File f  = null;
                 for ( int i = 0; i < lexPath.length; i++ ) {
                     lexPath[i] = java.net.URLDecoder.decode(lexPath[i], "UTF-8");
-                    f = new File(lexPath[i]);
+                    final File f = new File(lexPath[i]);
                     if ( ! f.exists() ) {
                         throw new IOException("Invalid sub lexicon path " + lexPath[i] 
                                 + " for lexicon.path in jcseg.properties");
                     }
-                    f = null;    //Let gc do its work
                 }
             }
     	} else if ( "jcseg.maxlen".equals(key) ) {
             MAX_LENGTH = Integer.parseInt(value);
         } else if ( "jcseg.icnname".equals(key) ) {
-        	I_CN_NAME = value.equals("1") ? true : false;
+        	I_CN_NAME = configBoolStatus(value);
         } else if ( "jcseg.cnmaxlnadron".equals(key) ) {
             MAX_CN_LNADRON = Integer.parseInt(value);
         } else if ( "jcseg.nsthreshold".equals(key) ) {
@@ -282,29 +287,33 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         } else if ( "jcseg.pptmaxlen".equals(key) ) {
             PPT_MAX_LENGTH = Integer.parseInt(value);
         } else if ( "jcseg.loadpinyin".equals(key) ) {
-        	LOAD_CJK_PINYIN = value.equals("1") ? true : false;
+        	LOAD_CJK_PINYIN = configBoolStatus(value);
+        } else if ( "jcseg.appendpinyin".equals(key) ) {
+        	APPEND_CJK_PINYIN = configBoolStatus(value);
         } else if ( "jcseg.loadsyn".equals(key) ) {
-        	LOAD_CJK_SYN = value.equals("1") ? true : false;
+        	LOAD_CJK_SYN = configBoolStatus(value);
+        } else if ( "jcseg.appendsyn".equals(key) ) {
+        	APPEND_CJK_SYN = configBoolStatus(value);
         } else if ( "jcseg.loadpos".equals(key) ) {
-        	LOAD_CJK_POS = value.equals("1") ? true : false;
+        	LOAD_CJK_POS = configBoolStatus(value);
         } else if ( "jcseg.loadentity".equals(key) ) {
-        	LOAD_CJK_ENTITY = value.equals("1") ? true : false;
+        	LOAD_CJK_ENTITY = configBoolStatus(value);
         } else if ( "jcseg.loadparameter".equals(key) ) {
-        	LOAD_PARAMETER = value.equals("1") ? true : false;
+        	LOAD_PARAMETER = configBoolStatus(value);
         } else if ( "jcseg.clearstopword".equals(key) ) {
-        	CLEAR_STOPWORD = value.equals("1") ? true : false;
+        	CLEAR_STOPWORD = configBoolStatus(value);
         } else if ( "jcseg.cnnumtoarabic".equals(key) ) {
-        	CNNUM_TO_ARABIC = value.equals("1") ? true : false;
+        	CNNUM_TO_ARABIC = configBoolStatus(value);
         } else if ( "jcseg.cnfratoarabic".equals(key) ) {
-        	CNFRA_TO_ARABIC = value.equals("1") ? true : false;
+        	CNFRA_TO_ARABIC = configBoolStatus(value);
         } else if ( "jcseg.keepunregword".equals(key) ) {
-        	KEEP_UNREG_WORDS = value.equals("1") ? true : false;
+        	KEEP_UNREG_WORDS = configBoolStatus(value);
         } else if ( "lexicon.autoload".equals(key) ) {
-        	lexAutoload = value.equals("1") ? true : false;
+        	lexAutoload = configBoolStatus(value);
         } else if ( "lexicon.polltime".equals(key) ) {
             polltime = Integer.parseInt(value);
         } else if ( "jcseg.ensencondseg".equals(key) ) {
-        	EN_SECOND_SEG = value.equals("1") ? true : false;
+        	EN_SECOND_SEG = configBoolStatus(value);
         } else if ( "jcseg.stokenminlen".equals(key) ) {
             STOKEN_MIN_LEN = Integer.parseInt(value);
         } else if ( "jcseg.keeppunctuations".equals(key) ) {

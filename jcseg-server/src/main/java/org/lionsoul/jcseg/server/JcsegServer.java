@@ -356,6 +356,12 @@ public class JcsegServer
         if ( json.has("jcseg_keeppunctuations") ) {
             config.setKeepPunctuations(json.getString("jcseg_keeppunctuations"));
         }
+        if ( json.has("jcseg_appendsyn") ) {
+            config.setAppendCJKSyn(json.getBoolean("jcseg_appendsyn"));
+        }
+        if ( json.has("jcseg_appendpinyin") ) {
+            config.setAppendCJKPinyin(json.getBoolean("jcseg_appendpinyin"));
+        }
     }
 
     /**
