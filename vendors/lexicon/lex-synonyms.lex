@@ -18,9 +18,13 @@ CJK_SYN
 特雷西麦克格雷迪,麦迪/mai di
 微信,weixin,v信/v xin,w信/w xin,wechat
 c#,csharp
-c++,cpp,cplusplus,c加加/c jia jia
+c++,cpp,cpplang,cplusplus,c加加/c jia jia
 android,安卓
 iphone,ios,苹果
+c语言,clang
+go,golang
+d语言,dlang
+码云,gitee
 
 ### 混合词条
 a片,毛片/mao pian,av

@@ -42,6 +42,7 @@ d版/n/d ban/null
 d杯/n/d bei/null
 d罩杯/n/d zhao bei/null
 dna鉴定/n/dna jian ding/null
+d语言/n/d yu yan/null
 #letter e
 e盘/n/e pan/null
 e座/f/e zuo/null
