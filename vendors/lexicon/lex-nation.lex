@@ -108,163 +108,145 @@ CJK_WORD
 法罗群岛/ns/fa luo qun dao/null
 爱沙尼亚/ns/a sha ni ya/null
 拉脱维亚/ns/la tuo wei ya/null
-立陶宛/ns/yi se lie/null
-白俄罗斯/ns/yi se lie/null
-俄罗斯/ns/yi se lie/null
-乌克兰/ns/yi se lie/null
-摩尔多瓦 /ns/yi se lie/null
-波兰/ns/yi se lie/null
-捷克/ns/yi se lie/null
-斯洛伐克/ns/yi se lie/null
-匈牙利/ns/yi se lie/null
-德国/ns/yi se lie/null
-奥地利/ns/yi se lie/null
-瑞士/ns/yi se lie/null
-列支敦士登 /ns/yi se lie/null
-英国/ns/yi se lie/null
-爱尔兰/ns/yi se lie/null
-荷兰/ns/yi se lie/null
-比利时/ns/yi se lie/null
-卢森堡/ns/yi se lie/null
-法国/ns/yi se lie/null
-摩纳哥 /ns/yi se lie/null
-罗马尼亚/ns/yi se lie/null
-保加利亚/ns/yi se lie/null
-塞尔维亚/ns/yi se lie/null
-马其顿/ns/yi se lie/null
-阿尔巴尼亚/ns/yi se lie/null
-希腊/ns/yi se lie/null
-斯洛文尼亚/ns/yi se lie/null
-克罗地亚/ns/yi se lie/null
-波斯尼亚和墨塞哥维那/ns/yi se lie/null
-意大利/ns/yi se lie/null
-梵蒂冈/ns/yi se lie/null
-圣马力诺/ns/yi se lie/null
-马耳他/ns/yi se lie/null
-西班牙/ns/yi se lie/null
-葡萄牙/ns/yi se lie/null
-安道尔 /ns/yi se lie/null
-埃及/ns/yi se lie/null
-利比亚/ns/yi se lie/null
-苏丹/ns/yi se lie/null
-突尼斯/ns/yi se lie/null
-阿尔及利亚/ns/yi se lie/null
-摩洛哥/ns/yi se lie/null
-亚速尔群岛/ns/yi se lie/null
-马德拉群岛/ns/yi se lie/null
-埃塞俄比亚/ns/yi se lie/null
-厄立特里亚/ns/yi se lie/null
-索马里/ns/yi se lie/null
-吉布提/ns/yi se lie/null
-肯尼亚/ns/yi se lie/null
-坦桑尼亚/ns/yi se lie/null
-乌干达/ns/yi se lie/null
-卢旺达/ns/yi se lie/null
-布隆迪/ns/yi se lie/null
+立陶宛/ns/li tao wan/null
+白俄罗斯/ns/bai e luo si/null
+俄罗斯/ns/e luo si/null
+乌克兰/ns/wu ke lan/null
+摩尔多瓦 /ns/mo er duo wa/null
+斯洛伐克/ns/si luo fa ke/null
+匈牙利/ns/xiong ya li/null
+奥地利/ns/ao di li/null
+列支敦士登/ns/lie zhi dun shi deng/null
+爱尔兰/ns/ai er lan/null
+荷兰/ns/he lan/null
+卢森堡/ns/lu sen bao/null
+摩纳哥 /ns/mo na ge/null
+罗马尼亚/ns/luo ma ni ya/null
+保加利亚/ns/bao jia li ya/null
+马其顿/ns/ma qi dun/null
+阿尔巴尼亚/ns/a er ba ni ya/null
+斯洛文尼亚/ns/si luo wen ni ya/null
+克罗地亚/ns/ke luo di ya/null
+波斯尼亚和墨塞哥维那/ns/bo si ni ya he mo sai ge ni ya/null
+梵蒂冈/ns/fan di gang/null
+圣马力诺/ns/sheng ma li nuo/null
+马耳他/ns/ma qi ta/null
+安道尔/ns/an dao er/null
+利比亚/ns/li bi ya/null
+苏丹/ns/su dan/null
+突尼斯/ns/tu ni si/null
+阿尔及利亚/ns/a er ji li ya/null
+摩洛哥/ns/mo luo ge/null
+亚速尔群岛/ns/ya su er qun dao/null
+马德拉群岛/ns/ma de la qun dao/null
+埃塞俄比亚/ns/ai sai e bi ya/null
+厄立特里亚/ns/e li te li ya/null
+索马里/ns/suo ma li/null
+吉布提/ns/ji bu ti/null
+肯尼亚/ns/ken ni ya/null
+坦桑尼亚/ns/tan sang ni ya/null
+乌干达/ns/wu gan da/null
+卢旺达/ns/lu wang da/null
+布隆迪/ns/bu long di/null
 塞舌尔/ns/sai she er/null
 刚果/ns/gang guo/null
 刚果共和国/ns/gang guo gong he guo/null
-圣多美及普林西比/ns/yi se lie/null
-塞内加尔/ns/yi se lie/null
-冈比亚/ns/yi se lie/null
-马里/ns/yi se lie/null
-布基纳法索/ns/yi se lie/null
-几内亚/ns/yi se lie/null
-几内亚比绍/ns/yi se lie/null
-佛得角/ns/yi se lie/null
-塞拉利昂/ns/yi se lie/null
-利比里亚/ns/yi se lie/null
-科特迪瓦/ns/yi se lie/null
-加纳/ns/yi se lie/null
-多哥/ns/yi se lie/null
-贝宁/ns/yi se lie/null
-尼日尔/ns/yi se lie/null
-加那利群岛/ns/yi se lie/null
-赞比亚/ns/yi se lie/null
-安哥拉/ns/yi se lie/null
-津巴布韦/ns/yi se lie/null
-马拉维/ns/yi se lie/null
-莫桑比克/ns/yi se lie/null
-博茨瓦纳/ns/yi se lie/null
-纳米比亚/ns/yi se lie/null
-南非/ns/yi se lie/null
-斯威士兰/ns/yi se lie/null
-莱索托/ns/yi se lie/null
-马达加斯加/ns/yi se lie/null
-科摩罗/ns/yi se lie/null
-毛里求斯/ns/yi se lie/null
-留尼旺/ns/yi se lie/null
-圣赫勒拿 /ns/yi se lie/null
-澳大利亚/ns/yi se lie/null
-新西兰/ns/yi se lie/null
-巴布亚新几内亚/ns/yi se lie/null
-所罗门群岛/ns/yi se lie/null
-瓦努阿图/ns/yi se lie/null
-密克罗尼西亚/ns/yi se lie/null
-马绍尔群岛/ns/yi se lie/null
-帕劳/ns/yi se lie/null
-瑙鲁/ns/yi se lie/null
-基里巴斯/ns/yi se lie/null
-图瓦卢/ns/yi se lie/null
-萨摩亚/ns/yi se lie/null
-斐济群岛/ns/yi se lie/null
-汤加/ns/yi se lie/null
-库克群岛/ns/yi se lie/null
-关岛/ns/yi se lie/null
-新喀里多尼亚/ns/yi se lie/null
-法属波利尼西亚/ns/yi se lie/null
-皮特凯恩岛/ns/yi se lie/null
-瓦利斯与富图纳/ns/yi se lie/null
-纽埃/ns/yi se lie/null
-托克劳/ns/yi se lie/null
-美属萨摩亚/ns/yi se lie/null
-北马里亚纳/ns/yi se lie/null
-加拿大/ns/yi se lie/null
-美国/ns/yi se lie/null
-墨西哥/ns/yi se lie/null
-格陵兰 /ns/yi se lie/null
-危地马拉/ns/yi se lie/null
-伯利兹/ns/yi se lie/null
-萨尔瓦多/ns/yi se lie/null
-洪都拉斯/ns/yi se lie/null
-尼加拉瓜/ns/yi se lie/null
-哥斯达黎加/ns/yi se lie/null
-巴拿马 /ns/yi se lie/null
-巴哈马/ns/yi se lie/null
-古巴/ns/yi se lie/null
-牙买加/ns/yi se lie/null
-海地/ns/yi se lie/null
-多米尼加共和国/ns/yi se lie/null
-安提瓜和巴布达/ns/yi se lie/null
-圣基茨和尼维斯/ns/yi se lie/null
-多米尼克/ns/yi se lie/null
-圣卢西亚/ns/yi se lie/null
-圣文森特和格林纳丁斯/ns/yi se lie/null
-格林纳达/ns/yi se lie/null
-巴巴多斯/ns/yi se lie/null
-特立尼达和多巴哥/ns/yi se lie/null
-波多黎各/ns/yi se lie/null
-英属维尔京群岛/ns/yi se lie/null
-美属维尔京群岛/ns/yi se lie/null
-安圭拉/ns/yi se lie/null
-蒙特塞拉特/ns/yi se lie/null
-瓜德罗普/ns/yi se lie/null
-马提尼克/ns/yi se lie/null
-荷属安的列斯/ns/yi se lie/null
-阿鲁巴/ns/yi se lie/null
-特克斯和凯科斯群岛/ns/yi se lie/null
-开曼群岛/ns/yi se lie/null
-百慕大 /ns/yi se lie/null
-哥伦比亚/ns/yi se lie/null
-委内瑞拉/ns/yi se lie/null
-圭亚那/ns/yi se lie/null
-法属圭亚那/ns/yi se lie/null
-苏里南 /ns/yi se lie/null
-厄瓜多尔/ns/yi se lie/null
-秘鲁/ns/yi se lie/null
-玻利维亚/ns/yi se lie/null
-巴西/ns/yi se lie/null
-智利/ns/yi se lie/null
-阿根廷/ns/yi se lie/null
-乌拉圭/ns/yi se lie/null
-巴拉圭/ns/yi se lie/null
+圣多美及普林西比/ns/sheng duo mei ji pu lin xi bi/null
+塞内加尔/ns/sai er jia er/null
+冈比亚/ns/gang bi ya/null
+马里/ns/ma li/null
+布基纳法索/ns/bu ji na fa suo/null
+几内亚/ns/ji nei ya/null
+几内亚比绍/ns/ji nei ya bi shao/null
+佛得角/ns/fo de jiao/null
+塞拉利昂/ns/sai la li ang/null
+利比里亚/ns/li bi li ya/null
+科特迪瓦/ns/ke te di wa/null
+加纳/ns/jia na/null
+多哥/ns/duo ge/null
+贝宁/ns/bei ning/null
+尼日尔/ns/ni ri er/null
+加那利群岛/ns/jia na li qun dao/null
+赞比亚/ns/zan bi ya/null
+安哥拉/ns/an ge la/null
+津巴布韦/ns/jin ba bu wei/null
+马拉维/ns/ma la wei/null
+莫桑比克/ns/mo sang bi ke/null
+博茨瓦纳/ns/bo ci wa na/null
+纳米比亚/ns/na mi bi ya/null
+斯威士兰/ns/si wei shi lan/null
+莱索托/ns/lai suo tuo/null
+马达加斯加/ns/ma da jia si jia/null
+科摩罗/ns/ke mo luo/null
+毛里求斯/ns/mao li qiu si/null
+留尼旺/ns/liu ni wang/null
+圣赫勒拿/ns/sheng he lei na/null
+澳大利亚/ns/ao da li ya/null
+新西兰/ns/xin xi lan/null
+巴布亚新几内亚/ns/ba bu ya xin ji nei ya/null
+所罗门群岛/ns/suo luo men qun dao/null
+瓦努阿图/ns/wa nu a tu/null
+密克罗尼西亚/ns/mi ke luo ni xi ya/null
+马绍尔群岛/ns/ma shao er qun dao/null
+帕劳/ns/pa lao/null
+瑙鲁/ns/nao lu/null
+基里巴斯/ns/ji li ba si/null
+图瓦卢/ns/tu wa lu/null
+萨摩亚/ns/sa mo ya/null
+斐济群岛/ns/fei ji qun dao/null
+汤加/ns/tang jia/null
+库克群岛/ns/ku ke qun dao/null
+关岛/ns/guan dao/null
+新喀里多尼亚/ns/xin ka li duo ni ya/null
+法属波利尼西亚/ns/fa shu bo li ni xi ya/null
+皮特凯恩岛/ns/pi te kai en dao/null
+瓦利斯与富图纳/ns/wa li si yu fu tu na/null
+纽埃/ns/niu ai/null
+托克劳/ns/tuo ke lao/null
+美属萨摩亚/ns/mei shu sa mo ya/null
+北马里亚纳/ns/bei ma li ya na/null
+格陵兰 /ns/ge ling lan/null
+危地马拉/ns/wei di ma la/null
+伯利兹/ns/bo li zi/null
+萨尔瓦多/ns/sa er wa duo/null
+洪都拉斯/ns/hong du la si/null
+尼加拉瓜/ns/ni jia la gua/null
+哥斯达黎加/ns/ge si da li jia/null
+巴拿马/ns/ba na ma/null
+巴哈马/ns/ba ha ma/null
+牙买加/ns/ya mai jia/null
+海地/ns/hai di/null
+多米尼加共和国/ns/duo mi ni jia gong he guo/null
+安提瓜和巴布达/ns/an ti gua he ba bu da/null
+圣基茨和尼维斯/ns/sheng ji ci he ni wei si/null
+多米尼克/ns/duo mi ni ke/null
+圣卢西亚/ns/sheng lu xi ya/null
+圣文森特和格林纳丁斯/ns/ya wen sen te he ge lin na ding si/null
+格林纳达/ns/ge lin na da/null
+巴巴多斯/ns/ba ba duo si/null
+特立尼达和多巴哥/ns/te li ni da he duo ba ge/null
+波多黎各/ns/bo duo li ge/null
+英属维尔京群岛/ns/ying shu wei er jing qun dao/null
+美属维尔京群岛/ns/mei shu wei er jing qun dao/null
+安圭拉/ns/an gui la/null
+蒙特塞拉特/ns/meng te sai la te/null
+瓜德罗普/ns/gua de luo pu/null
+马提尼克/ns/ma ti ni ke/null
+荷属安的列斯/ns/he shu an di lie si/null
+阿鲁巴/ns/a lu ba/null
+特克斯和凯科斯群岛/ns/te ke si he kai ke si qun dao/null
+开曼群岛/ns/kai man qun dao/null
+百慕大/ns/bai mu da/null
+哥伦比亚/ns/ge lun bi ya/null
+委内瑞拉/ns/wei nei rui la/null
+圭亚那/ns/gui ya na/null
+法属圭亚那/ns/fa shu gui ya na/null
+苏里南 /ns/su li nan/null
+厄瓜多尔/ns/e gua duo er/null
+秘鲁/ns/bi lu/null
+玻利维亚/ns/bo li wei ya/null
+巴西/ns/ba xi/null
+智利/ns/zhi li/null
+阿根廷/ns/a gen ting/null
+乌拉圭/ns/wu la gui/null
+巴拉圭/ns/ba la gui/null
