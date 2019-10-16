@@ -606,6 +606,9 @@ public abstract class ASegment implements ISegment
         
         IWord w = nextLatinWord(c, pos);
         w.setPosition(pos);
+        if ( config.APPEND_CJK_SYN ) {
+            appendLatinSyn(w);
+        }
         
         /* @added: 2013-12-16
          * check and do the secondary segmentation work.
@@ -620,10 +623,6 @@ public abstract class ASegment implements ISegment
                 && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
             w = null;    //Let gc do its work
             return null;
-        }
-        
-        if ( config.APPEND_CJK_SYN ) {
-            appendLatinSyn(w);
         }
         
         return w;
@@ -778,9 +777,14 @@ public abstract class ASegment implements ISegment
                 ew = w;
             }
             
-            if (  ew != null && ew.getSyn() != null ) {
-                ew.setPosition(w.getPosition());
-                SegKit.appendSynonyms(config, wordPool, ew);
+            if (  ew != null ) {
+            	ew.setPosition(w.getPosition());
+            	if ( ew.getSyn() != null ) {
+            		SegKit.appendSynonyms(config, wordPool, ew);
+            	}
+            	if ( ew.getPinyin() != null ) {
+            		SegKit.appendPinyin(config, wordPool, ew);
+            	}
             }
         }
     }
@@ -842,6 +846,9 @@ public abstract class ASegment implements ISegment
                         sword.setPosition(w.getPosition() + start);
                         if ( retfw && fword == null ) fword = sword;
                         else wordPool.add(sword);
+                        if ( config.APPEND_CJK_SYN ) {
+                            appendLatinSyn(sword);
+                        }
                     }
                 }
                 
@@ -864,6 +871,9 @@ public abstract class ASegment implements ISegment
                 sword.setPosition(w.getPosition() + start);
                 if ( retfw && fword == null ) fword = sword;
                 else wordPool.add(sword);
+                if ( config.APPEND_CJK_SYN ) {
+                    appendLatinSyn(sword);
+                }
             }
         }
         
@@ -1284,8 +1294,10 @@ public abstract class ASegment implements ISegment
             }
         }
         
-        //condition to start the secondary segmentation.
-        boolean ssseg = (tcount > 1) && chkunits;
+        /* condition to start the secondary segmentation.
+         * Since 2.5.1 we also do the secondary tokenize 
+         * for English and punctuation mixed word */
+        boolean ssseg = (tcount > 1);
         
         /* @step 3: check the end condition.
          * and the check if the token loop was break by whitespace
@@ -1331,7 +1343,7 @@ public abstract class ASegment implements ISegment
         IStringBuffer ibuffer = new IStringBuffer();
         ibuffer.append(__str);
         String _temp = null;
-        int mc = 0, j = 0;        //the number of char that readed from the stream.
+        int mc = 0, j = 0;        //the number of char that have read from the stream.
         
         //replace width IntArrayList at 2013-09-08
         //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
@@ -1372,6 +1384,7 @@ public abstract class ASegment implements ISegment
             _temp = ibuffer.toString();
             if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
                 w  = dic.get(ILexicon.CJK_WORD, _temp);
+                ctrlMask |= ISegment.START_SS_MASK;
                 mc = j + 1;
             }
         }
