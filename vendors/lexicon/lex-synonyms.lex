@@ -22,9 +22,11 @@ c++,cpp,cpplang,cplusplus,c加加/c jia jia
 android,安卓
 iphone,ios,苹果
 c语言,clang
-go,golang
+go语言,golang
 d语言,dlang
 码云,gitee
+区块链,blockchain
+语言,language,lang
 
 ### 混合词条
 a片,毛片/mao pian,av

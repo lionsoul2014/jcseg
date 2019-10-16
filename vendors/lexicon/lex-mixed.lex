@@ -62,6 +62,7 @@ g盘/n/g pan/null
 g点/n/g dian/null
 g杯/n/g bei/null
 g罩杯/n/g zhao bei/null
+go语言/n/go yu yan/null
 #letter h
 h盘/n/h pan/null
 h股/n/h gu/null
