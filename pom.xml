@@ -4,12 +4,12 @@
 
   <groupId>org.lionsoul</groupId>
   <artifactId>jcseg</artifactId>
-  <version>2.5.1</version>
+  <version>2.6.0</version>
   <packaging>pom</packaging>
 
   <name>jcseg</name>
   <url>http://git.oschina.net/lionsoul/jcseg/</url>
-  <description>A lightweight open source chinese tokenizer with keywords, key sentences, summary extracts support, offered the latest lucene,solr,elasticsearch API.</description>
+  <description>A lightweight open source chinese tokenizer with keywords, key sentences, summary extracts support and provide the latest lucene,solr,elasticsearch embedding API.</description>
   
   <licenses>
     <license>
