@@ -102,7 +102,7 @@ public class SearchSeg extends ASegment
             }
             
             wordPool.add(w);
-            appendWordFeatures(w);
+            appendCJKWordFeatures(w);
         }
         
         //let gc do its work

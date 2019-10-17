@@ -42,10 +42,11 @@ public abstract class ASegment implements ISegment
      * CJK word cache pool, Reusable string buffer
      * and the array list for basic integer
     */
-    protected LinkedList<IWord> wordPool = null;
+    final protected LinkedList<IWord> wordPool;
+    final protected LinkedList<IWord> subWordPool;
     //protected IHashQueue<IWord> wordPool = null;
-    protected IStringBuffer isb;
-    protected IntArrayList ialist;
+    final protected IStringBuffer isb;
+    final protected IntArrayList ialist;
     
     /**
      * global behind Latin word after the CJK word
@@ -77,6 +78,7 @@ public abstract class ASegment implements ISegment
         this.config = config;
         this.dic    = dic;
         wordPool    = new LinkedList<IWord>();
+        subWordPool = new LinkedList<IWord>();
         isb         = new IStringBuffer(64);
         ialist      = new IntArrayList(15);
         reset(input);
@@ -97,7 +99,7 @@ public abstract class ASegment implements ISegment
      * @throws IOException
      */
     public void reset( Reader input ) throws IOException
-    { 
+    {
         if ( input != null ) {
             reader = new IPushbackReader(new BufferedReader(input));
         }
@@ -111,7 +113,7 @@ public abstract class ASegment implements ISegment
      * @throws IOException 
      */
     protected int readNext() throws IOException 
-    {    
+    {
         int c = reader.read();
         if ( c != -1 ) idx++;
         return c;
@@ -222,7 +224,7 @@ public abstract class ASegment implements ISegment
                 if ( behindLatin != null ) {
                     pushBack(behindLatin);
                 }
-            } 
+            }
             /* English/Latin char.
              * and start the Latin word analysis
             */
@@ -278,7 +280,7 @@ public abstract class ASegment implements ISegment
             /* @reader: (2013-09-25) 
              * unrecognized char will cause unknown problem for different system.
              * keep it or clear it ?
-             * if you use jcseg for search, better shut it down.
+             * if you use Jcseg for search, better close it.
             */
             else if ( config.KEEP_UNREG_WORDS ) {
                 String str = String.valueOf((char)c);
@@ -471,7 +473,7 @@ public abstract class ASegment implements ISegment
                 
                 if ( w != null ) {
                     cjkidx += w.getLength();
-                    appendWordFeatures(w);
+                    appendCJKWordFeatures(w);
                     continue;
                 }
             }
@@ -566,7 +568,7 @@ public abstract class ASegment implements ISegment
              * check and append the Pinyin and the synonyms words.
             */
             if ( T == -1 ) {
-                appendWordFeatures(w);
+            	appendCJKWordFeatures(w);
             }
         }
         
@@ -606,25 +608,63 @@ public abstract class ASegment implements ISegment
         
         IWord w = nextLatinWord(c, pos);
         w.setPosition(pos);
-        if ( config.APPEND_CJK_SYN ) {
-            appendLatinSyn(w);
+        
+        /* if it is a stop word, here we stop everything here */
+        if ( config.CLEAR_STOPWORD 
+                && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
+        	w = null;	// Let gc do its work
+        	return null;
+        }
+        
+        /* We stop here if there is no necessary 
+         * to do the secondary segmentation */
+        if ( config.EN_SECOND_SEG == false 
+        		|| (ctrlMask & ISegment.START_SS_MASK) == 0 ) {
+        	if ( config.APPEND_CJK_SYN ) {
+        		appendCJKWordFeatures(w);
+        	}
+        	return w;
         }
         
         /* @added: 2013-12-16
          * check and do the secondary segmentation work.
          * This will split 'qq2013' to 'qq, 2013'.
         */
-        if ( config.EN_SECOND_SEG
-                && (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
-            enSecondSeg(w, false);
+        subWordPool.clear();
+        enSecondSeg(w, subWordPool);
+        
+        /* Adjust the sub word token and process for the output 
+         * The first sub word token should be put ahead of the current word token 
+         * if its position is the same with the current parent word token.
+        */
+        if ( subWordPool.isEmpty() ) {
+            if ( config.APPEND_CJK_SYN ) {
+            	appendLatinWordFeatures(w);
+            }
+            
+            return w;
         }
         
-        if ( config.CLEAR_STOPWORD 
-                && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
-            w = null;    //Let gc do its work
-            return null;
+    	final IWord t = subWordPool.getFirst();
+    	if ( t.getPosition() == w.getPosition() ) {
+    		subWordPool.removeFirst();
+    		subWordPool.addFirst(w);
+    		w = t;
+    	}
+    	
+    	if ( config.APPEND_CJK_SYN ) {
+    		appendLatinWordFeatures(w);
         }
-        
+    	
+    	/* append all the rest of sub word tokens and 
+    	 * their features to the global word pool */
+    	for ( final IWord sw : subWordPool ) {
+    		wordPool.add(sw);
+    		if ( config.APPEND_CJK_SYN ) {
+    			appendLatinWordFeatures(sw);
+            }
+    	}
+
         return w;
     }
     
@@ -638,7 +678,7 @@ public abstract class ASegment implements ISegment
     */
     protected IWord getNextMixedWord(char[] chars, int cjkidx) throws IOException
     {
-        IStringBuffer buff = new IStringBuffer();
+        final IStringBuffer buff = new IStringBuffer();
         buff.clear().append(chars, cjkidx);
         String tstring = buff.toString();
         if ( ! dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
@@ -680,7 +720,6 @@ public abstract class ASegment implements ISegment
         }
         
         buff.clear();
-        buff = null;
         if ( wd != null ) {
             behindLatin = null;
         }
@@ -740,7 +779,7 @@ public abstract class ASegment implements ISegment
      * 
      * @param   word
     */
-    protected void appendWordFeatures( IWord word )
+    protected void appendCJKWordFeatures( IWord word )
     {
         //add the pinyin to the pool
         if ( config.APPEND_CJK_PINYIN 
@@ -756,12 +795,12 @@ public abstract class ASegment implements ISegment
     }
     
     /**
-     * Check and append the synonyms words of specified word included the CJK and basic Latin words
+     * Check and append the synonyms/pinyin words of specified word included the CJK and basic Latin words
      * All the synonyms words share the same position part of speech, word type with the primitive word
      * 
      * @param w
      */
-    protected void appendLatinSyn( IWord w )
+    protected void appendLatinWordFeatures( IWord w )
     {
         IWord ew;
         
@@ -802,10 +841,9 @@ public abstract class ASegment implements ISegment
      * </p>
      * 
      * @param  w
-     * @param  retfw whether to return the fword.
-     * @return IWord the first sub token for the secondary segment.
+     * @return LinkedList<IWord> all the sub word tokens
      */
-    protected IWord enSecondSeg( IWord w, boolean retfw ) 
+    protected LinkedList<IWord> enSecondSeg( IWord w, LinkedList<IWord> wList ) 
     {
         isb.clear();
         char[] chars = w.getValue().toCharArray();
@@ -813,8 +851,13 @@ public abstract class ASegment implements ISegment
         int _ctype, start = 0, j, p = 0;
         
         isb.append(chars[0]);
-        IWord sword = null, fword = null;    //first word
+        IWord sword = null;
         String _str = null;
+        
+        /* check and create the sub word token buffer */
+        if ( wList == null ) {
+        	wList = new LinkedList<IWord>();
+        }
         
         for ( j = 1; j < chars.length; j++ ) {
             /* get the char type.
@@ -844,11 +887,7 @@ public abstract class ASegment implements ISegment
                         sword = new Word(_str, w.getType());
                         sword.setPartSpeechForNull(w.getPartSpeech());
                         sword.setPosition(w.getPosition() + start);
-                        if ( retfw && fword == null ) fword = sword;
-                        else wordPool.add(sword);
-                        if ( config.APPEND_CJK_SYN ) {
-                            appendLatinSyn(sword);
-                        }
+                        wList.addLast(sword);
                     }
                 }
                 
@@ -869,17 +908,12 @@ public abstract class ASegment implements ISegment
                 sword = new Word(_str, w.getType());
                 sword.setPartSpeechForNull(w.getPartSpeech());
                 sword.setPosition(w.getPosition() + start);
-                if ( retfw && fword == null ) fword = sword;
-                else wordPool.add(sword);
-                if ( config.APPEND_CJK_SYN ) {
-                    appendLatinSyn(sword);
-                }
+                wList.add(sword);
             }
         }
         
         chars = null;    //Let gc do its work.
-
-        return fword;
+        return wList;
     }
     
     /**

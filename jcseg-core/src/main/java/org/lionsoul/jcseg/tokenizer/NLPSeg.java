@@ -631,7 +631,7 @@ public class NLPSeg extends ComplexSeg
              * check and append the Pinyin and the synonyms words.
             */
             if ( T == -1 ) {
-                appendWordFeatures(w);
+            	appendCJKWordFeatures(w);
             }
         }
 
