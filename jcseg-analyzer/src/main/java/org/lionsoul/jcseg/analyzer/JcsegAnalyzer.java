@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
-import org.lionsoul.jcseg.analyzer.JcsegFilter;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
@@ -95,7 +94,7 @@ public class JcsegAnalyzer extends Analyzer
     {
         try {
             Tokenizer tokenizer = new JcsegTokenizer(mode, config, dic);
-            return new TokenStreamComponents(tokenizer, new JcsegFilter(tokenizer));
+            return new TokenStreamComponents(tokenizer);
         } catch (JcsegException e) {
             e.printStackTrace();
         } catch (IOException e) {
