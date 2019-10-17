@@ -41,7 +41,7 @@ import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
  */
 public class JcsegTokenizer extends Tokenizer 
 {
-    // The default jcseg segmentor
+    // The default Jcseg segmentor
     private final ISegment segmentor;
 
     private final CharTermAttributeImpl termAtt = (CharTermAttributeImpl)addAttribute(CharTermAttribute.class);
@@ -52,7 +52,10 @@ public class JcsegTokenizer extends Tokenizer
      * field level offset tracker for multiple-value field
      * like the Array field in Elasticseach 
     */
-    private int fieldOffset = 0;
+    // private int fieldOffset = 0;
+    
+    /** end position for the last word token */
+    private int endPosition = 0;
     
     public JcsegTokenizer(
         int mode,
@@ -66,22 +69,24 @@ public class JcsegTokenizer extends Tokenizer
     @Override
     final public boolean incrementToken() throws IOException 
     {
+    	/* Clear the attributes */
+    	clearAttributes();
+    	
         final IWord word = segmentor.next();
         if ( word == null ) {
-            fieldOffset = offsetAtt.endOffset();
-            /// System.out.println("set fieldOffset=" + fieldOffset);
             return false;
         }
         
-        clearAttributes();
         //char[] token = word.getValue().toCharArray();
         //termAtt.copyBuffer(token, 0, token.length);
         termAtt.clear();
         termAtt.append(word.getValue());
+        final int endPos = word.getPosition() + word.getLength();
         offsetAtt.setOffset(
-            correctOffset(fieldOffset + word.getPosition()), 
-            correctOffset(fieldOffset + word.getPosition() + word.getLength())
+        	endPosition + correctOffset(word.getPosition()), 
+        	endPosition + correctOffset(endPos)
         );
+        endPosition = endPos;
         typeAtt.setType("word");
         
         return true;
@@ -91,8 +96,9 @@ public class JcsegTokenizer extends Tokenizer
     public void end() throws IOException
     {
         super.end();
-        offsetAtt.setOffset(fieldOffset, fieldOffset);
-        fieldOffset = 0;    // reset the field-level offset
+        final int finalOffset = correctOffset(endPosition);
+        offsetAtt.setOffset(finalOffset, finalOffset);
+        endPosition = 0;
     }
     
     @Override
