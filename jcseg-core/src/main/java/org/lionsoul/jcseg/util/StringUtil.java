@@ -409,7 +409,7 @@ public class StringUtil
     public static boolean isLetter(String str) {return isLetter(str, 0, str.length());}
     
     /**
-     * check if the specified string it Latin numeric
+     * check if the specified string is Latin numeric
      * 
      * @param   str
      * @param   beginIndex
@@ -552,4 +552,25 @@ public class StringUtil
         return pairPunctuation.get(c);
     }
     
+    /**
+     * Check if the specified string is all punctuation chars (English and Chinese punctuation)
+     * @param   str
+     * @param   beginIndex
+     * @param   endIndex
+     * @return  boolean
+   */
+    public static boolean isPunctuation(String str, int beginIndex, int endIndex)
+    {
+    	for ( int i = beginIndex; i < endIndex; i++ ) {
+    		char chr = str.charAt(i);
+    		if ( ! StringUtil.isEnPunctuation(chr) 
+    				|| ! StringUtil.isCnPunctuation(chr) ) {
+    			return false;
+    		}
+    	}
+
+    	return true;
+    }
+
+    public static boolean isPunctuation(String str) {return isPunctuation(str, 0, str.length());}
 }
