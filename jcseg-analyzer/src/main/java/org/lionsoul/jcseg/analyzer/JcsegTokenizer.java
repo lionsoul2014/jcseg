@@ -50,12 +50,9 @@ public class JcsegTokenizer extends Tokenizer
     
     /**
      * field level offset tracker for multiple-value field
-     * like the Array field in Elasticseach 
+     * like the Array field in Elasticseach or Solr
     */
-    // private int fieldOffset = 0;
-    
-    /** end position for the last word token */
-    private int endPosition = 0;
+    private int fieldOffset = 0;
     
     public JcsegTokenizer(
         int mode,
@@ -74,6 +71,7 @@ public class JcsegTokenizer extends Tokenizer
     	
         final IWord word = segmentor.next();
         if ( word == null ) {
+        	fieldOffset = offsetAtt.endOffset();
             return false;
         }
         
@@ -81,12 +79,10 @@ public class JcsegTokenizer extends Tokenizer
         //termAtt.copyBuffer(token, 0, token.length);
         termAtt.clear();
         termAtt.append(word.getValue());
-        final int endPos = word.getPosition() + word.getLength();
         offsetAtt.setOffset(
-        	endPosition + correctOffset(word.getPosition()), 
-        	endPosition + correctOffset(endPos)
+        	correctOffset(fieldOffset + word.getPosition()), 
+        	correctOffset(fieldOffset + word.getPosition() + word.getLength())
         );
-        endPosition = endPos;
         typeAtt.setType("word");
         
         return true;
@@ -96,9 +92,8 @@ public class JcsegTokenizer extends Tokenizer
     public void end() throws IOException
     {
         super.end();
-        final int finalOffset = correctOffset(endPosition);
-        offsetAtt.setOffset(finalOffset, finalOffset);
-        endPosition = 0;
+        offsetAtt.setOffset(correctOffset(fieldOffset), correctOffset(fieldOffset));
+        fieldOffset = 0;
     }
     
     @Override
