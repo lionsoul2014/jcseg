@@ -100,6 +100,9 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     /**keep punctuation*/
     private String KEEP_PUNCTUATIONS = "@%&.'#+";
     
+    /** char for delimiter segmentation default to english whitespace */
+    private char DELIMITER = ' ';
+    
     public boolean KEEP_UNREG_WORDS = false;
     
     private String[] lexPath = null;        /*lexicon directory path array.*/
@@ -318,6 +321,8 @@ public class JcsegTaskConfig implements Cloneable, Serializable
             STOKEN_MIN_LEN = Integer.parseInt(value);
         } else if ( "jcseg.keeppunctuations".equals(key) ) {
             KEEP_PUNCTUATIONS = value;
+        } else if ( "jcseg.delimiter".equals(key) ) {
+        	DELIMITER = (value.equals("whitespace") || value.equals("default")) ? ' ' : value.charAt(0);
         }
     }
     
@@ -528,7 +533,15 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         return (KEEP_PUNCTUATIONS.indexOf(c) > -1);
     }
     
-    public boolean keepUnregWords()
+    public char getDELIMITER() {
+		return DELIMITER;
+	}
+
+	public void setDELIMITER(char dELIMITER) {
+		DELIMITER = dELIMITER;
+	}
+
+	public boolean keepUnregWords()
     {
         return KEEP_UNREG_WORDS;
     }

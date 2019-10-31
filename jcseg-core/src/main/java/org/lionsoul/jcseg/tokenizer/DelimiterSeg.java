@@ -70,7 +70,7 @@ public class DelimiterSeg implements ISegment
     {
         this.config    = config;
         this.dic       = dic;
-        this.delimiter = ' ';
+        this.delimiter = config.getDELIMITER();
         
         wordPool = new LinkedList<IWord>();
         isb      = new IStringBuffer(64);
