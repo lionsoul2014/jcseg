@@ -28,6 +28,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     public static final int SEARCH_MODE  = 4;
     public static final int DELIMITER_MODE = 5;
     public static final int NLP_MODE = 6;
+    public static final int NGRAM_MODE = 7;
     
     /**maximum length for maximum match(5-7) */
     public int MAX_LENGTH = 5;
@@ -102,6 +103,9 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     
     /** char for delimiter segmentation default to english whitespace */
     private char DELIMITER = ' ';
+    
+    /** N for the n-gram */
+    private byte GRAM = 1;
     
     public boolean KEEP_UNREG_WORDS = false;
     
@@ -323,6 +327,8 @@ public class JcsegTaskConfig implements Cloneable, Serializable
             KEEP_PUNCTUATIONS = value;
         } else if ( "jcseg.delimiter".equals(key) ) {
         	DELIMITER = (value.equals("whitespace") || value.equals("default")) ? ' ' : value.charAt(0);
+        } else if ( "jcseg.gram".equals(key) ) {
+        	GRAM = value.equals("default") ? 1 : Byte.valueOf(value).byteValue();
         }
     }
     
@@ -539,6 +545,14 @@ public class JcsegTaskConfig implements Cloneable, Serializable
 
 	public void setDELIMITER(char dELIMITER) {
 		DELIMITER = dELIMITER;
+	}
+
+	public byte getGRAM() {
+		return GRAM;
+	}
+
+	public void setGRAM(byte gRAM) {
+		GRAM = gRAM;
 	}
 
 	public boolean keepUnregWords()

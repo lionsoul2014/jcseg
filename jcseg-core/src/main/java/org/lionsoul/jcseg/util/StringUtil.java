@@ -223,7 +223,7 @@ public class StringUtil
     }
     
     /**
-     * check the given char is half-width punctuation
+     * check if the given char is half-width punctuation
      * 
      * @param c
      * @return boolean
@@ -247,6 +247,12 @@ public class StringUtil
                 //from http://www.unicode.org/charts/PDF/U3000.pdf
                 || ( c >= 12289 && c <= 12319 )
          );
+    }
+    
+    /** check if the given char is a punctuation */
+    public static boolean isPunctuation(int c)
+    {
+    	return (isEnPunctuation(c) || isCnPunctuation(c));
     }
     
     /**

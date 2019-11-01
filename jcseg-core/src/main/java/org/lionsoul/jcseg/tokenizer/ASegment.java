@@ -802,30 +802,28 @@ public abstract class ASegment implements ISegment
      */
     protected void appendLatinWordFeatures( IWord w )
     {
-        IWord ew;
-        
-        if ( config.LOAD_CJK_SYN && config.APPEND_CJK_SYN ) {
-            /*
+        IWord ew, t;
+        boolean append_syn = (config.LOAD_CJK_SYN && config.APPEND_CJK_SYN);
+        boolean append_pinyin = (config.LOAD_CJK_PINYIN && config.APPEND_CJK_PINYIN);
+        if ( (append_syn && w.getSyn() == null) 
+        		&& (append_pinyin && w.getPinyin() == null) ) {
+        	/*
              * @added 2014-07-07
              * w maybe EC_MIX_WORD, so check its syn first
              * and make sure it is not a EC_MIX_WORD then check the EN_WORD 
             */
-            if ( w.getSyn() == null ) {
-                ew = dic.get(ILexicon.CJK_WORD, w.getValue());
-            } else {
-                ew = w;
-            }
-            
-            if (  ew != null ) {
-            	ew.setPosition(w.getPosition());
-            	if ( ew.getSyn() != null ) {
-            		SegKit.appendSynonyms(config, wordPool, ew);
-            	}
-            	if ( ew.getPinyin() != null ) {
-            		SegKit.appendPinyin(config, wordPool, ew);
-            	}
-            }
+        	ew = (t = dic.get(ILexicon.CJK_WORD, w.getValue())) == null ? w : t;
+        } else {
+        	ew = w;
         }
+        
+        ew.setPosition(w.getPosition());
+        if ( append_syn && ew.getSyn() != null ) {
+    		SegKit.appendSynonyms(config, wordPool, ew);
+        }
+        if ( append_pinyin && ew.getPinyin() != null ) {
+    		SegKit.appendPinyin(config, wordPool, ew);
+    	}
     }
     
     /**

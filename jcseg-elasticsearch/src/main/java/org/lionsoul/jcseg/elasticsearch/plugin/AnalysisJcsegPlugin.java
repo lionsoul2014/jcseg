@@ -11,6 +11,7 @@ import org.elasticsearch.plugins.Plugin;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegComplexAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegDelimiterAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegDetectAnalyzerProvider;
+import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegNGramAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegNLPAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegNoOpTokenFilterFactory;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegSearchAnalyzerProvider;
@@ -50,14 +51,14 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
     @Override
     public Map<String, AnalysisProvider<AnalyzerProvider<? extends Analyzer>>> getAnalyzers() {
         Map<String, AnalysisProvider<AnalyzerProvider<? extends Analyzer>>> analyzers = new HashMap<>();
-        AnalysisProvider<AnalyzerProvider<? extends Analyzer>> searchAnalyzerProvider = JcsegSearchAnalyzerProvider::new;
-        analyzers.put("jcseg", searchAnalyzerProvider);
+        analyzers.put("jcseg", JcsegSearchAnalyzerProvider::new);
         analyzers.put("jcseg_simple", JcsegSimpleAnalyzerProvider::new);
         analyzers.put("jcseg_complex", JcsegComplexAnalyzerProvider::new);
         analyzers.put("jcseg_detect", JcsegDetectAnalyzerProvider::new);
-        analyzers.put("jcseg_search", searchAnalyzerProvider);
+        analyzers.put("jcseg_search", JcsegSearchAnalyzerProvider::new);
         analyzers.put("jcseg_nlp", JcsegNLPAnalyzerProvider::new);
         analyzers.put("jcseg_delimiter", JcsegDelimiterAnalyzerProvider::new);
+        analyzers.put("jcseg_ngram", JcsegNGramAnalyzerProvider::new);
         return analyzers;
     }
 

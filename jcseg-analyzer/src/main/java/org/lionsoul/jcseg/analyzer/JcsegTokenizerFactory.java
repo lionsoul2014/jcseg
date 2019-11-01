@@ -50,6 +50,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory
                 mode = JcsegTaskConfig.NLP_MODE;
             } else if ( "delimiter".equals(_mode) ) {
                 mode = JcsegTaskConfig.DELIMITER_MODE;
+            } else if ( "ngram".equals(_mode) ) {
+            	mode = JcsegTaskConfig.NGRAM_MODE;
             } else {
                 mode = JcsegTaskConfig.COMPLEX_MODE;
             }

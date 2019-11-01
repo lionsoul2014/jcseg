@@ -342,6 +342,12 @@ public class JcsegTest
                         action = 0;
                         System.out.println("Entered NLP tokenize mode!");
                         continue;
+                    } else if (":ngram".equals(cmd)) {
+                        demo.resetMode(JcsegTaskConfig.NGRAM_MODE);
+                        module = "tokenzier:ngram";
+                        action = 0;
+                        System.out.println("Entered ngram tokenize mode!");
+                        continue;
                     } else if (":keywords".equals(cmd)) {
                         module = "keywords";
                         action = 1;
@@ -390,16 +396,16 @@ public class JcsegTest
     
     static void printHelpMenu()
     {
-        System.out.println("+--------Jcseg chinese word tokenizer demo---------------+");
-        System.out.println("|- @Author chenxin<chenxin619315@gmail.com>              |");
-        System.out.println("|- :seg_mode  : switch to specified tokenizer mode.      |");
-        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter,:NLP)    |");
-        System.out.println("|- :keywords  : switch to keywords extract mode.         |");
-        System.out.println("|- :keyphrase : switch to keyphrase extract mode.        |");
-        System.out.println("|- :sentence  : switch to sentence extract mode.         |");
-        System.out.println("|- :summary   : switch to summary extract mode.          |");
-        System.out.println("|- :help      : print this help menu.                    |");
-        System.out.println("|- :quit      : to exit the program.                     |");
-        System.out.println("+--------------------------------------------------------+");
+        System.out.println("+--------Jcseg chinese word tokenizer demo-------------------+");
+        System.out.println("|- @Author chenxin<chenxin619315@gmail.com>                  |");
+        System.out.println("|- :seg_mode  : switch to specified tokenizer mode.          |");
+        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter,:NLP,:ngram) |");
+        System.out.println("|- :keywords  : switch to keywords extract mode.             |");
+        System.out.println("|- :keyphrase : switch to keyphrase extract mode.            |");
+        System.out.println("|- :sentence  : switch to sentence extract mode.             |");
+        System.out.println("|- :summary   : switch to summary extract mode.              |");
+        System.out.println("|- :help      : print this help menu.                        |");
+        System.out.println("|- :quit      : to exit the program.                         |");
+        System.out.println("+------------------------------------------------------------+");
     }
 }

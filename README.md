@@ -26,6 +26,7 @@
 > * (4).检索模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
 > * (5).分隔符模式：按照给定的字符切分词条，默认是空格，特定场合的应用。
 > * (6).NLP模式：继承自复杂模式，更改了数字，单位等词条的组合方式，增加电子邮件，大陆手机号码，网址，人名，地名，货币等以及无限种自定义实体的识别与返回。
+> * (7).Ngram模式：CJK和拉丁字符的通用n-gram切分实现。
 
 1. 支持自定义词库。在lexicon文件夹下，可以随便添加/删除/更改词库和词库内容，并且对词库进行了分类。
 2. 支持词库多目录加载. 配置lexicon.path中使用';'隔开多个词库目录.
@@ -58,17 +59,17 @@
 5. 在光标处输入文本开始测试(输入:seg_mode参数切换可以体验各种切分算法)
 
 ```
-+--------Jcseg chinese word tokenizer demo---------------+
-|- @Author chenxin<chenxin619315@gmail.com>              |
-|- :seg_mode  : switch to specified tokenizer mode.      |
-|- (:complex,:simple,:search,:detect,:delimiter,:NLP)    |
-|- :keywords  : switch to keywords extract mode.         |
-|- :keyphrase : switch to keyphrase extract mode.        |
-|- :sentence  : switch to sentence extract mode.         |
-|- :summary   : switch to summary extract mode.          |
-|- :help      : print this help menu.                    |
-|- :quit      : to exit the program.                     |
-+--------------------------------------------------------+
++--------Jcseg chinese word tokenizer demo-------------------+
+|- @Author chenxin<chenxin619315@gmail.com>                  |
+|- :seg_mode  : switch to specified tokenizer mode.          |
+|- (:complex,:simple,:search,:detect,:delimiter,:NLP,:ngram) |
+|- :keywords  : switch to keywords extract mode.             |
+|- :keyphrase : switch to keyphrase extract mode.            |
+|- :sentence  : switch to sentence extract mode.             |
+|- :summary   : switch to summary extract mode.              |
+|- :help      : print this help menu.                        |
+|- :quit      : to exit the program.                         |
++------------------------------------------------------------+
 jcseg~tokenizer:complex>> 
 ```
 
@@ -211,6 +212,12 @@ config.setAppendCJKPinyin();
         <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="delimiter"/>
     </analyzer>
 </fieldtype>
+<!-- n-gram模式分词: -->
+<fieldtype name="textSearch" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="ngram"/>
+    </analyzer>
+</fieldtype>
 ```
 
 <b>备注：</b>
@@ -274,6 +281,7 @@ jcseg_detect    : 对应Jcseg的检测模式切分算法
 jcseg_search    : 对应Jcseg的检索模式切分算法
 jcseg_nlp       : 对应Jcseg的NLP模式切分算法
 jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
+jcseg_ngram     : 对应Jcseg的n-gram模式切分算法
 
 ```
 

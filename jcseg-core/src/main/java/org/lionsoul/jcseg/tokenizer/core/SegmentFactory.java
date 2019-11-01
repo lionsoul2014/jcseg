@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import org.lionsoul.jcseg.tokenizer.ComplexSeg;
 import org.lionsoul.jcseg.tokenizer.DelimiterSeg;
 import org.lionsoul.jcseg.tokenizer.DetectSeg;
+import org.lionsoul.jcseg.tokenizer.NGramSeg;
 import org.lionsoul.jcseg.tokenizer.NLPSeg;
 import org.lionsoul.jcseg.tokenizer.SearchSeg;
 import org.lionsoul.jcseg.tokenizer.SimpleSeg;
@@ -74,6 +75,9 @@ public class SegmentFactory
         case JcsegTaskConfig.NLP_MODE:
             _clsname = NLPSeg.class;
             break;
+        case JcsegTaskConfig.NGRAM_MODE:
+        	_clsname = NGramSeg.class;
+        	break;
         default:
             throw new JcsegException("No Such Algorithm Excpetion");
         }   

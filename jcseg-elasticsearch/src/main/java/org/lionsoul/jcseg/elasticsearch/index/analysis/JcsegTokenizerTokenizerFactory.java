@@ -48,6 +48,8 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
             mode = JcsegTaskConfig.NLP_MODE;
         } else if ( "delimiter".equals(seg_mode) ) {
             mode = JcsegTaskConfig.DELIMITER_MODE;
+        } else if ( "ngram".equals(seg_mode) ) {
+            mode = JcsegTaskConfig.NGRAM_MODE;
         } else {
             mode = JcsegTaskConfig.SEARCH_MODE;
         }
