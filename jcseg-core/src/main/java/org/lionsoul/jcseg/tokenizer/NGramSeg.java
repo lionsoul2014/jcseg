@@ -71,7 +71,7 @@ public class NGramSeg implements ISegment
     	assert config.getGRAM() > 0;
         this.config = config;
         this.dic    = dic;
-        this.N 		= 3;
+        this.N 		= config.getGRAM();
         wordPool    = new LinkedList<IWord>();
         isb         = new IStringBuffer(N + 1);
         reset(input);
