@@ -175,6 +175,9 @@ public class NGramSeg implements ISegment
             	type = IWord.T_BASIC_LATIN;
             	checker = StringUtil::isEnLetter;
             	pofs = IWord.EN_POSPEECH;
+            	/* full-width and uppercase conversion */
+                if ( c > 65280 ) c -= 65248;
+                if ( c >= 65 && c <= 90 ) c += 32; 
             }
             /* letter number like 'ⅠⅡ' */
             else if ( StringUtil.isLetterNumber(c) ) {
@@ -261,11 +264,6 @@ public class NGramSeg implements ISegment
     */
     protected String getNextType(int c, int type, CharTypeChecker checker) throws IOException
     {
-    	if ( type == IWord.T_BASIC_LATIN ) {
-            if ( c > 65280 ) c -= 65248;
-            if ( c >= 65 && c <= 90 ) c += 32; 
-    	}
-    	
     	isb.clear().append((char)c);
     	int ch;
     	while ( (ch = readNext()) != -1 ) {
