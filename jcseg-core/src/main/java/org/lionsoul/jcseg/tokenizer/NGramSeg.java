@@ -249,7 +249,9 @@ public class NGramSeg implements ISegment
     }
     
     /**
-     * common interface to get the next n-gram word for the specified char type
+     * common interface to get the next n-gram word for the specified char type.
+     * For the basic Latin char this will automatically do the full-width to half-width
+     * uppercase to lowercase conversion.
      * 
      * @param	c
      * @param	type
@@ -259,9 +261,19 @@ public class NGramSeg implements ISegment
     */
     protected String getNextType(int c, int type, CharTypeChecker checker) throws IOException
     {
+    	if ( type == IWord.T_BASIC_LATIN ) {
+            if ( c > 65280 ) c -= 65248;
+            if ( c >= 65 && c <= 90 ) c += 32; 
+    	}
+    	
     	isb.clear().append((char)c);
     	int ch;
     	while ( (ch = readNext()) != -1 ) {
+    		if ( type == IWord.T_BASIC_LATIN ) {
+                if ( ch > 65280 ) ch -= 65248;
+                if ( ch >= 65 && ch <= 90 ) ch += 32; 
+        	}
+    		
     		if ( StringUtil.isWhitespace(ch) ) {
                 pushBack(ch);
                 break;
