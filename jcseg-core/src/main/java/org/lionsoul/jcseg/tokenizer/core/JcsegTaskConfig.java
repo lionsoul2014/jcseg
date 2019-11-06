@@ -93,10 +93,15 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     /**Chinese fraction to Arabic fraction .*/
     public boolean CNFRA_TO_ARABIC = true;
     
-    /**whether to do the secondary split for complex Latin compose*/
+    /**whether to do the secondary split for complex Latin compose by the type of the chars*/
     public boolean EN_SECOND_SEG = true;
-    /**Less length for the second split to make up a word*/
-    public int STOKEN_MIN_LEN = 1;
+    /**minimum length for the secondary segmentation word*/
+    public int EN_SEC_MIN_LEN = 1;
+    /** maximum/minimum match length for English word extract */
+    public int EN_EWORD_MAX_LEN = 16;
+    public int EN_EWORD_MIN_LEN = 2;
+    /**do the English word extract*/
+    public boolean EN_WORD_EXTRACT = true;
     
     /**keep punctuation*/
     private String KEEP_PUNCTUATIONS = "@%&.'#+";
@@ -319,10 +324,16 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         	lexAutoload = configBoolStatus(value);
         } else if ( "lexicon.polltime".equals(key) ) {
             polltime = Integer.parseInt(value);
-        } else if ( "jcseg.ensencondseg".equals(key) ) {
+        } else if ( "jcseg.ensecondseg".equals(key) ) {
         	EN_SECOND_SEG = configBoolStatus(value);
-        } else if ( "jcseg.stokenminlen".equals(key) ) {
-            STOKEN_MIN_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.ensecminlen".equals(key) ) {
+            EN_SEC_MIN_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.enwordmaxlen".equals(key) ) {
+        	EN_EWORD_MAX_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.enwordminlen".equals(key) ) {
+        	EN_EWORD_MIN_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.enwordextract".equals(key) ) {
+        	EN_WORD_EXTRACT = configBoolStatus(value);
         } else if ( "jcseg.keeppunctuations".equals(key) ) {
             KEEP_PUNCTUATIONS = value;
         } else if ( "jcseg.delimiter".equals(key) ) {
@@ -519,17 +530,33 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         this.EN_SECOND_SEG = enSecondSeg;
     }
     
-    public int getSTokenMinLen()
+    public int getEnSecondMinLen()
     {
-        return STOKEN_MIN_LEN;
+        return EN_SEC_MIN_LEN;
     }
     
-    public void setSTokenMinLen( int len )
+    public void setEnSecondMinLen( int minLen )
     {
-        STOKEN_MIN_LEN = len;
+    	EN_SEC_MIN_LEN = minLen;
     }
     
-    public void setKeepPunctuations( String keepPunctuations )
+    public int getEnWordMaxLen() {
+		return EN_EWORD_MAX_LEN;
+	}
+
+	public void setEnWordMaxLen(int enMaxLen) {
+		EN_EWORD_MAX_LEN = enMaxLen;
+	}
+
+	public boolean isEnWordExtract() {
+		return EN_WORD_EXTRACT;
+	}
+
+	public void setEnWordExtract(boolean enWordExtract) {
+		EN_WORD_EXTRACT = enWordExtract;
+	}
+
+	public void setKeepPunctuations( String keepPunctuations )
     {
         KEEP_PUNCTUATIONS = keepPunctuations;
     }

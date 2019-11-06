@@ -59,8 +59,7 @@ public class SearchSeg extends ASegment
             mnum = 0;
             isb.clear().append(chars[cjkidx]);
             //System.out.println("ignore idx: " + ignidx);
-            for ( int j = 1; j < config.MAX_LENGTH 
-                    && (cjkidx+j) < chars.length; j++ ) {
+            for ( int j = 1; j < config.MAX_LENGTH && (cjkidx+j) < chars.length; j++ ) {
                 isb.append(chars[cjkidx+j]);
                 key = isb.toString();
                 if ( dic.match(ILexicon.CJK_WORD, key) ) {

@@ -610,38 +610,38 @@ public abstract class ASegment implements ISegment
         w.setPosition(pos);
         
         /* if it is a stop word, here we stop everything here */
-        if ( config.CLEAR_STOPWORD 
-                && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
+        if ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, w.getValue()) ) {
         	w = null;	// Let gc do its work
         	return null;
         }
         
         /* We stop here if there is no necessary 
-         * to do the secondary segmentation */
-        if ( config.EN_SECOND_SEG == false 
-        		|| (ctrlMask & ISegment.START_SS_MASK) == 0 ) {
-        	if ( config.APPEND_CJK_SYN ) {
-        		appendCJKWordFeatures(w);
-        	}
+         * to do the char type or lexicon word segmentation */
+		if ( config.EN_SECOND_SEG == false ) {
+        	appendCJKWordFeatures(w);
         	return w;
         }
         
-        /* @added: 2013-12-16
+    	/* @added: 2013-12-16
          * check and do the secondary segmentation work.
          * This will split 'qq2013' to 'qq, 2013'.
         */
         subWordPool.clear();
-        enSecondSeg(w, subWordPool);
+        if ( (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
+        	enSecondSeg(w, subWordPool);
+        } else if ( config.EN_WORD_EXTRACT ) {
+        	enWordExtract(w, subWordPool);
+        } else {
+        	appendCJKWordFeatures(w);
+        	return w;
+        }
         
         /* Adjust the sub word token and process for the output 
          * The first sub word token should be put ahead of the current word token 
          * if its position is the same with the current parent word token.
         */
         if ( subWordPool.isEmpty() ) {
-            if ( config.APPEND_CJK_SYN ) {
-            	appendLatinWordFeatures(w);
-            }
-            
+            appendLatinWordFeatures(w);
             return w;
         }
         
@@ -652,17 +652,13 @@ public abstract class ASegment implements ISegment
     		w = t;
     	}
     	
-    	if ( config.APPEND_CJK_SYN ) {
-    		appendLatinWordFeatures(w);
-        }
+    	appendLatinWordFeatures(w);
     	
     	/* append all the rest of sub word tokens and 
     	 * their features to the global word pool */
     	for ( final IWord sw : subWordPool ) {
     		wordPool.add(sw);
-    		if ( config.APPEND_CJK_SYN ) {
-    			appendLatinWordFeatures(sw);
-            }
+    		appendLatinWordFeatures(sw);
     	}
 
         return w;
@@ -839,6 +835,7 @@ public abstract class ASegment implements ISegment
      * </p>
      * 
      * @param  w
+     * @param  wList
      * @return LinkedList<IWord> all the sub word tokens
      */
     protected LinkedList<IWord> enSecondSeg( IWord w, LinkedList<IWord> wList ) 
@@ -878,7 +875,7 @@ public abstract class ASegment implements ISegment
                  *  config.EN_SSEG_LESSLEN we create a new IWord
                  * and add to the wordPool.
                 */
-                if ( isb.length() >= config.STOKEN_MIN_LEN ) {
+                if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
                     _str = isb.toString();
                     if ( ! ( config.CLEAR_STOPWORD
                             && dic.match(ILexicon.STOP_WORD, _str) ) ) {
@@ -886,6 +883,11 @@ public abstract class ASegment implements ISegment
                         sword.setPartSpeechForNull(w.getPartSpeech());
                         sword.setPosition(w.getPosition() + start);
                         wList.addLast(sword);
+                        
+                        /* check and do the word extract */
+                        if ( config.EN_WORD_EXTRACT && _TYPE == StringUtil.EN_LETTER ) {
+                        	enWordExtract(sword, wList);
+                        }
                     }
                 }
                 
@@ -896,8 +898,8 @@ public abstract class ASegment implements ISegment
             }
         }
         
-        //Continue to check the last item
-        if ( isb.length() >= config.STOKEN_MIN_LEN ) {
+        /* Continue to check the last item */
+        if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
             start = j - isb.length() - p;
             _str = isb.toString();
             
@@ -907,6 +909,11 @@ public abstract class ASegment implements ISegment
                 sword.setPartSpeechForNull(w.getPartSpeech());
                 sword.setPosition(w.getPosition() + start);
                 wList.add(sword);
+                
+                /* check and do the word extract */
+                if ( config.EN_WORD_EXTRACT && _TYPE == StringUtil.EN_LETTER ) {
+                	enWordExtract(sword, wList);
+                }
             }
         }
         
@@ -915,10 +922,58 @@ public abstract class ASegment implements ISegment
     }
     
     /**
+     * Latin word lexicon based secondary segmentation with the specified algorithm
+     * 
+     * @param	w
+     * @param	wList
+     * @return	LinkedList<IWord> all the sub word tokens
+    */
+    protected LinkedList<IWord> enWordExtract(IWord w, LinkedList<IWord> wList)
+    {
+    	int curidx = 0, pos = w.getPosition();
+    	IWord tw = null;
+    	String str = null;
+    	
+    	final IStringBuffer sb = new IStringBuffer(config.EN_EWORD_MAX_LEN);
+    	final char[] chars = w.getValue().toCharArray();
+    	while ( curidx < chars.length ) {
+    		/* check and append the single letter word */
+    		if ( config.EN_EWORD_MIN_LEN < 2 ) {
+				str = String.valueOf(chars[curidx]);
+				if ( dic.match(ILexicon.CJK_WORD, str) ) {
+					tw = dic.get(ILexicon.CJK_WORD, str).clone();
+					tw.setPosition(pos+curidx);
+	                wList.add(tw);
+				}
+    		}
+    		
+    		sb.clear().append(chars[curidx]);
+    		for ( int j = 1; j < config.EN_EWORD_MAX_LEN && (curidx+j) < chars.length; j++ ) {
+    			sb.append(chars[curidx+j]);
+    			if ( (j+1) < config.EN_EWORD_MIN_LEN ) {
+    				continue;
+    			}
+    			
+    			str = sb.toString();
+    			if ( dic.match(ILexicon.CJK_WORD, str) ) {
+    				tw = dic.get(ILexicon.CJK_WORD, str).clone();
+    				tw.setPosition(pos+curidx);
+    				wList.add(tw);
+    			}
+    		}
+    		
+    		curidx++;
+    	}
+    	
+    	sb.clear();
+    	return wList;
+    }
+    
+    /**
      * match the next CJK word in the dictionary
      * 
-     * @param chars
-     * @param index
+     * @param  chars
+     * @param  index
      * @return IWord[]
      */
     protected IWord[] getNextMatch(char[] chars, int index) 

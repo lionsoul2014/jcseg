@@ -1,5 +1,6 @@
 package org.lionsoul.jcseg.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.lionsoul.jcseg.json.JSONArray;
+import org.lionsoul.jcseg.json.JSONException;
 import org.lionsoul.jcseg.json.JSONObject;
 import org.lionsoul.jcseg.server.controller.MainController;
 import org.lionsoul.jcseg.server.controller.KeyphraseController;
@@ -315,53 +317,20 @@ public class JcsegServer
     /**
      * reset a JcsegTaskConfig from a JSONObject
      * 
-     *  @param    config
-     *  @param    json
+     * @param	config
+     * @param   json
     */
     private void resetJcsegTaskConfig(JcsegTaskConfig config, JSONObject json)
     {
-        if ( json.has("jcseg_maxlen") ) {
-            config.setMaxLength(json.getInt("jcseg_maxlen"));
-        }
-        if ( json.has("jcseg_icnname") ) {
-            config.setICnName(json.getBoolean("jcseg_icnname"));
-        }
-        if ( json.has("jcseg_pptmaxlen") ) {
-            config.setPPT_MAX_LENGTH(json.getInt("jcseg_pptmaxlen"));
-        }
-        if ( json.has("jcseg_cnmaxlnadron") ) {
-            config.setMaxCnLnadron(json.getInt("jcseg_cnmaxlnadron"));
-        }
-        if ( json.has("jcseg_clearstopword") ) {
-            config.setClearStopwords(json.getBoolean("jcseg_clearstopword"));
-        }
-        if ( json.has("jcseg_cnnumtoarabic") ) {
-            config.setCnNumToArabic(json.getBoolean("jcseg_cnnumtoarabic"));
-        }
-        if ( json.has("jcseg_cnfratoarabic") ) {
-            config.setCnFactionToArabic(json.getBoolean("jcseg_cnfratoarabic"));
-        }
-        if ( json.has("jcseg_keepunregword") ) {
-            config.setKeepUnregWords(json.getBoolean("jcseg_keepunregword"));
-        }
-        if ( json.has("jcseg_ensencondseg") ) {
-            config.setEnSecondSeg(json.getBoolean("jcseg_ensencondseg"));
-        }
-        if ( json.has("jcseg_stokenminlen") ) {
-            config.setSTokenMinLen(json.getInt("jcseg_stokenminlen"));
-        }
-        if ( json.has("jcseg_nsthreshold") ) {
-            config.setNameSingleThreshold(json.getInt("jcseg_nsthreshold"));
-        }
-        if ( json.has("jcseg_keeppunctuations") ) {
-            config.setKeepPunctuations(json.getString("jcseg_keeppunctuations"));
-        }
-        if ( json.has("jcseg_appendsyn") ) {
-            config.setAppendCJKSyn(json.getBoolean("jcseg_appendsyn"));
-        }
-        if ( json.has("jcseg_appendpinyin") ) {
-            config.setAppendCJKPinyin(json.getBoolean("jcseg_appendpinyin"));
-        }
+    	for ( final String key : json.keySet() ) {
+    		try {
+				config.set(key.replace('_', '.'), json.get(key).toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
     }
 
     /**
