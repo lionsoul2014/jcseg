@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
@@ -27,7 +28,7 @@ import org.lionsoul.jcseg.util.IntArrayList;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public abstract class ASegment implements ISegment 
+public abstract class Segment implements ISegment 
 {
     /**
      * the index value of the current input stream
@@ -73,7 +74,7 @@ public abstract class ASegment implements ISegment
      * @param   dic Jcseg dictionary instance
      * @throws  IOException
     */
-    public ASegment( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public Segment( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
         this.config = config;
         this.dic    = dic;
@@ -87,7 +88,7 @@ public abstract class ASegment implements ISegment
     /**
      * @see #ASegment(Reader, JcsegTaskConfig, ADictionary) 
     */
-    public ASegment( JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public Segment( JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
         this(null, config, dic);
     }
@@ -334,7 +335,7 @@ public abstract class ASegment implements ISegment
         while ( cjkidx < chars.length ) {
             /*
              * find the next CJK word.
-             * the process will be different with the different algorithm
+             * the process will be different for the different implementation algorithm
              * @see getBestCJKChunk() from SimpleSeg or ComplexSeg. 
              */
             w = null;
@@ -479,7 +480,7 @@ public abstract class ASegment implements ISegment
             }
             
             
-            IChunk chunk = getBestCJKChunk(chars, cjkidx);
+            final IChunk chunk = getBestChunk(chars, cjkidx, config.MAX_LENGTH);
             w = chunk.getWords()[0];
             String wps = w.getPartSpeech()==null ? null : w.getPartSpeech()[0];
             
@@ -617,7 +618,7 @@ public abstract class ASegment implements ISegment
         
         /* We stop here if there is no necessary 
          * to do the char type or lexicon word segmentation */
-		if ( config.EN_SECOND_SEG == false ) {
+		if ( config.EN_SECOND_SEG == false || enSecondSegFilter(w) == false ) {
         	appendCJKWordFeatures(w);
         	return w;
         }
@@ -629,8 +630,8 @@ public abstract class ASegment implements ISegment
         subWordPool.clear();
         if ( (ctrlMask & ISegment.START_SS_MASK) != 0 ) {
         	enSecondSeg(w, subWordPool);
-        } else if ( config.EN_WORD_EXTRACT ) {
-        	enWordExtract(w, subWordPool);
+        } else if ( config.EN_WORD_SEG ) {
+        	enWordSeg(w, subWordPool);
         } else {
         	appendCJKWordFeatures(w);
         	return w;
@@ -645,13 +646,10 @@ public abstract class ASegment implements ISegment
             return w;
         }
         
-    	final IWord t = subWordPool.getFirst();
-    	if ( t.getPosition() == w.getPosition() ) {
-    		subWordPool.removeFirst();
-    		subWordPool.addFirst(w);
-    		w = t;
-    	}
-    	
+        /* @Note: we will ignore the current word 'w' and let
+         * the child logic do make the choice whether to keep it or not.
+         * append the word to the word list buffer to keep it or ignore it. */
+    	w = subWordPool.removeFirst();
     	appendLatinWordFeatures(w);
     	
     	/* append all the rest of sub word tokens and 
@@ -823,6 +821,18 @@ public abstract class ASegment implements ISegment
     }
     
     /**
+     * interface to check and do the English secondary segmentation. 
+     * Override this method to control the secondary logic.
+     * 
+     * @param	w
+     * @return	boolean
+    */
+    protected boolean enSecondSegFilter(IWord w)
+    {
+    	return w.getType() != IWord.T_MIXED_WORD;
+    }
+    
+    /**
      * <p>
      * Do the secondary split for the specified complex Latin word
      * This will split a complex English, Arabic, punctuation compose word to multiple simple parts
@@ -843,7 +853,7 @@ public abstract class ASegment implements ISegment
         isb.clear();
         char[] chars = w.getValue().toCharArray();
         int _TYPE = StringUtil.getEnCharType(chars[0]);
-        int _ctype, start = 0, j, p = 0;
+        int _ctype, start = 0, j, pos = w.getPosition();
         
         isb.append(chars[0]);
         IWord sword = null;
@@ -854,65 +864,62 @@ public abstract class ASegment implements ISegment
         	wList = new LinkedList<IWord>();
         }
         
+        /* check and keep the original Latin word */
+        if ( config.isKeepEnSecOriginalWord() ) {
+        	wList.add(w);
+        }
+        
         for ( j = 1; j < chars.length; j++ ) {
             /* get the char type.
              * It could only be one of 
              * EN_LETTER, EN_NUMERIC, EN_PUNCTUATION.
             */
             _ctype = StringUtil.getEnCharType(chars[j]);
-            if ( _ctype == StringUtil.EN_PUNCTUATION ) {
-                _TYPE = StringUtil.EN_PUNCTUATION;
-                p++;
-                continue;
-            }
-            
             if ( _ctype == _TYPE ) {
                 isb.append(chars[j]);
             } else {
-                start = j - isb.length() - p;
+                start = j - isb.length();
                 
                 /* If the number of chars is larger than
-                 *  config.EN_SSEG_LESSLEN we create a new IWord
+                 *  config.EN_SEC_MIN_LEN we create a new IWord
                  * and add to the wordPool.
                 */
                 if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
                     _str = isb.toString();
-                    if ( ! ( config.CLEAR_STOPWORD
-                            && dic.match(ILexicon.STOP_WORD, _str) ) ) {
+                    if ( ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, _str) ) ) {
                         sword = new Word(_str, w.getType());
                         sword.setPartSpeechForNull(w.getPartSpeech());
-                        sword.setPosition(w.getPosition() + start);
-                        wList.addLast(sword);
-                        
-                        /* check and do the word extract */
-                        if ( config.EN_WORD_EXTRACT && _TYPE == StringUtil.EN_LETTER ) {
-                        	enWordExtract(sword, wList);
+                        sword.setPosition(pos + start);
+                        /* check and do the English word segmentation  */
+                        if ( config.EN_WORD_SEG && _TYPE == StringUtil.EN_LETTER ) {
+                        	enWordSeg(sword, wList);
+                        } else {
+                        	wList.addLast(sword);
                         }
                     }
                 }
                 
                 isb.clear();
                 isb.append(chars[j]);
-                p = 0;
                 _TYPE = _ctype;
             }
         }
         
         /* Continue to check the last item */
         if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
-            start = j - isb.length() - p;
+            start = j - isb.length();
             _str = isb.toString();
             
-            if ( ! ( config.CLEAR_STOPWORD
-                    && dic.match(ILexicon.STOP_WORD, _str) ) ) {
+            if ( ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, _str) ) ) {
                 sword = new Word(_str, w.getType());
                 sword.setPartSpeechForNull(w.getPartSpeech());
-                sword.setPosition(w.getPosition() + start);
-                wList.add(sword);
+                sword.setPosition(pos + start);
                 
                 /* check and do the word extract */
-                if ( config.EN_WORD_EXTRACT && _TYPE == StringUtil.EN_LETTER ) {
-                	enWordExtract(sword, wList);
+                if ( config.EN_WORD_SEG && _TYPE == StringUtil.EN_LETTER ) {
+                	enWordSeg(sword, wList);
+                } else {
+                	wList.add(sword);
                 }
             }
         }
@@ -922,80 +929,64 @@ public abstract class ASegment implements ISegment
     }
     
     /**
-     * Latin word lexicon based secondary segmentation with the specified algorithm
+     * Latin word lexicon based English word segmentation.
+     * This is an empty implementation see the child implementation based on this
+     * for more details about the process logic.
      * 
      * @param	w
      * @param	wList
      * @return	LinkedList<IWord> all the sub word tokens
     */
-    protected LinkedList<IWord> enWordExtract(IWord w, LinkedList<IWord> wList)
+    protected LinkedList<IWord> enWordSeg(IWord w, LinkedList<IWord> wList) 
     {
-    	int curidx = 0, pos = w.getPosition();
-    	IWord tw = null;
-    	String str = null;
-    	
-    	final IStringBuffer sb = new IStringBuffer(config.EN_EWORD_MAX_LEN);
     	final char[] chars = w.getValue().toCharArray();
-    	while ( curidx < chars.length ) {
-    		/* check and append the single letter word */
-    		if ( config.EN_EWORD_MIN_LEN < 2 ) {
-				str = String.valueOf(chars[curidx]);
-				if ( dic.match(ILexicon.CJK_WORD, str) ) {
-					tw = dic.get(ILexicon.CJK_WORD, str).clone();
-					tw.setPosition(pos+curidx);
-	                wList.add(tw);
-				}
-    		}
-    		
-    		sb.clear().append(chars[curidx]);
-    		for ( int j = 1; j < config.EN_EWORD_MAX_LEN && (curidx+j) < chars.length; j++ ) {
-    			sb.append(chars[curidx+j]);
-    			if ( (j+1) < config.EN_EWORD_MIN_LEN ) {
-    				continue;
-    			}
-    			
-    			str = sb.toString();
-    			if ( dic.match(ILexicon.CJK_WORD, str) ) {
-    				tw = dic.get(ILexicon.CJK_WORD, str).clone();
-    				tw.setPosition(pos+curidx);
-    				wList.add(tw);
-    			}
-    		}
-    		
-    		curidx++;
+    	IChunk chunk = null;
+    	IWord word = null;
+    	
+    	int index = 0, pos = w.getPosition();
+    	while ( index < chars.length ) {
+    		chunk = getBestChunk(chars, index, config.EN_MAX_LEN);
+    		word = chunk.getWords()[0];
+			word.setPosition(pos+index);
+    		wList.add(word);
+    		index += word.getValue().length();
     	}
     	
-    	sb.clear();
     	return wList;
     }
     
     /**
      * match the next CJK word in the dictionary
      * 
+     * @param  maxLen
      * @param  chars
      * @param  index
+     * @param  wList
      * @return IWord[]
      */
-    protected IWord[] getNextMatch(char[] chars, int index) 
+    protected IWord[] getNextMatch(int maxLen, char[] chars, int index, List<IWord> wList) 
     {
-        ArrayList<IWord> mList = new ArrayList<IWord>(8);
-        //StringBuilder isb = new StringBuilder();
-        isb.clear();
-    
-        char c = chars[index];
-        isb.append(c);
-        String temp = isb.toString();
+        final IStringBuffer sb = new IStringBuffer(maxLen);
+        sb.clear().append(chars[index]);
+        
+        /* check and create the default word list */
+        // ArrayList<IWord> mList = new ArrayList<IWord>(8);
+        if ( wList == null ) {
+        	wList = new ArrayList<IWord>(8);
+        }
+        
+        String temp = sb.toString();
         if ( dic.match(ILexicon.CJK_WORD, temp) ) {
-            mList.add(dic.get(ILexicon.CJK_WORD, temp));
+        	wList.add(dic.get(ILexicon.CJK_WORD, temp));
         }
         
         String _key = null;
         for ( int j = 1; 
-            j < config.MAX_LENGTH && ((j+index) < chars.length); j++ ) {
-            isb.append(chars[j+index]);
-            _key = isb.toString();
+            j < maxLen && ((j+index) < chars.length); j++ ) {
+        	sb.append(chars[j+index]);
+            _key = sb.toString();
             if ( dic.match(ILexicon.CJK_WORD, _key) ) {
-                mList.add(dic.get(ILexicon.CJK_WORD, _key));
+            	wList.add(dic.get(ILexicon.CJK_WORD, _key));
             }
         }
         
@@ -1004,17 +995,17 @@ public abstract class ASegment implements ISegment
          * to idx+Config.MAX_LENGTH, just return the Word with
          * a value of temp as a unrecognited word. 
         */
-        if ( mList.isEmpty() ) {
-            mList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
+        if ( wList.isEmpty() ) {
+        	wList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
         }
         
 /*        for ( int j = 0; j < mList.size(); j++ ) {
             System.out.println(mList.get(j));
         }*/
         
-        IWord[] words = new IWord[mList.size()];
-        mList.toArray(words);
-        mList.clear();
+        final IWord[] words = new IWord[wList.size()];
+        wList.toArray(words);
+        wList.clear();
         
         return words;
     }
@@ -1106,7 +1097,7 @@ public abstract class ASegment implements ISegment
                     else {
                         String d1 = new String(w2.getValue().charAt(0)+"");
                         int index_ = index + chunk.getWords()[0].getLength() + 2;
-                        IWord[] ws = getNextMatch(chars, index_);
+                        IWord[] ws = getNextMatch(config.MAX_LENGTH, chars, index_, null);
                         //System.out.println("index:"+index+":"+chars[index]+", "+ws[0]);
                         /*is it a double name?*/
                         if ( dic.match(ILexicon.CN_DNAME_2, d1) && 
@@ -1178,41 +1169,6 @@ public abstract class ASegment implements ISegment
         }
         
         return null;
-    }
-    
-    /**
-     * find the Chinese double name:
-     * when the last name and the first char of the name make up a word
-     * 
-     * @param chunk the best chunk.
-     * @return boolean
-     */
-    @Deprecated
-    public boolean findCHName( IWord w, IChunk chunk ) 
-    {
-        String s1 = new String(w.getValue().charAt(0)+"");
-        String s2 = new String(w.getValue().charAt(1)+"");
-        
-        if ( dic.match(ILexicon.CN_LNAME, s1)
-                && dic.match(ILexicon.CN_DNAME_1, s2)) {
-            IWord sec = chunk.getWords()[1]; 
-            switch ( sec.getLength() ) {
-            case 1:
-                if ( dic.match(ILexicon.CN_DNAME_2, sec.getValue()) )
-                    return true;
-            case 2:
-                String d1 = new String(sec.getValue().charAt(0)+"");
-                IWord _w = dic.get(ILexicon.CJK_WORD, sec.getValue().charAt(1)+"");
-                //System.out.println(_w);
-                if ( dic.match(ILexicon.CN_DNAME_2, d1)
-                        && (_w == null 
-                        || _w.getFrequency() >= config.NAME_SINGLE_THRESHOLD ) ) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
     }
     
     /**
@@ -1361,6 +1317,7 @@ public abstract class ASegment implements ISegment
             */
             if ( dic.match(ILexicon.CJK_WORD, __str) ) {
                 w = dic.get(ILexicon.CJK_WORD, __str).clone();
+                w.setType(IWord.T_MIXED_WORD);
                 w.setPartSpeechForNull(IWord.EN_POSPEECH);
                 chkunits = false;
                 break;
@@ -1389,12 +1346,13 @@ public abstract class ASegment implements ISegment
         /* @step 3: check the end condition.
          * and the check if the token loop was break by whitespace
          * cause there is no need to continue all the following work if it is.
-         * 
-         * @added 2013-11-19 
+         * @added 2013/11/19 
         */
         if ( ch == -1 || _wspace ) {
-            w = wordNewOrClone(ILexicon.CJK_WORD, __str, IWord.T_BASIC_LATIN);
-            w.setPartSpeechForNull(IWord.EN_POSPEECH);
+        	if ( w == null ) {
+        		w = wordNewOrClone(ILexicon.CJK_WORD, __str, IWord.T_BASIC_LATIN);
+                w.setPartSpeechForNull(IWord.EN_POSPEECH);
+        	}
             if ( ssseg ) ctrlMask |= ISegment.START_SS_MASK;
             return w;
         }
@@ -1470,7 +1428,8 @@ public abstract class ASegment implements ISegment
             ialist.add(ch);
             _temp = ibuffer.toString();
             if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
-                w  = dic.get(ILexicon.CJK_WORD, _temp);
+                w = dic.get(ILexicon.CJK_WORD, _temp);
+                w.setType(IWord.T_MIXED_WORD);
                 ctrlMask |= ISegment.START_SS_MASK;
                 mc = j + 1;
             }
@@ -1753,15 +1712,18 @@ public abstract class ASegment implements ISegment
     }
     
     /**
-     * an abstract method to gain a CJK word from the 
-     * current position. simpleSeg and ComplexSeg is different to deal this, 
-     * so make it a abstract method here
+     * an abstract method to get word from the 
+     * current position with MMSEG algorithm. 
+     * simpleSeg and ComplexSeg is different to deal with this so make it a abstract method here
      * 
      * @param  chars
      * @param  index
+     * @param  maxLen
      * @return IChunk
-     * @throws IOException
      */
-    protected abstract IChunk getBestCJKChunk(char chars[], int index) throws IOException;
+    protected IChunk getBestChunk(char chars[], int index, int maxLen)
+    {
+    	return null;
+    }
     
 }

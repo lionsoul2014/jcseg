@@ -43,7 +43,7 @@ f罩杯,f杯/f bei
 g罩杯,g杯/g bei
 h罩杯,h杯/h bei
 码农,it民工/i t ming gong
-x光线,x射线/x she xiant
+x光线,x射线
 t恤,t恤衫/t xue shan
 氯胺酮,k粉/k fen
 唱歌,k歌/k ge,嗨歌/hai ge

@@ -5,7 +5,7 @@ import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 /**
  * <p>
- * chunk concept for the mmseg chinese word segment algorithm has implemented IChunk interface
+ * chunk concept for the mmseg word segment algorithm has implemented IChunk interface
  * </p>
  * 
  * @author    chenxin<chenxin619315@gmail.com>

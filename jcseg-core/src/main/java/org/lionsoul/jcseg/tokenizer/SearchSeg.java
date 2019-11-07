@@ -3,12 +3,13 @@ package org.lionsoul.jcseg.tokenizer;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
 import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
  * search mode implementation all the possible combination will be returned, 
@@ -17,24 +18,26 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  * @author  chenxin<chenxin619315@gmail.com>
  * @since   1.9.8
 */
-public class SearchSeg extends ASegment
+public class SearchSeg extends Segment
 {
     
     public SearchSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         super(config, dic);
+        config.setKeepEnSecOriginalWord(true);
     }
     
     public SearchSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         super(input, config, dic);
+        config.setKeepEnSecOriginalWord(true);
     }
 
     /**
      * get the next CJK word from the current position of the input stream
      * and this function is the core part the most segmentation implements
      * 
-     * @see ASegment#getNextCJKWord(int, int)
+     * @see Segment#getNextCJKWord(int, int)
      * @throws IOException 
     */
     @Override 
@@ -110,16 +113,84 @@ public class SearchSeg extends ASegment
         
         return wordPool.size()==0 ? null : wordPool.remove();
     }
-
+    
     /**
-     * here we don't have to do anything
+     * @see Segment#enSecondSegFilter(IWord) 
+    */
+    protected boolean enSecondSegFilter(IWord w)
+    {
+    	return true;
+    }
+    
+    /**
+     * Latin word lexicon based English word segmentation for search mode
      * 
-     * @see ASegment#getBestCJKChunk(char[], int)
+     * @param	w
+     * @param	wList
+     * @return	LinkedList<IWord> all the sub word tokens
     */
     @Override
-    protected IChunk getBestCJKChunk(char[] chars, int index) throws IOException
+    protected LinkedList<IWord> enWordSeg(IWord w, LinkedList<IWord> wList)
     {
-        return null;
+    	int curidx = 0, pos = w.getPosition(), len = w.getValue().length();
+    	IWord tw = null;
+    	String str = null;
+    	int ignidx = 0, mnum = 0;
+    	boolean ignore = false;
+
+    	/* for search module we track the whole original token as one of the result */
+    	wList.add(w);
+    	
+    	final IStringBuffer sb = new IStringBuffer(config.EN_MAX_LEN);
+    	final char[] chars = w.getValue().toCharArray();
+    	while ( curidx < chars.length ) {
+    		/* check and append the single letter word */
+			str = String.valueOf(chars[curidx]);
+			ignore = (curidx == 0 && str.length() == len);
+			if ( ignore == false && dic.match(ILexicon.CJK_WORD, str) ) {
+				tw = dic.get(ILexicon.CJK_WORD, str).clone();
+				tw.setPosition(pos+curidx);
+                wList.add(tw);
+			}
+    		
+    		sb.clear().append(chars[curidx]);
+    		for ( int j = 1; j < config.EN_MAX_LEN && (curidx+j) < chars.length; j++ ) {
+    			sb.append(chars[curidx+j]);
+    			str = sb.toString();
+    			
+    			/* check and ignore the source w itself */
+    			if ( curidx == 0 && str.length() == len ) {
+    				continue;
+    			}
+    			
+    			if ( dic.match(ILexicon.CJK_WORD, str) ) {
+    				mnum = 1;
+    				ignidx = Math.max(ignidx, curidx + j);
+    				tw = dic.get(ILexicon.CJK_WORD, str).clone();
+    				tw.setPosition(pos+curidx);
+    				wList.add(tw);
+    			}
+    		}
+    		
+    		/*
+             * no matches here:
+             * should the current character chars[cjkidx] be a single word ?
+             * lets do the current check 
+            */
+            if ( ignore == false && mnum == 0 && (curidx == 0 || curidx > ignidx) ) {
+                String temp = String.valueOf(chars[curidx]);
+                if ( ! dic.match(ILexicon.CJK_WORD, temp) ) {
+                    tw = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
+                    tw.setPosition(pos+curidx);
+                    wList.add(tw);
+                }
+            }
+            
+    		curidx++;
+    	}
+    	
+    	sb.clear();
+    	return wList;
     }
     
 }

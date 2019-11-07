@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 //import java.util.Iterator;
 
@@ -32,7 +33,7 @@ import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public class ComplexSeg extends ASegment implements Serializable
+public class ComplexSeg extends Segment implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
@@ -47,12 +48,14 @@ public class ComplexSeg extends ASegment implements Serializable
     }
 
     /**
-     * @see ASegment#getBestCJKChunk(char[], int) 
+     * @see Segment#getBestChunk(char[], int, int)
      */
     @Override
-    public IChunk getBestCJKChunk(char chars[], int index) throws IOException
+    public IChunk getBestChunk(char chars[], int index, int maxLen)
     {
-        IWord[] mwords = getNextMatch(chars, index), mword2, mword3;
+    	/* create a global word list buffer */
+    	final List<IWord> wList = new ArrayList<IWord>(12);
+        IWord[] mwords = getNextMatch(maxLen, chars, index, wList), mword2, mword3;
         if ( mwords.length == 1 
                 && mwords[0].getType() == ILexicon.UNMATCH_CJK_WORD ) {
             return new Chunk(new IWord[]{mwords[0]});
@@ -64,7 +67,7 @@ public class ComplexSeg extends ASegment implements Serializable
             //the second layer
             idx_2 = index + mwords[x].getLength();
             if ( idx_2 < chars.length ) {
-                mword2 = getNextMatch(chars, idx_2);
+                mword2 = getNextMatch(maxLen, chars, idx_2, wList);
                 /*
                  * the first try for the second layer
                  * returned a UNMATCH_CJK_WORD
@@ -80,7 +83,7 @@ public class ComplexSeg extends ASegment implements Serializable
                     //the third layer
                     idx_3 = idx_2 + mword2[y].getLength();
                     if ( idx_3 < chars.length ) {
-                        mword3 = getNextMatch(chars, idx_3);
+                        mword3 = getNextMatch(maxLen, chars, idx_3, wList);
                         for ( int z = 0; z < mword3.length; z++ ) {
                             ArrayList<IWord> wArr = new ArrayList<IWord>(3);
                             wArr.add(mwords[x]);
@@ -103,6 +106,7 @@ public class ComplexSeg extends ASegment implements Serializable
             }
         }
         
+        wList.clear();
         if ( chunkArr.size() == 1 ) {
             return chunkArr.get(0);
         }

@@ -61,7 +61,7 @@ public class NLPSeg extends ComplexSeg
      * Override the next method to add the date-time entity recognition
      * And we also invoke the parent.next method to get the next token
      *
-     * @see ASegment#next()
+     * @see Segment#next()
      * @throws IOException
     */
     public IWord next() throws IOException
@@ -427,7 +427,7 @@ public class NLPSeg extends ComplexSeg
     }
 
     /**
-     * @see ASegment#getNextCJKWord(int, int)
+     * @see Segment#getNextCJKWord(int, int)
     */
     @Override
     protected IWord getNextCJKWord(int c, int pos) throws IOException
@@ -560,7 +560,7 @@ public class NLPSeg extends ComplexSeg
             }
 
 
-            IChunk chunk = getBestCJKChunk(chars, cjkidx);
+            IChunk chunk = getBestChunk(chars, cjkidx, config.MAX_LENGTH);
             w = chunk.getWords()[0];
 
             /*
@@ -640,6 +640,14 @@ public class NLPSeg extends ComplexSeg
         }
 
         return wordPool.remove();
+    }
+    
+    /**
+     * @see Segment#enSecondSegFilter(IWord) 
+    */
+    protected boolean enSecondSegFilter(IWord w)
+    {
+    	return false;
     }
 
     /**
@@ -1022,5 +1030,5 @@ public class NLPSeg extends ComplexSeg
 
         return wd;
     }
-
+    
 }

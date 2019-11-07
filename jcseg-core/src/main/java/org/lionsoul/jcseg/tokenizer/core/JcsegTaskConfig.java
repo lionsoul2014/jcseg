@@ -98,15 +98,14 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     /**minimum length for the secondary segmentation word*/
     public int EN_SEC_MIN_LEN = 1;
     /** maximum/minimum match length for English word extract */
-    public int EN_EWORD_MAX_LEN = 16;
-    public int EN_EWORD_MIN_LEN = 2;
+    public int EN_MAX_LEN = 16;
     /**do the English word extract*/
-    public boolean EN_WORD_EXTRACT = true;
+    public boolean EN_WORD_SEG = true;
     
     /**keep punctuation*/
     private String KEEP_PUNCTUATIONS = "@%&.'#+";
     
-    /** char for delimiter segmentation default to english whitespace */
+    /** char for delimiter segmentation default to English whitespace */
     private char DELIMITER = ' ';
     
     /** N for the n-gram */
@@ -120,6 +119,10 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     
     //the currently used lexicon properties file
     private String pFile = null;
+    
+    /** configuration items for cross segment implementation control */
+    private boolean keepEnSecOriginalWord;
+    private boolean keepEnSegOriginalWord;
     
     /**
      * create the config and do nothing about initialize
@@ -328,12 +331,10 @@ public class JcsegTaskConfig implements Cloneable, Serializable
         	EN_SECOND_SEG = configBoolStatus(value);
         } else if ( "jcseg.ensecminlen".equals(key) ) {
             EN_SEC_MIN_LEN = Integer.parseInt(value);
-        } else if ( "jcseg.enwordmaxlen".equals(key) ) {
-        	EN_EWORD_MAX_LEN = Integer.parseInt(value);
-        } else if ( "jcseg.enwordminlen".equals(key) ) {
-        	EN_EWORD_MIN_LEN = Integer.parseInt(value);
-        } else if ( "jcseg.enwordextract".equals(key) ) {
-        	EN_WORD_EXTRACT = configBoolStatus(value);
+        } else if ( "jcseg.enmaxlen".equals(key) ) {
+        	EN_MAX_LEN = Integer.parseInt(value);
+        } else if ( "jcseg.enwordseg".equals(key) ) {
+        	EN_WORD_SEG = configBoolStatus(value);
         } else if ( "jcseg.keeppunctuations".equals(key) ) {
             KEEP_PUNCTUATIONS = value;
         } else if ( "jcseg.delimiter".equals(key) ) {
@@ -540,29 +541,27 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     	EN_SEC_MIN_LEN = minLen;
     }
     
-    public int getEnWordMaxLen() {
-		return EN_EWORD_MAX_LEN;
+    public int getEnMaxLen() {
+		return EN_MAX_LEN;
 	}
 
-	public void setEnWordMaxLen(int enMaxLen) {
-		EN_EWORD_MAX_LEN = enMaxLen;
+	public void setEnMaxLen(int enMaxLen) {
+		EN_MAX_LEN = enMaxLen;
 	}
 
-	public boolean isEnWordExtract() {
-		return EN_WORD_EXTRACT;
+	public boolean isEnWordSeg() {
+		return EN_WORD_SEG;
 	}
 
-	public void setEnWordExtract(boolean enWordExtract) {
-		EN_WORD_EXTRACT = enWordExtract;
+	public void setEnWordSeg(boolean enWordSeg) {
+		EN_WORD_SEG = enWordSeg;
 	}
 
-	public void setKeepPunctuations( String keepPunctuations )
-    {
+	public void setKeepPunctuations( String keepPunctuations ) {
         KEEP_PUNCTUATIONS = keepPunctuations;
     }
     
-    public boolean isKeepPunctuation( char c )
-    {
+    public boolean isKeepPunctuation( char c ) {
         return (KEEP_PUNCTUATIONS.indexOf(c) > -1);
     }
     
@@ -582,30 +581,42 @@ public class JcsegTaskConfig implements Cloneable, Serializable
 		GRAM = gRAM;
 	}
 
-	public boolean keepUnregWords()
-    {
+	public boolean keepUnregWords() {
         return KEEP_UNREG_WORDS;
     }
     
-    public void setKeepUnregWords( boolean keepUnregWords )
-    {
+    public void setKeepUnregWords( boolean keepUnregWords ) {
         KEEP_UNREG_WORDS = keepUnregWords;
     }
     
     //return the currently use properties file
-    public String getPropertieFile()
-    {
+    public String getPropertieFile() {
         return pFile;
     }
     
-    /**
+    public boolean isKeepEnSecOriginalWord() {
+		return keepEnSecOriginalWord;
+	}
+
+	public void setKeepEnSecOriginalWord(boolean keepEnSecOriginalWord) {
+		this.keepEnSecOriginalWord = keepEnSecOriginalWord;
+	}
+
+	public boolean isKeepEnSegOriginalWord() {
+		return keepEnSegOriginalWord;
+	}
+
+	public void setKeepEnSegOriginalWord(boolean keepEnSegOriginalWord) {
+		this.keepEnSegOriginalWord = keepEnSegOriginalWord;
+	}
+
+	/**
      * rewrite the clone method
      * 
      * @return  JcsegTaskConfig
     */
     @Override
-    public JcsegTaskConfig clone() throws CloneNotSupportedException
-    {
+    public JcsegTaskConfig clone() throws CloneNotSupportedException {
         return (JcsegTaskConfig) super.clone();
     }
     

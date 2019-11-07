@@ -9410,7 +9410,7 @@ bespangled/a,adj/null/null/
 bespatter/v,vt/null/null/
 bespattered/a,adj/null/null/
 bespeak/v/null/null/
-bespeckle/�,在/null/null/
+bespeckle/\E5,在/null/null/
 bespectacled/a,adj/null/null/
 bespoke/v,vbl/null/null/
 bespoken/v,vbl/null/null/
@@ -12877,7 +12877,7 @@ cags/null/null/null/
 cagy/a,adj/null/null/
 cahier/null/null/null/
 cahoot/n/null/null/
-cahoots/�,与/null/null/
+cahoots/\E4,与/null/null/
 cahot/null/null/null/
 cai/null/null/null/
 caiaphas/n/null/null/
@@ -103976,3 +103976,14 @@ zymurgy/n/null/null/
 zythepsary/n/null/null/
 zythum/n/null/null/
 zyzzyva/n/null/null/
+#英文词条, merge from lex-en.lex
+decimal/n/null/null
+spirit/n/null/null
+admire/v/null/null
+#chenxin/n/null/null
+kilometer/q/null/length.km
+hex/n/null/null
+jcseg/n/null/null
+android/n/null/null
+iphone/n/null/null
+language/n/null/null

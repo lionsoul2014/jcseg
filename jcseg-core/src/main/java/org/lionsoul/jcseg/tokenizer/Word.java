@@ -134,6 +134,15 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
+     * @see IWord#setType() 
+     */
+    @Override
+    public void setType(int type) 
+    {
+        this.type = type;
+    }
+    
+    /**
      * @see IWord#setPosition(int)
      */
     @Override

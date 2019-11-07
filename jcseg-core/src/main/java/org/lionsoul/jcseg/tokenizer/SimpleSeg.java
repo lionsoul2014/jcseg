@@ -14,7 +14,7 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
-public class SimpleSeg extends ASegment
+public class SimpleSeg extends Segment
 {
     
     public SimpleSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
@@ -28,12 +28,12 @@ public class SimpleSeg extends ASegment
     }
 
     /**
-     * @see ASegment#getBestCJKChunk(char[], int) 
+     * @see Segment#getBestChunk(char[], int, int)
      */
     @Override
-    public IChunk getBestCJKChunk(char[] chars, int index) throws IOException
+    public IChunk getBestChunk(char[] chars, int index, int maxLen)
     {
-        IWord[] words = getNextMatch(chars, index);
+        IWord[] words = getNextMatch(maxLen, chars, index, null);
         return new Chunk(new IWord[]{words[words.length - 1]});
     }
     

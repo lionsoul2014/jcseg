@@ -107,6 +107,13 @@ public interface IWord extends Cloneable
     public int getType();
     
     /**
+     * set the type of the word
+     * 
+     * @param	type
+    */
+    public void setType(int type);
+    
+    /**
      * set the position of the word
      * 
      * @param pos
