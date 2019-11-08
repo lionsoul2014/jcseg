@@ -4,7 +4,7 @@
 
 在该目录下放入如下jar文件即可：
 
-*1. elasticsearch-1.7.3.jar
+* 1. elasticsearch-1.7.3.jar
 * 2. lucene-analyzers-common-4.10.4.jar
 * 3. lucene-core-4.10.4.jar
 * 4. jetty-server-9.3.0.RC0.jar,jetty-util-9.3.0.RC0.jar
