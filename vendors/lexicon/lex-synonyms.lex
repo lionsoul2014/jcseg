@@ -27,6 +27,7 @@ d语言,dlang
 码云,gitee
 区块链,blockchain
 语言,language,lang
+微软,microsoft
 
 ### 混合词条
 a片,毛片/mao pian,av
