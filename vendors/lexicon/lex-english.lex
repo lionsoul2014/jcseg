@@ -1,5 +1,5 @@
 CJK_WORD
-#Exported from //github.com/1eez/103976 at 2019/11/06 11:39:55
+#Exported from http://github.com/1eez/103976 at 2019/11/06 11:39:55
 a/n/null/null/
 aaal/null/null/null/
 aachen/null/null/null/
