@@ -870,10 +870,10 @@ public abstract class Segment implements ISegment
              * It could only be one of EN_LETTER, EN_NUMERIC, EN_PUNCTUATION. */
         	_TYPE = StringUtil.getEnCharType(chars[j]);
         	if ( _TYPE == StringUtil.EN_PUNCTUATION ) {
-        		j++;
         		tw = new Word(String.valueOf(chars[j]), IWord.T_PUNCTUATION);
             	tw.setPartSpeechForNull(IWord.PUNCTUATION);
             	tw.setPosition(pos + j);
+            	j++;
         		continue;
         	}
         	
