@@ -86,7 +86,7 @@ public abstract class Segment implements ISegment
     }
     
     /**
-     * @see #ASegment(Reader, JcsegTaskConfig, ADictionary) 
+     * @see Segment#Segment(Reader, JcsegTaskConfig, ADictionary)
     */
     public Segment( JcsegTaskConfig config, ADictionary dic ) throws IOException 
     {
@@ -850,13 +850,9 @@ public abstract class Segment implements ISegment
      */
     protected LinkedList<IWord> enSecondSeg( IWord w, LinkedList<IWord> wList ) 
     {
-        isb.clear();
         char[] chars = w.getValue().toCharArray();
-        int _TYPE = StringUtil.getEnCharType(chars[0]);
-        int _ctype, start = 0, j, pos = w.getPosition();
-        
-        isb.append(chars[0]);
-        IWord sword = null;
+        int _TYPE, _ctype, j, pos = w.getPosition();
+        IWord tw = null;
         String _str = null;
         
         /* check and create the sub word token buffer */
@@ -869,59 +865,47 @@ public abstract class Segment implements ISegment
         	wList.add(w);
         }
         
-        for ( j = 1; j < chars.length; j++ ) {
-            /* get the char type.
-             * It could only be one of 
-             * EN_LETTER, EN_NUMERIC, EN_PUNCTUATION.
+        for (  j = 0; j < chars.length; ) {
+        	/* get the char type.
+             * It could only be one of EN_LETTER, EN_NUMERIC, EN_PUNCTUATION. */
+        	_TYPE = StringUtil.getEnCharType(chars[j]);
+        	if ( _TYPE == StringUtil.EN_PUNCTUATION ) {
+        		j++;
+        		tw = new Word(String.valueOf(chars[j]), IWord.T_PUNCTUATION);
+            	tw.setPartSpeechForNull(IWord.PUNCTUATION);
+            	tw.setPosition(pos + j);
+        		continue;
+        	}
+        	
+            isb.clear().append(chars[j]);
+            for ( int i = j + 1; i < chars.length; i++ ) {
+            	_ctype = StringUtil.getEnCharType(chars[i]);
+            	if ( _ctype != _TYPE ) {
+            		break;
+            	}
+            	isb.append(chars[i]);
+            }
+            
+            /* If the number of chars is larger than
+             *  config.EN_SEC_MIN_LEN we create a new IWord
+             * and add to the wordPool.
             */
-            _ctype = StringUtil.getEnCharType(chars[j]);
-            if ( _ctype == _TYPE ) {
-                isb.append(chars[j]);
-            } else {
-                start = j - isb.length();
-                
-                /* If the number of chars is larger than
-                 *  config.EN_SEC_MIN_LEN we create a new IWord
-                 * and add to the wordPool.
-                */
-                if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
-                    _str = isb.toString();
-                    if ( ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, _str) ) ) {
-                        sword = new Word(_str, w.getType());
-                        sword.setPartSpeechForNull(w.getPartSpeech());
-                        sword.setPosition(pos + start);
-                        /* check and do the English word segmentation  */
-                        if ( config.EN_WORD_SEG && _TYPE == StringUtil.EN_LETTER ) {
-                        	enWordSeg(sword, wList);
-                        } else {
-                        	wList.addLast(sword);
-                        }
+            if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
+                _str = isb.toString();
+                if ( ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, _str) ) ) {
+                	tw = new Word(_str, w.getType());
+                	tw.setPartSpeechForNull(w.getPartSpeech());
+                	tw.setPosition(pos + j);
+                    /* check and do the English word segmentation  */
+                    if ( config.EN_WORD_SEG && _TYPE == StringUtil.EN_LETTER ) {
+                    	enWordSeg(tw, wList);
+                    } else {
+                    	wList.addLast(tw);
                     }
                 }
-                
-                isb.clear();
-                isb.append(chars[j]);
-                _TYPE = _ctype;
             }
-        }
-        
-        /* Continue to check the last item */
-        if ( isb.length() >= config.EN_SEC_MIN_LEN ) {
-            start = j - isb.length();
-            _str = isb.toString();
             
-            if ( ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, _str) ) ) {
-                sword = new Word(_str, w.getType());
-                sword.setPartSpeechForNull(w.getPartSpeech());
-                sword.setPosition(pos + start);
-                
-                /* check and do the word extract */
-                if ( config.EN_WORD_SEG && _TYPE == StringUtil.EN_LETTER ) {
-                	enWordSeg(sword, wList);
-                } else {
-                	wList.add(sword);
-                }
-            }
+            j += isb.length();
         }
         
         chars = null;    //Let gc do its work.

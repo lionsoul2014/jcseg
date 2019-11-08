@@ -83,6 +83,7 @@ public class SearchSeg extends Segment
                 String temp = String.valueOf(chars[cjkidx]);
                 if ( ! dic.match(ILexicon.CJK_WORD, temp) ) {
                     word = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
+                    word.setPartSpeech(IWord.UNRECOGNIZE);
                     word.setPosition(pos+cjkidx);
                     mList.add(word);
                 }
@@ -181,6 +182,7 @@ public class SearchSeg extends Segment
                 String temp = String.valueOf(chars[curidx]);
                 if ( ! dic.match(ILexicon.CJK_WORD, temp) ) {
                     tw = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
+                    tw.setPartSpeech(IWord.UNRECOGNIZE);
                     tw.setPosition(pos+curidx);
                     wList.add(tw);
                 }

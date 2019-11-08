@@ -134,7 +134,7 @@ public class Word implements IWord,Cloneable, Serializable
     }
     
     /**
-     * @see IWord#setType() 
+     * @see IWord#setType(int)
      */
     @Override
     public void setType(int type) 

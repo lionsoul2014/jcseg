@@ -103976,7 +103976,7 @@ zymurgy/n/null/null/
 zythepsary/n/null/null/
 zythum/n/null/null/
 zyzzyva/n/null/null/
-#英文词条, merge from lex-en.lex
+#补充英文词条, merge from lex-en.lex
 decimal/n/null/null
 spirit/n/null/null
 admire/v/null/null
@@ -103987,3 +103987,7 @@ jcseg/n/null/null
 android/n/null/null
 iphone/n/null/null
 language/n/null/null
+admin/n/null/null
+gmail/n/null/null
+com/n/null/null
+net/n/null/null
