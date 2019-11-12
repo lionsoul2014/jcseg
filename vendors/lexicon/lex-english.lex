@@ -104024,6 +104024,10 @@ matrix/n/null/null
 ajax/n/null/null
 json/n/null/null
 xml/n/null/null
+redis/n/null/null
+admin/n/null/null
+mysql/n/null/null
+sql/n/null/null
 #编程语言
 ruby/n/null/null
 javascript/n/null/null
