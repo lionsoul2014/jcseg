@@ -138,9 +138,6 @@ public class ComplexSeg extends Segment implements Serializable
             return chunks.get(0);
         }
         
-        chunkArr.clear();
-        chunkBuf.clear();
-        
         //consider this as the final rule
         //Change it to return the last chunk at 2017/07/04
         //return afterChunks[0];

@@ -65,7 +65,7 @@ public interface ISegment
          * @param   type (All lowercase string)
          * @return  Type
         */
-        public static Type getFromString(String type, Type defaultValue)
+        public static Type fromString(String type, Type defaultValue)
         {
         	if ( type == null ) {
         		return defaultValue;
@@ -93,7 +93,7 @@ public interface ISegment
         
         public static Type fromString(String type)
         {
-            return getFromString(type, Type.COMPLEX);
+            return fromString(type, Type.COMPLEX);
         }
         
         public static Type fromIndex(int index)
