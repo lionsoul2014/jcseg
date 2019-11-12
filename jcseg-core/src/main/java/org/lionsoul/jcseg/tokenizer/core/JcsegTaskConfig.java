@@ -25,7 +25,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     public static final int SIMPLE_MODE  = 1;
     public static final int COMPLEX_MODE = 2;
     public static final int DETECT_MODE  = 3;
-    public static final int SEARCH_MODE  = 4;
+    public static final int MOST_MODE  = 4;
     public static final int DELIMITER_MODE = 5;
     public static final int NLP_MODE = 6;
     public static final int NGRAM_MODE = 7;

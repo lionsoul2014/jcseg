@@ -12,22 +12,22 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
- * search mode implementation all the possible combination will be returned, 
- * and build it for information retrieval of course.
+ * Most mode implementation which all the possible combinations will be returned, 
+ * and build it for information retrieval (better for index) of course.
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  * @since   1.9.8
 */
-public class SearchSeg extends Segment
+public class MostSeg extends Segment
 {
     
-    public SearchSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
+    public MostSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         super(config, dic);
         config.setKeepEnSecOriginalWord(true);
     }
     
-    public SearchSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException
+    public MostSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException
     {
         super(input, config, dic);
         config.setKeepEnSecOriginalWord(true);

@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.util;
 
 @FunctionalInterface
 public interface CharTypeChecker {

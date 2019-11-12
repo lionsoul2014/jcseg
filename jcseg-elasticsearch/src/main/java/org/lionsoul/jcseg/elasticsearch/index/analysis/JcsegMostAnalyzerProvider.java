@@ -12,9 +12,9 @@ import java.io.IOException;
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
-public class JcsegSearchAnalyzerProvider extends JcsegAnalyzerProvider
+public class JcsegMostAnalyzerProvider extends JcsegAnalyzerProvider
 {
-    public JcsegSearchAnalyzerProvider(IndexSettings indexSettings,
+    public JcsegMostAnalyzerProvider(IndexSettings indexSettings,
             Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
@@ -22,7 +22,7 @@ public class JcsegSearchAnalyzerProvider extends JcsegAnalyzerProvider
     @Override
     protected int getSegMode()
     {
-        return JcsegTaskConfig.SEARCH_MODE;
+        return JcsegTaskConfig.MOST_MODE;
     }
     
 }

@@ -43,7 +43,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         } else if ( "detect".equals(seg_mode) ) {
             mode = JcsegTaskConfig.DETECT_MODE;
         } else if ( "search".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.SEARCH_MODE;
+            mode = JcsegTaskConfig.MOST_MODE;
         } else if ( "nlp".equals(seg_mode) ){
             mode = JcsegTaskConfig.NLP_MODE;
         } else if ( "delimiter".equals(seg_mode) ) {
@@ -51,7 +51,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         } else if ( "ngram".equals(seg_mode) ) {
             mode = JcsegTaskConfig.NGRAM_MODE;
         } else {
-            mode = JcsegTaskConfig.SEARCH_MODE;
+            mode = JcsegTaskConfig.MOST_MODE;
         }
     }
 

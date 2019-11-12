@@ -18,10 +18,10 @@ import org.lionsoul.jcseg.server.JcsegTokenizerEntry;
 import org.lionsoul.jcseg.server.core.GlobalResource;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
+import org.lionsoul.jcseg.tokenizer.SegmentFactory;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 /**
  * keywords extractor handler

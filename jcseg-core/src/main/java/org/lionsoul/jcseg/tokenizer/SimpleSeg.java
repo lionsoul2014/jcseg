@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.io.Reader;
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+import org.lionsoul.jcseg.tokenizer.core.Chunk;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 
 /**
- * Jcseg simple segmentation implements extend from ASegment
+ * Jcseg simple segmentation implementation
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */

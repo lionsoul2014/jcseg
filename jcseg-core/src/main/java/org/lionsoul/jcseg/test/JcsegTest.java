@@ -14,14 +14,14 @@ import org.lionsoul.jcseg.extractor.impl.TextRankKeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
+import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.NLPSeg;
+import org.lionsoul.jcseg.tokenizer.SegmentFactory;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 /**
@@ -319,10 +319,10 @@ public class JcsegTest
                         System.out.println("Entered simple tokenize mode!");
                         continue;
                     } else if (":search".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.SEARCH_MODE);
-                        module = "tokenzier:search";
+                        demo.resetMode(JcsegTaskConfig.MOST_MODE);
+                        module = "tokenzier:most";
                         action = 0;
-                        System.out.println("Entered search tokenize mode!");
+                        System.out.println("Entered most tokenize mode!");
                         continue;
                     } else if (":detect".equals(cmd)) {
                         demo.resetMode(JcsegTaskConfig.DETECT_MODE);

@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
+import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
+import org.lionsoul.jcseg.tokenizer.SegmentFactory;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 public class KeywordsExtractorTest {
 

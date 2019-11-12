@@ -1,14 +1,9 @@
-package org.lionsoul.jcseg.tokenizer;
-
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
+package org.lionsoul.jcseg.tokenizer.core;
 
 /**
- * <p>
- * chunk concept for the mmseg word segment algorithm has implemented IChunk interface
- * </p>
+ * <p>chunk concept for the mmseg word segmentation algorithm</p>
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author	chenxin<chenxin619315@gmail.com>
  */
 public class Chunk implements IChunk
 {
@@ -20,7 +15,7 @@ public class Chunk implements IChunk
     /**
      * the average words length 
      */
-    private double averageWordsLength = -1D;
+    private double avgWordsLength = -1D;
     
     /**
      * the words variance 
@@ -58,11 +53,11 @@ public class Chunk implements IChunk
     @Override
     public double getAverageWordsLength()
     {
-        if ( averageWordsLength == -1D ) {
-            averageWordsLength = (double) getLength() / (double) words.length;
+        if ( avgWordsLength == -1D ) {
+        	avgWordsLength = (double) getLength() / (double) words.length;
         }
         
-        return averageWordsLength;
+        return avgWordsLength;
     }
 
     /**
@@ -91,13 +86,11 @@ public class Chunk implements IChunk
     public double getSingleWordsMorphemicFreedom()
     {
         if ( singleWordMorphemicFreedom == -1D ) {
-            singleWordMorphemicFreedom = 0;
+        	singleWordMorphemicFreedom = 0;
             for ( int j = 0; j < words.length; j++ ) {
                 //one-character word
                 if ( words[j].getLength() == 1 ) {
-                    singleWordMorphemicFreedom = singleWordMorphemicFreedom 
-                        //+ words[j].getFrequency();
-                        + Math.log((double) words[j].getFrequency());
+                	singleWordMorphemicFreedom += Math.log((double) words[j].getFrequency());
                 }
             }
         } 
@@ -112,9 +105,9 @@ public class Chunk implements IChunk
     public int getLength()
     {
         if ( length == -1 ) {
-            length = 0;
+        	length = 0;
             for ( int j = 0; j < words.length; j++ ) {
-                length = length + words[j].getLength();
+            	length += words[j].getValue().length();
             }
         } 
         

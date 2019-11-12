@@ -11,6 +11,7 @@ import java.util.List;
 
 
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+import org.lionsoul.jcseg.tokenizer.core.Chunk;
 import org.lionsoul.jcseg.tokenizer.core.IChunk;
 import org.lionsoul.jcseg.tokenizer.core.ILexicon;
 import org.lionsoul.jcseg.tokenizer.core.IWord;
@@ -20,8 +21,7 @@ import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
 
 /**
  * <p>
- * Jcseg complex segmentation implements extended from the ASegment class 
- * this will need the filter works of the four MMSeg rules: 
+ * Jcseg complex segmentation implementation based on the filter works of MMSeg rules: 
  * </p>
  * 
  * <ul>
@@ -35,6 +35,7 @@ import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
 */
 public class ComplexSeg extends Segment implements Serializable
 {
+	
     private static final long serialVersionUID = 1L;
     
     public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
@@ -62,7 +63,7 @@ public class ComplexSeg extends Segment implements Serializable
         }
         
         int idx_2, idx_3;
-        ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
+        final ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
         for ( int x = 0; x < mwords.length; x++ ) {
             //the second layer
             idx_2 = index + mwords[x].getLength();
@@ -117,45 +118,45 @@ public class ComplexSeg extends Segment implements Serializable
         }
         System.out.println("-+---------------------+-");*/
         
-        IChunk[] chunks = new IChunk[chunkArr.size()];
-        chunkArr.toArray(chunks);
-        chunkArr.clear();
-        
         mwords = null;
         mword2 = null;
         mword3 = null;
         
         
         //-------------------------MMSeg core invoke------------------------
+        final ArrayList<IChunk> chunkBuf = new ArrayList<IChunk>(chunkArr.size());
         
         //filter the maximum match rule.
-        IChunk[] afterChunks = MMSegFilter.getMaximumMatchChunks(chunks);
-        if ( afterChunks.length == 1 ) {
-            return afterChunks[0];
+        ArrayList<IChunk> chunks = MMSegFilter.getMaximumMatchChunks(chunkArr, chunkBuf);
+        if ( chunks.size() == 1 ) {
+            return chunks.get(0);
         }
         
         //filter the largest average rule.
-        afterChunks = MMSegFilter.getLargestAverageWordLengthChunks(afterChunks);
-        if ( afterChunks.length == 1 ) {
-            return afterChunks[0];
+        chunks = MMSegFilter.getLargestAverageWordLengthChunks(chunkBuf, chunkArr);
+        if ( chunks.size() == 1 ) {
+            return chunks.get(0);
         }
         
         //filter the smallest variance rule.
-        afterChunks = MMSegFilter.getSmallestVarianceWordLengthChunks(afterChunks);
-        if ( afterChunks.length == 1 ) {
-            return afterChunks[0];
+        chunks = MMSegFilter.getSmallestVarianceWordLengthChunks(chunkArr, chunkBuf);
+        if ( chunks.size() == 1 ) {
+            return chunks.get(0);
         }
         
         //filter the largest sum of degree of morphemic freedom rule.
-        afterChunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(afterChunks);
-        if ( afterChunks.length == 1 ) {
-            return afterChunks[0];
+        chunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(chunkBuf, chunkArr);
+        if ( chunks.size() == 1 ) {
+            return chunks.get(0);
         }
+        
+        chunkArr.clear();
+        chunkBuf.clear();
         
         //consider this as the final rule
         //Change it to return the last chunk at 2017/07/04
         //return afterChunks[0];
-        return afterChunks[afterChunks.length - 1];
+        return chunks.get(chunks.size() - 1);
     }
     
 }

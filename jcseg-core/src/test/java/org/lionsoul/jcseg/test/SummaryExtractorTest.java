@@ -6,12 +6,12 @@ import java.util.List;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
+import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
+import org.lionsoul.jcseg.tokenizer.SegmentFactory;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.ISegment;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegmentFactory;
 
 
 /**

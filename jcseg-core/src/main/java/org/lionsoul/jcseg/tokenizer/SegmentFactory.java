@@ -1,15 +1,12 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg.tokenizer;
 
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 
-import org.lionsoul.jcseg.tokenizer.ComplexSeg;
-import org.lionsoul.jcseg.tokenizer.DelimiterSeg;
-import org.lionsoul.jcseg.tokenizer.DetectSeg;
-import org.lionsoul.jcseg.tokenizer.NGramSeg;
-import org.lionsoul.jcseg.tokenizer.NLPSeg;
-import org.lionsoul.jcseg.tokenizer.SearchSeg;
-import org.lionsoul.jcseg.tokenizer.SimpleSeg;
+import org.lionsoul.jcseg.tokenizer.core.ADictionary;
+import org.lionsoul.jcseg.tokenizer.core.ISegment;
+import org.lionsoul.jcseg.tokenizer.core.JcsegException;
+import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * <p>
@@ -22,7 +19,7 @@ import org.lionsoul.jcseg.tokenizer.SimpleSeg;
 public class SegmentFactory 
 {
     //current Jcseg version.
-    public static final String version = "2.3.0";
+    public static final String version = "2.6.0";
     
     /**
      * load the ISegment class with the given path
@@ -66,8 +63,8 @@ public class SegmentFactory
         case JcsegTaskConfig.DETECT_MODE:
             _clsname = DetectSeg.class;
             break;
-        case JcsegTaskConfig.SEARCH_MODE:
-            _clsname = SearchSeg.class;
+        case JcsegTaskConfig.MOST_MODE:
+            _clsname = MostSeg.class;
             break;
         case JcsegTaskConfig.DELIMITER_MODE:
             _clsname = DelimiterSeg.class;

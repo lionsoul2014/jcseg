@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
+import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
@@ -37,7 +37,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         
         String _mode = args.get("mode");
         if ( _mode == null ) {
-            mode = JcsegTaskConfig.SEARCH_MODE;
+            mode = JcsegTaskConfig.MOST_MODE;
         } else {
             _mode = _mode.toLowerCase();
             if ( "simple".equals(_mode) ) {
@@ -45,7 +45,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
             } else if ( "detect".equals(_mode) ) {
                 mode = JcsegTaskConfig.DETECT_MODE;
             } else if ( "search".equals(_mode) ) {
-                mode = JcsegTaskConfig.SEARCH_MODE;
+                mode = JcsegTaskConfig.MOST_MODE;
             } else if ( "nlp".equals(_mode) ){
                 mode = JcsegTaskConfig.NLP_MODE;
             } else if ( "delimiter".equals(_mode) ) {
