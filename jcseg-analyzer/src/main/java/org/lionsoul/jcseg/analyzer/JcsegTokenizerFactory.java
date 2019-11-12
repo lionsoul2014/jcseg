@@ -7,10 +7,10 @@ import java.util.Map.Entry;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 /**
  * Jcseg tokenizer factory class for solr
@@ -20,9 +20,9 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 public class JcsegTokenizerFactory extends TokenizerFactory 
 {
     
-    private int mode;
-    private JcsegTaskConfig config = null;
-    private ADictionary dic = null;
+    public final ISegment.Type type;
+    public final JcsegTaskConfig config;
+    public final ADictionary dic;
 
     /**
      * set the mode arguments in the schema.xml 
@@ -35,27 +35,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
     {
         super(args);
         
-        String _mode = args.get("mode");
-        if ( _mode == null ) {
-            mode = JcsegTaskConfig.MOST_MODE;
-        } else {
-            _mode = _mode.toLowerCase();
-            if ( "simple".equals(_mode) ) {
-                mode = JcsegTaskConfig.SIMPLE_MODE;
-            } else if ( "detect".equals(_mode) ) {
-                mode = JcsegTaskConfig.DETECT_MODE;
-            } else if ( "search".equals(_mode) ) {
-                mode = JcsegTaskConfig.MOST_MODE;
-            } else if ( "nlp".equals(_mode) ){
-                mode = JcsegTaskConfig.NLP_MODE;
-            } else if ( "delimiter".equals(_mode) ) {
-                mode = JcsegTaskConfig.DELIMITER_MODE;
-            } else if ( "ngram".equals(_mode) ) {
-            	mode = JcsegTaskConfig.NGRAM_MODE;
-            } else {
-                mode = JcsegTaskConfig.COMPLEX_MODE;
-            }
-        }
+        type = ISegment.Type.fromString(args.get("mode"));
         
         // initialize the task configuration and the dictionary
         config = new JcsegTaskConfig(true);
@@ -67,16 +47,6 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         }
         
         dic = DictionaryFactory.createSingletonDictionary(config);
-    }
-    
-    public void setConfig( JcsegTaskConfig config ) 
-    {
-        this.config = config;
-    }
-    
-    public void setDict( ADictionary dic ) 
-    {
-        this.dic = dic;
     }
     
     public JcsegTaskConfig getTaskConfig() 
@@ -93,9 +63,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
     public Tokenizer create( AttributeFactory factory ) 
     {
         try {
-            return new JcsegTokenizer(mode, config, dic);
-        } catch (JcsegException e) {
-            e.printStackTrace();
+            return new JcsegTokenizer(type, config, dic);
         } catch (IOException e) {
             e.printStackTrace();
         }

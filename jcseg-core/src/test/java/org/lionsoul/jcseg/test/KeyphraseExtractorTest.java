@@ -3,13 +3,11 @@ package org.lionsoul.jcseg.test;
 import java.io.IOException;
 import java.util.List;
 
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeyphraseExtractor;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class KeyphraseExtractorTest {
 
@@ -24,9 +22,7 @@ public class KeyphraseExtractorTest {
         ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
         
         try {
-            ISegment seg = SegmentFactory
-                    .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
-            
+            ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
             TextRankKeyphraseExtractor extractor = new TextRankKeyphraseExtractor(seg);
             extractor.setMaxIterateNum(100);
             extractor.setWindowSize(5);
@@ -40,8 +36,6 @@ public class KeyphraseExtractorTest {
                     + "文本自动分类是文本挖掘技术中的一种！");
             //phrases = extractor.getKeyphraseFromFile("/home/chenxin/curpos/5.txt");
             System.out.println(phrases);
-        } catch (JcsegException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.test;
 
-import org.lionsoul.jcseg.tokenizer.Word;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.Word;
 
 public class WordTest
 {

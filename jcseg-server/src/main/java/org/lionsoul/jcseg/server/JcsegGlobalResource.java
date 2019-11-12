@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.server.core.GlobalResource;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class JcsegGlobalResource extends GlobalResource
 {

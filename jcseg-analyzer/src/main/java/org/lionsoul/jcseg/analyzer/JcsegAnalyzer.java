@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 /**
  * Jcseg analyzer for lucene with version on or after 5.0
@@ -16,67 +15,22 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
  */
 public class JcsegAnalyzer extends Analyzer
 {
-    private int mode;
-    private JcsegTaskConfig config = null;
-    private ADictionary dic = null;
+    public ISegment.Type type;
+    public final JcsegTaskConfig config;
+    public final ADictionary dic;
     
     /**
-     * initialize the analyzer with the specified mode
-     * And Jcseg will look for the default configuration file
+     * initialize the analyzer with the specified mode, configuration, dictionary
      * 
-     * @param   mode tokenizer mode
-     * @see     org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
-    */
-    public JcsegAnalyzer(int mode) 
-    {
-        this(mode, new JcsegTaskConfig(true));
-    }
-    
-    /**
-     * initialize the analyzer with the specified mode
-     *  and the jcseg.properties file 
-     *  
-     * @param   mode tokenizer mode
-     * @param   proFile path of jcseg.properties file
-    */
-    public JcsegAnalyzer(int mode, String proFile)
-    {
-        this(mode, new JcsegTaskConfig(proFile));
-    }
-    
-    /**
-     * initialize the analyzer with the specified mode and configuration
-     * 
-     * @param   mode tokenizer mode
-     * @param   config
-    */
-    public JcsegAnalyzer(int mode, JcsegTaskConfig config)
-    {
-        this(mode, config, DictionaryFactory.createSingletonDictionary(config));
-    }
-    
-    /**
-     * initialize the analyzer with the specifiled mode, configuration, dictionary
-     * 
-     * @param   mode
+     * @param   type
      * @param   config
      * @param   dic
     */
-    public JcsegAnalyzer(int mode, JcsegTaskConfig config, ADictionary dic)
+    public JcsegAnalyzer(ISegment.Type type, JcsegTaskConfig config, ADictionary dic)
     {
-        this.mode   = mode;
+        this.type   = type;
         this.config = config;
         this.dic    = dic;
-    }
-    
-    public void setConfig( JcsegTaskConfig config ) 
-    {
-        this.config = config;
-    }
-    
-    public void setDict( ADictionary dic )
-    {
-        this.dic = dic;
     }
     
     public JcsegTaskConfig getTaskConfig()
@@ -93,10 +47,8 @@ public class JcsegAnalyzer extends Analyzer
     protected TokenStreamComponents createComponents(String fieldName) 
     {
         try {
-            Tokenizer tokenizer = new JcsegTokenizer(mode, config, dic);
+            Tokenizer tokenizer = new JcsegTokenizer(type, config, dic);
             return new TokenStreamComponents(tokenizer);
-        } catch (JcsegException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

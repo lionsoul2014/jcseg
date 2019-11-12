@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegKit;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.SegKit;
+import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.StringUtil;
@@ -43,30 +44,17 @@ public class DelimiterSeg implements ISegment
     /**
      * the dictionary and task configuration
     */
-    private ADictionary dic;
-    private JcsegTaskConfig config;
+    public final ADictionary dic;
+    public final JcsegTaskConfig config;
     
     /**
      * method to create a new ISegment
      * 
-     * @param   config
-     * @param   dic
-     * @throws  IOException
-    */
-    public DelimiterSeg(JcsegTaskConfig config,  ADictionary dic) throws IOException
-    {
-        this(null, config, dic);
-    } 
-    
-    /**
-     * method to create a new ISegment
-     * 
-     * @param   input
      * @param   config
      * @param   dic
      * @throws  IOException
      */
-    public DelimiterSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException 
+    public DelimiterSeg(JcsegTaskConfig config, ADictionary dic)
     {
         this.config    = config;
         this.dic       = dic;
@@ -74,7 +62,6 @@ public class DelimiterSeg implements ISegment
         
         wordPool = new LinkedList<IWord>();
         isb      = new IStringBuffer(64);
-        reset(input);
     }
 
     @Override
@@ -226,16 +213,6 @@ public class DelimiterSeg implements ISegment
     }
 
     /**
-     * set the current dictionary
-     * 
-     * @param   dic
-    */
-    public void setDic(ADictionary dic)
-    {
-        this.dic = dic;
-    }
-
-    /**
      * get the current JcsegTaskConfig instance
      * 
      * @return  JcsegTaskConfig
@@ -243,16 +220,6 @@ public class DelimiterSeg implements ISegment
     public JcsegTaskConfig getConfig()
     {
         return config;
-    }
-
-    /**
-     * set the current configuration
-     * 
-     * @param   config
-    */
-    public void setConfig(JcsegTaskConfig config)
-    {
-        this.config = config;
     }
     
 }

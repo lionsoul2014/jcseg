@@ -197,7 +197,7 @@ config.setAppendCJKPinyin();
 <!-- 检索模式分词: -->
 <fieldtype name="textSearch" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="search"/>
+        <tokenizer class="org.lionsoul.jcseg.analyzer.JcsegTokenizerFactory" mode="most"/>
     </analyzer>
 </fieldtype>
 <!-- NLP模式分词: -->
@@ -278,7 +278,7 @@ jcseg           : 对应Jcseg的检索模式切分算法
 jcseg_complex   : 对应Jcseg的复杂模式切分算法 
 jcseg_simple    : 对应Jcseg的简易切分算法 
 jcseg_detect    : 对应Jcseg的检测模式切分算法
-jcseg_search    : 对应Jcseg的检索模式切分算法
+jcseg_most      : 对应Jcseg的最多分词切分算法
 jcseg_nlp       : 对应Jcseg的NLP模式切分算法
 jcseg_delimiter : 对应Jcseg的分隔符模式切分算法
 jcseg_ngram     : 对应Jcseg的n-gram模式切分算法
@@ -304,13 +304,13 @@ jcseg_ngram     : 对应Jcseg的n-gram模式切分算法
 配置测试地址：
 
 ```
-http://localhost:9200/_analyze?analyzer=jcseg_search&text=一百美元等于多少人民币
+http://localhost:9200/_analyze?analyzer=jcseg_most&text=一百美元等于多少人民币
 ```
 7.x版本请使用如下方式测试：
 ```shell
 curl 'http://localhost:9200/_analyze?pretty=true' -H 'Content-Type:application/json' -d'
 {
-    "analyzer": "jcseg_search",
+    "analyzer": "jcseg_most",
     "text": "一百美元等于多少人民币"
 }'
 ```

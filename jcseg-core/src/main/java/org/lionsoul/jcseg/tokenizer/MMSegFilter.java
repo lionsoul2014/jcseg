@@ -1,6 +1,8 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg.tokenizer;
 
 import java.util.ArrayList;
+
+import org.lionsoul.jcseg.IChunk;
 
 /**
  * mmseg default filter class

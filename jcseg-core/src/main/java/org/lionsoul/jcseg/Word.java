@@ -1,15 +1,14 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg;
 
 import java.io.Serializable;
 import java.util.List;
 
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.SynonymsEntry;
+import org.lionsoul.jcseg.dic.SynonymsEntry;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 
 /**
- * word class for Jcseg with the {@link org.lionsoul.jcseg.tokenizer.core.IWord} interface implemented
+ * word class for Jcseg with the {@link org.lionsoul.jcseg.IWord} interface implemented
  * 
  * at 2017/03/29: 
  * make the synonyms series method {@link #getSyn()} {@link #setSyn(SynonymsEntry)} 

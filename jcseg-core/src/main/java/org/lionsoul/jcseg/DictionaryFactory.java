@@ -1,10 +1,10 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.Dictionary;
 
 /**
  * <p>

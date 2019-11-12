@@ -1,8 +1,10 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg.dic;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.lionsoul.jcseg.IWord;
 
 /**
  * Synonyms words entry class

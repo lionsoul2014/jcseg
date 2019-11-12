@@ -12,6 +12,10 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.json.JSONArray;
 import org.lionsoul.jcseg.json.JSONException;
 import org.lionsoul.jcseg.json.JSONObject;
@@ -25,10 +29,6 @@ import org.lionsoul.jcseg.server.core.AbstractRouter;
 import org.lionsoul.jcseg.server.core.DynamicRestRouter;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.StandardHandler;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.util.Util;
 
 /**
@@ -146,8 +146,7 @@ public class JcsegServer
      * @throws CloneNotSupportedException 
      * @throws JcsegException 
     */
-    public JcsegServer initFromGlobalConfig(JSONObject globalConfig) 
-            throws CloneNotSupportedException, JcsegException
+    public JcsegServer initFromGlobalConfig(JSONObject globalConfig) throws CloneNotSupportedException
     {
         /*
          * parse and initialize the server according to the global config
@@ -201,7 +200,7 @@ public class JcsegServer
             for ( String name : dictNames ) {
                 JSONObject dicJson = dictSetting.getJSONObject(name);
                 if ( ! dicJson.has("path") ) {
-                    throw new JcsegException("Missing path for dict instance " + name);
+                    throw new IllegalArgumentException("Missing path for dict instance " + name);
                 }
                 
                 String[] lexPath = null;
@@ -282,24 +281,24 @@ public class JcsegServer
                 JSONObject tokenizerJson = tokenizerSetting.getJSONObject(name);
                 
                 int algorithm = tokenizerJson.has("algorithm") 
-                        ? tokenizerJson.getInt("algorithm") : JcsegTaskConfig.COMPLEX_MODE;
+                        ? tokenizerJson.getInt("algorithm") : ISegment.COMPLEX_MODE;
                 
                 if ( ! tokenizerJson.has("dict") ) {
-                    throw new JcsegException("Missing dict setting for tokenizer " + name);
+                    throw new IllegalArgumentException("Missing dict setting for tokenizer " + name);
                 }
                 if ( ! tokenizerJson.has("config") ) {
-                    throw new JcsegException("Missing config setting for tokenizer " + name);
+                    throw new IllegalArgumentException("Missing config setting for tokenizer " + name);
                 }
                 
                 ADictionary dic = resourcePool.getDict(tokenizerJson.getString("dict"));
                 JcsegTaskConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
                 if ( dic == null ) {
-                    throw new JcsegException("Unknow dict instance " 
+                    throw new IllegalArgumentException("Unknow dict instance " 
                         + tokenizerJson.getString("dict") + " for tokenizer " + name);
                 }
                 
                 if ( config == null ) {
-                    throw new JcsegException("Unknow config instance " 
+                    throw new IllegalArgumentException("Unknow config instance " 
                         + tokenizerJson.getString("config") + " for tokenizer " + name);
                 }
                 

@@ -1,4 +1,6 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg;
+
+import org.lionsoul.jcseg.dic.SynonymsEntry;
 
 /**
  * Word interface

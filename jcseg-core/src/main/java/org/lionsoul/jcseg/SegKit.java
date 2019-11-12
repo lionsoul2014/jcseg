@@ -1,9 +1,7 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import org.lionsoul.jcseg.tokenizer.Word;
 
 /**
  * abstract segmentor kit class 

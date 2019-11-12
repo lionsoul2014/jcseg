@@ -12,16 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
 import org.lionsoul.jcseg.server.JcsegController;
 import org.lionsoul.jcseg.server.JcsegGlobalResource;
 import org.lionsoul.jcseg.server.JcsegTokenizerEntry;
 import org.lionsoul.jcseg.server.core.GlobalResource;
 import org.lionsoul.jcseg.server.core.ServerConfig;
 import org.lionsoul.jcseg.server.core.UriEntry;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
 
 /**
  * tokenizer service handler
@@ -59,30 +57,24 @@ public class TokenizerController extends JcsegController
             return;
         }
         
-        try {
-            ISegment seg = SegmentFactory
-                    .createJcseg(tokenizerEntry.getAlgorithm(),
-                            new Object[]{ tokenizerEntry.getConfig(), tokenizerEntry.getDict()});
-            
-            IWord word = null;
-            List<IWord> list = new ArrayList<IWord>();
-            seg.reset(new StringReader(text));
-            
-            long s_time = System.nanoTime();
-            while ( (word = seg.next()) != null ) {
-                list.add(word);
-            }
-            
-            double c_time = (System.nanoTime() - s_time)/1E9;
-            Map<String, Object> map = new HashMap<String, Object>();
-            DecimalFormat df = new DecimalFormat("0.00000"); 
-            map.put("took", Float.valueOf(df.format(c_time)));
-            map.put("list", list);
-            
-            //response the request
-            response(STATUS_OK, map);
-        } catch (JcsegException e) {
-            response(STATUS_INTERNEL_ERROR, "Internal error...");
-        }
+        ISegment seg = ISegment.Type.fromIndex(tokenizerEntry.getAlgorithm())
+				.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
+		IWord word = null;
+		List<IWord> list = new ArrayList<IWord>();
+		seg.reset(new StringReader(text));
+		
+		long s_time = System.nanoTime();
+		while ( (word = seg.next()) != null ) {
+		    list.add(word);
+		}
+		
+		double c_time = (System.nanoTime() - s_time)/1E9;
+		Map<String, Object> map = new HashMap<String, Object>();
+		DecimalFormat df = new DecimalFormat("0.00000"); 
+		map.put("took", Float.valueOf(df.format(c_time)));
+		map.put("list", list);
+		
+		//response the request
+		response(STATUS_OK, map);
     }
 }

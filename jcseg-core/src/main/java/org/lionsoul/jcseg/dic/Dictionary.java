@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.dic;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.Word;
 
 /**
  * Dictionary class

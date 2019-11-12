@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.List;
 
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.extractor.KeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.KeywordsExtractor;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
@@ -14,14 +19,7 @@ import org.lionsoul.jcseg.extractor.impl.TextRankKeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
 import org.lionsoul.jcseg.tokenizer.NLPSeg;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 /**
@@ -41,7 +39,7 @@ public class JcsegTest
     KeyphraseExtractor keyphraseExtractor = null;
     SummaryExtractor summaryExtractor = null;
     
-    public JcsegTest() throws JcsegException, IOException, CloneNotSupportedException 
+    public JcsegTest() throws IOException, CloneNotSupportedException 
     {
         tokenizerConfig = new JcsegTaskConfig(true);
         JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
@@ -57,19 +55,13 @@ public class JcsegTest
         //for ( String lpath : config.getLexiconPath() )
         //    dic.loadDirectory(lpath);
         //dic.load("/java/lex-main.lex");
-        tokenizerSeg = SegmentFactory.createJcseg(
-            JcsegTaskConfig.COMPLEX_MODE, 
-            new Object[]{tokenizerConfig, dic}
-        );
+        tokenizerSeg = ISegment.COMPLEX.factory.create(tokenizerConfig, dic);
         
         //segmentation object for extractor
         extractorConfig.setAppendCJKPinyin(false);
         extractorConfig.setClearStopwords(true);
         extractorConfig.setKeepUnregWords(false);
-        extractorSeg = SegmentFactory.createJcseg(
-            JcsegTaskConfig.COMPLEX_MODE, 
-            new Object[]{extractorConfig, dic}
-        );
+        extractorSeg = ISegment.COMPLEX.factory.create(extractorConfig, dic);
         
         //create and initialize the extractor
         keywordsExtractor  = new TextRankKeywordsExtractor(tokenizerSeg);
@@ -184,13 +176,9 @@ public class JcsegTest
                 + counter + ", in %.5fsec\n", ((float)e - _start)/1E9);
     }
     
-    public void resetMode( int mode ) throws JcsegException
+    public void resetMode(String name)
     {
-        tokenizerSeg = SegmentFactory.createJcseg(
-            mode, 
-            //new Object[]{tokenizerConfig, mode==JcsegTaskConfig.DELIMITER_MODE ? null : dic}
-            new Object[]{tokenizerConfig, dic}
-        );
+    	tokenizerSeg = ISegment.Type.fromString(name).factory.create(tokenizerConfig, dic);
     }
     
     /**
@@ -269,7 +257,7 @@ public class JcsegTest
      * @throws IOException
      * @throws CloneNotSupportedException 
      */
-    public static void main(String[] args) throws JcsegException, IOException, CloneNotSupportedException 
+    public static void main(String[] args) throws IOException, CloneNotSupportedException 
     {
         String str = "歧义和同义词:研究生命起源，" +
                 "混合词: 做B超检查身体，x射线本质是什么，今天去奇都ktv唱卡拉ok去，哆啦a梦是一个动漫中的主角，" +
@@ -307,43 +295,43 @@ public class JcsegTest
                 //module switch
                 if ( cmd.charAt(0) == ':' ) {
                     if (":complex".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.COMPLEX_MODE);
+                        demo.resetMode("complex");
                         module = "tokenzier:complex";
                         action = 0;
                         System.out.println("Entered complex tokenize mode!");
                         continue;
                     } else if (":simple".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.SIMPLE_MODE);
+                        demo.resetMode("simple");
                         module = "tokenzier:simple";
                         action = 0;
                         System.out.println("Entered simple tokenize mode!");
                         continue;
-                    } else if (":search".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.MOST_MODE);
+                    } else if (":most".equals(cmd)) {
+                        demo.resetMode("most");
                         module = "tokenzier:most";
                         action = 0;
                         System.out.println("Entered most tokenize mode!");
                         continue;
                     } else if (":detect".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.DETECT_MODE);
+                        demo.resetMode("detect");
                         module = "tokenzier:detect";
                         action = 0;
                         System.out.println("Entered detect tokenize mode!");
                         continue;
                     } else if (":delimiter".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.DELIMITER_MODE);
+                        demo.resetMode("delimiter");
                         module = "tokenzier:delimiter";
                         action = 0;
                         System.out.println("Entered delimiter tokenize mode!");
                         continue;
                     } else if (":NLP".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.NLP_MODE);
+                        demo.resetMode("nlp");
                         module = "tokenzier:NLP";
                         action = 0;
                         System.out.println("Entered NLP tokenize mode!");
                         continue;
                     } else if (":ngram".equals(cmd)) {
-                        demo.resetMode(JcsegTaskConfig.NGRAM_MODE);
+                        demo.resetMode("ngram");
                         module = "tokenzier:ngram";
                         action = 0;
                         System.out.println("Entered ngram tokenize mode!");
@@ -399,7 +387,7 @@ public class JcsegTest
         System.out.println("+--------Jcseg chinese word tokenizer demo-------------------+");
         System.out.println("|- @Author chenxin<chenxin619315@gmail.com>                  |");
         System.out.println("|- :seg_mode  : switch to specified tokenizer mode.          |");
-        System.out.println("|- (:complex,:simple,:search,:detect,:delimiter,:NLP,:ngram) |");
+        System.out.println("|- (:complex,:simple,:most,:detect,:delimiter,:NLP,:ngram)   |");
         System.out.println("|- :keywords  : switch to keywords extract mode.             |");
         System.out.println("|- :keyphrase : switch to keyphrase extract mode.            |");
         System.out.println("|- :sentence  : switch to sentence extract mode.             |");

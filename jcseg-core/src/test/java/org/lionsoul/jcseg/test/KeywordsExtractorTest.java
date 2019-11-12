@@ -3,13 +3,11 @@ package org.lionsoul.jcseg.test;
 import java.io.IOException;
 import java.util.List;
 
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class KeywordsExtractorTest {
 
@@ -23,9 +21,7 @@ public class KeywordsExtractorTest {
         ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
         
         try {
-            ISegment seg = SegmentFactory
-                    .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
-            
+            ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
             TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
             extractor.setMaxIterateNum(100);
             extractor.setWindowSize(5);
@@ -118,8 +114,6 @@ public class KeywordsExtractorTest {
             keywords = extractor.getKeywordsFromString(doc);
             //keywords = extractor.getKeywordsFromFile("/home/chenxin/curpos/1.txt");
             System.out.println(keywords);
-        } catch (JcsegException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg;
 
 /**
  * <p>chunk concept for the mmseg word segmentation algorithm</p>

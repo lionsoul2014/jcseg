@@ -1,13 +1,10 @@
 package org.lionsoul.jcseg.tokenizer;
 
-import java.io.IOException;
-import java.io.Reader;
-
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.Chunk;
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.Chunk;
+import org.lionsoul.jcseg.IChunk;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 
 /**
@@ -18,14 +15,9 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 public class SimpleSeg extends Segment
 {
     
-    public SimpleSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public SimpleSeg( JcsegTaskConfig config, ADictionary dic )
     {
         super(config, dic);
-    }
-    
-    public SimpleSeg( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
-    {
-        super(input, config, dic);
     }
 
     /**

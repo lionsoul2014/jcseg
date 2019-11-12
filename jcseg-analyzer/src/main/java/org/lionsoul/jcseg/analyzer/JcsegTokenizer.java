@@ -7,12 +7,10 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttributeImpl;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 
 /**
@@ -55,11 +53,11 @@ public class JcsegTokenizer extends Tokenizer
     private int fieldOffset = 0;
     
     public JcsegTokenizer(
-        int mode,
+        ISegment.Type type,
         JcsegTaskConfig config,
-        ADictionary dic ) throws JcsegException, IOException 
+        ADictionary dic ) throws IOException 
     {
-        segmentor = SegmentFactory.createJcseg(mode, new Object[]{config, dic});
+        segmentor = type.factory.create(config, dic);
         segmentor.reset(input);
     }
 

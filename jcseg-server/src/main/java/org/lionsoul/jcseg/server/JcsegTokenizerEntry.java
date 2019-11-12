@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.server;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 /**
  *  TokenizerEntry to save setting for Tokenizer object 

@@ -8,9 +8,10 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
 import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 /**
  * JcsegAnalyzerProvider
@@ -37,10 +38,10 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
         	}
         }
         
-        analyzer = new JcsegAnalyzer(this.getSegMode(), config, AnalysisJcsegPlugin.createSingletonDictionary(config));
+        analyzer = new JcsegAnalyzer(getType(), config, AnalysisJcsegPlugin.createSingletonDictionary(config));
     }
 
-    protected abstract int getSegMode();
+    protected abstract ISegment.Type getType();
     
     @Override public JcsegAnalyzer get() 
     {

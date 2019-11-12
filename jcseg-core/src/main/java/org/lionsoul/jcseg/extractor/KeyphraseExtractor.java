@@ -6,8 +6,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
 
 /**
  * key phrase extractor 

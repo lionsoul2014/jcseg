@@ -1,16 +1,16 @@
 package org.lionsoul.jcseg.tokenizer;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.Entity;
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.Entity;
+import org.lionsoul.jcseg.IChunk;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.util.ArrayUtil;
 import org.lionsoul.jcseg.util.ByteCharCounter;
 import org.lionsoul.jcseg.util.EntityFormat;
@@ -37,10 +37,10 @@ public class NLPSeg extends ComplexSeg
     private final LinkedList<IWord> eWordPool = new LinkedList<IWord>();
     private final IStringBuffer buffer = new IStringBuffer(64);
 
-    public NLPSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException
+    public NLPSeg(JcsegTaskConfig config, ADictionary dic)
     {
-        super(input, config, dic);
-
+    	super(config, dic);
+    	
         /*
          * basic common setting for NLP mode
         */
@@ -50,11 +50,6 @@ public class NLPSeg extends ComplexSeg
         config.APPEND_CJK_PINYIN = false;
         config.APPEND_CJK_SYN  = false;
         config.MAX_LATIN_LENGTH = 128;
-    }
-
-    public NLPSeg(JcsegTaskConfig config, ADictionary dic) throws IOException
-    {
-        this(null, config, dic);
     }
 
     /**

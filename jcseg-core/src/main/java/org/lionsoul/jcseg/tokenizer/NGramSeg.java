@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegKit;
-import org.lionsoul.jcseg.util.CharTypeChecker;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.SegKit;
+import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.fi.CharTypeChecker;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.StringUtil;
@@ -41,33 +42,21 @@ public class NGramSeg implements ISegment
     /**
      * the dictionary and task configuration
     */
-    private ADictionary dic;
-    private JcsegTaskConfig config;
+    public final ADictionary dic;
+    public final JcsegTaskConfig config;
     
     /** The N for n-gram, default to 1 and that is uni-gram */
     protected byte N = 1;
+     
     
     /**
      * method to create a new ISegment
      * 
-     * @param   config
-     * @param   dic
-     * @throws  IOException
-    */
-    public NGramSeg(JcsegTaskConfig config,  ADictionary dic) throws IOException
-    {
-        this(null, config, dic);
-    } 
-    
-    /**
-     * method to create a new ISegment
-     * 
-     * @param   input
      * @param   config
      * @param   dic
      * @throws  IOException
      */
-    public NGramSeg(Reader input, JcsegTaskConfig config, ADictionary dic) throws IOException 
+    public NGramSeg(JcsegTaskConfig config, ADictionary dic)
     {
     	assert config.getGRAM() > 0;
         this.config = config;
@@ -75,7 +64,6 @@ public class NGramSeg implements ISegment
         this.N 		= config.getGRAM();
         wordPool    = new LinkedList<IWord>();
         isb         = new IStringBuffer(N + 1);
-        reset(input);
     }
 
     @Override
@@ -309,16 +297,8 @@ public class NGramSeg implements ISegment
 		return dic;
 	}
 
-	public void setDic(ADictionary dic) {
-		this.dic = dic;
-	}
-
 	public JcsegTaskConfig getConfig() {
 		return config;
-	}
-
-	public void setConfig(JcsegTaskConfig config) {
-		this.config = config;
 	}
 
 	public byte getN() {

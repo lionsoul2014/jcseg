@@ -1,8 +1,8 @@
 package org.lionsoul.jcseg.util;
 
-import org.lionsoul.jcseg.tokenizer.Word;
-import org.lionsoul.jcseg.tokenizer.core.Entity;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.Entity;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.Word;
 
 /**
  * Time Util class

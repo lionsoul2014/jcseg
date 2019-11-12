@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.util;
+package org.lionsoul.jcseg.fi;
 
 @FunctionalInterface
 public interface CharTypeChecker {

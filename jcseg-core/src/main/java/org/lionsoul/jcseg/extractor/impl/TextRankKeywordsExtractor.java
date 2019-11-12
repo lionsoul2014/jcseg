@@ -10,9 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
 import org.lionsoul.jcseg.extractor.KeywordsExtractor;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
 
 /**
  * document keywords extractor base on textRank algorithm

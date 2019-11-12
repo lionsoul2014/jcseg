@@ -3,7 +3,8 @@ package org.lionsoul.jcseg.elasticsearch.index.analysis;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.ISegment.Type;
+import org.lionsoul.jcseg.ISegment;
 
 import java.io.IOException;
 
@@ -19,10 +20,9 @@ public class JcsegComplexAnalyzerProvider extends JcsegAnalyzerProvider
         super(indexSettings, env, name, settings);
     }
 
-    @Override
-    protected int getSegMode()
-    {
-        return JcsegTaskConfig.COMPLEX_MODE;
-    }
+	@Override
+	protected Type getType() {
+		return ISegment.COMPLEX;
+	}
     
 }

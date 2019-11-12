@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lionsoul.jcseg.tokenizer.Word;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.Sort;
 

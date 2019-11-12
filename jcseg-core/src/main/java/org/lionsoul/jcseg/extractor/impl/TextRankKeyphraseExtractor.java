@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
 import org.lionsoul.jcseg.extractor.KeyphraseExtractor;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**

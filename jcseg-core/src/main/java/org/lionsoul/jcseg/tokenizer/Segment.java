@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.SegKit;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
+import org.lionsoul.jcseg.IChunk;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.SegKit;
+import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.IntArrayList;
@@ -63,18 +64,16 @@ public abstract class Segment implements ISegment
     /**
      * the dictionary and task configuration instance
     */
-    protected ADictionary dic;
-    protected JcsegTaskConfig config;
+    public final ADictionary dic;
+    public final JcsegTaskConfig config;
     
     /**
      * initialize the segment
      * 
-     * @param   input
      * @param   config Jcseg task configuration instance
      * @param   dic Jcseg dictionary instance
-     * @throws  IOException
     */
-    public Segment( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public Segment(JcsegTaskConfig config, ADictionary dic )
     {
         this.config = config;
         this.dic    = dic;
@@ -82,15 +81,6 @@ public abstract class Segment implements ISegment
         subWordPool = new LinkedList<IWord>();
         isb         = new IStringBuffer(64);
         ialist      = new IntArrayList(15);
-        reset(input);
-    }
-    
-    /**
-     * @see Segment#Segment(Reader, JcsegTaskConfig, ADictionary)
-    */
-    public Segment( JcsegTaskConfig config, ADictionary dic ) throws IOException 
-    {
-        this(null, config, dic);
     }
     
     /**
@@ -153,16 +143,6 @@ public abstract class Segment implements ISegment
     }
     
     /**
-     * set the current dictionary
-     * 
-     * @param   dic
-     */
-    public void setDict( ADictionary dic ) 
-    {
-        this.dic = dic;
-    }
-    
-    /**
      * get the current dictionary instance.
      * 
      * @return    ADictionary
@@ -170,16 +150,6 @@ public abstract class Segment implements ISegment
     public ADictionary getDict() 
     {
         return dic;
-    }
-    
-    /**
-     * set the current task configuration instance.
-     * 
-     * @param    config
-     */
-    public void setConfig( JcsegTaskConfig config ) 
-    {
-        this.config = config;
     }
     
     /**

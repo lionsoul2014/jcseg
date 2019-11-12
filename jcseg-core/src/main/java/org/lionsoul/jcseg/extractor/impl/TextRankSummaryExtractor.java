@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.sentence.Sentence;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.Sort;
 

@@ -6,8 +6,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 
+import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
 
 /**
  * document summary extractor 

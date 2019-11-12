@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.util;
 
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 /**
  * Entity format manager class

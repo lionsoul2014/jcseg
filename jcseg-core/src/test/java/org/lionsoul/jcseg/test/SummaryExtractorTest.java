@@ -3,15 +3,13 @@ package org.lionsoul.jcseg.test;
 import java.io.IOException;
 import java.util.List;
 
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 
 /**
@@ -32,9 +30,7 @@ public class SummaryExtractorTest
         ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
         
         try {
-            ISegment seg = SegmentFactory
-                    .createJcseg(JcsegTaskConfig.COMPLEX_MODE, new Object[]{config, dic});
-            
+            ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
             SummaryExtractor extractor = new TextRankSummaryExtractor(seg, new SentenceSeg());
             
             String doc = "";
@@ -62,8 +58,6 @@ public class SummaryExtractorTest
             //String summary = extractor.getSummaryFromString(doc, 100);
             //String summary = extractor.getSummaryFromFile("/home/chenxin/curpos/8.txt", 86);
             //System.out.println(summary);
-        } catch (JcsegException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

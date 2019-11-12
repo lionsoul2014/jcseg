@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -20,15 +20,6 @@ public class JcsegTaskConfig implements Cloneable, Serializable
     private static final long serialVersionUID = 1L;
     /**default lexicon property file name*/
     public static final String LEX_PROPERTY_FILE = "jcseg.properties";
-    
-    /**simple algorithm or complex algorithm */
-    public static final int SIMPLE_MODE  = 1;
-    public static final int COMPLEX_MODE = 2;
-    public static final int DETECT_MODE  = 3;
-    public static final int MOST_MODE  = 4;
-    public static final int DELIMITER_MODE = 5;
-    public static final int NLP_MODE = 6;
-    public static final int NGRAM_MODE = 7;
     
     /**maximum length for maximum match(5-7) */
     public int MAX_LENGTH = 5;

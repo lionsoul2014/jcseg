@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg;
 
 import java.io.File;
 

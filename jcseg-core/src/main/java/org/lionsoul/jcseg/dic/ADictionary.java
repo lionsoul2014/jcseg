@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer.core;
+package org.lionsoul.jcseg.dic;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,12 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.lionsoul.jcseg.tokenizer.Word;
+import org.lionsoul.jcseg.AutoLoadFile;
+import org.lionsoul.jcseg.Entity;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.util.StringUtil;
 
 /**

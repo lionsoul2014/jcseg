@@ -1,22 +1,15 @@
 package org.lionsoul.jcseg.tokenizer;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//import java.util.Iterator;
-
-
-
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.Chunk;
-import org.lionsoul.jcseg.tokenizer.core.IChunk;
-import org.lionsoul.jcseg.tokenizer.core.ILexicon;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
-import org.lionsoul.jcseg.tokenizer.core.MMSegFilter;
+import org.lionsoul.jcseg.Chunk;
+import org.lionsoul.jcseg.IChunk;
+import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 
 /**
@@ -38,14 +31,9 @@ public class ComplexSeg extends Segment implements Serializable
 	
     private static final long serialVersionUID = 1L;
     
-    public ComplexSeg( JcsegTaskConfig config, ADictionary dic ) throws IOException 
+    public ComplexSeg( JcsegTaskConfig config, ADictionary dic )
     {
         super(config, dic);
-    }
-    
-    public ComplexSeg( Reader input, JcsegTaskConfig config, ADictionary dic ) throws IOException 
-    {
-        super(input, config, dic);
     }
 
     /**

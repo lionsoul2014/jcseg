@@ -8,17 +8,17 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.analyzer.JcsegTokenizer;
+import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
 {
     private final JcsegTaskConfig config;
     private final ADictionary dic;
-    private final int mode;
+    private final ISegment.Type type;
 
     public JcsegTokenizerTokenizerFactory(
             IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
@@ -33,37 +33,20 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
         	}
         }
         
-        dic = AnalysisJcsegPlugin.createSingletonDictionary(config);
-        
-        String seg_mode = settings.get("seg_mode");
-        if( "complex".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.COMPLEX_MODE;
-        } else if ( "simple".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.SIMPLE_MODE;
-        } else if ( "detect".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.DETECT_MODE;
-        } else if ( "search".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.MOST_MODE;
-        } else if ( "nlp".equals(seg_mode) ){
-            mode = JcsegTaskConfig.NLP_MODE;
-        } else if ( "delimiter".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.DELIMITER_MODE;
-        } else if ( "ngram".equals(seg_mode) ) {
-            mode = JcsegTaskConfig.NGRAM_MODE;
-        } else {
-            mode = JcsegTaskConfig.MOST_MODE;
-        }
+        dic  = AnalysisJcsegPlugin.createSingletonDictionary(config);
+        type = ISegment.Type.fromString(settings.get("seg_mode"));
     }
 
     @Override
     public Tokenizer create() 
     {
         try {
-            return new JcsegTokenizer(mode, config, dic);
-        } catch (JcsegException | IOException e) {
+            return new JcsegTokenizer(type, config, dic);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
     }
+    
 }

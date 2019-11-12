@@ -7,13 +7,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.lionsoul.jcseg.tokenizer.DictionaryFactory;
-import org.lionsoul.jcseg.tokenizer.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.core.ADictionary;
-import org.lionsoul.jcseg.tokenizer.core.ISegment;
-import org.lionsoul.jcseg.tokenizer.core.IWord;
-import org.lionsoul.jcseg.tokenizer.core.JcsegException;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.DictionaryFactory;
+import org.lionsoul.jcseg.ISegment;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.ADictionary;
 
 /**
  * jcseg speed test program
@@ -24,8 +22,7 @@ public class SpeedTest {
     
     public static ISegment seg = null;
     
-    public static String segment(Reader reader, int type) 
-            throws JcsegException, IOException 
+    public static String segment(Reader reader, int type) throws IOException 
     {
         
         if ( seg == null ) 
@@ -36,8 +33,7 @@ public class SpeedTest {
             //load lexicon
             //for ( String lpath : config.getLexiconPath() )
             //    dic.loadFromLexiconDirectory(lpath);
-            seg = SegmentFactory.createJcseg(JcsegTaskConfig.COMPLEX_MODE, 
-                    new Object[]{config, dic});
+            seg = ISegment.Type.fromIndex(type).factory.create(config, dic);
             System.out.println("Diciontary Loaded, cost:"+
                     (System.currentTimeMillis() - start)+" msec");
         }
@@ -70,11 +66,11 @@ public class SpeedTest {
         if (  args.length >= 1 ) 
             filename = args[0];
         try {
-            segment(new StringReader("jcseg中文分词组件。"), JcsegTaskConfig.COMPLEX_MODE);
+            segment(new StringReader("jcseg中文分词组件。"), ISegment.COMPLEX_MODE);
             segment(new BufferedReader(
                     new InputStreamReader(
                             new FileInputStream(filename), "UTF-8")),
-                    JcsegTaskConfig.COMPLEX_MODE);
+                    ISegment.COMPLEX_MODE);
             //System.out.println("Complex-> "+segment(sb.toString(), Config.COMPLEX_MODE));
         } catch (Exception e) {
             e.printStackTrace();
