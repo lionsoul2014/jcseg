@@ -23,7 +23,7 @@
 > * (1).简易模式：FMM算法，适合速度要求场合。
 > * (2).复杂模式：MMSEG四种过滤算法，具有较高的歧义去除，分词准确率达到了98.41%。
 > * (3).检测模式：只返回词库中已有的词条，很适合某些应用场合。
-> * (4).检索模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
+> * (4).最多模式：细粒度切分，专为检索而生，除了中文处理外（不具备中文的人名，数字识别等智能功能）其他与复杂模式一致（英文，组合词等）。
 > * (5).分隔符模式：按照给定的字符切分词条，默认是空格，特定场合的应用。
 > * (6).NLP模式：继承自复杂模式，更改了数字，单位等词条的组合方式，增加电子邮件，大陆手机号码，网址，人名，地名，货币等以及无限种自定义实体的识别与返回。
 > * (7).n-gram模式：CJK和拉丁系字符的通用n-gram切分实现。
@@ -62,7 +62,7 @@
 +--------Jcseg chinese word tokenizer demo-------------------+
 |- @Author chenxin<chenxin619315@gmail.com>                  |
 |- :seg_mode  : switch to specified tokenizer mode.          |
-|- (:complex,:simple,:search,:detect,:delimiter,:NLP,:ngram) |
+|- (:complex,:simple,:most,:detect,:delimiter,:NLP,:ngram)   |
 |- :keywords  : switch to keywords extract mode.             |
 |- :keyphrase : switch to keyphrase extract mode.            |
 |- :sentence  : switch to sentence extract mode.             |
@@ -161,12 +161,12 @@ Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
 
 //非必须(用于修改默认配置): 获取分词任务配置实例
 JcsegAnalyzer jcseg = (JcsegAnalyzer) analyzer;
-JcsegTaskConfig config = jcseg.getTaskConfig();
+SegmenterConfig config = jcseg.getConfig();
 //追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1
 config.setAppendCJKSyn(true);
 //追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1
 config.setAppendCJKPinyin();
-//更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig
+//更多配置, 请查看 org.lionsoul.jcseg.SegmenterConfig
 ```
 
 # **Jcseg** solr分词接口：
@@ -655,10 +655,11 @@ cd $JS_DIR
             # 1: SIMPLE_MODE
             # 2: COMPLEX_MODE
             # 3: DETECT_MODE
-            # 4: SEARCH_MODE
+            # 4: MOST_MODE
             # 5: DELIMITER_MODE
             # 6: NLP_MODE
-            # see org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig for more info
+            # 7: NGRAM_MODE
+            # see org.lionsoul.jcseg.segmenter.SegmenterConfig for more info
             "algorithm": 2,
             
             # dictionary instance name
@@ -847,25 +848,25 @@ jcseg.properties查找步骤：
 JcsegTaskConfig构造方法如下：
 
 ```java
-JcsegTaskConfig();                          //不做任何配置文件查找来初始化
-JcsegTaskConfig(boolean autoLoad);          //autoLoad=true会自动查找配置来初始化
-JcsegTaskConfig(java.lang.String proFile);  //从指定的配置文件中初始化配置对象
-JcsegTaskConfig(InputStream is);            //从指定的输入流中初始化配置对象
+SegmenterConfig();                          //不做任何配置文件查找来初始化
+SegmenterConfig(boolean autoLoad);          //autoLoad=true会自动查找配置来初始化
+SegmenterConfig(java.lang.String proFile);  //从指定的配置文件中初始化配置对象
+SegmenterConfig(InputStream is);            //从指定的输入流中初始化配置对象
 ```
 
 demo代码：
   
 ```java
-//创建JcsegTaskConfig使用默认配置，不做任何配置文件查找
-JcsegTaskConfig config = new JcsegTaskConfig();
+//创建SegmenterConfig使用默认配置，不做任何配置文件查找
+SegmenterConfig config = new SegmenterConfig();
 
 //该方法会自动按照上述“jcseg.properties查找步骤”来寻找jcseg.properties并且初始化：
-JcsegTaskConfig config = new JcsegTaskConfig(true);
+SegmenterConfig config = new SegmenterConfig(true);
 
 //依据给定的jcseg.properties文件创建并且初始化JcsegTaskConfig
-JcsegTaskConfig config = new JcsegTaskConfig("absolute or relative jcseg.properties path");
+SegmenterConfig config = new SegmenterConfig("absolute or relative jcseg.properties path");
 
-//调用JcsegTaskConfig#load(String proFile)方法来从指定配置文件中初始化配置选项
+//调用SegmenterConfig#load(String proFile)方法来从指定配置文件中初始化配置选项
 config.load("absolute or relative jcseg.properties path");
 ```
 
@@ -874,7 +875,7 @@ config.load("absolute or relative jcseg.properties path");
 ADictionary构造方法如下：
 
 ```java
-ADictionary(JcsegTaskConfig config, java.lang.Boolean sync)
+ADictionary(SegmenterConfig config, java.lang.Boolean sync)
 //config：上述的JcsegTaskConfig实例
 //sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
 //      如果jcseg.properties中autoload=1则会自动创建同步词库
@@ -883,14 +884,14 @@ ADictionary(JcsegTaskConfig config, java.lang.Boolean sync)
 demo代码：
 
 ```java
-//Jcseg提供org.lionsoul.jcseg.tokenzier.core.DictionaryFactory来方便词库的创建与往后的兼容
+//Jcseg提供org.lionsoul.jcseg.dic.DictionaryFactory来方便词库的创建与往后的兼容
 //通常可以通过
-//  DictionaryFactory#createDefaultDictionary(JcsegTaskConfig)
-//  DictionaryFactory.createSingletonDictionary(JcsegTaskConfig)
+//  DictionaryFactory#createDefaultDictionary(SegmenterConfig)
+//  DictionaryFactory.createSingletonDictionary(SegmenterConfig)
 //两方法来创建词库对象并且加载词库文件，建议使用createSingletonDictionary来创建单例词库
 
-//config为上面创建的JcsegTaskConfig对象.
-//如果给定的JcsegTaskConfig里面的词库路径信息正确
+//config为上面创建的SegmenterConfig对象.
+//如果给定的SegmenterConfig里面的词库路径信息正确
 //ADictionary会依据config里面的词库信息加载全部有效的词库;
 //并且该方法会依据config.isAutoload()来决定词库的同步性还是非同步性,
 //config.isAutoload()为true就创建同步词库, 反之就创建非同步词库,
@@ -937,20 +938,30 @@ public IWord next();
 demo代码：
     
 ```java
-//依据给定的ADictionary和JcsegTaskConfig来创建ISegment
-//通常使用SegmentFactory#createJcseg来创建ISegment对象
-//将config和dic组成一个Object数组给SegmentFactory.createJcseg方法
-//JcsegTaskConfig.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
-//JcsegTaskConfig.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
-//JcsegTaskConfig.DETECT_MODE表示创建DetectSeg Isegmengt分词对象.
-//JcsegTaskConfig.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
-//JcsegTaskConfig.DELIMITER_MODE表示创建DelimiterSeg Isegmengt分词对象.
-//JcsegTaskConfig.NLP_MODE表示创建NLPSeg Isegmengt分词对象.
-ISegment seg = SegmentFactory.createJcseg(
-    JcsegTaskConfig.COMPLEX_MODE, 
-    new Object[]{config, dic}
-);
-    
+//依据给定的ADictionary和SegmenterConfig来创建ISegment
+
+//1, 通过ISegment.XX_MODE参数
+//ISegment.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
+//ISegment.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
+//ISegment.DETECT_MODE表示创建DetectSeg Isegmengt分词对象.
+//ISegment.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
+//ISegment.DELIMITER_MODE表示创建DelimiterSeg Isegmengt分词对象.
+//ISegment.NLP_MODE表示创建NLPSeg Isegmengt分词对象.
+//ISegment.NGRAM_MODE表示创建NGramSeg Isegmengt分词对象.
+ISegment seg = ISegment.Type.fromIndex(mode).factory.create(config, dic);
+
+
+//2, 通过调用直接的模式函数
+// ISegment.COMPLEX为指向ComplexSeg的构造器函数接口
+// ISegment.SIMPLE为指向ComplexSeg的构造器函数接口
+// ISegment.DETECT为指向ComplexSeg的构造器函数接口
+// ISegment.MOST为指向ComplexSeg的构造器函数接口
+// ISegment.DELIMITER为指向ComplexSeg的构造器函数接口
+// ISegment.NLP为指向ComplexSeg的构造器函数接口
+// ISegment.NGRAM为指向ComplexSeg的构造器函数接口
+ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
+
+
 //设置要分词的内容
 String str = "研究生命起源。";
 seg.reset(new StringReader(str));
@@ -965,18 +976,15 @@ while ( (word = seg.next()) != null ) {
 ##### (4). 一个完整的例子：
 
 ```java
-//创建JcsegTaskConfig分词配置实例，自动查找加载jcseg.properties配置项来初始化
-JcsegTaskConfig config = new JcsegTaskConfig(true);
+//创建SegmenterConfig分词配置实例，自动查找加载jcseg.properties配置项来初始化
+SegmenterConfig config = new SegmenterConfig(true);
 
 //创建默认单例词库实现，并且按照config配置加载词库
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 
-//依据给定的ADictionary和JcsegTaskConfig来创建ISegment
+//依据给定的ADictionary和SegmenterConfig来创建ISegment
 //为了Api往后兼容，建议使用SegmentFactory来创建ISegment对象
-ISegment seg = SegmentFactory.createJcseg(
-    JcsegTaskConfig.COMPLEX_MODE, 
-    new Object[]{new StringReader(str), config, dic}
-);
+ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
 
 
 //备注：以下代码可以反复调用，seg为非线程安全
@@ -994,13 +1002,13 @@ while ( (word = seg.next()) != null ) {
 
 ##### (5). 如何自定义使用词库：
 
-从1.9.9版本开始，Jcseg已经默认将jcseg.properties和lexicon全部词库打包进了jcseg-core-{version}.jar中，如果是通过JcsegTaskConfig(true)构造的JcsegTaskConfig或者调用了JcsegTaskConfig#autoLoad()方法，在找不到自定义配置文件情况下Jcseg会自动的加载classpath中的配置文件，如果config.getLexiconPath() = null DictionaryFactory默认会自动加载classpath下的词库。
+从1.9.9版本开始，Jcseg已经默认将jcseg.properties和lexicon全部词库打包进了jcseg-core-{version}.jar中，如果是通过SegmenterConfig(true)构造的SegmenterConfig或者调用了SegmenterConfig#autoLoad()方法，在找不到自定义配置文件情况下Jcseg会自动的加载classpath中的配置文件，如果config.getLexiconPath() = null DictionaryFactory默认会自动加载classpath下的词库。
 
-* 1)，通过JcsegTaskConfig设置词库路径：
+* 1)，通过SegmenterConfig设置词库路径：
 
 ```java
-//1, 默认构造JcsegTaskConfig，不做任何配置文件寻找来初始化
-JcsegTaskConfig config = new JcsegTaskConfig();
+//1, 默认构造SegmenterConfig，不做任何配置文件寻找来初始化
+SegmenterConfig config = new SegmenterConfig();
 
 //2, 设置自定义词库路径集合
 config.setLexiconPath(new String[]{
@@ -1016,8 +1024,8 @@ ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
 * 2)，通过ADictionary手动加载词库：
 
 ```java
-//1, 构造默认的JcsegTaskConfig，不做任何配置文件寻找来初始化
-JcsegTaskConfig config = new JcsegTaskConfig();
+//1, 构造默认的SegmenterConfig，不做任何配置文件寻找来初始化
+SegmenterConfig config = new SegmenterConfig();
 
 //2, 构造ADictionary词库对象
 //注意第二个参数为false，阻止DictionaryFactory自动检测config.getLexiconPath()来加载词库
@@ -1044,15 +1052,12 @@ TextRankKeywordsExtractor(ISegment seg);
 
 ```java
 //1, 创建Jcseg ISegment分词对象
-JcsegTaskConfig config = new JcsegTaskConfig(true);
+SegmenterConfig config = new SegmenterConfig(true);
 config.setClearStopwords(true);     //设置过滤停止词
 config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-ISegment seg = SegmentFactory.createJcseg(
-    JcsegTaskConfig.COMPLEX_MODE, 
-    new Object[]{config, dic}
-);
+ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
 
 //2, 构建TextRankKeywordsExtractor关键字提取器
 TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
@@ -1084,15 +1089,12 @@ TextRankSummaryExtractor(ISegment seg, SentenceSeg sentenceSeg);
 
 ```java
 //1, 创建Jcseg ISegment分词对象
-JcsegTaskConfig config = new JcsegTaskConfig(true);
+SegmenterConfig config = new SegmenterConfig(true);
 config.setClearStopwords(true);     //设置过滤停止词
 config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-ISegment seg = SegmentFactory.createJcseg(
-    JcsegTaskConfig.COMPLEX_MODE, 
-    new Object[]{config, dic}
-);
+ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
 
 //2, 构造TextRankSummaryExtractor自动摘要提取对象
 SummaryExtractor extractor = new TextRankSummaryExtractor(seg, new SentenceSeg());
@@ -1128,16 +1130,13 @@ TextRankKeyphraseExtractor(ISegment seg);
 
 ```java
 //1, 创建Jcseg ISegment分词对象
-JcsegTaskConfig config = new JcsegTaskConfig(true);
+SegmenterConfig config = new SegmenterConfig(true);
 config.setClearStopwords(false);    //设置不过滤停止词
 config.setAppendCJKSyn(false);      //设置关闭同义词追加
 config.setKeepUnregWords(false);    //设置去除不识别的词条
 config.setEnSecondSeg(false);       //关闭英文自动二次切分
 ADictionary dic = DictionaryFactory.createSingletonDictionary(config);
-ISegment seg = SegmentFactory.createJcseg(
-    JcsegTaskConfig.COMPLEX_MODE, 
-    new Object[]{config, dic}
-);
+ISegment seg = ISegment.COMPLEX.factory.create(config, dic);
 
 //2, 构建TextRankKeyphraseExtractor关键短语提取器
 TextRankKeyphraseExtractor extractor = new TextRankKeyphraseExtractor(seg);
@@ -1186,7 +1185,7 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 ```
 1，第一个词为同义词的根词条，这个词条必须是CJK_WORD词库中必须存在的词条，如果不存在，这条同义词定义会被忽略。
 2，根词会作为不同行同义词集合的区别，如果两行同义词定义的根词一样，会自动合并成一个同义词集合。
-3，jcseg中使用org.lionsoul.jcseg.tokenizer.core.SynonymsEntry来管理同义词集合，每个IWord词条对象都会有一个SynonymsEntry属性来指向自己的同义词集合。
+3，jcseg中使用org.lionsoul.jcseg.SynonymsEntry来管理同义词集合，每个IWord词条对象都会有一个SynonymsEntry属性来指向自己的同义词集合。
 4，SynonymsEntry.rootWord存储了同义词集合的根词，同义词的合并建议统一替换成根词。
 5，除去根词外的其他同义词，jcseg会自动检测并且创建相关的IWord词条对象并且将其加入CJK_WORD词库中，也就是说其他同义词不一定要是CJK_WORD词库中存在的词条。
 6，其他同义词会自动继承词根的词性和实体定义，也会继承CJK_WORD词库中该词条的拼音定义（如果存在该词），也可以在词条后面通过增加"/拼音"来单独定义拼音。

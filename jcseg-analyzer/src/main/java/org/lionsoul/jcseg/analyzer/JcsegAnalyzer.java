@@ -33,7 +33,7 @@ public class JcsegAnalyzer extends Analyzer
         this.dic    = dic;
     }
     
-    public SegmenterConfig getTaskConfig()
+    public SegmenterConfig getConfig()
     {
         return config;
     }
