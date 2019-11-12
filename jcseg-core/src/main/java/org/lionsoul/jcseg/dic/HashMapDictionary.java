@@ -6,25 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
+import org.lionsoul.jcseg.segmenter.Word;
 
 /**
  * Dictionary class
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author	chenxin<chenxin619315@gmail.com>
  */
-public class Dictionary extends ADictionary implements Serializable
+public class HashMapDictionary extends ADictionary implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
     /**hash table for the words*/
-    private Map<String, IWord>[] dics = null;
+    public final Map<String, IWord>[] dics;
     
     @SuppressWarnings("unchecked")
-    public Dictionary( JcsegTaskConfig config, Boolean sync )
+    public HashMapDictionary( SegmenterConfig config, Boolean sync )
     {
         super(config, sync);
         

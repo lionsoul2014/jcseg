@@ -1,10 +1,9 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.dic;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 
-import org.lionsoul.jcseg.dic.ADictionary;
-import org.lionsoul.jcseg.dic.Dictionary;
+import org.lionsoul.jcseg.IDictionary;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  * <p>
@@ -30,27 +29,6 @@ public class DictionaryFactory
     private DictionaryFactory() {}
     
     /**
-     * create a new ADictionary instance
-     * 
-     * @param     _class
-     * @return    ADictionary
-     */
-    public static ADictionary createDictionary(
-            Class<? extends ADictionary> _class, Class<?>[] paramType, Object[] args)
-    {
-        try {
-            Constructor<?> cons = _class.getConstructor(paramType);
-            return ( ( ADictionary ) cons.newInstance(args) );
-        } catch ( Exception e ) {
-            System.err.println("can't create the ADictionary instance " +
-                    "with classpath ["+_class.getName()+"]");
-            e.printStackTrace();
-        }
-        
-        return null;
-    }
-    
-    /**
      * create a default ADictionary instance:
      * 1. check the lexicon path and load the lexicons
      *  if it is null and default to load the lexicon in the classpath
@@ -58,18 +36,13 @@ public class DictionaryFactory
      * 
      * @param   config
      * @param   sync
-     * @param   loadDic wether check and load the lexicon
-     * @return  ADictionary
+     * @param   loadDic whether check and load the lexicon
+     * @return  IDictionary
      */
     public static ADictionary createDefaultDictionary( 
-            JcsegTaskConfig config, boolean sync, boolean loadDic ) 
+            SegmenterConfig config, boolean sync, boolean loadDic ) 
     {
-        ADictionary dic = createDictionary(
-            Dictionary.class,
-            new Class[]{JcsegTaskConfig.class, Boolean.class},
-            new Object[]{config, sync}
-        );
-        
+        final ADictionary dic = (ADictionary) IDictionary.HASHMAP.factory.create(config, sync);
         if ( loadDic == false ) {
             return dic;
         }
@@ -84,10 +57,10 @@ public class DictionaryFactory
             */
             String[] lexpath = config.getLexiconPath();
             if ( lexpath == null ) {
-                dic.loadClassPath();
+            	dic.loadClassPath();
             } else {
-                for ( String lpath : lexpath )      dic.loadDirectory(lpath);
-                if ( dic.getConfig().isAutoload() ) dic.startAutoload();
+                for ( String lpath : lexpath ) dic.loadDirectory(lpath);
+                if ( config.isAutoload() ) dic.startAutoload();
             }
             
             /*
@@ -109,7 +82,7 @@ public class DictionaryFactory
      * @param   config
      * @return  ADictionary
     */
-    public static ADictionary createDefaultDictionary(JcsegTaskConfig config)
+    public static ADictionary createDefaultDictionary(SegmenterConfig config)
     {
         return createDefaultDictionary(config, true);
     }
@@ -121,7 +94,7 @@ public class DictionaryFactory
      * @param   loadDic
      * @return  ADictionary
     */
-    public static ADictionary createDefaultDictionary(JcsegTaskConfig config, boolean loadDic)
+    public static ADictionary createDefaultDictionary(SegmenterConfig config, boolean loadDic)
     {
         return createDefaultDictionary(config, config.isAutoload(), loadDic);
     }
@@ -133,7 +106,7 @@ public class DictionaryFactory
      * @param   config
      * @return  ADictionary
     */
-    public static ADictionary createSingletonDictionary(JcsegTaskConfig config)
+    public static ADictionary createSingletonDictionary(SegmenterConfig config)
     {
         return createSingletonDictionary(config, true);
     }
@@ -145,7 +118,7 @@ public class DictionaryFactory
      * @param   loadDic
      * @return  ADictionary
     */
-    public static ADictionary createSingletonDictionary(JcsegTaskConfig config, boolean loadDic)
+    public static ADictionary createSingletonDictionary(SegmenterConfig config, boolean loadDic)
     {
         synchronized (LOCK) {
             if ( singletonDic == null ) {

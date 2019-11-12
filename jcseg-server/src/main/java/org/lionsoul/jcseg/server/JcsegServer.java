@@ -12,13 +12,13 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.lionsoul.jcseg.DictionaryFactory;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.json.JSONArray;
 import org.lionsoul.jcseg.json.JSONException;
 import org.lionsoul.jcseg.json.JSONObject;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 import org.lionsoul.jcseg.server.controller.MainController;
 import org.lionsoul.jcseg.server.controller.KeyphraseController;
 import org.lionsoul.jcseg.server.controller.KeywordsController;
@@ -180,7 +180,7 @@ public class JcsegServer
         }
 
         //create a global JcsegTaskConfig and initialize from the global_setting
-        JcsegTaskConfig globalJcsegTaskConfig = new JcsegTaskConfig(false);
+        SegmenterConfig globalJcsegTaskConfig = new SegmenterConfig(false);
         if ( globalConfig.has("jcseg_global_config") ) {
             JSONObject globalSetting = globalConfig.getJSONObject("jcseg_global_config");
             resetJcsegTaskConfig(globalJcsegTaskConfig, globalSetting);
@@ -192,7 +192,7 @@ public class JcsegServer
          * 
          * reset the max length to pass the dictionary words length limitation
         */
-        JcsegTaskConfig dictLoadConfig = globalJcsegTaskConfig.clone();
+        SegmenterConfig dictLoadConfig = globalJcsegTaskConfig.clone();
         dictLoadConfig.setMaxLength(100);
         if ( globalConfig.has("jcseg_dict") ) {
             JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
@@ -261,7 +261,7 @@ public class JcsegServer
                 
                 //clone the globalJcsegTaskConfig
                 //and do the override working by local defination
-                JcsegTaskConfig config = globalJcsegTaskConfig.clone();
+                SegmenterConfig config = globalJcsegTaskConfig.clone();
                 if ( configJson.length() > 0 ) {
                     resetJcsegTaskConfig(config, configJson);
                 }
@@ -291,7 +291,7 @@ public class JcsegServer
                 }
                 
                 ADictionary dic = resourcePool.getDict(tokenizerJson.getString("dict"));
-                JcsegTaskConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
+                SegmenterConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
                 if ( dic == null ) {
                     throw new IllegalArgumentException("Unknow dict instance " 
                         + tokenizerJson.getString("dict") + " for tokenizer " + name);
@@ -319,7 +319,7 @@ public class JcsegServer
      * @param	config
      * @param   json
     */
-    private void resetJcsegTaskConfig(JcsegTaskConfig config, JSONObject json)
+    private void resetJcsegTaskConfig(SegmenterConfig config, JSONObject json)
     {
     	for ( final String key : json.keySet() ) {
     		try {

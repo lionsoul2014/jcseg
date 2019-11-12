@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.test;
 
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.segmenter.Word;
 
 public class WordTest
 {

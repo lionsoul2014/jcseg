@@ -7,19 +7,19 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.List;
 
-import org.lionsoul.jcseg.DictionaryFactory;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.extractor.KeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.KeywordsExtractor;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeyphraseExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankKeywordsExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
+import org.lionsoul.jcseg.segmenter.NLPSeg;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
-import org.lionsoul.jcseg.tokenizer.NLPSeg;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 /**
@@ -29,7 +29,7 @@ import org.lionsoul.jcseg.util.ArrayUtil;
  */
 public class JcsegTest 
 {
-    final JcsegTaskConfig tokenizerConfig;
+    final SegmenterConfig tokenizerConfig;
     final ADictionary dic;
     
     ISegment tokenizerSeg;
@@ -41,8 +41,8 @@ public class JcsegTest
     
     public JcsegTest() throws IOException, CloneNotSupportedException 
     {
-        tokenizerConfig = new JcsegTaskConfig(true);
-        JcsegTaskConfig extractorConfig = tokenizerConfig.clone();
+        tokenizerConfig = new SegmenterConfig(true);
+        SegmenterConfig extractorConfig = tokenizerConfig.clone();
         //JcsegTaskConfig config = new JcsegTaskConfig("/java/JavaSE/jcseg/jcseg.properties"); 
         //JcsegTaskConfig config = new JcsegTaskConfig(null);
         //reset the options from a property file.

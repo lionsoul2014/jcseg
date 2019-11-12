@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  * Jcseg analyzer for lucene with version on or after 5.0
@@ -16,7 +16,7 @@ import org.lionsoul.jcseg.dic.ADictionary;
 public class JcsegAnalyzer extends Analyzer
 {
     public ISegment.Type type;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     public final ADictionary dic;
     
     /**
@@ -26,14 +26,14 @@ public class JcsegAnalyzer extends Analyzer
      * @param   config
      * @param   dic
     */
-    public JcsegAnalyzer(ISegment.Type type, JcsegTaskConfig config, ADictionary dic)
+    public JcsegAnalyzer(ISegment.Type type, SegmenterConfig config, ADictionary dic)
     {
         this.type   = type;
         this.config = config;
         this.dic    = dic;
     }
     
-    public JcsegTaskConfig getTaskConfig()
+    public SegmenterConfig getTaskConfig()
     {
         return config;
     }

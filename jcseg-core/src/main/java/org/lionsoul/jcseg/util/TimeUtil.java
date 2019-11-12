@@ -1,8 +1,8 @@
 package org.lionsoul.jcseg.util;
 
-import org.lionsoul.jcseg.Entity;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.segmenter.Entity;
+import org.lionsoul.jcseg.segmenter.Word;
 
 /**
  * Time Util class
@@ -21,7 +21,7 @@ public class TimeUtil
      * +------+-------+-----+---------------+------+--------+--------+
      * and the numeric value before every part.
      * 
-     * Note: {@link org.lionsoul.jcseg.tokenizer.NLPSeg}'s date-time recognition base on this logic
+     * Note: {@link org.lionsoul.jcseg.segmenter.NLPSeg}'s date-time recognition base on this logic
      * 1, the odd index is the entity part
      * 2, the even index is the numeric value part
     */

@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.lionsoul.jcseg.DictionaryFactory;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  * jcseg speed test program
@@ -28,7 +28,7 @@ public class SpeedTest {
         if ( seg == null ) 
         {
             long start = System.currentTimeMillis();
-            JcsegTaskConfig  config = new JcsegTaskConfig(true);
+            SegmenterConfig  config = new SegmenterConfig(true);
             ADictionary dic = DictionaryFactory.createDefaultDictionary(config);
             //load lexicon
             //for ( String lpath : config.getLexiconPath() )

@@ -21,12 +21,12 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.lionsoul.jcseg.AutoLoadFile;
-import org.lionsoul.jcseg.Entity;
-import org.lionsoul.jcseg.ILexicon;
+import org.lionsoul.jcseg.IDictionary;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.SynonymsEntry;
+import org.lionsoul.jcseg.segmenter.Entity;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
+import org.lionsoul.jcseg.segmenter.Word;
 import org.lionsoul.jcseg.util.StringUtil;
 
 /**
@@ -34,17 +34,17 @@ import org.lionsoul.jcseg.util.StringUtil;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public abstract class ADictionary implements Serializable
+public abstract class ADictionary implements IDictionary, Serializable
 {
-    private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 4471659405268497613L;
+	
     /**
      * the default auto load task file name 
     */
     public static final String AL_TODO_FILE = "lex-autoload.todo";
     
-    protected JcsegTaskConfig config;
-    protected boolean sync;
+    public final SegmenterConfig config;
+    public final boolean sync;
     
     /**auto load thread */
     private Thread autoloadThread = null;
@@ -71,7 +71,7 @@ public abstract class ADictionary implements Serializable
      * @param   config
      * @param   sync
     */
-    public ADictionary( JcsegTaskConfig config, Boolean sync ) 
+    public ADictionary( SegmenterConfig config, Boolean sync ) 
     {
         this.sync   = sync.booleanValue();
         this.config = config;
@@ -361,93 +361,6 @@ public abstract class ADictionary implements Serializable
     }
     
     /**
-     * loop up the dictionary, check the given key is in the dictionary or not
-     * 
-     * @param t
-     * @param key
-     * @return true for matched false for not match.
-     */
-    public abstract boolean match( int t, String key );
-    
-    /**
-     * directly add a IWord item to the dictionary
-     * 
-     * @param   t
-     * @param   word
-    */
-    public abstract IWord add( int t, IWord word );
-    
-    /**
-     * add a new word to the dictionary with its statistics frequency
-     * 
-     * @param   t
-     * @param   key
-     * @param   fre
-     * @param   type
-     * @param   entity
-     * @return  IWord
-     */
-    public abstract IWord add( int t, String key, int fre, int type, String[] entity );
-    
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   fre
-     * @param   type
-     * @return  IWord
-     */
-    public abstract IWord add( int t, String key, int fre, int type );
-    
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   type
-     * @return  IWord
-     */
-    public abstract IWord add( int t, String key, int type );
-    
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   type
-     * @param   entity
-     * @return  IWord
-     */
-    public abstract IWord add( int t, String key, int type, String[] entity );
-    
-    /**
-     * return the IWord associate with the given key.
-     * if there is not mapping for the key null will be return
-     * 
-     * @param t
-     * @param key
-     */
-    public abstract IWord get( int t, String key );
-    
-    /**
-     * remove the mapping associate with the given key
-     * 
-     * @param t
-     * @param key
-     */
-    public abstract void remove( int t, String key );
-    
-    /**
-     * return the size of the dictionary
-     * 
-     * @param    t
-     * @return int
-     */
-    public abstract int size(int t);
-    
-    
-    /**
      * get the key's type index located in ILexicon interface
      * 
      * @param   key
@@ -489,14 +402,9 @@ public abstract class ADictionary implements Serializable
         return ILexicon.CJK_WORD;
     }
     
-    public JcsegTaskConfig getConfig()
+    public SegmenterConfig getConfig()
     {
         return config;
-    }
-    
-    public void setConfig( JcsegTaskConfig config )
-    {
-        this.config = config;
     }
     
     /**
@@ -511,7 +419,7 @@ public abstract class ADictionary implements Serializable
      * @throws  NumberFormatException 
      */
     public static void loadWords( 
-            JcsegTaskConfig config, ADictionary dic, File file, List<String[]> buffer ) 
+            SegmenterConfig config, ADictionary dic, File file, List<String[]> buffer ) 
             throws NumberFormatException, FileNotFoundException, IOException 
     {
         loadWords(config, dic, new FileInputStream(file), buffer);
@@ -529,7 +437,7 @@ public abstract class ADictionary implements Serializable
      * @throws  NumberFormatException 
     */
     public static void loadWords( 
-            JcsegTaskConfig config, ADictionary dic, String file, List<String[]> buffer ) 
+            SegmenterConfig config, ADictionary dic, String file, List<String[]> buffer ) 
             throws NumberFormatException, FileNotFoundException, IOException
     {
         loadWords(config, dic, new FileInputStream(file), buffer);
@@ -546,7 +454,7 @@ public abstract class ADictionary implements Serializable
      * @throws  NumberFormatException 
     */
     public static void loadWords( 
-            JcsegTaskConfig config, ADictionary dic, InputStream is, List<String[]> buffer ) 
+            SegmenterConfig config, ADictionary dic, InputStream is, List<String[]> buffer ) 
             throws NumberFormatException, IOException
     {
         boolean isFirstLine = true;
@@ -852,7 +760,7 @@ public abstract class ADictionary implements Serializable
      * @param   mixLength
      * @return  boolean
     */
-    public static boolean resetPrefixLength(JcsegTaskConfig config, ADictionary dic, int mixLength)
+    public static boolean resetPrefixLength(SegmenterConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
                 && mixLength > dic.mixPrefixLength ) {
@@ -871,7 +779,7 @@ public abstract class ADictionary implements Serializable
      * @param   mixLength
      * @return  boolean
     */
-    public static boolean resetSuffixLength(JcsegTaskConfig config, ADictionary dic, int mixLength)
+    public static boolean resetSuffixLength(SegmenterConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
                 && mixLength > dic.mixSuffixLength ) {

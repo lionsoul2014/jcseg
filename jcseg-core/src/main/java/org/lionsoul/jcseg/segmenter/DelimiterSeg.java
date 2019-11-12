@@ -1,17 +1,14 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.SegKit;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.StringUtil;
@@ -45,7 +42,7 @@ public class DelimiterSeg implements ISegment
      * the dictionary and task configuration
     */
     public final ADictionary dic;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     
     /**
      * method to create a new ISegment
@@ -54,7 +51,7 @@ public class DelimiterSeg implements ISegment
      * @param   dic
      * @throws  IOException
      */
-    public DelimiterSeg(JcsegTaskConfig config, ADictionary dic)
+    public DelimiterSeg(SegmenterConfig config, ADictionary dic)
     {
         this.config    = config;
         this.dic       = dic;
@@ -217,7 +214,7 @@ public class DelimiterSeg implements ISegment
      * 
      * @return  JcsegTaskConfig
     */
-    public JcsegTaskConfig getConfig()
+    public SegmenterConfig getConfig()
     {
         return config;
     }

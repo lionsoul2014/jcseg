@@ -1,9 +1,10 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.Serializable;
 import java.util.List;
 
-import org.lionsoul.jcseg.dic.SynonymsEntry;
+import org.lionsoul.jcseg.IWord;
+import org.lionsoul.jcseg.SynonymsEntry;
 import org.lionsoul.jcseg.util.ArrayUtil;
 
 

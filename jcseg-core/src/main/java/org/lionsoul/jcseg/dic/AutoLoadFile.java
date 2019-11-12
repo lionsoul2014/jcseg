@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.dic;
 
 import java.io.File;
 

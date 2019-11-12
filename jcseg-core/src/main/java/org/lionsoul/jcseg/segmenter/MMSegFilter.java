@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,7 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
-import org.lionsoul.jcseg.Chunk;
 import org.lionsoul.jcseg.IChunk;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
 
 
@@ -15,7 +13,7 @@ import org.lionsoul.jcseg.dic.ADictionary;
 public class SimpleSeg extends Segment
 {
     
-    public SimpleSeg( JcsegTaskConfig config, ADictionary dic )
+    public SimpleSeg( SegmenterConfig config, ADictionary dic )
     {
         super(config, dic);
     }

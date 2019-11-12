@@ -9,9 +9,9 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
 import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  * JcsegAnalyzerProvider
@@ -28,7 +28,7 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
             IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        final JcsegTaskConfig config = new JcsegTaskConfig(new FileInputStream(
+        final SegmenterConfig config = new SegmenterConfig(new FileInputStream(
                 AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
         
         /* Load and apply the self-define arguments for Jcseg */

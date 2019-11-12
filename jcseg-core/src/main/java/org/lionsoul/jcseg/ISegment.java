@@ -3,14 +3,14 @@ package org.lionsoul.jcseg;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.lionsoul.jcseg.fi.SegmentFactory;
-import org.lionsoul.jcseg.tokenizer.SimpleSeg;
-import org.lionsoul.jcseg.tokenizer.ComplexSeg;
-import org.lionsoul.jcseg.tokenizer.DetectSeg;
-import org.lionsoul.jcseg.tokenizer.MostSeg;
-import org.lionsoul.jcseg.tokenizer.NLPSeg;
-import org.lionsoul.jcseg.tokenizer.DelimiterSeg;
-import org.lionsoul.jcseg.tokenizer.NGramSeg;
+import org.lionsoul.jcseg.fi.SegmenterFunction;
+import org.lionsoul.jcseg.segmenter.ComplexSeg;
+import org.lionsoul.jcseg.segmenter.DelimiterSeg;
+import org.lionsoul.jcseg.segmenter.DetectSeg;
+import org.lionsoul.jcseg.segmenter.MostSeg;
+import org.lionsoul.jcseg.segmenter.NGramSeg;
+import org.lionsoul.jcseg.segmenter.NLPSeg;
+import org.lionsoul.jcseg.segmenter.SimpleSeg;
 
 /**
  * Jcseg segmentation interface
@@ -29,7 +29,7 @@ public interface ISegment
 	public static final Type NGRAM = Type.NGRAM;
 	
 	public static enum Type 
-    {
+	{
 		SIMPLE("simple", 1, SimpleSeg::new),
 		COMPLEX("complex", 2, ComplexSeg::new),
 		DETECT("detect", 3, DetectSeg::new),
@@ -38,9 +38,9 @@ public interface ISegment
 		DELIMITER("delimiter", 6, DelimiterSeg::new),
 		NGRAM("ngram", 7, NGramSeg::new);
 		
-    	public final String name;
-    	public final int index;
-    	public final SegmentFactory factory;
+		public final String name;
+		public final int index;
+		public final SegmenterFunction factory;
     	
     	
         /**
@@ -51,7 +51,7 @@ public interface ISegment
         	null, SIMPLE, COMPLEX, DETECT, MOST, NLP, DELIMITER, NGRAM
         };
     	
-    	private Type(String name, int index, SegmentFactory factory)
+    	private Type(String name, int index, SegmenterFunction factory)
     	{
     		this.name = name;
     		this.index = index;
@@ -91,17 +91,17 @@ public interface ISegment
             return defaultValue;
         }
         
-        public static Type fromString(String type)
-        {
-            return fromString(type, Type.COMPLEX);
-        }
-        
-        public static Type fromIndex(int index)
-        {
-        	assert index > 0;
-        	assert index < MAPPING.length;
-        	return MAPPING[index];
-        }
+		public static Type fromString(String type)
+		{
+		    return fromString(type, Type.COMPLEX);
+		}
+		
+		public static Type fromIndex(int index)
+		{
+			assert index > 0;
+			assert index < MAPPING.length;
+			return MAPPING[index];
+		}
     }
 	
 	/** Segmentation type index */

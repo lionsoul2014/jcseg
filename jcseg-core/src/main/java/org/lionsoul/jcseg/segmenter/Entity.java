@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.segmenter;
 
 import java.lang.reflect.Field;
 

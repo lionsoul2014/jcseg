@@ -7,10 +7,10 @@ import java.util.Map.Entry;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
-import org.lionsoul.jcseg.DictionaryFactory;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  * Jcseg tokenizer factory class for solr
@@ -21,7 +21,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
 {
     
     public final ISegment.Type type;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     public final ADictionary dic;
 
     /**
@@ -38,7 +38,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         type = ISegment.Type.fromString(args.get("mode"));
         
         // initialize the task configuration and the dictionary
-        config = new JcsegTaskConfig(true);
+        config = new SegmenterConfig(true);
         // check and apply this-level Jcseg settings
         for ( Entry<String, String> entry : args.entrySet() ) {
         	if ( entry.getKey().startsWith("jcseg_") ) {
@@ -49,7 +49,7 @@ public class JcsegTokenizerFactory extends TokenizerFactory
         dic = DictionaryFactory.createSingletonDictionary(config);
     }
     
-    public JcsegTaskConfig getTaskConfig() 
+    public SegmenterConfig getTaskConfig() 
     {
         return config;
     }

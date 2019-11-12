@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -11,11 +11,11 @@ import java.util.Properties;
 import org.lionsoul.jcseg.util.Util;
 
 /**
- * <p>Jcseg segmentation task configuration class</p>
+ * <p>Jcseg segmenter configuration class</p>
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
-public class JcsegTaskConfig implements Cloneable, Serializable
+public class SegmenterConfig implements Cloneable, Serializable
 {
     private static final long serialVersionUID = 1L;
     /**default lexicon property file name*/
@@ -122,7 +122,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
      * 
      * @since 1.9.8
     */
-    public JcsegTaskConfig() 
+    public SegmenterConfig() 
     {
         //do nothing here
     }
@@ -132,7 +132,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
      * 
      * @param   autoLoad
     */
-    public JcsegTaskConfig(boolean autoLoad)
+    public SegmenterConfig(boolean autoLoad)
     {
         if ( autoLoad ) {
             try {autoLoad();} catch (IOException e) {e.printStackTrace();}
@@ -144,7 +144,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
      * 
      * @param   proFile
     */
-    public JcsegTaskConfig( String proFile ) 
+    public SegmenterConfig( String proFile ) 
     {
         try {load(proFile);} catch (IOException e) {e.printStackTrace();}
     }
@@ -154,7 +154,7 @@ public class JcsegTaskConfig implements Cloneable, Serializable
      * 
      * @param   is
     */
-    public JcsegTaskConfig( InputStream is ) 
+    public SegmenterConfig( InputStream is ) 
     {
         try {load(is);} catch (IOException e) {e.printStackTrace();}
     }
@@ -604,11 +604,11 @@ public class JcsegTaskConfig implements Cloneable, Serializable
 	/**
      * rewrite the clone method
      * 
-     * @return  JcsegTaskConfig
+     * @return	SegmenterConfig
     */
     @Override
-    public JcsegTaskConfig clone() throws CloneNotSupportedException {
-        return (JcsegTaskConfig) super.clone();
+    public SegmenterConfig clone() throws CloneNotSupportedException {
+        return (SegmenterConfig) super.clone();
     }
     
 }

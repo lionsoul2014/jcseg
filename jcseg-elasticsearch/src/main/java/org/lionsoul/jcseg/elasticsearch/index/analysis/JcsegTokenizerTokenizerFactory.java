@@ -9,14 +9,14 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.analyzer.JcsegTokenizer;
 import org.lionsoul.jcseg.dic.ADictionary;
 import org.lionsoul.jcseg.elasticsearch.plugin.AnalysisJcsegPlugin;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
 {
-    private final JcsegTaskConfig config;
+    private final SegmenterConfig config;
     private final ADictionary dic;
     private final ISegment.Type type;
 
@@ -24,7 +24,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
             IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
         super(indexSettings, settings, name);
         
-        config = new JcsegTaskConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        config = new SegmenterConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
         
         /* Load and apply the self-define arguments for Jcseg */
         for ( String key : settings.names() ) {

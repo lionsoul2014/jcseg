@@ -1,14 +1,12 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
 /**
@@ -21,7 +19,7 @@ import org.lionsoul.jcseg.util.IStringBuffer;
 public class MostSeg extends Segment
 {
     
-    public MostSeg(JcsegTaskConfig config, ADictionary dic) 
+    public MostSeg(SegmenterConfig config, ADictionary dic) 
     {
         super(config, dic);
         config.setKeepEnSecOriginalWord(true);

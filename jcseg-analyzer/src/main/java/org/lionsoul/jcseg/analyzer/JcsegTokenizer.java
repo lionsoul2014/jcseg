@@ -9,8 +9,8 @@ import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 
 /**
@@ -54,7 +54,7 @@ public class JcsegTokenizer extends Tokenizer
     
     public JcsegTokenizer(
         ISegment.Type type,
-        JcsegTaskConfig config,
+        SegmenterConfig config,
         ADictionary dic ) throws IOException 
     {
         segmentor = type.factory.create(config, dic);

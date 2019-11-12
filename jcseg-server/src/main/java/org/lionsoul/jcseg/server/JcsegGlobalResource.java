@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 import org.lionsoul.jcseg.server.core.GlobalResource;
 
 public class JcsegGlobalResource extends GlobalResource
@@ -18,7 +18,7 @@ public class JcsegGlobalResource extends GlobalResource
     /**
      * JcsegTaskConfig pool 
     */
-    private Map<String, JcsegTaskConfig> configPool = null;
+    private Map<String, SegmenterConfig> configPool = null;
     
     /**
      *  TokenizerEntry pool
@@ -32,7 +32,7 @@ public class JcsegGlobalResource extends GlobalResource
     public JcsegGlobalResource()
     {
         dicPool = Collections.synchronizedMap(new HashMap<String, ADictionary>());
-        configPool = Collections.synchronizedMap(new HashMap<String, JcsegTaskConfig>());
+        configPool = Collections.synchronizedMap(new HashMap<String, SegmenterConfig>());
         tokenizerPool = Collections.synchronizedMap(new HashMap<String, JcsegTokenizerEntry>());
     }
     
@@ -110,7 +110,7 @@ public class JcsegGlobalResource extends GlobalResource
      * @param    name
      * @param    config
     */
-    public void addConfig(String name, JcsegTaskConfig config)
+    public void addConfig(String name, SegmenterConfig config)
     {
         configPool.put(name, config);
     }
@@ -131,7 +131,7 @@ public class JcsegGlobalResource extends GlobalResource
      * @param    name
      * @return    JcsegTaskConfig
     */
-    public JcsegTaskConfig getConfig(String name)
+    public SegmenterConfig getConfig(String name)
     {
         return configPool.get(name);
     }

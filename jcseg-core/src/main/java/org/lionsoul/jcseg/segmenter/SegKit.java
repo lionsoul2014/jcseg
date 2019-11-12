@@ -1,7 +1,9 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.segmenter;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.lionsoul.jcseg.IWord;
 
 /**
  * abstract segmentor kit class 
@@ -18,7 +20,7 @@ public class SegKit
      * @param   wordPool
      * @param   wd
     */
-    public final static void appendSynonyms(JcsegTaskConfig config, LinkedList<IWord> wordPool, IWord wd)
+    public final static void appendSynonyms(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
     {
         final List<IWord> synList = wd.getSyn().getList();
         synchronized (synList) {
@@ -51,7 +53,7 @@ public class SegKit
      * @param	wordPool
      * @param	wd
     */
-    public final static void appendPinyin(JcsegTaskConfig config, LinkedList<IWord> wordPool, IWord wd)
+    public final static void appendPinyin(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
     {
     	/* 
     	 * For search, you know this is a complex topic for pinyin process 

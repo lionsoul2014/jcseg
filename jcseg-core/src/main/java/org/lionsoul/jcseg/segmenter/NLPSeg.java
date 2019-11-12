@@ -1,16 +1,13 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.Entity;
 import org.lionsoul.jcseg.IChunk;
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 import org.lionsoul.jcseg.util.ArrayUtil;
 import org.lionsoul.jcseg.util.ByteCharCounter;
 import org.lionsoul.jcseg.util.EntityFormat;
@@ -37,7 +34,7 @@ public class NLPSeg extends ComplexSeg
     private final LinkedList<IWord> eWordPool = new LinkedList<IWord>();
     private final IStringBuffer buffer = new IStringBuffer(64);
 
-    public NLPSeg(JcsegTaskConfig config, ADictionary dic)
+    public NLPSeg(SegmenterConfig config, ADictionary dic)
     {
     	super(config, dic);
     	

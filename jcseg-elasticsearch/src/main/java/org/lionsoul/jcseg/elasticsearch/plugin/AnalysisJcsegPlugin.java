@@ -8,9 +8,8 @@ import org.elasticsearch.index.analysis.TokenizerFactory;
 import org.elasticsearch.indices.analysis.AnalysisModule.AnalysisProvider;
 import org.elasticsearch.plugins.AnalysisPlugin;
 import org.elasticsearch.plugins.Plugin;
-import org.lionsoul.jcseg.DictionaryFactory;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegComplexAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegDelimiterAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegDetectAnalyzerProvider;
@@ -20,6 +19,7 @@ import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegNoOpTokenFilterFacto
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegMostAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegSimpleAnalyzerProvider;
 import org.lionsoul.jcseg.elasticsearch.index.analysis.JcsegTokenizerTokenizerFactory;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -83,10 +83,10 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
     /**
      * internal method to load the lexicon under the plugin directory
      *
-     * @param   config
-     * @param   dic
+     * @param	config
+     * @return	ADictionary
     */
-    public static final ADictionary createSingletonDictionary(JcsegTaskConfig config) throws IOException {
+    public static final ADictionary createSingletonDictionary(SegmenterConfig config) throws IOException {
     	synchronized ( LOCK ) {
     		if ( dic != null ) {
                 return dic;

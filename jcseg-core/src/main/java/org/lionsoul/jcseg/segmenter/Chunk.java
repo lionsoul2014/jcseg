@@ -1,4 +1,7 @@
-package org.lionsoul.jcseg;
+package org.lionsoul.jcseg.segmenter;
+
+import org.lionsoul.jcseg.IChunk;
+import org.lionsoul.jcseg.IWord;
 
 /**
  * <p>chunk concept for the mmseg word segmentation algorithm</p>

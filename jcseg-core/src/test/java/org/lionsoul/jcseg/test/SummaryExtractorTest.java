@@ -3,12 +3,12 @@ package org.lionsoul.jcseg.test;
 import java.io.IOException;
 import java.util.List;
 
-import org.lionsoul.jcseg.DictionaryFactory;
 import org.lionsoul.jcseg.ISegment;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.extractor.SummaryExtractor;
 import org.lionsoul.jcseg.extractor.impl.TextRankSummaryExtractor;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 import org.lionsoul.jcseg.sentence.SentenceSeg;
 
 
@@ -23,7 +23,7 @@ public class SummaryExtractorTest
     public static void main(String[] args) 
     {
         //create your JcsegTaskConfig here please
-        JcsegTaskConfig config = new JcsegTaskConfig(true); 
+        SegmenterConfig config = new SegmenterConfig(true); 
         config.setClearStopwords(true);
         config.setAppendCJKSyn(false);
         config.setKeepUnregWords(false);

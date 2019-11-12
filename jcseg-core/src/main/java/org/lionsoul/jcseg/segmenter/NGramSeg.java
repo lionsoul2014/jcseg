@@ -1,18 +1,15 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedList;
 
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.SegKit;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
-import org.lionsoul.jcseg.fi.CharTypeChecker;
+import org.lionsoul.jcseg.dic.ILexicon;
+import org.lionsoul.jcseg.fi.CharTypeFunction;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.StringUtil;
@@ -43,7 +40,7 @@ public class NGramSeg implements ISegment
      * the dictionary and task configuration
     */
     public final ADictionary dic;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     
     /** The N for n-gram, default to 1 and that is uni-gram */
     protected byte N = 1;
@@ -56,7 +53,7 @@ public class NGramSeg implements ISegment
      * @param   dic
      * @throws  IOException
      */
-    public NGramSeg(JcsegTaskConfig config, ADictionary dic)
+    public NGramSeg(SegmenterConfig config, ADictionary dic)
     {
     	assert config.getGRAM() > 0;
         this.config = config;
@@ -128,7 +125,7 @@ public class NGramSeg implements ISegment
         }
         
         int c, pos, type;
-        CharTypeChecker checker = null;
+        CharTypeFunction checker = null;
         String[] pofs = null;
         
         IWord word = null;
@@ -251,7 +248,7 @@ public class NGramSeg implements ISegment
      * @return	IWord
      * @throws	IOException 
     */
-    protected String getNextType(int c, int type, CharTypeChecker checker) throws IOException
+    protected String getNextType(int c, int type, CharTypeFunction checker) throws IOException
     {
     	isb.clear().append((char)c);
     	int ch;
@@ -297,7 +294,7 @@ public class NGramSeg implements ISegment
 		return dic;
 	}
 
-	public JcsegTaskConfig getConfig() {
+	public SegmenterConfig getConfig() {
 		return config;
 	}
 

@@ -1,7 +1,7 @@
 package org.lionsoul.jcseg.server;
 
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
  *  TokenizerEntry to save setting for Tokenizer object 
@@ -12,22 +12,22 @@ import org.lionsoul.jcseg.dic.ADictionary;
 public class JcsegTokenizerEntry {
     
     private int algorithm;
-    private JcsegTaskConfig config = null;
+    private SegmenterConfig config = null;
     private ADictionary dic = null;
     
-    public JcsegTokenizerEntry(int algorithm, JcsegTaskConfig config, ADictionary dic )
+    public JcsegTokenizerEntry(int algorithm, SegmenterConfig config, ADictionary dic )
     {
         this.algorithm = algorithm;
         this.config = config;
         this.dic = dic;
     }
     
-    public JcsegTaskConfig getConfig()
+    public SegmenterConfig getConfig()
     {
         return config;
     }
     
-    public void setConfig(JcsegTaskConfig config)
+    public void setConfig(SegmenterConfig config)
     {
         this.config = config;
     }

@@ -1,15 +1,13 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lionsoul.jcseg.Chunk;
 import org.lionsoul.jcseg.IChunk;
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 
 
 /**
@@ -31,7 +29,7 @@ public class ComplexSeg extends Segment implements Serializable
 	
     private static final long serialVersionUID = 1L;
     
-    public ComplexSeg( JcsegTaskConfig config, ADictionary dic )
+    public ComplexSeg( SegmenterConfig config, ADictionary dic )
     {
         super(config, dic);
     }

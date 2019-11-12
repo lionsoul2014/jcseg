@@ -1,6 +1,6 @@
 package org.lionsoul.jcseg.fi;
 
 @FunctionalInterface
-public interface CharTypeChecker {
+public interface CharTypeFunction {
 	public boolean is(int c);
 }

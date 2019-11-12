@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.Word;
+import org.lionsoul.jcseg.segmenter.Word;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.Sort;
 

@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +10,10 @@ import java.util.List;
 import org.lionsoul.jcseg.util.NumericUtil;
 import org.lionsoul.jcseg.util.StringUtil;
 import org.lionsoul.jcseg.IChunk;
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.SegKit;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 import org.lionsoul.jcseg.util.IntArrayList;
@@ -65,7 +62,7 @@ public abstract class Segment implements ISegment
      * the dictionary and task configuration instance
     */
     public final ADictionary dic;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     
     /**
      * initialize the segment
@@ -73,7 +70,7 @@ public abstract class Segment implements ISegment
      * @param   config Jcseg task configuration instance
      * @param   dic Jcseg dictionary instance
     */
-    public Segment(JcsegTaskConfig config, ADictionary dic )
+    public Segment(SegmenterConfig config, ADictionary dic )
     {
         this.config = config;
         this.dic    = dic;
@@ -157,7 +154,7 @@ public abstract class Segment implements ISegment
      * 
      * @return    JcsegTaskConfig
      */
-    public JcsegTaskConfig getConfig() 
+    public SegmenterConfig getConfig() 
     {
         return config;
     }

@@ -1,11 +1,9 @@
 package org.lionsoul.jcseg;
 
-import org.lionsoul.jcseg.dic.SynonymsEntry;
-
 /**
- * Word interface
+ * Word Token interface
  * 
- * @author    chenxin<chenxin619315@gmail.com>
+ * @author	chenxin<chenxin619315@gmail.com>
  */
 public interface IWord extends Cloneable
 {    

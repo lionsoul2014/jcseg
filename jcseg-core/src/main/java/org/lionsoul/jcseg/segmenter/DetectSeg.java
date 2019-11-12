@@ -1,4 +1,4 @@
-package org.lionsoul.jcseg.tokenizer;
+package org.lionsoul.jcseg.segmenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,13 +7,10 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 import org.lionsoul.jcseg.util.StringUtil;
-import org.lionsoul.jcseg.ILexicon;
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.IWord;
-import org.lionsoul.jcseg.JcsegTaskConfig;
-import org.lionsoul.jcseg.SegKit;
-import org.lionsoul.jcseg.Word;
 import org.lionsoul.jcseg.dic.ADictionary;
+import org.lionsoul.jcseg.dic.ILexicon;
 import org.lionsoul.jcseg.util.IPushbackReader;
 import org.lionsoul.jcseg.util.IStringBuffer;
 
@@ -46,7 +43,7 @@ public class DetectSeg implements ISegment, Serializable
      * the dictionary and task configuration
     */
     public final ADictionary dic;
-    public final JcsegTaskConfig config;
+    public final SegmenterConfig config;
     
 
     /**
@@ -56,7 +53,7 @@ public class DetectSeg implements ISegment, Serializable
      * @param   dic
      * @throws  IOException
      */
-    public DetectSeg(JcsegTaskConfig config, ADictionary dic)
+    public DetectSeg(SegmenterConfig config, ADictionary dic)
     {
         this.config = config;
         this.dic    = dic;
@@ -127,7 +124,7 @@ public class DetectSeg implements ISegment, Serializable
      * 
      * @return  JcsegTaskConfig
      */
-    public JcsegTaskConfig getConfig() 
+    public SegmenterConfig getConfig() 
     {
         return config;
     }
