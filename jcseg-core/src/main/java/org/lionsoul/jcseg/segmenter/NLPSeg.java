@@ -53,7 +53,7 @@ public class NLPSeg extends ComplexSeg
      * Override the next method to add the date-time entity recognition
      * And we also invoke the parent.next method to get the next token
      *
-     * @see Segment#next()
+     * @see Segmenter#next()
      * @throws IOException
     */
     public IWord next() throws IOException
@@ -419,7 +419,7 @@ public class NLPSeg extends ComplexSeg
     }
 
     /**
-     * @see Segment#getNextCJKWord(int, int)
+     * @see Segmenter#getNextCJKWord(int, int)
     */
     @Override
     protected IWord getNextCJKWord(int c, int pos) throws IOException
@@ -635,7 +635,7 @@ public class NLPSeg extends ComplexSeg
     }
     
     /**
-     * @see Segment#enSecondSegFilter(IWord) 
+     * @see Segmenter#enSecondSegFilter(IWord) 
     */
     protected boolean enSecondSegFilter(IWord w)
     {

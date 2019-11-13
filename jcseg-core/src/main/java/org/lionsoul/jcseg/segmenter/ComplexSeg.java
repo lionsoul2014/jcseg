@@ -24,7 +24,7 @@ import org.lionsoul.jcseg.dic.ILexicon;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public class ComplexSeg extends Segment implements Serializable
+public class ComplexSeg extends Segmenter implements Serializable
 {
 	
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class ComplexSeg extends Segment implements Serializable
     }
 
     /**
-     * @see Segment#getBestChunk(char[], int, int)
+     * @see Segmenter#getBestChunk(char[], int, int)
      */
     @Override
     public IChunk getBestChunk(char chars[], int index, int maxLen)

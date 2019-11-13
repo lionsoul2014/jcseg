@@ -16,7 +16,7 @@ import org.lionsoul.jcseg.util.IStringBuffer;
  * @author  chenxin<chenxin619315@gmail.com>
  * @since   1.9.8
 */
-public class MostSeg extends Segment
+public class MostSeg extends Segmenter
 {
     
     public MostSeg(SegmenterConfig config, ADictionary dic) 
@@ -29,7 +29,7 @@ public class MostSeg extends Segment
      * get the next CJK word from the current position of the input stream
      * and this function is the core part the most segmentation implements
      * 
-     * @see Segment#getNextCJKWord(int, int)
+     * @see Segmenter#getNextCJKWord(int, int)
      * @throws IOException 
     */
     @Override 
@@ -108,7 +108,7 @@ public class MostSeg extends Segment
     }
     
     /**
-     * @see Segment#enSecondSegFilter(IWord) 
+     * @see Segmenter#enSecondSegFilter(IWord) 
     */
     protected boolean enSecondSegFilter(IWord w)
     {

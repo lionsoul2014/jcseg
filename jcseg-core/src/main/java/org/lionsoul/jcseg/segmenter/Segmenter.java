@@ -26,7 +26,7 @@ import org.lionsoul.jcseg.util.IntArrayList;
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
-public abstract class Segment implements ISegment 
+public abstract class Segmenter implements ISegment 
 {
     /**
      * the index value of the current input stream
@@ -70,7 +70,7 @@ public abstract class Segment implements ISegment
      * @param   config Jcseg task configuration instance
      * @param   dic Jcseg dictionary instance
     */
-    public Segment(SegmenterConfig config, ADictionary dic )
+    public Segmenter(SegmenterConfig config, ADictionary dic )
     {
         this.config = config;
         this.dic    = dic;

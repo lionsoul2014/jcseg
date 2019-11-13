@@ -10,7 +10,7 @@ import org.lionsoul.jcseg.dic.ADictionary;
  * 
  * @author chenxin<chenxin619315@gmail.com>
 */
-public class SimpleSeg extends Segment
+public class SimpleSeg extends Segmenter
 {
     
     public SimpleSeg( SegmenterConfig config, ADictionary dic )
@@ -19,7 +19,7 @@ public class SimpleSeg extends Segment
     }
 
     /**
-     * @see Segment#getBestChunk(char[], int, int)
+     * @see Segmenter#getBestChunk(char[], int, int)
      */
     @Override
     public IChunk getBestChunk(char[] chars, int index, int maxLen)
