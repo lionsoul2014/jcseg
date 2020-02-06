@@ -89,15 +89,13 @@ jcseg~tokenizer:complex>>
 
 # **Jcseg** Maven仓库：
 
-Jcseg从1.9.8才开始上传到了maven仓库！
-
 * 1. jcseg-core:
 
 ```xml
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 
 ```
@@ -108,7 +106,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
@@ -118,7 +116,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
@@ -128,7 +126,7 @@ Jcseg从1.9.8才开始上传到了maven仓库！
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
@@ -442,7 +440,7 @@ curl 'http://localhost:9200/_analyze?pretty=true' -H 'Content-Type:application/j
 ```
 
 
-也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](http://git.oschina.net/lionsoul/elasticsearch-jcseg)，开封就可以使用。
+也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](https://gitee.com/lionsoul/elasticsearch-jcseg)，开封就可以使用。
 
 
 # **Jcseg**分词服务器:
@@ -1193,7 +1191,7 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 ```
 
 ### 3，技术交流分享
-* 1，官方使用案例：[原语智能](http://yuanyu.ai)
-* 2，NLP交流分享：微信：lionsoul2014，ＱＱ：1187582057
+* 1，使用案例典范：[原语智能~语义理解](http://yuanyu.ai)，[Gitee搜索~信息检索](https://search.gitee.com/?skin=rec&type=repository&q=%E5%88%86%E8%AF%8D)
+* 2，NLP交流分享：微信：lionsoul2014(请备注Jcseg)，ＱＱ：1187582057(很少关注)
 
 > This is the end line and thanks for reading !!!
