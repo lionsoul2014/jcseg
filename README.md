@@ -89,7 +89,7 @@ jcseg~tokenizer:complex>>
 
 # **Jcseg** Maven仓库：
 
-* 1. jcseg-core:
+* jcseg-core:
 
 ```xml
 <dependency>
@@ -100,7 +100,7 @@ jcseg~tokenizer:complex>>
 
 ```
 
-* 2. jcseg-analyzer (lucene或者solr):
+* jcseg-analyzer (lucene或者solr):
 
 ```xml
 <dependency>
@@ -110,7 +110,7 @@ jcseg~tokenizer:complex>>
 </dependency>
 ```
 
-* 3. jcseg-elasticsearch
+* jcseg-elasticsearch
 
 ```xml
 <dependency>
@@ -120,7 +120,7 @@ jcseg~tokenizer:complex>>
 </dependency>
 ```
 
-* 4. jcseg-server (独立的应用服务器)
+* jcseg-server (独立的应用服务器)
 
 ```xml
 <dependency>
