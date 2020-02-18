@@ -1,8 +1,11 @@
-## **Jcseg**是什么？
+# **Jcseg**是什么？
 
 **Jcseg**是基于mmseg算法的一个轻量级中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene, solr, elasticsearch的分词接口！**Jcseg**自带了一个 jcseg.properties文件用于快速配置而得到适合不同场合的分词应用，例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！
 
-## **Jcseg**核心功能：
+
+
+
+# **Jcseg**核心功能：
 
 - [x] 中文分词：mmseg算法 + **Jcseg** 独创的优化算法，七种切分模式。
 - [x] 关键字提取：基于textRank算法。
@@ -13,7 +16,10 @@
 - [x] 命名实体标注：基于词库+（统计歧义去除计划），电子邮件，网址，大陆手机号码，地名，人名，货币，datetime时间，长度，面积，距离单位等。
 - [x] Restful api：嵌入jetty提供了一个绝对高性能的server模块，包含全部功能的http接口，标准化json输出格式，方便各种语言客户端直接调用。
 
-## **Jcseg**中文分词：
+
+
+
+# **Jcseg**中文分词：
 
 **七种切分模式：**
 
@@ -44,7 +50,10 @@
 18. 自动词性标注（目前基于词库）。
 19. 自动实体的识别，默认支持：电子邮件，网址，大陆手机号码，地名，人名，货币等；词库中可以自定义各种实体并且再切分中返回。
 
-## **Jcseg**快速体验：
+
+
+
+# **Jcseg**快速体验：
 
 #### 终端测试：
 
@@ -83,7 +92,9 @@ jcseg~tokenizer:complex>>
 歧义/n 和/o 同义词/n :/w 研究/vn 琢磨/vn 研讨/vn 钻研/vn 生命/n 起源/n ，/w 混合词 :/w 做/v b超/n 检查/vn 身体/n ，/w x射线/n x光线/n 本质/n 是/a 什么/n ，/w 今天/t 去/q 奇都ktv/nz 唱/n 卡拉ok/nz 去/q ，/w 哆啦a梦/nz 是/a 一个/q 动漫/n 中/q 的/u 主角/n ，/w 单位/n 和/o 全角/nz :/w 2009年/m 8月/m 6日/m 开始/n 大学/n 之旅 ，/w 岳阳/ns 今天/t 的/u 气温/n 为/u 38.6℃/m ,/w 也就是/v 101.48℉/m ,/w 中文/n 国语/n 数字/n //w 分数/n :/w 你/r 分/h 三十分之二/m ,/w 小陈/nr 拿/nh 三十分之五/m ,/w 剩下/v 的/u 三十分之二十三/m 全部/a 是/a 我的/nt ，/w 那是/c 一九九八年/m 1998年/m 前/v 的/u 事/i 了/i ，/w 四川/ns 麻辣烫/n 很/m 好吃/v ，/w 五四运动/nz 留下/v 的/u 五四/m 54/m 精神/n 。/w 笔记本/n 五折/m 5折/m 包邮 亏本/v 大甩卖 甩卖 。/w 人名/n 识别/v :/w 我/r 是/a 陈鑫/nr ，/w 也/e 是/a jcseg/en 的/u 作者/n ，/w 三国/mq 时期/n 的/u 诸葛亮/nr 是个 天才/n ，/w 我们/r 一起/d 给/v 刘翔/nr 加油/v ，/w 罗志高/nr 兴奋/v 极了/u 因为/c 老吴/nr 送了 他/r 一台 笔记本/n 。/w 外文/n 名/j 识别/v ：/w 冰岛/ns 时间/n 7月/m 1日/m ，/w 正在/u 当地/s 拍片/vi 的/u 汤姆·克鲁斯/nr 阿汤哥/nr 通过/v 发言人/n 承认/v ，/w 他/r 与/u 第三/m 任/q 妻子/n 凯蒂·赫尔墨斯/nr （/w 第一/a 二/j 任/q 妻子/n 分别为 咪咪·罗杰斯/nr 、/w 妮可·基德曼/nr ）/w 的/u 婚姻/n 即将/d 结束/v 。/w 配对/v 标点/n :/w 本次/r 『/w 畅想杯/nz 』/w 黑客/n 技术/n 大赛/vn 的/u 得主/n 为/u 电信/nt 09/en -/w bf/en 2bf/en 的/u 张三/nr ，/w 奖励/vn c++/en 程序设计/gi 语言/n 一书/ns 和/o 【/w 畅想网络/nz 】/w 的/u 『/w PHP教程/nz 』/w 一套/m 。/w 特殊/a 字母/n :/w 【/w Ⅰ/nz 】/w （/w Ⅱ/m ）/w ，/w 英文/n 英语/n 数字/n :/w bug/en report/en chenxin/en 619315/en gmail/en com/en chenxin619315@gmail.com/en or/en visit/en http/en :/w //w //w code/en google/en com/en code.google.com/en //w p/en //w jcseg/en ,/w we/en all/en admire/en appreciate/en like/en love/en enjoy/en the/en hacker/en spirit/en mind/en !/w 特殊/a 数字/n :/w ①/m ⑩/m ⑽/m ㈩/m ./w
 ```
 
-## **Jcseg** Maven仓库：
+
+
+# **Jcseg** Maven仓库：
 
 * jcseg-core:
 
@@ -127,7 +138,8 @@ jcseg~tokenizer:complex>>
 ```
 
 
-## **Jcseg** lucene分词接口：
+
+# **Jcseg** lucene分词接口：
 
 1. 导入jcseg-core-{version}.jar和jcseg-analyzer-{version}.jar
 2. demo代码：
@@ -162,7 +174,9 @@ config.setAppendCJKPinyin();
 //更多配置, 请查看 org.lionsoul.jcseg.SegmenterConfig
 ```
 
-## **Jcseg** solr分词接口：
+
+
+# **Jcseg** solr分词接口：
 
 1. 将jcseg-core-{version}.jar和jcseg-analyzer-{version}.jar 复制到solr 的类库目录中。
 2. 在solr的scheme.xml加入如下两种配置之一：
@@ -226,7 +240,9 @@ config.setAppendCJKPinyin();
 ```
 
 
-## **Jcseg** elasticsearch接口：
+
+
+# **Jcseg** elasticsearch接口：
 
 ##### elasticsearch.version < 2.x (Not sure)
 
@@ -436,7 +452,9 @@ curl 'http://localhost:9200/_analyze?pretty=true' -H 'Content-Type:application/j
 也可以直接使用集成了jcseg的elasticsearch运行包：[elasticsearch-jcseg](https://gitee.com/lionsoul/elasticsearch-jcseg)，开封就可以使用。
 
 
-## **Jcseg**分词服务器:
+
+
+# **Jcseg**分词服务器:
 
 jcseg-server模块嵌入了jetty，实现了一个绝对高性能的服务器，给jcseg的全部Api功能都加上了restful接口，并且标准化了api结果的json输出格式，各大语言直接使用http客户端调用即可。
 
@@ -817,7 +835,10 @@ cd $JS_DIR
 
 更多配置请参考：org.lionsoul.jcseg.server.controller.TokenizerController
 
-## *Jcseg*二次开发:
+
+
+
+# *Jcseg*二次开发:
 
 ### 1. Jcseg中文分词Api: 
 
@@ -1144,7 +1165,10 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 
 * 3)，测试源码参考：org.lionsoul.jcseg.test.KeyphraseExtractorTest源码
 
-## 相关附录
+
+
+
+# 相关附录
 
 ### 1，Jcseg的词性对照：
 
