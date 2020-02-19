@@ -22,7 +22,7 @@ import org.lionsoul.jcseg.util.IntArrayList;
  * abstract segmentation super class:
  * 1. implemented the ISegment interface 
  * 2. implemented all the common functions
- * that simple, complex, most segmentation algorithm will all shared.
+ * that simple, complex, most segmentation algorithm will all share.
  * 
  * @author  chenxin<chenxin619315@gmail.com>
 */
@@ -881,8 +881,6 @@ public abstract class Segmenter implements ISegment
     
     /**
      * Latin word lexicon based English word segmentation.
-     * This is an empty implementation see the child implementation based on this
-     * for more details about the process logic.
      * 
      * @param	w
      * @param	wList
@@ -897,7 +895,8 @@ public abstract class Segmenter implements ISegment
     	int index = 0, pos = w.getPosition();
     	while ( index < chars.length ) {
     		chunk = getBestChunk(chars, index, config.EN_MAX_LEN);
-    		word = chunk.getWords()[0];
+    		// word = chunk.getWords()[0];
+    		word = chunk.getWords()[0].clone();
 			word.setPosition(pos+index);
     		wList.add(word);
     		index += word.getValue().length();
@@ -944,7 +943,7 @@ public abstract class Segmenter implements ISegment
         /*
          * if match no words from the current position 
          * to idx+Config.MAX_LENGTH, just return the Word with
-         * a value of temp as a unrecognited word. 
+         * a value of temp as a unidentified word. 
         */
         if ( wList.isEmpty() ) {
         	wList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
@@ -1519,7 +1518,7 @@ public abstract class Segmenter implements ISegment
             if ( ! StringUtil.isLetterNumber( ch ) ) {
                 pushBack(ch);
                 break;
-            } 
+            }
             
             isb.append((char)ch);
         }
@@ -1652,6 +1651,9 @@ public abstract class Segmenter implements ISegment
     /**
      * check if the specified word is existed in a specified dictionary
      * and if does clone it or create a new one.
+     * Note: why we need this ?
+     * clone will extend all the features from the orginal word item
+     * including part of speech, pinyin, synonyms etc.
      * 
      * @param	t
      * @param	str
