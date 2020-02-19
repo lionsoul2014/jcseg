@@ -279,8 +279,6 @@ public abstract class Segmenter implements ISegment
             if ( wordPool.size() > 0 ) {
                 return wordPool.removeFirst();
             }
-            
-            continue;
         }
         
         return null;

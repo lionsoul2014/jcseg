@@ -106,6 +106,17 @@ public class NLPSeg extends ComplexSeg
 
         return word;
     }
+    
+    /**
+     * internal interface to get the next word item buffered or not buffered
+     * 
+     * @return	IWord
+     * @throws IOException 
+    */
+    private IWord _internalNext() throws IOException
+    {
+    	return eWordPool.size() > 0 ? eWordPool.removeFirst() : super.next();
+    }
 
     /**
      * get the next the_xxx word like '第x个', '第x集' EG ...
@@ -170,7 +181,7 @@ public class NLPSeg extends ComplexSeg
     private IWord _nextNumberWord(IWord word) throws IOException
     {
         IWord dWord = null, unit = null;
-        IWord dw1 = super.next();
+        IWord dw1 = _internalNext();
         if ( dw1 == null ) {
             return null;
         }
@@ -180,7 +191,7 @@ public class NLPSeg extends ComplexSeg
 
         // pure numeric
         if ( ArrayUtil.indexOf(Entity.E_NUMERIC_ARABIC, w1Entity) > -1 ) {
-            IWord dw2 = super.next();
+            IWord dw2 = _internalNext();
             if ( dw2 == null ) {
                 dWord = new Word(word.getValue()+dw1.getValue(), IWord.T_CJK_WORD);
                 dWord.setPosition(word.getPosition());
@@ -248,7 +259,7 @@ public class NLPSeg extends ComplexSeg
 
         IWord dWord = null;
         int mergedNum = 0;
-        while ( (dWord = super.next()) != null ) {
+        while ( (dWord = _internalNext()) != null ) {
             String[] entity = dWord.getEntity();
             if ( entity == null ) {
                 eWordPool.push(dWord);
@@ -269,7 +280,7 @@ public class NLPSeg extends ComplexSeg
                 TimeUtil.fillTimeToPool(wMask, dWord.getValue());
             } else if ( ArrayUtil.startsWith(Entity.E_DATETIME_P, entity) > -1 ) {
             	int tIdx = TimeUtil.fillDateTimePool(wMask, dWord);
-            	if ( tIdx == TimeUtil.DATETIME_NONE || wMask[tIdx-1] == null ) {
+            	if ( tIdx == TimeUtil.DATETIME_NONE || wMask[tIdx] == null ) {
                     eWordPool.push(dWord);
                     break;
                 }
@@ -291,8 +302,8 @@ public class NLPSeg extends ComplexSeg
             	continue;
             }
 
-            if ( buffer.length() > 0
-            		&& (i+1) < wMask.length ) {
+            /* check and append the whitespace for the merged time word */
+            if ( buffer.length() > 0 && i < wMask.length ) {
                 buffer.append(' ');
             }
 
@@ -325,11 +336,11 @@ public class NLPSeg extends ComplexSeg
     */
     protected IWord getNextDatetimeWord(IWord word, int entityIdx) throws IOException
     {
-        IWord dWord = super.next();
+        IWord dWord = _internalNext();
         if ( dWord == null ) {
             return null;
         }
-
+        
         String[] entity = dWord.getEntity();
         if ( entity == null ) {
             eWordPool.add(dWord);
@@ -345,7 +356,7 @@ public class NLPSeg extends ComplexSeg
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
              * 2, if the new time merged word could not be merged with the origin word
-             *  and we should put the dWord to the first of the eWordPool cuz #getNextTimeMergedWord
+             *  and we should put the dWord to the first of the eWordPool CUZ #getNextTimeMergedWord
              * may append some IWord to the end of eWordPool
             */
             IWord mWord = getNextTimeMergedWord(dWord, eIdx);
@@ -551,7 +562,6 @@ public class NLPSeg extends ComplexSeg
                 continue;
             }
 
-
             IChunk chunk = getBestChunk(chars, cjkidx, config.MAX_LENGTH);
             w = chunk.getWords()[0];
 
@@ -593,7 +603,7 @@ public class NLPSeg extends ComplexSeg
                 cjkidx += w.getLength();
                 continue;
             }
-
+            
             /*
              * reach the end of the chars - the last word.
              * check the existence of the Chinese and English mixed word
@@ -603,7 +613,7 @@ public class NLPSeg extends ComplexSeg
                     && (chars.length - cjkidx) <= dic.mixPrefixLength ) {
                 ce = getNextMixedWord(chars, cjkidx);
             }
-
+            
             /*
              * @Note: added at 2016/07/19
              * if the ce word is null and if the T is -1
@@ -665,7 +675,7 @@ public class NLPSeg extends ComplexSeg
         int _TYPE  = StringUtil.getEnCharType(c);   //current char type.
 
         while ( (ch = readNext()) != -1 ) {
-            //Covert the full-width char to half-width char.
+            // Covert the full-width char to half-width char.
             if ( ch > 65280 ) ch -= 65248;
             _ctype = StringUtil.getEnCharType(ch);
             if ( _ctype == StringUtil.EN_WHITESPACE ) {
