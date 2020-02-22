@@ -102,7 +102,7 @@ jcseg~tokenizer:complex>>
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-core</artifactId>
-    <version>2.6.0</version>
+    <version>2.6.2</version>
 </dependency>
 
 ```
@@ -113,7 +113,7 @@ jcseg~tokenizer:complex>>
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-analyzer</artifactId>
-    <version>2.6.0</version>
+    <version>2.6.2</version>
 </dependency>
 ```
 
@@ -123,7 +123,7 @@ jcseg~tokenizer:complex>>
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-elasticsearch</artifactId>
-    <version>2.6.0</version>
+    <version>2.6.2</version>
 </dependency>
 ```
 
@@ -133,7 +133,7 @@ jcseg~tokenizer:complex>>
 <dependency>
     <groupId>org.lionsoul</groupId>
     <artifactId>jcseg-server</artifactId>
-    <version>2.6.0</version>
+    <version>2.6.2</version>
 </dependency>
 ```
 
