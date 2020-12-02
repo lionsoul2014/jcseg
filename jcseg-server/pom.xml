@@ -29,7 +29,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
-      <version>9.4.19.v20190610</version>
+      <version>9.4.35.v20201120</version>
     </dependency>
     
     <dependency>
