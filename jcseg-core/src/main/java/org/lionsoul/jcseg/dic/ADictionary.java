@@ -182,7 +182,8 @@ public abstract class ADictionary implements IDictionary, Serializable
         } else {
             //now, the classpath is an IDE directory 
             //  like eclipse ./bin or maven ./target/classes/
-            loadDirectory(codePath+"/lexicon");
+            File lexiconDir = new File(URLDecoder.decode(codeSrc.getLocation().getFile(),"utf-8"));
+            loadDirectory(lexiconDir.getPath() + File.separator + "lexicon");
         }
     }
     
