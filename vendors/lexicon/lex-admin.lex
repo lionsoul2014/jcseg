@@ -27,4 +27,3 @@ CJK_WORD
 财务部/nt/cai wu bu/null
 总装备部/nt/zong zhuang bei bu/null
 小程序/n/xiao cheng xu/null
-微信小程序/nt/wei xin xiao cheng xu/null
