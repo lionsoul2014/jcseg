@@ -30,11 +30,11 @@ public class HashMapDictionary extends ADictionary implements Serializable
         dics = new Map[ILexicon.T_LEN];
         if ( this.sync ) {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-                dics[j] = new ConcurrentHashMap<String, IWord>(16, 0.80F);
+                dics[j] = new ConcurrentHashMap<>(16, 0.80F);
             }
         } else {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-                dics[j] = new HashMap<String, IWord>(16, 0.80F);
+                dics[j] = new HashMap<>(16, 0.80F);
             }
         }
     }
