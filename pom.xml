@@ -8,13 +8,13 @@
   <packaging>pom</packaging>
 
   <name>jcseg</name>
-  <url>http://git.oschina.net/lionsoul/jcseg/</url>
+  <url>https://gitee.com/lionsoul/jcseg</url>
   <description>A lightweight open source chinese tokenizer with keywords, key sentences, summary extracts support and provide the latest lucene,solr,elasticsearch embedding API.</description>
   
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -34,7 +34,7 @@
   </developers>
   
   <issueManagement>
-      <url>http://gitee.com/lionsoul/jcseg/issues</url>
+      <url>https://gitee.com/lionsoul/jcseg/issues</url>
       <system>Gitee issues</system>
   </issueManagement>
 
