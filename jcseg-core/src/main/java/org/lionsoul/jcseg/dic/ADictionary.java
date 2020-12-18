@@ -462,9 +462,8 @@ public abstract class ADictionary implements IDictionary, Serializable
         boolean isFirstLine = true;
         int t = -1;
         String line = null, gEntity = null;
-
-        try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
         
+        try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
             while ( (line = buffReader.readLine()) != null ) {
                 line = line.trim();
                 if ( "".equals(line) ) continue;
@@ -750,8 +749,7 @@ public abstract class ADictionary implements IDictionary, Serializable
                 }
 
             }
-
-        }
+        } // end try
     }
     
     /**
