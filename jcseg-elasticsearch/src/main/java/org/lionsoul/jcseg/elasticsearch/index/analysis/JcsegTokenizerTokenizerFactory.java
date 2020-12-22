@@ -40,13 +40,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
     @Override
     public Tokenizer create() 
     {
-        try {
-            return new JcsegTokenizer(type, config, dic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    	return new JcsegTokenizer(type, config, dic);
     }
     
 }

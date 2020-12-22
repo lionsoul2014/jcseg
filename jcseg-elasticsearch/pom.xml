@@ -10,7 +10,6 @@
   </parent>
   
   <artifactId>jcseg-elasticsearch</artifactId>
-  <packaging>jar</packaging>
   <name>jcseg-elasticsearch</name>
   <url>http://github.com/lionsoul2014/jcseg</url>
   
@@ -35,7 +34,7 @@
     <dependency>
       <groupId>org.elasticsearch</groupId>
       <artifactId>elasticsearch</artifactId>
-      <version>7.4.2</version>
+      <version>7.10.1</version>
     </dependency>
     
     <dependency>
