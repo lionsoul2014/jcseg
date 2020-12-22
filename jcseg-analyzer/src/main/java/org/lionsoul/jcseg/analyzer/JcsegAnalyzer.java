@@ -1,7 +1,5 @@
 package org.lionsoul.jcseg.analyzer;
 
-import java.io.IOException;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.lionsoul.jcseg.ISegment;
@@ -13,7 +11,7 @@ import org.lionsoul.jcseg.segmenter.SegmenterConfig;
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
-public class JcsegAnalyzer extends Analyzer
+public final class JcsegAnalyzer extends Analyzer
 {
     public ISegment.Type type;
     public final SegmenterConfig config;
@@ -46,13 +44,7 @@ public class JcsegAnalyzer extends Analyzer
     @Override
     protected TokenStreamComponents createComponents(String fieldName) 
     {
-        try {
-            Tokenizer tokenizer = new JcsegTokenizer(type, config, dic);
-            return new TokenStreamComponents(tokenizer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
+        final Tokenizer tokenizer = new JcsegTokenizer(type, config, dic);
+        return new TokenStreamComponents(tokenizer);
     }
 }

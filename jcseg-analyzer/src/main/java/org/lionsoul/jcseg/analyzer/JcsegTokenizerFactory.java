@@ -13,7 +13,7 @@ import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 /**
- * Jcseg tokenizer factory class for solr
+ * Jcseg tokenizer factory class for lucene/solr
  * 
  * @author chenxin<chenxin619315@gmail.com>
  */
@@ -60,14 +60,8 @@ public class JcsegTokenizerFactory extends TokenizerFactory
     }
 
     @Override
-    public Tokenizer create( AttributeFactory factory ) 
+    public Tokenizer create(AttributeFactory factory) 
     {
-        try {
-            return new JcsegTokenizer(type, config, dic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
+    	return new JcsegTokenizer(type, config, dic);
     }
 }
