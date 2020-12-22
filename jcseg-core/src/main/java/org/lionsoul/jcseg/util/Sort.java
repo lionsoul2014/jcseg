@@ -390,7 +390,7 @@ public class Sort
         for ( j = 0; j < m; j++ ) {
             if ( count[j] > 0 ) {
                 while ( count[j]-- > 0 ) {
-                    arr[i++] = new Integer(j);
+                    arr[i++] = i;
                 }
             }
         }
