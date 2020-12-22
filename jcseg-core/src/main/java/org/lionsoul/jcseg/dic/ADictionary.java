@@ -462,296 +462,294 @@ public abstract class ADictionary implements IDictionary, Serializable
         boolean isFirstLine = true;
         int t = -1;
         String line = null, gEntity = null;
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         
-        while ( (line = buffReader.readLine()) != null ) {
-            line = line.trim();
-            if ( "".equals(line) ) continue;
-            if ( line.charAt(0) == '#' && line.length() > 1 ) { //skip the comments
-                continue;
-            }
-            
-            //the first line for the lexicon file.
-            if ( isFirstLine == true ) {
-                t = ADictionary.getIndex(line);
-                isFirstLine = false;
-                if ( t >= 0 ) {
+        try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+            while ( (line = buffReader.readLine()) != null ) {
+                line = line.trim();
+                if ( "".equals(line) ) continue;
+                if ( line.charAt(0) == '#' && line.length() > 1 ) { //skip the comments
                     continue;
                 }
-            }
-            
-            /*
-             * @Note: added at 2016/11/14
-             * dictionary directive compile and apply 
-            */
-            if ( line.charAt(0) == ':' && line.length() > 1 ) {
-                String[] directive = line.substring(1).toLowerCase().split("\\s+");
-                if ( directive[0].equals("entity") ) {     //@since 2.0.1
-                    if ( directive.length > 1 ) {
-                        String args = directive[1].trim();
-                        gEntity = "null".equals(args) ? null : Entity.get(args);
-                    }
-                }
-                
-                continue;
-            }
-            
-            IWord tword = null;
-            String[] wd = null;
-            switch ( t ) {
-            case ILexicon.CN_SNAME:
-            case ILexicon.CN_LNAME:
-            case ILexicon.CN_DNAME_1:
-            case ILexicon.CN_DNAME_2:
-                if ( line.length() == 1 ) {
-                    dic.add(t, line, IWord.T_CJK_WORD);
-                }
-                break;
-            case ILexicon.NUMBER_UNIT:
-                wd = line.split("\\s*/\\s*");
-                IWord uw = dic.add(t, wd[0], IWord.T_CJK_WORD);
-                if ( wd.length == 1 ) {
-                    dic.add(ILexicon.CJK_WORD, uw);
-                } else if ( wd.length == 2 ) {
-                    String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
-                    uw.addEntity(entity);
-                    dic.add(ILexicon.CJK_CHAR, uw);
-                }
-                
-                break;
-            case ILexicon.CJK_UNIT:
-                /*
-                 * for the entity recognition
-                 * we may need the unit to help to 
-                 * define the numeric entity in front of it
-                 * @date 2016/11/12
-                */
-                wd = line.split("\\s*/\\s*");
-                IWord w = dic.add(t, wd[0], IWord.T_CJK_WORD);
-                if ( wd.length == 1 ) {
-                    dic.add(ILexicon.CJK_WORD, w);
-                } else if ( wd.length == 2 ) {
-                    String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
-                    w.addEntity(entity);
-                    dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
-                } else if ( wd.length > 3 ) {
-                    String entity = "null".equals(wd[3]) ? null : Entity.get(wd[3]);
-                    w.addEntity(entity);
-                    
-                    /*
-                     * @Note: added at 2018/03/15
-                     * check and set the word parameter override the original one
-                     * if the current one with parameter set up 
-                    */
-                    if ( config.LOAD_PARAMETER && wd.length > 4 && ! wd[4].equals("null") ) {
-                        w.setParameter(wd[4]);
-                    }
-                    
-                    dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
-                    tword = w;
-                } else {
-                    dic.add(ILexicon.CJK_WORD, w);
-                    tword = w;
-                }
-                
-                break;
-            case ILexicon.CN_LNAME_ADORN:
-                dic.add(t, line, IWord.T_CJK_WORD);
-                break;
-            case ILexicon.STOP_WORD:
-                /*char fChar = line.charAt(0);
-                if ( fChar <= 127 || (fChar > 127 
-                        && line.length() <= config.MAX_LENGTH) ) {
-                    dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
-                }*/
-                dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
-                break;
-            case ILexicon.DOMAIN_SUFFIX:
-                wd = line.split("\\s*/\\s*");
-                dic.add(t, wd[0], IWord.T_BASIC_LATIN);
-                //@Note access the explanation through wd[1]
-                break;
-            case ILexicon.CJK_SYN:
-                wd = line.split("\\s*,\\s*");
-                if ( wd.length > 1 && buffer != null ) {
-                    buffer.add(wd);
-                }
-                wd = null;
-                break;
-            case ILexicon.CJK_WORD:
-            case ILexicon.CJK_CHAR:
-                wd = line.split("\\s*/\\s*", 5);
-                if ( wd.length < 4 ) {    //format check
-                    System.out.println("Word: \"" + wd[0] + "\" format error. -ignored");
-                    continue;
-                }
-                
-                if ( t == ILexicon.CJK_CHAR ) {    //single word degree check
-                    if ( ! StringUtil.isDigit(wd[4]) ) {
-                        System.out.println("Word: \"" + wd[0] + 
-                                "\" format error(single word degree should be an integer). -ignored");
+
+                //the first line for the lexicon file.
+                if ( isFirstLine == true ) {
+                    t = ADictionary.getIndex(line);
+                    isFirstLine = false;
+                    if ( t >= 0 ) {
                         continue;
                     }
                 }
-                
-                //length limit(CJK_WORD only)
-                int latinIndex = StringUtil.latinIndexOf(wd[0]);
-                
-                //added at 2017/06/11
-                //here we clear the length filter for we may change the config.MAX_LENGTH
-                // at token analysis run time
-                ///if ( latinIndex == -1 && wd[0].length() > config.MAX_LENGTH ) {
-                ///    continue;
-                ///}
-                
-                tword = dic.get(t, wd[0]);
-                if ( tword == null ) {
-                    if ( t == ILexicon.CJK_CHAR ) {
-                        tword = dic.add(ILexicon.CJK_WORD, wd[0], 
-                                Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
-                    } else {
-                        tword = dic.add(t, wd[0], IWord.T_CJK_WORD);
-                    }
-                }
-                
+
                 /*
                  * @Note: added at 2016/11/14
-                 * update the entity string for CJK and English words only 
+                 * dictionary directive compile and apply
                 */
-                if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
-                    if ( wd.length > 3 ) {
-                        if ( "unset".equals(wd[3]) ) {
-                            tword.setEntity(null);
-                        } else if ( "extend".equals(wd[3]) ) {
-                            tword.addEntity(gEntity);
-                        } else if ( "null".equals(wd[3]) ) {
-                            tword.addEntity(gEntity);
-                        } else {
-                            tword.addEntity(Entity.get(wd[3]));
+                if ( line.charAt(0) == ':' && line.length() > 1 ) {
+                    String[] directive = line.substring(1).toLowerCase().split("\\s+");
+                    if ( directive[0].equals("entity") ) {     //@since 2.0.1
+                        if ( directive.length > 1 ) {
+                            String args = directive[1].trim();
+                            gEntity = "null".equals(args) ? null : Entity.get(args);
                         }
-                    } else if ( gEntity != null ) {
-                        tword.addEntity(gEntity);
                     }
+
+                    continue;
                 }
-                
-                /*
-                 * @Note: added at 2017/10/02
-                 * check and set the word parameter override the original one
-                 * if the current one with parameter set up 
-                */
-                if ( config.LOAD_PARAMETER && t != ILexicon.CJK_CHAR ) {
-                    if ( wd.length > 4 && ! wd[4].equals("null") ) {
-                        tword.setParameter(wd[4]);
+
+                IWord tword = null;
+                String[] wd = null;
+                switch ( t ) {
+                case ILexicon.CN_SNAME:
+                case ILexicon.CN_LNAME:
+                case ILexicon.CN_DNAME_1:
+                case ILexicon.CN_DNAME_2:
+                    if ( line.length() == 1 ) {
+                        dic.add(t, line, IWord.T_CJK_WORD);
                     }
-                }
-                
-                /*
-                 * check and build the MIX_ASSIST_WORD dictionary
-                 * @Note added at 2016/11/22
-                */
-                if ( latinIndex >= 0 ) {
-                    if ( latinIndex > 0 ) {
-                        resetPrefixLength(config, dic, latinIndex);
-                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, latinIndex), IWord.T_CJK_WORD);
+                    break;
+                case ILexicon.NUMBER_UNIT:
+                    wd = line.split("\\s*/\\s*");
+                    IWord uw = dic.add(t, wd[0], IWord.T_CJK_WORD);
+                    if ( wd.length == 1 ) {
+                        dic.add(ILexicon.CJK_WORD, uw);
+                    } else if ( wd.length == 2 ) {
+                        String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
+                        uw.addEntity(entity);
+                        dic.add(ILexicon.CJK_CHAR, uw);
                     }
-                    
-                    int cjkIndex = StringUtil.CJKIndexOf(wd[0], latinIndex + 1);
-                    if ( cjkIndex > -1 ) {
-                        resetSuffixLength(config, dic, wd[0].length() - cjkIndex);
-                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(cjkIndex), IWord.T_CJK_WORD);
+
+                    break;
+                case ILexicon.CJK_UNIT:
+                    /*
+                     * for the entity recognition
+                     * we may need the unit to help to
+                     * define the numeric entity in front of it
+                     * @date 2016/11/12
+                    */
+                    wd = line.split("\\s*/\\s*");
+                    IWord w = dic.add(t, wd[0], IWord.T_CJK_WORD);
+                    if ( wd.length == 1 ) {
+                        dic.add(ILexicon.CJK_WORD, w);
+                    } else if ( wd.length == 2 ) {
+                        String entity = "null".equals(wd[1]) ? null : Entity.get(wd[1]);
+                        w.addEntity(entity);
+                        dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
+                    } else if ( wd.length > 3 ) {
+                        String entity = "null".equals(wd[3]) ? null : Entity.get(wd[3]);
+                        w.addEntity(entity);
+
+                        /*
+                         * @Note: added at 2018/03/15
+                         * check and set the word parameter override the original one
+                         * if the current one with parameter set up
+                        */
+                        if ( config.LOAD_PARAMETER && wd.length > 4 && ! wd[4].equals("null") ) {
+                            w.setParameter(wd[4]);
+                        }
+
+                        dic.add(ILexicon.CJK_WORD, w).addEntity(entity);;
+                        tword = w;
+                    } else {
+                        dic.add(ILexicon.CJK_WORD, w);
+                        tword = w;
                     }
-                    
-                    if ( latinIndex > 0 && cjkIndex > -1 ) {
-                        dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, cjkIndex), IWord.T_BASIC_LATIN);
+
+                    break;
+                case ILexicon.CN_LNAME_ADORN:
+                    dic.add(t, line, IWord.T_CJK_WORD);
+                    break;
+                case ILexicon.STOP_WORD:
+                    /*char fChar = line.charAt(0);
+                    if ( fChar <= 127 || (fChar > 127
+                            && line.length() <= config.MAX_LENGTH) ) {
+                        dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
+                    }*/
+                    dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
+                    break;
+                case ILexicon.DOMAIN_SUFFIX:
+                    wd = line.split("\\s*/\\s*");
+                    dic.add(t, wd[0], IWord.T_BASIC_LATIN);
+                    //@Note access the explanation through wd[1]
+                    break;
+                case ILexicon.CJK_SYN:
+                    wd = line.split("\\s*,\\s*");
+                    if ( wd.length > 1 && buffer != null ) {
+                        buffer.add(wd);
                     }
-                }
-                
-                break;
-            }
-            
-            /*
-             * check and append the attributes of tword
-             * like the pinyin and the part of speech
-            */
-            if ( tword != null ) {
-                //set the Pinyin of the word.
-                if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {
-                    tword.setPinyin(wd[2]);
-                }
-                
-                //update the synonym of the word.
-                //@Deprecated at 2017/06/10
-                /*String[] arr = tword.getSyn();
-                if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
-                    String[] syns = wd[3].split(",");
-                    for ( int j = 0; j < syns.length; j++ ) {
-                        syns[j] = syns[j].trim();
-                         Here:
-                         * filter the synonym that its length 
-                         * is greater than config.MAX_LENGTH
-                         
-                        if ( t == ILexicon.CJK_WORD 
-                                && syns[j].length() > config.MAX_LENGTH ) {
+                    wd = null;
+                    break;
+                case ILexicon.CJK_WORD:
+                case ILexicon.CJK_CHAR:
+                    wd = line.split("\\s*/\\s*", 5);
+                    if ( wd.length < 4 ) {    //format check
+                        System.out.println("Word: \"" + wd[0] + "\" format error. -ignored");
+                        continue;
+                    }
+
+                    if ( t == ILexicon.CJK_CHAR ) {    //single word degree check
+                        if ( ! StringUtil.isDigit(wd[4]) ) {
+                            System.out.println("Word: \"" + wd[0] +
+                                    "\" format error(single word degree should be an integer). -ignored");
                             continue;
                         }
-                        
-                         Here:
-                         * check the synonym is not exists, make sure
-                         * the same synonym won't appended. (dictionary reload)
-                         * 
-                         * @date 2013-09-02
-                         
-                        boolean add = true;
-                        if ( arr != null ) {
-                            for ( int i = 0; i < arr.length; i++ )  {
-                                if ( syns[j].equals(arr[i]) ) {
-                                    add = false;
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        if ( add ) {
-                            tword.addSyn(syns[j]);
+                    }
+
+                    //length limit(CJK_WORD only)
+                    int latinIndex = StringUtil.latinIndexOf(wd[0]);
+
+                    //added at 2017/06/11
+                    //here we clear the length filter for we may change the config.MAX_LENGTH
+                    // at token analysis run time
+                    ///if ( latinIndex == -1 && wd[0].length() > config.MAX_LENGTH ) {
+                    ///    continue;
+                    ///}
+
+                    tword = dic.get(t, wd[0]);
+                    if ( tword == null ) {
+                        if ( t == ILexicon.CJK_CHAR ) {
+                            tword = dic.add(ILexicon.CJK_WORD, wd[0],
+                                    Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                        } else {
+                            tword = dic.add(t, wd[0], IWord.T_CJK_WORD);
                         }
                     }
-                }*/
-                
-                //update the word's part of speech
-                String[] arr = tword.getPartSpeech();
-                if ( config.LOAD_CJK_POS && ! "null".equals(wd[1]) ) {
-                    String[] pos = wd[1].split(",");
-                    
-                    for ( int j = 0; j < pos.length; j++ ) {
-                        pos[j] = pos[j].trim();
-                        
-                        /* Here:
-                         * check the part of speech is not exists, make sure
-                         * the same part of speech won't appended.(dictionary reload)
-                         * 
-                         * @date 2013-09-02
-                         */
-                        boolean add = true;
-                        if ( arr != null ) {
-                            for ( int i = 0; i < arr.length; i++ )  {
-                                if ( pos[j].equals(arr[i]) ) {
-                                    add = false;
-                                    break;
+
+                    /*
+                     * @Note: added at 2016/11/14
+                     * update the entity string for CJK and English words only
+                    */
+                    if ( config.LOAD_CJK_ENTITY && t != ILexicon.CJK_CHAR ) {
+                        if ( wd.length > 3 ) {
+                            if ( "unset".equals(wd[3]) ) {
+                                tword.setEntity(null);
+                            } else if ( "extend".equals(wd[3]) ) {
+                                tword.addEntity(gEntity);
+                            } else if ( "null".equals(wd[3]) ) {
+                                tword.addEntity(gEntity);
+                            } else {
+                                tword.addEntity(Entity.get(wd[3]));
+                            }
+                        } else if ( gEntity != null ) {
+                            tword.addEntity(gEntity);
+                        }
+                    }
+
+                    /*
+                     * @Note: added at 2017/10/02
+                     * check and set the word parameter override the original one
+                     * if the current one with parameter set up
+                    */
+                    if ( config.LOAD_PARAMETER && t != ILexicon.CJK_CHAR ) {
+                        if ( wd.length > 4 && ! wd[4].equals("null") ) {
+                            tword.setParameter(wd[4]);
+                        }
+                    }
+
+                    /*
+                     * check and build the MIX_ASSIST_WORD dictionary
+                     * @Note added at 2016/11/22
+                    */
+                    if ( latinIndex >= 0 ) {
+                        if ( latinIndex > 0 ) {
+                            resetPrefixLength(config, dic, latinIndex);
+                            dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, latinIndex), IWord.T_CJK_WORD);
+                        }
+
+                        int cjkIndex = StringUtil.CJKIndexOf(wd[0], latinIndex + 1);
+                        if ( cjkIndex > -1 ) {
+                            resetSuffixLength(config, dic, wd[0].length() - cjkIndex);
+                            dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(cjkIndex), IWord.T_CJK_WORD);
+                        }
+
+                        if ( latinIndex > 0 && cjkIndex > -1 ) {
+                            dic.add(ILexicon.MIX_ASSIST_WORD, wd[0].substring(0, cjkIndex), IWord.T_BASIC_LATIN);
+                        }
+                    }
+
+                    break;
+                }
+
+                /*
+                 * check and append the attributes of tword
+                 * like the pinyin and the part of speech
+                */
+                if ( tword != null ) {
+                    //set the Pinyin of the word.
+                    if ( config.LOAD_CJK_PINYIN && ! "null".equals(wd[2]) ) {
+                        tword.setPinyin(wd[2]);
+                    }
+
+                    //update the synonym of the word.
+                    //@Deprecated at 2017/06/10
+                    /*String[] arr = tword.getSyn();
+                    if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
+                        String[] syns = wd[3].split(",");
+                        for ( int j = 0; j < syns.length; j++ ) {
+                            syns[j] = syns[j].trim();
+                             Here:
+                             * filter the synonym that its length
+                             * is greater than config.MAX_LENGTH
+
+                            if ( t == ILexicon.CJK_WORD
+                                    && syns[j].length() > config.MAX_LENGTH ) {
+                                continue;
+                            }
+
+                             Here:
+                             * check the synonym is not exists, make sure
+                             * the same synonym won't appended. (dictionary reload)
+                             *
+                             * @date 2013-09-02
+
+                            boolean add = true;
+                            if ( arr != null ) {
+                                for ( int i = 0; i < arr.length; i++ )  {
+                                    if ( syns[j].equals(arr[i]) ) {
+                                        add = false;
+                                        break;
+                                    }
                                 }
                             }
+
+                            if ( add ) {
+                                tword.addSyn(syns[j]);
+                            }
                         }
-                        
-                        if ( add ) {
-                            tword.addPartSpeech(pos[j].trim());
+                    }*/
+
+                    //update the word's part of speech
+                    String[] arr = tword.getPartSpeech();
+                    if ( config.LOAD_CJK_POS && ! "null".equals(wd[1]) ) {
+                        String[] pos = wd[1].split(",");
+
+                        for ( int j = 0; j < pos.length; j++ ) {
+                            pos[j] = pos[j].trim();
+
+                            /* Here:
+                             * check the part of speech is not exists, make sure
+                             * the same part of speech won't appended.(dictionary reload)
+                             *
+                             * @date 2013-09-02
+                             */
+                            boolean add = true;
+                            if ( arr != null ) {
+                                for ( int i = 0; i < arr.length; i++ )  {
+                                    if ( pos[j].equals(arr[i]) ) {
+                                        add = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if ( add ) {
+                                tword.addPartSpeech(pos[j].trim());
+                            }
                         }
                     }
                 }
+
             }
-            
-        }
-        
-        buffReader.close();
-        buffReader = null;
+        } // end try
     }
     
     /**
