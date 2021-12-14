@@ -17,7 +17,7 @@ public class SentenceSeg
 {
     private static final int MAX_QUOTE_LENGTH = 15;
     
-    //current position for the specifield stream
+    //current position for the specified stream
     protected int idx;
     
     //protected PushbackReader reader = null;
@@ -83,7 +83,7 @@ public class SentenceSeg
         int c, pos = -1;
         
         while ( (c = readNext()) != -1 ) {
-            //clear the whitespace of the begainning
+            //clear the whitespace of the beginning
             if ( StringUtil.isWhitespace(c) ) continue;
             if ( c == '\n' || c == '\t' || c == '…' ) continue;
             if ( StringUtil.isCnPunctuation(c) ) {

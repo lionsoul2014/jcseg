@@ -19,15 +19,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <profiles>
     <profile>
       <id>java8-doclint-disabled</id>
@@ -122,7 +113,6 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <additionalparam>${javadoc.opts}</additionalparam>
               <additionalOptions>
                 <additionalOption>-Xdoclint:none</additionalOption>
               </additionalOptions>
