@@ -36,13 +36,6 @@
       <artifactId>elasticsearch</artifactId>
       <version>7.10.1</version>
     </dependency>
-    
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
   
   <profiles>
@@ -97,7 +90,6 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <additionalparam>${javadoc.opts}</additionalparam>
               <additionalOptions>
                 <additionalOption>-Xdoclint:none</additionalOption>
               </additionalOptions>
