@@ -51,11 +51,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <modules>
     <module>jcseg-core</module>
     <module>jcseg-analyzer</module>
     <module>jcseg-elasticsearch</module>
+    <module>jcseg-opensearch</module>
     <module>jcseg-server</module>
   </modules>
   
@@ -114,7 +115,6 @@
 			                    <goal>jar</goal>
 			                  </goals>
 			                  <configuration>
-			                    <additionalparam>${javadoc.opts}</additionalparam>
 			                    <additionalOptions>
                 				  <additionalOption>-Xdoclint:none</additionalOption>
               				    </additionalOptions>

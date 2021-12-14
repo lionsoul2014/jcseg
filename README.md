@@ -1,6 +1,6 @@
 # **Jcseg**是什么？
 
-**Jcseg**是基于mmseg算法的一个轻量级中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene, solr, elasticsearch的分词接口！**Jcseg**自带了一个 jcseg.properties文件用于快速配置而得到适合不同场合的分词应用，例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！
+**Jcseg**是基于mmseg算法的一个轻量级中文分词器，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene, solr, elasticsearch/opensearch的分词接口！**Jcseg**自带了一个 jcseg.properties文件用于快速配置而得到适合不同场合的分词应用，例如：最大匹配词长，是否开启中文人名识别，是否追加拼音，是否追加同义词等！
 
 
 
@@ -130,6 +130,16 @@ jcseg~tokenizer:complex>>
 </dependency>
 ```
 
+* jcseg-opensearch
+
+```xml
+<dependency>
+    <groupId>org.lionsoul</groupId>
+    <artifactId>jcseg-opensearch</artifactId>
+    <version>2.6.2</version>
+</dependency>
+```
+
 * jcseg-server (独立的应用服务器)
 
 ```xml
@@ -245,7 +255,7 @@ config.setAppendCJKPinyin();
 
 
 
-# **Jcseg** elasticsearch接口：
+# **Jcseg** elasticsearch/opensearch接口：
 
 ##### elasticsearch.version < 2.x (Not sure)
 
@@ -296,7 +306,7 @@ jcseg_ngram     : 对应Jcseg的n-gram模式切分算法
 ```
 
 索引级别的自定义配置：
-从2.5.0以上的版本开始，你可以在elasticsearch mapping的时候使用jcseg.properties中定义的任何参数来覆盖配置，区别就是将配置名称的"."替换为"_"即可，例如：设置加载同义词：
+从2.5.0以上的版本开始，你可以在elasticsearch/opensearch mapping的时候使用jcseg.properties中定义的任何参数来覆盖配置，区别就是将配置名称的"."替换为"_"即可，例如：设置加载同义词：
 ```json
 "settings": {
     "analysis": {
