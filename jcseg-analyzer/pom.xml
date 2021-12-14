@@ -29,20 +29,13 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
-      <version>8.7.0</version>
+      <version>8.10.1</version>
     </dependency>
     
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analyzers-common</artifactId>
-      <version>8.7.0</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
+      <version>8.10.1</version>
     </dependency>
   </dependencies>
   
@@ -87,7 +80,6 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <additionalparam>${javadoc.opts}</additionalparam>
               <additionalOptions>
                 <additionalOption>-Xdoclint:none</additionalOption>
               </additionalOptions>
