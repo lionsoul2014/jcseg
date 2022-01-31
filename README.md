@@ -160,8 +160,6 @@ jcseg~tokenizer:complex>>
 ```java
 //lucene 6.3.0以及以上版本
 Analyzer analyzer = new JcsegAnalyzer(ISegment.COMPLEX, config, dic);
-//available constructor: 
-//4, JcsegAnalyzer(ISegment.Type, SegmenterConfig config, ADictionary dic)
 
 //非必须(用于修改默认配置): 获取分词任务配置实例
 JcsegAnalyzer jcseg = (JcsegAnalyzer) analyzer;
