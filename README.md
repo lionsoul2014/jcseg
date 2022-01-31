@@ -158,24 +158,10 @@ jcseg~tokenizer:complex>>
 2. demo代码：
 
 ```java
-//lucene 5.x
-//Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
-//available constructor: since 1.9.8
-//1, JcsegAnalyzer5X(int mode)
-//2, JcsegAnalyzer5X(int mode, String proFile)
-//3, JcsegAnalyzer5X(int mode, JcsegTaskConfig config)
-//4, JcsegAnalyzer5X(int mode, JcsegTaskConfig config, ADictionary dic)
-
-//lucene 4.x版本
-//Analyzer analyzer = new JcsegAnalyzer4X(JcsegTaskConfig.COMPLEX_MODE);
-
 //lucene 6.3.0以及以上版本
-Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+Analyzer analyzer = new JcsegAnalyzer(ISegment.COMPLEX, config, dic);
 //available constructor: 
-//1, JcsegAnalyzer(int mode)
-//2, JcsegAnalyzer(int mode, String proFile)
-//3, JcsegAnalyzer(int mode, JcsegTaskConfig config)
-//4, JcsegAnalyzer(int mode, JcsegTaskConfig config, ADictionary dic)
+//4, JcsegAnalyzer(ISegment.Type, SegmenterConfig config, ADictionary dic)
 
 //非必须(用于修改默认配置): 获取分词任务配置实例
 JcsegAnalyzer jcseg = (JcsegAnalyzer) analyzer;
@@ -628,7 +614,7 @@ cd $JS_DIR
         # }
     },
     
-    # JcsegTaskConfig instance setting.
+    # SegmenterConfig instance setting.
     # @Note: 
     # All the config instance here is extends from the global_setting above.
     # do nothing will extends all the setting from global_setting
@@ -687,7 +673,7 @@ cd $JS_DIR
             # choose one of your defines above in the dict scope
             "dict": "master",
             
-            # JcsegTaskConfig instance name
+            # SegmenterConfig instance name
             # choose one of your defines above in the config scope
             "config": "master"
         }
@@ -857,7 +843,7 @@ cd $JS_DIR
 
 Javadoc参考：[Jcseg Javadoc](https://apidoc.gitee.com/lionsoul/jcseg/)
 
-##### (1). 创建JcsegTaskConfig配置对象：
+##### (1). 创建SegmenterConfig配置对象：
 
 jcseg.properties查找步骤：
 
@@ -868,7 +854,7 @@ jcseg.properties查找步骤：
 所以，默认情况下可以在jcseg-core-{version}.jar同目录下来放一份jcseg.properties来自定义配置。
 
 
-JcsegTaskConfig构造方法如下：
+SegmenterConfig构造方法如下：
 
 ```java
 SegmenterConfig();                          //不做任何配置文件查找来初始化
@@ -886,7 +872,7 @@ SegmenterConfig config = new SegmenterConfig();
 //该方法会自动按照上述“jcseg.properties查找步骤”来寻找jcseg.properties并且初始化：
 SegmenterConfig config = new SegmenterConfig(true);
 
-//依据给定的jcseg.properties文件创建并且初始化JcsegTaskConfig
+//依据给定的jcseg.properties文件创建并且初始化SegmenterConfig
 SegmenterConfig config = new SegmenterConfig("absolute or relative jcseg.properties path");
 
 //调用SegmenterConfig#load(String proFile)方法来从指定配置文件中初始化配置选项
@@ -899,7 +885,7 @@ ADictionary构造方法如下：
 
 ```java
 ADictionary(SegmenterConfig config, java.lang.Boolean sync)
-//config：上述的JcsegTaskConfig实例
+//config：上述的SegmenterConfig实例
 //sync: 是否创建线程安全词库，如果你需要在运行时操作词库对象则指定true，
 //      如果jcseg.properties中autoload=1则会自动创建同步词库
 ```
@@ -963,14 +949,14 @@ demo代码：
 ```java
 //依据给定的ADictionary和SegmenterConfig来创建ISegment
 
-//1, 通过ISegment.XX_MODE参数
-//ISegment.COMPLEX_MODE表示创建ComplexSeg复杂ISegment分词对象
-//ISegment.SIMPLE_MODE表示创建SimpleSeg简易Isegmengt分词对象.
-//ISegment.DETECT_MODE表示创建DetectSeg Isegmengt分词对象.
-//ISegment.SEARCH_MODE表示创建SearchSeg Isegmengt分词对象.
-//ISegment.DELIMITER_MODE表示创建DelimiterSeg Isegmengt分词对象.
-//ISegment.NLP_MODE表示创建NLPSeg Isegmengt分词对象.
-//ISegment.NGRAM_MODE表示创建NGramSeg Isegmengt分词对象.
+//1, 通过ISegment.Type参数
+//ISegment.COMPLEX表示创建ComplexSeg复杂ISegment分词对象
+//ISegment.SIMPLE表示创建SimpleSeg简易Isegmengt分词对象.
+//ISegment.DETECT表示创建DetectSeg Isegmengt分词对象.
+//ISegment.SEARCH表示创建SearchSeg Isegmengt分词对象.
+//ISegment.DELIMITER表示创建DelimiterSeg Isegmengt分词对象.
+//ISegment.NLP表示创建NLPSeg Isegmengt分词对象.
+//ISegment.NGRAM表示创建NGramSeg Isegmengt分词对象.
 ISegment seg = ISegment.Type.fromIndex(mode).factory.create(config, dic);
 
 
