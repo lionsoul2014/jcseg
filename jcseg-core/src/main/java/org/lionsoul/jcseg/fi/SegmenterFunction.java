@@ -6,5 +6,5 @@ import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 @FunctionalInterface
 public interface SegmenterFunction {
-	public ISegment create(SegmenterConfig config, ADictionary dic);
+	ISegment create(SegmenterConfig config, ADictionary dic);
 }

@@ -5,5 +5,5 @@ import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 @FunctionalInterface
 public interface DictionaryFunction {
-	public ADictionary create(SegmenterConfig config, boolean sync);
+	ADictionary create(SegmenterConfig config, boolean sync);
 }

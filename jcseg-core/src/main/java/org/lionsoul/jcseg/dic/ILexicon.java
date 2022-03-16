@@ -7,7 +7,7 @@ package org.lionsoul.jcseg.dic;
  */
 public interface ILexicon
 {
-    public static final int T_LEN = 11;
+    int T_LEN = 11;
     
     /**
      * Chinese, JPanese, Korean words

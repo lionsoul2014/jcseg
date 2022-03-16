@@ -47,7 +47,7 @@ public abstract class ADictionary implements IDictionary, Serializable
     public final SegmenterConfig config;
     public final boolean sync;
     
-    /**auto load thread */
+    /** auto reload thread */
     private Thread autoloadThread = null;
     
     /**

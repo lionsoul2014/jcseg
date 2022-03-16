@@ -11,9 +11,9 @@ import org.lionsoul.jcseg.fi.DictionaryFunction;
 public interface IDictionary 
 {
 	/** Segmentation type constants */
-	public static final Type HASHMAP = Type.HASHMAP;
+    Type HASHMAP = Type.HASHMAP;
 	
-	public static enum Type 
+	enum Type
 	{
 		HASHMAP("hashmap", 1, HashMapDictionary::new);
 		
@@ -30,7 +30,7 @@ public interface IDictionary
         	null, HASHMAP
         };
     	
-    	private Type(String name, int index, DictionaryFunction factory)
+    	Type(String name, int index, DictionaryFunction factory)
     	{
     		this.name = name;
     		this.index = index;
@@ -72,90 +72,34 @@ public interface IDictionary
     }
 	
 	
-	/**
-     * loop up the dictionary, check the given key is in the dictionary or not
-     * 
-     * @param t
-     * @param key
-     * @return true for matched false for not match.
-     */
-    public boolean match( int t, String key );
+	/** loop up the dictionary, check the given key is in the dictionary or not */
+    boolean match(int t, String key);
     
-    /**
-     * directly add a IWord item to the dictionary
-     * 
-     * @param   t
-     * @param   word
-    */
-    public IWord add( int t, IWord word );
+    /** directly add a IWord item to the dictionary */
+    IWord add(int t, IWord word);
     
-    /**
-     * add a new word to the dictionary with its statistics frequency
-     * 
-     * @param   t
-     * @param   key
-     * @param   fre
-     * @param   type
-     * @param   entity
-     * @return  IWord
-     */
-    public IWord add( int t, String key, int fre, int type, String[] entity );
+    /** add a new word to the dictionary with its statistics frequency */
+    IWord add(int t, String key, int fre, int type, String[] entity);
     
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   fre
-     * @param   type
-     * @return  IWord
-     */
-    public IWord add( int t, String key, int fre, int type );
+    /** add a new word to the dictionary */
+    IWord add(int t, String key, int fre, int type);
     
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   type
-     * @return  IWord
-     */
-    public IWord add( int t, String key, int type );
+    /** add a new word to the dictionary */
+    IWord add(int t, String key, int type);
     
-    /**
-     * add a new word to the dictionary
-     * 
-     * @param   t
-     * @param   key
-     * @param   type
-     * @param   entity
-     * @return  IWord
-     */
-    public IWord add( int t, String key, int type, String[] entity );
+    /** add a new word to the dictionary */
+    IWord add(int t, String key, int type, String[] entity);
     
     /**
      * return the IWord associate with the given key.
      * if there is not mapping for the key null will be return
-     * 
-     * @param t
-     * @param key
-     */
-    public IWord get( int t, String key );
+    */
+    IWord get(int t, String key);
     
-    /**
-     * remove the mapping associate with the given key
-     * 
-     * @param t
-     * @param key
-     */
-    public void remove( int t, String key );
+    /** remove the mapping associate with the given key */
+    void remove(int t, String key);
     
-    /**
-     * return the size of the dictionary
-     * 
-     * @param    t
-     * @return int
-     */
-    public int size(int t);
+    /** return the size of the dictionary */
+    int size(int t);
     
 }

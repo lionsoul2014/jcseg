@@ -20,15 +20,15 @@ import org.lionsoul.jcseg.segmenter.SimpleSeg;
 public interface ISegment 
 {
 	/** Segmentation type constants */
-	public static final Type SIMPLE = Type.SIMPLE;
-	public static final Type COMPLEX = Type.COMPLEX;
-	public static final Type DETECT = Type.DETECT;
-	public static final Type MOST = Type.MOST;
-	public static final Type NLP = Type.NLP;
-	public static final Type DELIMITER = Type.DELIMITER;
-	public static final Type NGRAM = Type.NGRAM;
+	Type SIMPLE = Type.SIMPLE;
+	Type COMPLEX = Type.COMPLEX;
+	Type DETECT = Type.DETECT;
+	Type MOST = Type.MOST;
+	Type NLP = Type.NLP;
+	Type DELIMITER = Type.DELIMITER;
+	Type NGRAM = Type.NGRAM;
 	
-	public static enum Type 
+	enum Type
 	{
 		SIMPLE("simple", 1, SimpleSeg::new),
 		COMPLEX("complex", 2, ComplexSeg::new),
@@ -71,22 +71,22 @@ public interface ISegment
         		return defaultValue;
         	}
         	
-            type = type.toLowerCase();
-            if ( "simple".equals(type) ) {
-                return Type.SIMPLE;
-            } else if ( "complex".equals(type) ) {
-                return Type.COMPLEX;
-            } else if ( "detect".equals(type) ) {
-                return Type.DETECT;
-            } else if ( "most".equals(type) ) {
-                return Type.MOST;
-            } else if ( "nlp".equals(type) ) {
-                return Type.NLP;
-            } else if ( "delimiter".equals(type) ) {
-                return Type.DELIMITER;
-            } else if ( "ngram".equals(type) ) {
-                return Type.NGRAM;
-            }
+			switch (type.toLowerCase()) {
+			case "simple":
+				return Type.SIMPLE;
+			case "complex":
+				return Type.COMPLEX;
+			case "detect":
+				return Type.DETECT;
+			case "most":
+				return Type.MOST;
+			case "nlp":
+				return Type.NLP;
+			case "delimiter":
+				return Type.DELIMITER;
+			case "ngram":
+				return Type.NGRAM;
+			}
             
             return defaultValue;
         }
@@ -105,21 +105,21 @@ public interface ISegment
     }
 	
 	/** Segmentation type index */
-	public static final int SIMPLE_MODE = Type.SIMPLE.index;
-	public static final int COMPLEX_MODE = Type.COMPLEX.index;
-	public static final int DETECT_MODE = Type.DETECT.index;
-	public static final int MOST_MODE = Type.MOST.index;
-	public static final int NLP_MODE = Type.NLP.index;
-	public static final int DELIMITER_MODE = Type.DELIMITER.index;
-	public static final int NGRAM_MODE = Type.NGRAM.index;
+	int SIMPLE_MODE = Type.SIMPLE.index;
+	int COMPLEX_MODE = Type.COMPLEX.index;
+	int DETECT_MODE = Type.DETECT.index;
+	int MOST_MODE = Type.MOST.index;
+	int NLP_MODE = Type.NLP.index;
+	int DELIMITER_MODE = Type.DELIMITER.index;
+	int NGRAM_MODE = Type.NGRAM.index;
 	
 	
     /** Whether to check the Chinese and English mixed word.*/
-    public static final int CHECK_CE_MASk = 1 << 0;
+	int CHECK_CE_MASk = 0x01 << 0;
     /** Whether to check the Chinese fraction.*/
-    public static final int CHECK_CF_MASK = 1 << 1;
+	int CHECK_CF_MASK = 0x01 << 1;
     /** Whether to start the Latin secondary segmentation.*/
-    public static final int START_SS_MASK = 1 << 2;
+	int START_SS_MASK = 0x01 << 2;
     
     
     /**
@@ -128,27 +128,14 @@ public interface ISegment
      * 
      * Added at 2016/11/22
     */
-    public static final int CHECK_EC_MASK = 1 << 3;
+	int CHECK_EC_MASK = 0x01 << 3;
     
-    /**
-     * reset the reader
-     * 
-     * @param input
-     */
-    public void reset(Reader input) throws IOException;
+    /** reset the reader */
+	void reset(Reader input) throws IOException;
     
-    /**
-     * get the current length of the stream
-     * 
-     * @return int
-     */
-    public int getStreamPosition();
+    /** get the current length of the stream */
+	int getStreamPosition();
     
-    /**
-     * segment a word from a char array
-     *         from a specified position.
-     * 
-     * @return IWord
-     */
-    public IWord next() throws IOException;
+    /** segment a word from a char array from a specified position. */
+	IWord next() throws IOException;
 }
