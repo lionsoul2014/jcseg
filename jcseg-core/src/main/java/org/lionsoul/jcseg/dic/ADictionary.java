@@ -166,7 +166,7 @@ public abstract class ADictionary implements IDictionary, Serializable
         }
         
         String codePath = codeSrc.getLocation().getPath();
-        if ( codePath.toLowerCase().endsWith(".jar") ) {
+        if ( codePath.toLowerCase().endsWith(".jar") || codePath.toLowerCase().endsWith(".jar!/") ) {
             ZipInputStream zip = new ZipInputStream(codeSrc.getLocation().openStream());
             while ( true ) {
                 ZipEntry e = zip.getNextEntry();
