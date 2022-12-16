@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.elasticsearch.index.analysis;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.elasticsearch.common.settings.Settings;
@@ -24,7 +25,7 @@ public class JcsegTokenizerTokenizerFactory extends AbstractTokenizerFactory
             IndexSettings indexSettings, Environment environment, String name, Settings settings) throws IOException {
         super(indexSettings, settings, name);
         
-        config = new SegmenterConfig(new FileInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        config = new SegmenterConfig(Files.newInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties").toPath()));
         
         /* Load and apply the self-define arguments for Jcseg */
         for ( String key : settings.names() ) {
