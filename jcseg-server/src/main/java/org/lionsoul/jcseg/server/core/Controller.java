@@ -63,7 +63,6 @@ public abstract class Controller
      * @param    baseRequest
      * @param    request
      * @param    response
-     * @throws   IOException 
     */
     public Controller(
             ServerConfig config,
@@ -102,7 +101,6 @@ public abstract class Controller
      * handle the current request
      * 
      * @param   method
-     * @throws  IOException
     */
     protected void run(String method) throws IOException
     {
@@ -147,8 +145,8 @@ public abstract class Controller
     {
         int val = 0;
         try {
-            val = Integer.valueOf(request.getParameter(name));
-        } catch (NumberFormatException e) {}
+            val = Integer.parseInt(request.getParameter(name));
+        } catch (NumberFormatException ignored) {}
         
         return val;
     }
@@ -168,12 +166,12 @@ public abstract class Controller
     */
     public float getFloat(String name)
     {
-        float fval = 0F;
+        float fVal = 0F;
         try {
-            fval = Float.valueOf(request.getParameter(name));
-        } catch (NumberFormatException e) {}
+            fVal = Float.parseFloat(request.getParameter(name));
+        } catch (NumberFormatException ignored) {}
         
-        return fval;
+        return fVal;
     }
     
     public float getFloat(String name, float val)
@@ -193,8 +191,8 @@ public abstract class Controller
     {
         long val = 0;
         try {
-            val = Long.valueOf(request.getParameter(name));
-        } catch (NumberFormatException e) {}
+            val = Long.parseLong(request.getParameter(name));
+        } catch (NumberFormatException ignored) {}
         
         return val;
     }
@@ -216,8 +214,8 @@ public abstract class Controller
     {
         double val = 0;
         try {
-            val = Double.valueOf(request.getParameter(name));
-        } catch (NumberFormatException e) {}
+            val = Double.parseDouble(request.getParameter(name));
+        } catch (NumberFormatException ignored) {}
         
         return val;
     }
@@ -239,8 +237,8 @@ public abstract class Controller
     {
         boolean val = false;
         try {
-            val = Boolean.valueOf(request.getParameter(name));
-        } catch (NumberFormatException e) {}
+            val = Boolean.parseBoolean(request.getParameter(name));
+        } catch (NumberFormatException ignored) {}
         
         return val;
     }
@@ -256,7 +254,6 @@ public abstract class Controller
      * redirect to the specified controller/method
      * 
      * @param   path
-     * @throws  IOException 
     */
     public void redirect(String path) throws IOException
     {
@@ -269,7 +266,6 @@ public abstract class Controller
      * get the original raw data
      * 
      * @return  byte[]
-     * @throws  IOException 
     */
     public byte[] getRawData() throws IOException
     {
@@ -278,8 +274,8 @@ public abstract class Controller
             return null;
         }
         
-        byte[] buffer = new byte[contentLength];
-        ServletInputStream is = request.getInputStream();
+        final byte[] buffer = new byte[contentLength];
+        final ServletInputStream is = request.getInputStream();
         for (int i = 0; i < contentLength; ) {
             int rLen = is.read(buffer, i, contentLength - i);
             if ( rLen == -1 ) {
@@ -296,7 +292,6 @@ public abstract class Controller
      * get the original request raw data as String
      * 
      * @return  String
-     * @throws  IOException 
     */
     public String getRawDataAsString() throws IOException
     {
@@ -317,7 +312,6 @@ public abstract class Controller
      * get the original request raw data as json
      * 
      * @return  JSONObject
-     * @throws  IOException 
     */
     public JSONObject getRawDataAsJson() throws IOException
     {

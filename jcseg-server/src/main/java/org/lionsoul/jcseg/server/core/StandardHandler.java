@@ -20,17 +20,17 @@ public class StandardHandler extends AbstractHandler
     /**
      * server config 
     */
-    private ServerConfig serverConfig = null;
+    private final ServerConfig serverConfig;
     
     /**
      * global resource pool
     */
-    private GlobalResource resourcePool = null;
+    private final GlobalResource resourcePool;
     
     /**
      * router 
     */
-    protected AbstractRouter router = null;
+    protected final AbstractRouter router;
     
     /**
      * construct method
@@ -53,7 +53,8 @@ public class StandardHandler extends AbstractHandler
             HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException 
     {
-        String requestUri = request.getRequestURI();
+        final String requestUri = request.getRequestURI();
+
         /*
          * @Note: all the request that with point the in the path
          * will consider to a resource request and will be handler by 
@@ -75,23 +76,22 @@ public class StandardHandler extends AbstractHandler
                  * create the controller and do the basic initialize work 
                  * and invoke the run method to process the request.
                 */
-                Class<?>[] paramType = new Class[]{
-                        ServerConfig.class,
-                        GlobalResource.class,
-                        UriEntry.class, 
-                        Request.class, 
-                        HttpServletRequest.class, 
-                        HttpServletResponse.class
+                final Class<?>[] paramType = new Class[]{
+                    ServerConfig.class,
+                    GlobalResource.class,
+                    UriEntry.class,
+                    Request.class,
+                    HttpServletRequest.class,
+                    HttpServletResponse.class
                 };
-                Constructor<?> constructor = _class.getConstructor(paramType);
-                
+                final Constructor<?> constructor = _class.getConstructor(paramType);
                 Object[] arguments = new Object[]{
-                        serverConfig,
-                        resourcePool, 
-                        uriEntry, 
-                        baseRequest, 
-                        request, 
-                        response
+                    serverConfig,
+                    resourcePool,
+                    uriEntry,
+                    baseRequest,
+                    request,
+                    response
                 };
                 Controller controller = (Controller)constructor.newInstance(arguments);
                 controller.run(uriEntry.getMethod());

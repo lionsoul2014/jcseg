@@ -15,7 +15,7 @@ public class UriEntry
     /**
      * all parts of the request uri 
     */
-    private List<String> parts = null;
+    private final List<String> parts;
     
     /**
      * the controller name 
@@ -47,6 +47,7 @@ public class UriEntry
     public UriEntry(String requestUri)
     {
         this.requestUri = requestUri;
+        parts = new ArrayList<>(10);
         process();
     }
     
@@ -56,7 +57,6 @@ public class UriEntry
     private void process()
     {
         if (requestUri.length() > 1) {
-            parts = new ArrayList<String>(10);
             for ( int i = 1; i < requestUri.length(); ) {
                 int sIdx = i;
                 int eIdx = requestUri.indexOf('/', sIdx + 1);
@@ -72,7 +72,7 @@ public class UriEntry
             }
             
             /*
-             * check and add a empty method name
+             * check and add an empty method name
              * with request style like /tokenizer/
             */
             if ( requestUri.charAt(requestUri.length()-1) == '/' ) {
@@ -81,7 +81,7 @@ public class UriEntry
             
             int length = parts.size();
             if ( length > 1 ) {
-                IStringBuffer sb = new IStringBuffer();
+                final IStringBuffer sb = new IStringBuffer();
                 for ( int i = 0; i < length - 1; i++ ) {
                     int l = sb.length();
                     sb.append(parts.get(i));
@@ -102,7 +102,7 @@ public class UriEntry
     }
     
     /**
-     * the specifiled part of the request uri 
+     * the specified part of the request uri
      * 
      * @param    idx
     */
@@ -150,9 +150,4 @@ public class UriEntry
         return requestUri;
     }
 
-    public void setRequestUri(String requestUri)
-    {
-        this.requestUri = requestUri;
-    }
-    
 }

@@ -14,11 +14,11 @@ public abstract class GlobalResource
     /**
      * global resource mapping  
     */
-    protected Map<Object, Object> resource = null;
+    protected final Map<Object, Object> resource;
     
     public GlobalResource()
     {
-        resource = Collections.synchronizedMap(new HashMap<Object, Object>());
+        resource = Collections.synchronizedMap(new HashMap<>());
     }
 
     public Object getResource(String name) {

@@ -50,27 +50,24 @@ public class JcsegController extends Controller
         */
         response.setContentType("application/json;charset="+config.getCharset());
         
-        JSONWriter json = JSONWriter.create()
+        final JSONWriter json = JSONWriter.create()
                     .put("code", code)
                         .put("data", data);
         
-        /*IStringBuffer sb = new IStringBuffer();
-        sb.append("{\n");
-        sb.append("\"status\": ").append(status).append(",\n");
-        sb.append("\"errcode\": ").append(errcode).append(",\n");
-        sb.append("\"data\": ");
-        if ( data.charAt(0) == '{' || data.charAt(0) == '[' ) {
-            sb.append(data).append('\n');
-        } else {
-            sb.append('"').append(data).append("\"\n");
-        }
-        sb.append("}\n");*/
+        /// final IStringBuffer sb = new IStringBuffer();
+        /// sb.append("{\n");
+        /// sb.append("\"status\": ").append(status).append(",\n");
+        /// sb.append("\"errcode\": ").append(errcode).append(",\n");
+        /// sb.append("\"data\": ");
+        /// if ( data.charAt(0) == '{' || data.charAt(0) == '[' ) {
+        ///     sb.append(data).append('\n');
+        /// } else {
+        ///     sb.append('"').append(data).append("\"\n");
+        /// }
+        /// sb.append("}\n");
         
         output.println(json.toString());
         output.flush();
-        
-        //let the gc do its work
-        json = null;
     }
     
     /**

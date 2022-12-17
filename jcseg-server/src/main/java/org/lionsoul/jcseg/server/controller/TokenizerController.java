@@ -50,27 +50,27 @@ public class TokenizerController extends JcsegController
             return;
         }
         
-        JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
-        JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry(method);
+        final JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
+        final JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry(method);
         if ( tokenizerEntry == null ) {
             response(STATUS_INVALID_ARGS, "can't find tokenizer instance [" + method + "]");
             return;
         }
         
-        ISegment seg = ISegment.Type.fromIndex(tokenizerEntry.getAlgorithm())
+        final ISegment seg = ISegment.Type.fromIndex(tokenizerEntry.getAlgorithm())
 				.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
-		IWord word = null;
-		List<IWord> list = new ArrayList<IWord>();
+		final List<IWord> list = new ArrayList<IWord>();
 		seg.reset(new StringReader(text));
 		
 		long s_time = System.nanoTime();
+        IWord word = null;
 		while ( (word = seg.next()) != null ) {
 		    list.add(word);
 		}
 		
 		double c_time = (System.nanoTime() - s_time)/1E9;
-		Map<String, Object> map = new HashMap<String, Object>();
-		DecimalFormat df = new DecimalFormat("0.00000"); 
+		final Map<String, Object> map = new HashMap<String, Object>();
+		final DecimalFormat df = new DecimalFormat("0.00000");
 		map.put("took", Float.valueOf(df.format(c_time)));
 		map.put("list", list);
 		

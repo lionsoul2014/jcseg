@@ -41,7 +41,7 @@ public class JcsegServer
     /**
      * jcseg server config 
     */
-    private ServerConfig config;
+    private final ServerConfig config;
     
     /**
      * jetty server instance 
@@ -51,7 +51,7 @@ public class JcsegServer
     /**
      * global resource pool 
     */
-    private JcsegGlobalResource resourcePool = null;
+    private final JcsegGlobalResource resourcePool;
     
     /**
      * construct method
@@ -70,21 +70,21 @@ public class JcsegServer
     private void init()
     {
         //setup thread pool
-        QueuedThreadPool threadPool = new QueuedThreadPool();
+        final QueuedThreadPool threadPool = new QueuedThreadPool();
         threadPool.setMaxThreads(config.getMaxThreadPoolSize());
         threadPool.setIdleTimeout(config.getThreadIdleTimeout());
         
         server = new Server(threadPool);
         
-        //setup the http configuration
-        HttpConfiguration http_config = new HttpConfiguration();
+        //setup http configuration
+        final HttpConfiguration http_config = new HttpConfiguration();
         http_config.setOutputBufferSize(config.getOutputBufferSize());
         http_config.setRequestHeaderSize(config.getRequestHeaderSize());
         http_config.setResponseHeaderSize(config.getResponseHeaderSize());
         http_config.setSendServerVersion(false);
         http_config.setSendDateHeader(false);
         
-        //setup the connector
+        //setup connector
         ServerConnector connector = new ServerConnector(
             server, 
             new HttpConnectionFactory(http_config)
@@ -96,12 +96,12 @@ public class JcsegServer
     }
     
     /**
-     * register handler service 
-    */
-    public JcsegServer registerHandler()
+     * register handler service
+     */
+    public void registerHandler()
     {
-        String basePath = this.getClass().getPackage().getName()+".controller";
-        AbstractRouter router = new DynamicRestRouter(basePath, MainController.class);
+        final String basePath = this.getClass().getPackage().getName()+".controller";
+        final AbstractRouter router = new DynamicRestRouter(basePath, MainController.class);
         router.addMapping("/extractor/keywords", KeywordsController.class);
         router.addMapping("/extractor/keyphrase", KeyphraseController.class);
         router.addMapping("/extractor/sentence", SentenceController.class);
@@ -116,43 +116,39 @@ public class JcsegServer
         /*
          * prepare standard handler
         */
-        StandardHandler stdHandler = new StandardHandler(config, resourcePool, router);
+        final StandardHandler stdHandler = new StandardHandler(config, resourcePool, router);
         
         /*
          * prepare the resource handler 
         */
-        JcsegResourceHandler resourceHandler = new JcsegResourceHandler();
+        final JcsegResourceHandler resourceHandler = new JcsegResourceHandler();
         
         /*
-         * i am going to rewrite the path to handler mapping mechanism
+         * I am going to rewrite the path to handler mapping mechanism
          * check the Router handler for more info 
         */
-        GzipHandler gzipHandler = new GzipHandler();
-        HandlerList handlers = new HandlerList();
+        final GzipHandler gzipHandler = new GzipHandler();
+        final HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{stdHandler, resourceHandler});
         gzipHandler.setHandler(handlers);
         server.setHandler(gzipHandler);
-        
-        return this;
+
     }
     
     /**
      * load configuration.
      * 1. initialize the server config
      * 2. register global resource (global resource initialize)
-     * 
-     * @param  globalConfig
-     * @return JcsegServer
-     * @throws CloneNotSupportedException 
-     * @throws JcsegException 
-    */
-    public JcsegServer initFromGlobalConfig(JSONObject globalConfig) throws CloneNotSupportedException
+     *
+     * @param globalConfig
+     */
+    public void initFromGlobalConfig(JSONObject globalConfig) throws CloneNotSupportedException
     {
         /*
          * parse and initialize the server according to the global config
         */
         if ( globalConfig.has("server_config") ) {
-            JSONObject serverSetting = globalConfig.getJSONObject("server_config");
+            final JSONObject serverSetting = globalConfig.getJSONObject("server_config");
             if ( serverSetting.has("host") ) {
                 config.setHost(serverSetting.getString("host"));
             }
@@ -180,14 +176,14 @@ public class JcsegServer
         }
 
         //create a global JcsegTaskConfig and initialize from the global_setting
-        SegmenterConfig globalJcsegTaskConfig = new SegmenterConfig(false);
+        final SegmenterConfig globalJcsegTaskConfig = new SegmenterConfig(false);
         if ( globalConfig.has("jcseg_global_config") ) {
-            JSONObject globalSetting = globalConfig.getJSONObject("jcseg_global_config");
+            final JSONObject globalSetting = globalConfig.getJSONObject("jcseg_global_config");
             resetJcsegTaskConfig(globalJcsegTaskConfig, globalSetting);
         }
         
         /*
-         * create the dictionaries according to the definition of dict 
+         * create the dictionaries according to the definition of dict.
          * and we will make a copy of the globalSetting for dictionary load
          * 
          * reset the max length to pass the dictionary words length limitation
@@ -197,54 +193,50 @@ public class JcsegServer
         if ( globalConfig.has("jcseg_dict") ) {
             JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
             String[] dictNames = JSONObject.getNames(dictSetting);
-            for ( String name : dictNames ) {
-                JSONObject dicJson = dictSetting.getJSONObject(name);
-                if ( ! dicJson.has("path") ) {
-                    throw new IllegalArgumentException("Missing path for dict instance " + name);
-                }
-                
-                String[] lexPath = null;
-                if ( ! dicJson.isNull("path") ) {
-                    //process the lexPath
-                    JSONArray path = dicJson.getJSONArray("path");
-                    List<String> dicPath = new ArrayList<String>();
-                    for ( int i = 0; i < path.length(); i++ ) {
-                        String filePath = path.get(i).toString();
-                        if ( filePath.indexOf("{jar.dir}") > -1 ) {
-                            filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
-                        }
-                        dicPath.add(filePath);
+            if (dictNames != null) {
+                for (String name : dictNames) {
+                    final JSONObject dicJson = dictSetting.getJSONObject(name);
+                    if (!dicJson.has("path")) {
+                        throw new IllegalArgumentException("Missing path for dict instance " + name);
                     }
-                    
-                    lexPath = new String[dicPath.size()];
-                    dicPath.toArray(lexPath);
-                    dicPath.clear(); dicPath = null;
+
+                    String[] lexPath = null;
+                    if (!dicJson.isNull("path")) {
+                        //process the lexPath
+                        final JSONArray path = dicJson.getJSONArray("path");
+                        final List<String> dicPath = new ArrayList<>();
+                        for (int i = 0; i < path.length(); i++) {
+                            String filePath = path.get(i).toString();
+                            if (filePath.contains("{jar.dir}")) {
+                                filePath = filePath.replace("{jar.dir}", Util.getJarHome(this));
+                            }
+                            dicPath.add(filePath);
+                        }
+
+                        lexPath = new String[dicPath.size()];
+                        dicPath.toArray(lexPath);
+                        dicPath.clear();
+                    }
+
+                    boolean loadPos = !dicJson.has("loadpos") || dicJson.getBoolean("loadpos");
+                    boolean loadPinyin = !dicJson.has("loadpinyin") || dicJson.getBoolean("loadpinyin");
+                    boolean loadSyn = !dicJson.has("loadsyn") || dicJson.getBoolean("loadsyn");
+                    boolean loadEntity = !dicJson.has("loadentity") || dicJson.getBoolean("loadentity");
+                    boolean autoload = dicJson.has("autoload") && dicJson.getBoolean("autoload");
+                    int pollTime = dicJson.has("polltime") ? dicJson.getInt("polltime") : 300;
+
+                    dictLoadConfig.setLoadCJKPinyin(loadPinyin);
+                    dictLoadConfig.setLoadCJKPos(loadPos);
+                    dictLoadConfig.setLoadCJKSyn(loadSyn);
+                    dictLoadConfig.setLoadEntity(loadEntity);
+                    dictLoadConfig.setAutoload(autoload);
+                    dictLoadConfig.setPollTime(pollTime);
+                    dictLoadConfig.setLexiconPath(lexPath);
+
+                    //create and register the global dictionary resource
+                    final ADictionary dic = DictionaryFactory.createDefaultDictionary(dictLoadConfig);
+                    resourcePool.addDict(name, dic);
                 }
-                
-                boolean loadpos = dicJson.has("loadpos") 
-                        ? dicJson.getBoolean("loadpos") : true;
-                boolean loadpinyin = dicJson.has("loadpinyin") 
-                        ? dicJson.getBoolean("loadpinyin") : true;
-                boolean loadsyn = dicJson.has("loadsyn") 
-                        ? dicJson.getBoolean("loadsyn") : true;
-                boolean loadentity = dicJson.has("loadentity") 
-                        ? dicJson.getBoolean("loadentity") : true;
-                boolean autoload = dicJson.has("autoload") 
-                        ? dicJson.getBoolean("autoload") : false;
-                int polltime = dicJson.has("polltime") 
-                        ? dicJson.getInt("polltime") : 300;
-                        
-                dictLoadConfig.setLoadCJKPinyin(loadpinyin);
-                dictLoadConfig.setLoadCJKPos(loadpos);
-                dictLoadConfig.setLoadCJKSyn(loadsyn);
-                dictLoadConfig.setLoadEntity(loadentity);
-                dictLoadConfig.setAutoload(autoload);
-                dictLoadConfig.setPollTime(polltime);
-                dictLoadConfig.setLexiconPath(lexPath);
-                
-                //create and register the global dictionary resource
-                ADictionary dic = DictionaryFactory.createDefaultDictionary(dictLoadConfig);
-                resourcePool.addDict(name, dic);
             }
         }
         
@@ -256,18 +248,20 @@ public class JcsegServer
         if ( globalConfig.has("jcseg_config") ) {
             JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
             String[] configNames = JSONObject.getNames(configSetting);
-            for ( String name : configNames ) {
-                JSONObject configJson = configSetting.getJSONObject(name);
-                
-                //clone the globalJcsegTaskConfig
-                //and do the override working by local defination
-                SegmenterConfig config = globalJcsegTaskConfig.clone();
-                if ( configJson.length() > 0 ) {
-                    resetJcsegTaskConfig(config, configJson);
+            if (configNames != null) {
+                for (String name : configNames) {
+                    final JSONObject configJson = configSetting.getJSONObject(name);
+
+                    //clone the globalJcsegTaskConfig
+                    //and do the override working by local defination
+                    final SegmenterConfig config = globalJcsegTaskConfig.clone();
+                    if (configJson.length() > 0) {
+                        resetJcsegTaskConfig(config, configJson);
+                    }
+
+                    //register the global resource
+                    resourcePool.addConfig(name, config);
                 }
-                
-                //register the global resource
-                resourcePool.addConfig(name, config);
             }
         }
         
@@ -277,39 +271,40 @@ public class JcsegServer
         if ( globalConfig.has("jcseg_tokenizer") ) {
             JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
             String[] tokenizerNames = JSONObject.getNames(tokenizerSetting);
-            for ( String name : tokenizerNames ) {
-                JSONObject tokenizerJson = tokenizerSetting.getJSONObject(name);
-                
-                int algorithm = tokenizerJson.has("algorithm") 
-                        ? tokenizerJson.getInt("algorithm") : ISegment.COMPLEX_MODE;
-                
-                if ( ! tokenizerJson.has("dict") ) {
-                    throw new IllegalArgumentException("Missing dict setting for tokenizer " + name);
+            if (tokenizerNames != null) {
+                for (String name : tokenizerNames) {
+                    final JSONObject tokenizerJson = tokenizerSetting.getJSONObject(name);
+
+                    int algorithm = tokenizerJson.has("algorithm")
+                            ? tokenizerJson.getInt("algorithm") : ISegment.COMPLEX_MODE;
+
+                    if (!tokenizerJson.has("dict")) {
+                        throw new IllegalArgumentException("Missing dict setting for tokenizer " + name);
+                    }
+                    if (!tokenizerJson.has("config")) {
+                        throw new IllegalArgumentException("Missing config setting for tokenizer " + name);
+                    }
+
+                    final ADictionary dic = resourcePool.getDict(tokenizerJson.getString("dict"));
+                    final SegmenterConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
+                    if (dic == null) {
+                        throw new IllegalArgumentException("Unknow dict instance "
+                                + tokenizerJson.getString("dict") + " for tokenizer " + name);
+                    }
+
+                    if (config == null) {
+                        throw new IllegalArgumentException("Unknow config instance "
+                                + tokenizerJson.getString("config") + " for tokenizer " + name);
+                    }
+
+                    resourcePool.addTokenizerEntry(name, new JcsegTokenizerEntry(algorithm, config, dic));
                 }
-                if ( ! tokenizerJson.has("config") ) {
-                    throw new IllegalArgumentException("Missing config setting for tokenizer " + name);
-                }
-                
-                ADictionary dic = resourcePool.getDict(tokenizerJson.getString("dict"));
-                SegmenterConfig config = resourcePool.getConfig(tokenizerJson.getString("config"));
-                if ( dic == null ) {
-                    throw new IllegalArgumentException("Unknow dict instance " 
-                        + tokenizerJson.getString("dict") + " for tokenizer " + name);
-                }
-                
-                if ( config == null ) {
-                    throw new IllegalArgumentException("Unknow config instance " 
-                        + tokenizerJson.getString("config") + " for tokenizer " + name);
-                }
-                
-                resourcePool.addTokenizerEntry(name, new JcsegTokenizerEntry(algorithm, config, dic));
             }
         }
         
         //now, initialize the server
         init();
-        
-        return this;
+
     }
     
 
@@ -324,18 +319,14 @@ public class JcsegServer
     	for ( final String key : json.keySet() ) {
     		try {
 				config.set(key.replace('_', '.'), json.get(key).toString());
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (JSONException | IOException e) {
 				e.printStackTrace();
 			}
-    	}
+        }
     }
 
     /**
      * start the server 
-     * 
-     * @throws Exception 
     */
     public void start() throws Exception
     {
@@ -347,8 +338,6 @@ public class JcsegServer
     
     /**
      * stop the server 
-     * 
-     * @throws Exception 
     */
     public void stop() throws Exception
     {

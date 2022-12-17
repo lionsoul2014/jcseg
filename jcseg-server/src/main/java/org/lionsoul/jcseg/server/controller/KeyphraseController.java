@@ -50,24 +50,24 @@ public class KeyphraseController extends JcsegController
             return;
         }
         
-        JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
-        JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
+        final JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
+        final JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
         if ( tokenizerEntry == null ) {
             response(STATUS_INVALID_ARGS, "can't find tokenizer instance \"extractor\"");
             return;
         }
         
-        ISegment seg = ISegment.COMPLEX.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
-		TextRankKeyphraseExtractor extractor = new TextRankKeyphraseExtractor(seg);
+        final ISegment seg = ISegment.COMPLEX.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
+		final TextRankKeyphraseExtractor extractor = new TextRankKeyphraseExtractor(seg);
 		extractor.setKeywordsNum(number);
 		extractor.setMaxWordsNum(maxCombineLength);
 		extractor.setAutoMinLength(autoMinLength);
 		
 		long s_time = System.nanoTime();
-		List<String> keyphrase = extractor.getKeyphraseFromString(text);
+		final List<String> keyphrase = extractor.getKeyphraseFromString(text);
 		double c_time = (System.nanoTime() - s_time)/1E9;
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		final Map<String, Object> map = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00000"); 
 		map.put("took", Float.valueOf(df.format(c_time)));
 		map.put("keyphrase", keyphrase);

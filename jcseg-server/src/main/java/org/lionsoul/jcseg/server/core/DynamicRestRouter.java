@@ -13,13 +13,13 @@ public class DynamicRestRouter extends AbstractRouter
     /**
      * base package path for the controller 
     */
-    private String basePath = null;
+    private final String basePath;
     
     
     /**
      * standard path to controller mapping 
     */
-    private Map<String, Class<? extends Controller>> mapping = null;
+    private final Map<String, Class<? extends Controller>> mapping;
 
     public DynamicRestRouter(String basePath, 
             Class<? extends Controller> defaultController) 
@@ -27,7 +27,7 @@ public class DynamicRestRouter extends AbstractRouter
         super(defaultController);
         
         this.basePath = basePath;
-        mapping = new HashMap<String, Class<? extends Controller>>();
+        mapping = new HashMap<>();
     }
 
     @Override
@@ -62,14 +62,14 @@ public class DynamicRestRouter extends AbstractRouter
             String cClass = uriEntry.getController();
             String method = uriEntry.getMethod();
             if ( cClass != null && method != null ) {
-                //build the class pacakge path
-                String _clsname = basePath + "." + cClass + "Controller";
+                //build the class package path
+                String _clsName = basePath + "." + cClass + "Controller";
                 try {
-                    Class<?> _class = Class.forName(_clsname);
+                    Class<?> _class = Class.forName(_clsName);
                     if ( Controller.class.isAssignableFrom(_class) ) {
                         controller = (Class<? extends Controller>) _class;
                     }
-                } catch (ClassNotFoundException e) {}
+                } catch (ClassNotFoundException ignored) {}
             }
         }
         

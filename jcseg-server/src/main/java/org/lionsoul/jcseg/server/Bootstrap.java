@@ -16,7 +16,7 @@ public class Bootstrap
 
     public static void main(String[] args) 
     {
-        JcsegServerConfig config = new JcsegServerConfig();
+        final JcsegServerConfig config = new JcsegServerConfig();
         
         /*
          * get the jcseg-server.properties from the command line 

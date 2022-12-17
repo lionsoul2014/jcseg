@@ -26,7 +26,7 @@ public class JcsegResourceHandler extends AbstractHandler
     */
     private static Map<String, String> mimeMap = null;
     static {
-        mimeMap = new HashMap<String, String>();
+        mimeMap = new HashMap<>();
         mimeMap.put("jpg",  "image/jpeg");
         mimeMap.put("jpeg", "image/jpeg");
         mimeMap.put("gif",  "image/gif");
@@ -51,14 +51,14 @@ public class JcsegResourceHandler extends AbstractHandler
         int pos = requestUri.lastIndexOf('.');
         if ( pos > -1 ) {
             //interception for favicon.ico
-            if ( requestUri.indexOf("favicon.ico") > -1 ) {
+            if (requestUri.contains("favicon.ico")) {
                 requestUri = "/images/logo-x32.png";
             }
             
             /*
              * check the exitstence of the request resource 
             */
-            InputStream is = this.getClass().getResourceAsStream("/res"+requestUri);
+            final InputStream is = this.getClass().getResourceAsStream("/res"+requestUri);
             if ( is == null ) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
@@ -75,8 +75,8 @@ public class JcsegResourceHandler extends AbstractHandler
             }
             
             response.setHeader("Content-Type", mimeType);
-            ServletOutputStream sos = response.getOutputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
+            final ServletOutputStream sos = response.getOutputStream();
+            final BufferedInputStream bis = new BufferedInputStream(is);
             
             int len = 0;
             byte[] b = new byte[4096];

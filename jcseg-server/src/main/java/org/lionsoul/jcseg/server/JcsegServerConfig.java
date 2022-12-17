@@ -24,7 +24,6 @@ public class JcsegServerConfig extends ServerConfig
      * construct method 
      * 
      * @param    configFile
-     * @throws IOException 
     */
     public JcsegServerConfig(String configFile) throws IOException
     {
@@ -41,14 +40,13 @@ public class JcsegServerConfig extends ServerConfig
     /**
      * initialize it from the specified config file
      * 
-     * @param    configFile
-     * @throws IOException 
+     * @param   configFile
     */
     public void resetFromFile(String configFile) throws IOException
     {
-        IStringBuffer isb = new IStringBuffer();
+        final IStringBuffer isb = new IStringBuffer();
+        final BufferedReader reader = new BufferedReader(new FileReader(configFile));
         String line = null;
-        BufferedReader reader = new BufferedReader(new FileReader(configFile));
         while ( (line = reader.readLine()) != null ) {
             line = line.trim();
             if (line.equals("")) continue;
@@ -61,9 +59,7 @@ public class JcsegServerConfig extends ServerConfig
         globalConfig = new JSONObject(isb.toString());
         
         //let gc do its work
-        isb = null;
         reader.close();
-        reader = null;
     }
 
     public String getConfigFile()

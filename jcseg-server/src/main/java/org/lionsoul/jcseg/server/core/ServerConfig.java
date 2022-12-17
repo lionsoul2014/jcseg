@@ -20,7 +20,7 @@ public class ServerConfig
     protected int port = 8080;
     
     /**
-     * http idle timeout in millseconds
+     * http idle timeout in milliseconds
     */
     protected long httpIdleTimeout = 30000;
     
@@ -50,7 +50,7 @@ public class ServerConfig
     protected int threadIdleTimeout = 60000;
     
     /**
-     * static resouce base path 
+     * static resource base path
     */
     protected String appBasePath = null;
     

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class LRUCache<E, T> {
 
     @SuppressWarnings("hiding")
-    private class Entry<E, T> {
+    private static class Entry<E, T> {
         
         public E key;
         public T value;
@@ -50,8 +50,8 @@ public class LRUCache<E, T> {
     
     
     private void init() {
-        this.head = new Entry<E, T>( null, null, null, null);
-        this.tail = new Entry<E, T>( null, null, this.head, null);
+        this.head = new Entry<E, T>(null, null, null, null);
+        this.tail = new Entry<E, T>(null, null, this.head, null);
         this.head.next = this.tail;
         
         this.map = new HashMap<E, Entry<E, T>>();

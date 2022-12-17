@@ -13,9 +13,9 @@ import org.lionsoul.jcseg.server.util.LRUCache;
 */
 public class ContextRouter extends AbstractRouter
 {
-    private Map<String, Class<? extends Controller>> maps         = null;
-    private Map<String, Class<? extends Controller>> matches      = null;
-    private LRUCache<String, Class<? extends Controller>> cache   = null;
+    private final Map<String, Class<? extends Controller>> maps;
+    private final Map<String, Class<? extends Controller>> matches;
+    private final LRUCache<String, Class<? extends Controller>> cache;
     
     
     private static int MAP_PATH_TYPE = 1;
@@ -25,16 +25,16 @@ public class ContextRouter extends AbstractRouter
     {
         super(defaultController);
         
-        maps     = new HashMap<String, Class<? extends Controller>>();
-        matches  = new HashMap<String, Class<? extends Controller>>();
-        cache    = new LRUCache<String, Class<? extends Controller>>( 128, 10);
+        maps     = new HashMap<>();
+        matches  = new HashMap<>();
+        cache    = new LRUCache<>(128, 10);
     }
     
     
     /** 
      *  path entry class
      * */
-    private class PathEntry 
+    private static class PathEntry
     {
         public int type     = 0; // 1 - 100% match for map, 2 - pattern match for matches
         public String key   = null;
@@ -58,7 +58,7 @@ public class ContextRouter extends AbstractRouter
      * */
     private PathEntry getPathEntry(UriEntry uri)
     {
-        PathEntry  pathEntry = new PathEntry( ContextRouter.MAP_PATH_TYPE, "default");
+        PathEntry  pathEntry = new PathEntry(ContextRouter.MAP_PATH_TYPE, "default");
         
         
         int length = uri.getLength();
@@ -70,15 +70,15 @@ public class ContextRouter extends AbstractRouter
         
         String last_str = uri.get( length - 1 );
         if ( last_str.equals("*") || last_str.equals("") ) {
-//            StringBuffer buffer = new StringBuffer();
-//            buffer.append('/');
-//            
-//            for(int i = 0; i < length - 1; i++)
-//            {
-//                buffer.append(uri.get(i) + "/");
-//            }
-            
-//            position of  last / charactor
+            /// StringBuffer buffer = new StringBuffer();
+            /// buffer.append('/');
+            ///
+            /// for(int i = 0; i < length - 1; i++)
+            /// {
+            ///     buffer.append(uri.get(i) + "/");
+            /// }
+
+            /// position of  last / charactor
             int lastPosition = requestUri.lastIndexOf('/');
 
             pathEntry.type = ContextRouter.MATCH_PATH_TYPE;
@@ -106,8 +106,6 @@ public class ContextRouter extends AbstractRouter
         } else if ( entry.type == ContextRouter.MATCH_PATH_TYPE) {
             matches.put( entry.key, _class );
         }
-        
-        //System.out.println(entry.type +":"+entry.key);
     }
 
     
@@ -141,7 +139,7 @@ public class ContextRouter extends AbstractRouter
             controller  = cache.get(uri);
         }
         
-        // if cannot find the controller in maps or cache .  
+        // if controller cannot be found in maps or cache .
         // we try it from matches, even if its type is MAP_PATH_TYPE
         // and of course type of MATCH_PATH_TYPE should get controller from matches too.
         
@@ -163,9 +161,8 @@ public class ContextRouter extends AbstractRouter
             }
         } 
         
-//        cache.printList();
-//        System.out.println("@--cache length: " + cache.getLength() + " \n");
-        
+        // cache.printList();
+        // System.out.println("@--cache length: " + cache.getLength() + " \n");
         
         return controller != null ? controller : defaultController;
     }

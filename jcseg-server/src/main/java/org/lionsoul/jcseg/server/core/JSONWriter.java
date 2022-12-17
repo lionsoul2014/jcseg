@@ -16,7 +16,7 @@ public class JSONWriter
     /**
      * json data map
     */
-    private Map<String, Object> data = null;
+    private final Map<String, Object> data;
     
     /**
      * quick lancher
@@ -33,7 +33,7 @@ public class JSONWriter
     */
     public JSONWriter()
     {
-        data = new HashMap<String, Object>();
+        data = new HashMap<>();
     }
     
     /**
@@ -80,10 +80,9 @@ public class JSONWriter
     @SuppressWarnings("unchecked")
     public static String vector2JsonString(Object[] vector)
     {
-        IStringBuffer sb = new IStringBuffer();
+        final IStringBuffer sb = new IStringBuffer();
         sb.append('[');
-        for ( Object o : vector )
-        {
+        for ( Object o : vector ) {
             if ( o instanceof List<?> ) {
                 sb.append(list2JsonString((List<Object>)o)).append(',');
             } else if (o instanceof Object[]) {
@@ -129,10 +128,9 @@ public class JSONWriter
     @SuppressWarnings("unchecked")
     public static String list2JsonString(List<Object> list)
     {
-        IStringBuffer sb = new IStringBuffer();
+        final IStringBuffer sb = new IStringBuffer();
         sb.append('[');
-        for ( Object o : list )
-        {
+        for ( Object o : list ) {
             if ( o instanceof List<?> ) {
                 sb.append(list2JsonString((List<Object>)o)).append(',');
             } else if (o instanceof Object[]) {
@@ -176,10 +174,9 @@ public class JSONWriter
     @SuppressWarnings("unchecked")
     public static String map2JsonString(Map<String, Object> map)
     {
-        IStringBuffer sb = new IStringBuffer();
+        final IStringBuffer sb = new IStringBuffer();
         sb.append('{');
-        for ( Map.Entry<String, Object> entry : map.entrySet() )
-        {
+        for ( Map.Entry<String, Object> entry : map.entrySet() ) {
             sb.append('"').append(entry.getKey().toString()).append("\": ");
             
             Object obj = entry.getValue();

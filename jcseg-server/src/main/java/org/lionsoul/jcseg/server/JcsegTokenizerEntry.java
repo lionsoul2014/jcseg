@@ -11,9 +11,9 @@ import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 */
 public class JcsegTokenizerEntry {
     
-    private int algorithm;
-    private SegmenterConfig config = null;
-    private ADictionary dic = null;
+    private final int algorithm;
+    private final SegmenterConfig config;
+    private final ADictionary dic;
     
     public JcsegTokenizerEntry(int algorithm, SegmenterConfig config, ADictionary dic )
     {
@@ -26,20 +26,10 @@ public class JcsegTokenizerEntry {
     {
         return config;
     }
-    
-    public void setConfig(SegmenterConfig config)
-    {
-        this.config = config;
-    }
-    
+
     public ADictionary getDict()
     {
         return dic;
-    }
-    
-    public void setDict(ADictionary dic)
-    {
-        this.dic = dic;
     }
 
     public int getAlgorithm()
@@ -47,9 +37,4 @@ public class JcsegTokenizerEntry {
         return algorithm;
     }
 
-    public void setAlgorithm(int algorithm)
-    {
-        this.algorithm = algorithm;
-    }
-    
 }

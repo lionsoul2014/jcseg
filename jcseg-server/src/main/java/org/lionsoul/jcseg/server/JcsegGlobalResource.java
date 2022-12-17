@@ -13,17 +13,17 @@ public class JcsegGlobalResource extends GlobalResource
     /**
      * dictionary pool 
     */
-    private Map<String, ADictionary> dicPool = null;
+    private final Map<String, ADictionary> dicPool;
     
     /**
-     * JcsegTaskConfig pool 
+     * SegmenterConfig pool
     */
-    private Map<String, SegmenterConfig> configPool = null;
+    private final Map<String, SegmenterConfig> configPool;
     
     /**
      *  TokenizerEntry pool
      * */
-    private Map<String, JcsegTokenizerEntry> tokenizerPool = null;
+    private final Map<String, JcsegTokenizerEntry> tokenizerPool;
     
     
     /**
@@ -31,9 +31,9 @@ public class JcsegGlobalResource extends GlobalResource
     */
     public JcsegGlobalResource()
     {
-        dicPool = Collections.synchronizedMap(new HashMap<String, ADictionary>());
-        configPool = Collections.synchronizedMap(new HashMap<String, SegmenterConfig>());
-        tokenizerPool = Collections.synchronizedMap(new HashMap<String, JcsegTokenizerEntry>());
+        dicPool = Collections.synchronizedMap(new HashMap<>());
+        configPool = Collections.synchronizedMap(new HashMap<>());
+        tokenizerPool = Collections.synchronizedMap(new HashMap<>());
     }
     
     

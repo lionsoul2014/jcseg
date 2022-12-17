@@ -49,24 +49,24 @@ public class KeywordsController extends JcsegController
             return;
         }
         
-        JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
-        JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
+        final JcsegGlobalResource resourcePool = (JcsegGlobalResource)globalResource;
+        final JcsegTokenizerEntry tokenizerEntry = resourcePool.getTokenizerEntry("extractor");
         if ( tokenizerEntry == null ) {
             response(STATUS_INVALID_ARGS, "can't find tokenizer instance \"extractor\"");
             return;
         }
         
-        ISegment seg = ISegment.COMPLEX.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
-		TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
+        final ISegment seg = ISegment.COMPLEX.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
+		final TextRankKeywordsExtractor extractor = new TextRankKeywordsExtractor(seg);
 		extractor.setKeywordsNum(number);
 		extractor.setAutoFilter(autoFilter);
 		
 		long s_time = System.nanoTime();
-		List<String> keywords = extractor.getKeywordsFromString(text);
+		final List<String> keywords = extractor.getKeywordsFromString(text);
 		double c_time = (System.nanoTime() - s_time)/1E9;
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		DecimalFormat df = new DecimalFormat("0.00000"); 
+		final Map<String, Object> map = new HashMap<>();
+		final DecimalFormat df = new DecimalFormat("0.00000");
 		map.put("took", Float.valueOf(df.format(c_time)));
 		map.put("keywords", keywords);
 		
