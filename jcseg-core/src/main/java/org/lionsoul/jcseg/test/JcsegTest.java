@@ -254,7 +254,7 @@ public class JcsegTest
                 "冰岛时间7月1日，正在当地拍片的汤姆·克鲁斯通过发言人承认，他与第三任妻子凯蒂·赫尔墨斯（第一二任妻子分别为咪咪·罗杰斯、妮可·基德曼）的婚姻即将结束。" + 
                 "配对标点: 本次『畅想杯』黑客技术大赛的得主为电信09-2BF的张三，奖励C++程序设计语言一书和【畅想网络】的『PHP教程』一套。"+
                 "特殊字母: 【Ⅰ】（Ⅱ），" +
-                "英文数字: bug report chenxin619315@gmail.com or visit http://code.google.com/p/jcseg, we all admire the hacker spirit!" +
+                "英文数字: bug report chenxin619315@gmail.com or visit https://code.google.com/p/jcseg, we all admire the hacker spirit!" +
                 "特殊数字: ① ⑩ ⑽ ㈩.";
         ///str = "这是张三和李四一九九七年前的故事了。";
         ///str = "本次“畅想杯黑客技术大赛”的冠军为“电信09-2BF”的陈鑫。奖励《算法导论》一书，加上『畅想网络PHP教程』一套";

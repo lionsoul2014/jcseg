@@ -43498,6 +43498,7 @@ html/null/null/null/
 htr/null/null/null/
 http/null/null/null/
 httpd/null/null/null/
+https/null/null/null/
 hua/a,adv/null/null/
 huanaco/n/null/null/
 huanghai/null/null/null/
