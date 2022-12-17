@@ -32,7 +32,7 @@ import org.lionsoul.jcseg.segmenter.SegmenterConfig;
  * after invoke the reset, global object input will be available
  * </p>
  * 
- * <p>jcseg tokennizer for lucene on or after 5.1.0</p>
+ * <p>Jcseg tokenizer for lucene on or after 5.1.0</p>
  * 
  * @author    chenxin<chenxin619315@gmail.com>
  */
@@ -47,7 +47,7 @@ public class JcsegTokenizer extends Tokenizer
     
     /**
      * field level offset tracker for multiple-value field
-     * like the Array field in Elasticseach or Solr
+     * like the Array field in Elasticsearch or Solr
     */
     private int fieldOffset = 0;
     
@@ -71,8 +71,8 @@ public class JcsegTokenizer extends Tokenizer
             return false;
         }
         
-        // char[] token = word.getValue().toCharArray();
-        // termAtt.copyBuffer(token, 0, token.length);
+        /// char[] token = word.getValue().toCharArray();
+        /// termAtt.copyBuffer(token, 0, token.length);
         termAtt.append(word.getValue());
         termAtt.setLength(word.getLength());
         offsetAtt.setOffset(
