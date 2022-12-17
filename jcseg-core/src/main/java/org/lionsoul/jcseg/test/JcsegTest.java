@@ -281,73 +281,74 @@ public class JcsegTest
                 
                 //module switch
                 if ( cmd.charAt(0) == ':' ) {
-                    if (":complex".equals(cmd)) {
+                    switch (cmd) {
+                    case ":complex":
                         demo.resetMode("complex");
-                        module = "tokenzier:complex";
+                        module = "tokenizer:complex";
                         action = 0;
                         System.out.println("Entered complex tokenize mode!");
                         continue;
-                    } else if (":simple".equals(cmd)) {
+                    case ":simple":
                         demo.resetMode("simple");
-                        module = "tokenzier:simple";
+                        module = "tokenizer:simple";
                         action = 0;
                         System.out.println("Entered simple tokenize mode!");
                         continue;
-                    } else if (":most".equals(cmd)) {
+                    case ":most":
                         demo.resetMode("most");
-                        module = "tokenzier:most";
+                        module = "tokenizer:most";
                         action = 0;
                         System.out.println("Entered most tokenize mode!");
                         continue;
-                    } else if (":detect".equals(cmd)) {
+                    case ":detect":
                         demo.resetMode("detect");
-                        module = "tokenzier:detect";
+                        module = "tokenizer:detect";
                         action = 0;
                         System.out.println("Entered detect tokenize mode!");
                         continue;
-                    } else if (":delimiter".equals(cmd)) {
+                    case ":delimiter":
                         demo.resetMode("delimiter");
-                        module = "tokenzier:delimiter";
+                        module = "tokenizer:delimiter";
                         action = 0;
                         System.out.println("Entered delimiter tokenize mode!");
                         continue;
-                    } else if (":NLP".equals(cmd)) {
+                    case ":NLP":
                         demo.resetMode("nlp");
-                        module = "tokenzier:NLP";
+                        module = "tokenizer:NLP";
                         action = 0;
                         System.out.println("Entered NLP tokenize mode!");
                         continue;
-                    } else if (":ngram".equals(cmd)) {
+                    case ":ngram":
                         demo.resetMode("ngram");
-                        module = "tokenzier:ngram";
+                        module = "tokenizer:ngram";
                         action = 0;
                         System.out.println("Entered ngram tokenize mode!");
                         continue;
-                    } else if (":keywords".equals(cmd)) {
+                    case ":keywords":
                         module = "keywords";
                         action = 1;
                         System.out.println("Entered keywords extract mode!");
                         continue;
-                    } else if (":keyphrase".equals(cmd)) {
+                    case ":keyphrase":
                         module = "keyphrase";
                         action = 2;
                         System.out.println("Entered keyphrase extract mode!");
                         continue;
-                    } else if (":sentence".equals(cmd)) {
+                    case ":sentence":
                         action = 3;
                         module = "sentence";
                         System.out.println("Entered sentence extract mode!");
                         continue;
-                    } else if (":summary".equals(cmd)) {
+                    case ":summary":
                         action = 4;
                         module = "summary";
                         System.out.println("Entered summary extract mode!");
                         continue;
-                    } else if (":help".equals(cmd)) {
+                    case ":help":
                         printHelpMenu();
                         continue;
-                    } else if (":quit".equals(cmd)) {
-                        System.out.println("Thanks for trying jcseg, Bye!");
+                    case ":quit":
+                        System.out.println("Thanks for trying Jcseg, Bye!");
                         System.exit(0);
                     }
                 }
