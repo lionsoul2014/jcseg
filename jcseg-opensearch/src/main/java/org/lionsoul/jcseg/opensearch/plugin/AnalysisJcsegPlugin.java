@@ -72,7 +72,7 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
      */
     private static final String pluginBase = AnalysisJcsegPlugin.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     private static final Path safePath = PathUtils.get(new File(pluginBase).getParent()).toAbsolutePath();
-    public static final File getPluginSafeFile(String file)
+    public static File getPluginSafeFile(String file)
     {
         return safePath.resolve(file).toFile();
     }
@@ -86,7 +86,7 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
      * @param	config
      * @return	ADictionary
     */
-    public static final ADictionary createSingletonDictionary(SegmenterConfig config) throws IOException {
+    public static ADictionary createSingletonDictionary(SegmenterConfig config) throws IOException {
     	synchronized ( LOCK ) {
     		if ( dic != null ) {
                 return dic;
@@ -108,19 +108,21 @@ public class AnalysisJcsegPlugin extends Plugin implements AnalysisPlugin
             for ( String path : lexPath ) {
                 final File safeDir = getPluginSafeFile(path);
                 if ( ! safeDir.exists() ) {
-                    throw new IOException("Lexicon directory ["+safeDir+"] does'n exists.");
+                    throw new IOException("Lexicon directory ["+safeDir+"] is not exists.");
                 }
 
-                File[] files = safeDir.listFiles(new FilenameFilter(){
+                final File[] files = safeDir.listFiles(new FilenameFilter(){
                     @Override
                     public boolean accept(File dir, String name) {
                         return (name.startsWith("lex-") && name.endsWith(".lex"));
                     }
                 });
 
-                for ( File f : files ) {
-                	// System.out.println(f.getAbsolutePath());
-                    dic.load(getPluginSafeFile(f.getAbsolutePath()));
+                if (files != null) {
+                    for ( File f : files ) {
+                        /// System.out.println(f.getAbsolutePath());
+                        dic.load(getPluginSafeFile(f.getAbsolutePath()));
+                    }
                 }
             }
 

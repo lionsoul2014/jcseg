@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class JcsegNGramAnalyzerProvider extends JcsegAnalyzerProvider
 {
-    public JcsegNGramAnalyzerProvider(IndexSettings indexSettings,
-									  Environment env, String name, Settings settings) throws IOException {
+    public JcsegNGramAnalyzerProvider(
+			IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
 

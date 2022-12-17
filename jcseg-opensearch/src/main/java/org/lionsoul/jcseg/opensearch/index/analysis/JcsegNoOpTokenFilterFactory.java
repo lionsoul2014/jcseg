@@ -9,8 +9,8 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
 public class JcsegNoOpTokenFilterFactory extends AbstractTokenFilterFactory
 {
     
-    public JcsegNoOpTokenFilterFactory(IndexSettings indexSettings,
-                                       Environment env, String name, Settings settings)
+    public JcsegNoOpTokenFilterFactory(
+            IndexSettings indexSettings, Environment env, String name, Settings settings)
     {
         super(indexSettings, name, settings);
     }

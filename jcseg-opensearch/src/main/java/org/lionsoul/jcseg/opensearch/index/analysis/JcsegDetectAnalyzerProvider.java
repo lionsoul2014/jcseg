@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class JcsegDetectAnalyzerProvider extends JcsegAnalyzerProvider
 {
-    public JcsegDetectAnalyzerProvider(IndexSettings indexSettings,
-									   Environment env, String name, Settings settings) throws IOException {
+    public JcsegDetectAnalyzerProvider(
+			IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
 

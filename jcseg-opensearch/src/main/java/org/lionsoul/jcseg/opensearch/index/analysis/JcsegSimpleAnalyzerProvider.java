@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class JcsegSimpleAnalyzerProvider extends JcsegAnalyzerProvider
 {
-    public JcsegSimpleAnalyzerProvider(IndexSettings indexSettings,
-									   Environment env, String name, Settings settings) throws IOException {
+    public JcsegSimpleAnalyzerProvider(
+			IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
 

@@ -2,6 +2,7 @@ package org.lionsoul.jcseg.opensearch.index.analysis;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
@@ -28,8 +29,8 @@ public abstract class JcsegAnalyzerProvider extends AbstractIndexAnalyzerProvide
             IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, name, settings);
         
-        final SegmenterConfig config = new SegmenterConfig(new FileInputStream(
-                AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties")));
+        final SegmenterConfig config = new SegmenterConfig(
+                Files.newInputStream(AnalysisJcsegPlugin.getPluginSafeFile("jcseg.properties").toPath()));
         
         /* Load and apply the self-define arguments for Jcseg */
         for ( String key : settings.names() ) {

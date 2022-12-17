@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class JcsegDelimiterAnalyzerProvider extends JcsegAnalyzerProvider
 {
-    public JcsegDelimiterAnalyzerProvider(IndexSettings indexSettings,
-										  Environment env, String name, Settings settings) throws IOException {
+    public JcsegDelimiterAnalyzerProvider(
+			IndexSettings indexSettings, Environment env, String name, Settings settings) throws IOException {
         super(indexSettings, env, name, settings);
     }
 
