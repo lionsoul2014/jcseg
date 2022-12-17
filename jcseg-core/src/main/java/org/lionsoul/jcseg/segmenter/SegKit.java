@@ -20,26 +20,24 @@ public class SegKit
      * @param   wordPool
      * @param   wd
     */
-    public final static void appendSynonyms(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
+    public static void appendSynonyms(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
     {
         final List<IWord> synList = wd.getSyn().getList();
         synchronized (synList) {
-            for ( int j = 0; j < synList.size(); j++ ) {
-            	final IWord curWord = synList.get(j);
-                if ( curWord.getValue()
-                        .equals(wd.getValue()) ) {
+            for (final IWord curWord : synList) {
+                if (curWord.getValue().equals(wd.getValue())) {
                     continue;
                 }
-                
-                final IWord synWord = synList.get(j).clone();
+
+                final IWord synWord = curWord.clone();
                 synWord.setPosition(wd.getPosition());
-                synWord.setLength(wd.getLength());	/* Force the length equals to the root word's */
+                synWord.setLength(wd.getLength());    /* Force the length equals to the root word's */
                 wordPool.add(synWord);
-                
+
                 // check and append its Pinyin
-                if ( config.APPEND_CJK_PINYIN 
-                        && config.LOAD_CJK_PINYIN && synWord.getPinyin() != null ) {
-                	appendPinyin(config, wordPool, synWord);
+                if (config.APPEND_CJK_PINYIN
+                        && config.LOAD_CJK_PINYIN && synWord.getPinyin() != null) {
+                    appendPinyin(config, wordPool, synWord);
                 }
             }
         }
@@ -53,12 +51,12 @@ public class SegKit
      * @param	wordPool
      * @param	wd
     */
-    public final static void appendPinyin(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
+    public static void appendPinyin(SegmenterConfig config, LinkedList<IWord> wordPool, IWord wd)
     {
     	/* 
     	 * For search, you know this is a complex topic for pinyin process 
     	 * You may add your logic for processing the Pinyin for search here.
-    	 * By default we just merge them and take it as single word item. 
+    	 * By default, we just merge them and take it as single word item.
     	*/
     	final String pinyin = wd.getPinyin().replaceAll("\\s+", "");
         final IWord pyWord = new Word(pinyin, IWord.T_CJK_PINYIN);

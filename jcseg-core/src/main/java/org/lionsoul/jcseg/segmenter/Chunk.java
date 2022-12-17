@@ -13,7 +13,7 @@ public class Chunk implements IChunk
     /**
      * the word array 
      */
-    private IWord[] words;
+    private final IWord[] words;
     
     /**
      * the average words length 
@@ -71,8 +71,8 @@ public class Chunk implements IChunk
     {
         if ( wordsVariance == -1D ) {
             double variance = 0D, temp;
-            for ( int j = 0; j < words.length; j++ ) {
-                temp = (double) words[j].getLength() - getAverageWordsLength();
+            for (IWord word : words) {
+                temp = (double) word.getLength() - getAverageWordsLength();
                 variance = variance + temp * temp;
             }
             //wordsVariance = Math.sqrt( variance / (double) words.length );
@@ -90,10 +90,10 @@ public class Chunk implements IChunk
     {
         if ( singleWordMorphemicFreedom == -1D ) {
         	singleWordMorphemicFreedom = 0;
-            for ( int j = 0; j < words.length; j++ ) {
+            for (IWord word : words) {
                 //one-character word
-                if ( words[j].getLength() == 1 ) {
-                	singleWordMorphemicFreedom += Math.log((double) words[j].getFrequency());
+                if (word.getLength() == 1) {
+                    singleWordMorphemicFreedom += Math.log((double) word.getFrequency());
                 }
             }
         } 
@@ -109,8 +109,8 @@ public class Chunk implements IChunk
     {
         if ( length == -1 ) {
         	length = 0;
-            for ( int j = 0; j < words.length; j++ ) {
-            	length += words[j].getValue().length();
+            for (IWord word : words) {
+                length += word.getValue().length();
             }
         } 
         
@@ -122,10 +122,10 @@ public class Chunk implements IChunk
      */
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("chunk: ");
-        for ( int j = 0; j < words.length; j++ ) {
-            sb.append(words[j]+"/");
+        for (IWord word : words) {
+            sb.append(word).append("/");
         }
         
         return sb.toString();

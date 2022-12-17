@@ -65,12 +65,10 @@ public abstract class KeywordsExtractor
         char pos = poss[0].charAt(0);
         switch ( pos ) {
             case 'e': {
-                if ( poss[0].equals("en") ) return true;
-                return false;
+                return poss[0].equals("en");
             }
             case 'm': {
-                if ( poss[0].equals("mix") ) return true;
-                return false;
+                return poss[0].equals("mix");
             }
             case 'q':
             case 'b':
@@ -90,15 +88,15 @@ public abstract class KeywordsExtractor
                 return false;
             }
             
-            /*case 'n':
-            case 'v':
-            case 'a':
-            case 't':
-            case 's':
-            case 'f':
-            {
-                return true;
-            }*/
+            /// case 'n':
+            /// case 'v':
+            /// case 'a':
+            /// case 't':
+            /// case 's':
+            /// case 'f':
+            /// {
+            ///     return true;
+            /// }
         }
         
         return true;
@@ -109,7 +107,6 @@ public abstract class KeywordsExtractor
      * 
      * @param   doc
      * @return  List[]
-     * @throws  IOException
     */
     public List<String> getKeywordsFromString(String doc) throws IOException
     {
@@ -121,7 +118,6 @@ public abstract class KeywordsExtractor
      * 
      * @param   file
      * @return  List[]
-     * @throws  IOException
     */
     public List<String> getKeywordsFromFile(String file) throws IOException
     {
@@ -132,7 +128,6 @@ public abstract class KeywordsExtractor
      * get the keywords list from a reader
      * 
      * @param   reader
-     * @throws  IOException
     */
     public abstract List<String> getKeywords(Reader reader) throws IOException;
 

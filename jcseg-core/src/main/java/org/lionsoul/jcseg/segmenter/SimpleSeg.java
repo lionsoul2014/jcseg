@@ -24,7 +24,7 @@ public class SimpleSeg extends Segmenter
     @Override
     public IChunk getBestChunk(char[] chars, int index, int maxLen)
     {
-        IWord[] words = getNextMatch(maxLen, chars, index, null);
+        final IWord[] words = getNextMatch(maxLen, chars, index, null);
         return new Chunk(new IWord[]{words[words.length - 1]});
     }
     

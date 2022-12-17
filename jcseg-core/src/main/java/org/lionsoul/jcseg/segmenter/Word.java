@@ -12,33 +12,33 @@ import org.lionsoul.jcseg.util.ArrayUtil;
  * word class for Jcseg with the {@link org.lionsoul.jcseg.IWord} interface implemented
  * 
  * at 2017/03/29: 
- * make the synonyms series method {@link #getSyn()} {@link #setSyn(SynonymsEntry)} 
+ * make the synonym series method {@link #getSyn()} {@link #setSyn(SynonymsEntry)}
  * and the part of speech series method {@link #getPartSpeech()} {@link #setPartSpeech(String[])} {@link #addPartSpeech(String)}
- * and the {@link #clone()} method synchronized for may coming concurrent access.
+ * and the {@link #clone()} method synchronized for might happen concurrent access.
  * 
  * @author  chenxin<chenxin619315@gmail.com>
  */
 public class Word implements IWord,Cloneable, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private String value;
+    private final String value;
     private int fre = 0;
     private int type;
     private int position;
     
     /**
-     * well the we could get the length of the word by invoke #getValue().length
+     * well we could get the length of the word by invoke #getValue().length
      * owing to the implementation of Jcseg and {@link #getValue()}.length may no equals to {@link #getLength()}
      * 
-     * {@link #getLength()} will return the value setted by
+     * {@link #getLength()} will return the value set by #setLength
      */
     private int length = -1;
     private int h = -1;
     
     /**
      * NOTE added at 2016/11/12
-     * word string entity name and 
-     * it could be assign from the lexicon or the word item setting
+     * word string entity name.
+     * and it could be assigned from the lexicon or the word item setting
      * or assign dynamic during the segment runtime
      * 
      * NOTE make it an Array at 2017/06/06
@@ -46,7 +46,7 @@ public class Word implements IWord,Cloneable, Serializable
     private String[] entity = null;
     
     private String pinyin = null;
-    private String[] partspeech = null;
+    private String[] partSpeech = null;
     private volatile SynonymsEntry syn = null;
     
     /**
@@ -82,7 +82,7 @@ public class Word implements IWord,Cloneable, Serializable
         this(value, 0, type, null);
     }
     
-    public Word(String value, int type, String entity[])
+    public Word(String value, int type, String[] entity)
     {
         this(value, 0, type, entity);
     }
@@ -204,7 +204,7 @@ public class Word implements IWord,Cloneable, Serializable
     public synchronized void addEntity(String e)
     {
         if ( e == null ) {
-            
+            // do nothing here
         } else if ( entity == null ) {
             entity = new String[]{e};
         } else if ( ArrayUtil.indexOf(e, entity) == -1 ) {
@@ -253,19 +253,19 @@ public class Word implements IWord,Cloneable, Serializable
     @Override
     public synchronized String[] getPartSpeech() 
     {
-        return partspeech;
+        return partSpeech;
     }
     
     @Override
-    public synchronized void setPartSpeech(String[] partspeech) 
+    public synchronized void setPartSpeech(String[] partSpeech)
     {
-        this.partspeech = partspeech;
+        this.partSpeech = partSpeech;
     }
     
-    public synchronized void setPartSpeechForNull(String[] partspeech)
+    public synchronized void setPartSpeechForNull(String[] partSpeech)
     {
-    	if ( this.partspeech == null ) {
-    		this.partspeech = partspeech;
+    	if ( this.partSpeech == null ) {
+    		this.partSpeech = partSpeech;
     	}
     }
     
@@ -275,13 +275,13 @@ public class Word implements IWord,Cloneable, Serializable
     @Override
     public synchronized void addPartSpeech( String ps ) 
     {
-        if ( partspeech == null ) {
-            partspeech = new String[]{ps};
+        if ( partSpeech == null ) {
+            partSpeech = new String[]{ps};
         } else {            
-            String[] dest = new String[partspeech.length+1];
-            System.arraycopy(partspeech, 0, dest, 0, partspeech.length);
-            dest[partspeech.length] = ps;
-            partspeech = dest;
+            String[] dest = new String[partSpeech.length+1];
+            System.arraycopy(partSpeech, 0, dest, 0, partSpeech.length);
+            dest[partSpeech.length] = ps;
+            partSpeech = dest;
         }
     }
     
@@ -349,13 +349,13 @@ public class Word implements IWord,Cloneable, Serializable
         sb.append(value);
         sb.append('/');
         //append the cx
-        if ( partspeech != null ) {
-            for ( int j = 0; j < partspeech.length; j++ ) {
+        if ( partSpeech != null ) {
+            for (int j = 0; j < partSpeech.length; j++ ) {
                 if ( j == 0 ) {
-                    sb.append(partspeech[j]);
+                    sb.append(partSpeech[j]);
                 } else {
                     sb.append(',');
-                    sb.append(partspeech[j]);
+                    sb.append(partSpeech[j]);
                 }
             }
         } else {
@@ -367,7 +367,7 @@ public class Word implements IWord,Cloneable, Serializable
         sb.append('/');
         
         if ( syn != null ) {
-            List<IWord> synsList = syn.getList();
+            final List<IWord> synsList = syn.getList();
             synchronized ( synsList ) {
                 for ( int i = 0; i < synsList.size(); i++ ) {
                     if ( i == 0 ) {
@@ -406,7 +406,7 @@ public class Word implements IWord,Cloneable, Serializable
     public String toString() 
     {
             
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append('{');
         
         /*
@@ -431,8 +431,8 @@ public class Word implements IWord,Cloneable, Serializable
             sb.append(",\"pinyin\":null");
         }
         
-        if ( partspeech != null ) {
-            sb.append(",\"pos\":\"").append(partspeech[0]).append('"');
+        if ( partSpeech != null ) {
+            sb.append(",\"pos\":\"").append(partSpeech[0]).append('"');
         } else {
             sb.append(",\"pos\":null");
         }

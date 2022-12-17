@@ -26,17 +26,16 @@ public class SentenceSeg
     /**
      * global string buffer 
     */
-    protected IStringBuffer gisb = null;
+    protected final IStringBuffer gIsb;
         
     /**
      * construct method
      * 
      * @param  reader
-     * @throws IOException 
     */
     public SentenceSeg(Reader reader) throws IOException
     {
-        gisb = new IStringBuffer();
+        gIsb = new IStringBuffer();
         reset(reader);
     }
     
@@ -50,19 +49,17 @@ public class SentenceSeg
      * stream/reader reset.
      * 
      * @param input
-     * @throws IOException
      */
     public void reset( Reader input ) throws IOException
     { 
-        if ( input != null ) 
+        if ( input != null ) {
             reader = new IPushbackReader(new BufferedReader(input));
+        }
         idx = -1;
     }
     
     /**
      * read the next char from the current position
-     * 
-     * @throws IOException 
      */
     protected int readNext() throws IOException 
     {    
@@ -75,11 +72,10 @@ public class SentenceSeg
      * get the next sentence
      * 
      * @return    Sentence
-     * @throws    IOException 
     */
     public Sentence next() throws IOException
     {
-        gisb.clear();
+        gIsb.clear();
         int c, pos = -1;
         
         while ( (c = readNext()) != -1 ) {
@@ -101,17 +97,17 @@ public class SentenceSeg
             if ( StringUtil.isEnPunctuation(c)) {
                 switch ( (char)c ) {
                 case '"':
-                /*case '[':
-                case '(':
-                case '{':
-                case '<':*/
+                /// *case '[':
+                /// case '(':
+                /// case '{':
+                /// case '<':
                     break;
                 default: continue;
                 }
             }
              
             pos = idx;
-            gisb.clear().append((char)c);
+            gIsb.clear().append((char)c);
             
             while ( (c = readNext()) != -1 ) {
                 boolean endTag = false;
@@ -122,13 +118,13 @@ public class SentenceSeg
                  * .。\n;；?？!！:： 
                 */
                 switch ((char)c) {
-                case '"': gisb.append('"'); readUntil('"');  break;
-                case '“': gisb.append('“'); readUntil('”');  break;
-                case '【': gisb.append('【'); readUntil('】'); break;
-                case '《': gisb.append('《'); readUntil('》'); break;
+                case '"': gIsb.append('"'); readUntil('"');  break;
+                case '“': gIsb.append('“'); readUntil('”');  break;
+                case '【': gIsb.append('【'); readUntil('】'); break;
+                case '《': gIsb.append('《'); readUntil('》'); break;
                 case '.': {
                     int chr = readNext();
-                    gisb.append((char)c);
+                    gIsb.append((char)c);
                     if ( StringUtil.isEnLetter(chr) )  {
                         reader.unread(chr);
                         continue;
@@ -147,7 +143,7 @@ public class SentenceSeg
                 case '！':
                 case '…': {
                     endTag = true;
-                    gisb.append((char)c);
+                    gIsb.append((char)c);
                     break;
                 }
                 case ':':
@@ -157,40 +153,39 @@ public class SentenceSeg
                     break;
                 }
                 default:
-                    gisb.append((char)c);
+                    gIsb.append((char)c);
                 }
                 
                 if ( endTag ) break;
             }
 
             //clear the whitespace from the back
-            for ( int i = gisb.length() - 1; i >= 0; i-- ) {
-                char chr = gisb.charAt(i);
-                if ( chr == ' ' || chr == '\t' ) gisb.deleteCharAt(i);
+            for (int i = gIsb.length() - 1; i >= 0; i-- ) {
+                char chr = gIsb.charAt(i);
+                if ( chr == ' ' || chr == '\t' ) gIsb.deleteCharAt(i);
                 else break;
             }
             
-            if ( gisb.length() <= 1 ) continue;
-            return new Sentence(gisb.toString(), pos);
+            if ( gIsb.length() <= 1 ) continue;
+            return new Sentence(gIsb.toString(), pos);
         }
                 
         return null;
     }
     
     /**
-     * loop the reader until the specifield char is found.
+     * loop the reader until the specified char is found.
      * 
-     * @param    echar
-     * @throws  IOException  
+     * @param    eChar
     */
-    protected void readUntil(char echar) throws IOException
+    protected void readUntil(char eChar) throws IOException
     {
         int ch, i = 0;
-        IStringBuffer sb = new IStringBuffer();
+        final IStringBuffer sb = new IStringBuffer();
         while ( (ch = readNext()) != -1 ) {
             if ( ++i >= MAX_QUOTE_LENGTH ) {
                 /*
-                 * push back the readed chars
+                 * push back the chars that have been read
                  * and reset the global idx value. 
                 */
                 for ( int j = sb.length() - 1; j >= 0; j-- ) {
@@ -201,12 +196,10 @@ public class SentenceSeg
             }
             
             sb.append((char)ch);
-            if ( ch == echar ) {
-                gisb.append(sb.toString());
+            if ( ch == eChar) {
+                gIsb.append(sb.toString());
                 break;
             }
         }
-        
-        sb = null;
     }
 }

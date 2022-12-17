@@ -20,21 +20,21 @@ public class HashMapDictionary extends ADictionary implements Serializable
     private static final long serialVersionUID = 1L;
     
     /**hash table for the words*/
-    public final Map<String, IWord>[] dics;
+    public final Map<String, IWord>[] dictMap;
     
     @SuppressWarnings("unchecked")
     public HashMapDictionary( SegmenterConfig config, Boolean sync )
     {
         super(config, sync);
         
-        dics = new Map[ILexicon.T_LEN];
+        dictMap = new Map[ILexicon.T_LEN];
         if ( this.sync ) {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-                dics[j] = new ConcurrentHashMap<>(16, 0.80F);
+                dictMap[j] = new ConcurrentHashMap<>(16, 0.80F);
             }
         } else {
             for ( int j = 0; j < ILexicon.T_LEN; j++ ) {
-                dics[j] = new HashMap<>(16, 0.80F);
+                dictMap[j] = new HashMap<>(16, 0.80F);
             }
         }
     }
@@ -46,7 +46,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
     public boolean match(int t, String key)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            return dics[t].containsKey(key);
+            return dictMap[t].containsKey(key);
         }
         return false;
     }
@@ -58,11 +58,11 @@ public class HashMapDictionary extends ADictionary implements Serializable
     public IWord add(int t, IWord word)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            if ( dics[t].containsKey(word.getValue()) ) {
-                return dics[t].get(word.getValue());
+            if ( dictMap[t].containsKey(word.getValue()) ) {
+                return dictMap[t].get(word.getValue());
             }
             
-            dics[t].put(word.getValue(), word);
+            dictMap[t].put(word.getValue(), word);
             return word;
         }
         
@@ -73,15 +73,15 @@ public class HashMapDictionary extends ADictionary implements Serializable
      * @see ADictionary#add(int, String, int, int, String[]) 
     */
     @Override
-    public IWord add(int t, String key, int fre, int type, String entity[])
+    public IWord add(int t, String key, int fre, int type, String[] entity)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            if ( dics[t].containsKey(key) ) {
-                return dics[t].get(key);
+            if ( dictMap[t].containsKey(key) ) {
+                return dictMap[t].get(key);
             }
             
             IWord word = new Word(key, fre, type, entity);
-            dics[t].put(key, word);
+            dictMap[t].put(key, word);
             return word;
         }
         
@@ -110,7 +110,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
      * @see ADictionary#add(int, String, int, String[]) 
     */
     @Override
-    public IWord add(int t, String key, int type, String entity[])
+    public IWord add(int t, String key, int type, String[] entity)
     {
         return add(t, key, 0, type, entity);
     }
@@ -122,7 +122,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
     public IWord get(int t, String key)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            return dics[t].get(key);
+            return dictMap[t].get(key);
         }
         return null;
     }
@@ -134,7 +134,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
     public void remove(int t, String key)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            dics[t].remove(key);
+            dictMap[t].remove(key);
         }
     }
     
@@ -145,7 +145,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
     public int size(int t)
     {
         if ( t >= 0 && t < ILexicon.T_LEN ) {
-            return dics[t].size();
+            return dictMap[t].size();
         }
         return 0;
     }

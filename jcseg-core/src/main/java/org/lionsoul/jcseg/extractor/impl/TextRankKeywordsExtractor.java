@@ -47,14 +47,16 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
     @Override
     public List<String> getKeywords(Reader reader) throws IOException 
     {
-        Map<String, List<String>> winMap = new HashMap<String, List<String>>();
-        List<String> words = new ArrayList<String>();
+        final Map<String, List<String>> winMap = new HashMap<>();
+        final List<String> words = new ArrayList<>();
         
         //document segment
         IWord w = null;
         seg.reset(reader);
         while ( (w = seg.next()) != null ) {
-            if ( filter(w) == false ) continue;
+            if (!filter(w)) {
+                continue;
+            }
             
             String word = w.getValue();
             if ( ! winMap.containsKey(word) ) {
@@ -78,8 +80,8 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
             }
         }
         
-        //do the page rank scores caculate
-        HashMap<String, Float> score = new HashMap<String, Float>();
+        // the page rank scores calculation
+        final HashMap<String, Float> score = new HashMap<>();
         for ( int c = 0; c < maxIterateNum; c++ ) {
             for ( Map.Entry<String, List<String>> entry : winMap.entrySet() ) {
                 String key = entry.getKey();
@@ -93,8 +95,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
                     }
                     
                     float Sy = 0;
-                    if ( score != null 
-                            && score.containsKey(ele) ) {
+                    if (score.containsKey(ele)) {
                         Sy = score.get(ele);
                     }
                     
@@ -106,8 +107,8 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         }
 
         //sort the items by score
-        List<Map.Entry<String, Float>> entryList = new ArrayList<Map.Entry<String, Float>>(score.entrySet());
-        Collections.sort(entryList, new Comparator<Map.Entry<String, Float>>(){
+        final List<Map.Entry<String, Float>> entryList = new ArrayList<>(score.entrySet());
+        entryList.sort(new Comparator<Map.Entry<String, Float>>() {
             @Override
             public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
                 return o2.getValue().compareTo(o1.getValue());
@@ -125,7 +126,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         
         //return the sublist as the final result
         int len = Math.min(keywordsNum, entryList.size());
-        List<String> keywords = new ArrayList<String>(len);
+        final List<String> keywords = new ArrayList<String>(len);
         for ( int i = 0; i < entryList.size(); i++ ) {
             Map.Entry<String, Float> e = entryList.get(i);
             if ( i >= len ) break;
@@ -136,9 +137,7 @@ public class TextRankKeywordsExtractor extends KeywordsExtractor
         //let gc do its work
         winMap.clear();
         words.clear();
-        winMap = null; words = null;
-        score = null; entryList = null;
-        
+
         return keywords;
     }
 

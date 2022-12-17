@@ -34,9 +34,9 @@ public class DelimiterSeg implements ISegment
     /**
      * runtime needed push back reader and the string buffer
     */
-    private IPushbackReader reader = null;
-    private IStringBuffer isb = null;
-    protected LinkedList<IWord> wordPool = null;
+    private IPushbackReader reader;
+    private final IStringBuffer isb;
+    protected final LinkedList<IWord> wordPool;
     
     /**
      * the dictionary and task configuration
@@ -49,7 +49,6 @@ public class DelimiterSeg implements ISegment
      * 
      * @param   config
      * @param   dic
-     * @throws  IOException
      */
     public DelimiterSeg(SegmenterConfig config, ADictionary dic)
     {
@@ -57,7 +56,7 @@ public class DelimiterSeg implements ISegment
         this.dic       = dic;
         this.delimiter = config.getDELIMITER();
         
-        wordPool = new LinkedList<IWord>();
+        wordPool = new LinkedList<>();
         isb      = new IStringBuffer(64);
     }
 
@@ -81,7 +80,6 @@ public class DelimiterSeg implements ISegment
      * read the next char from the current position
      * 
      * @return  int
-     * @throws  IOException 
      */
     protected int readNext() throws IOException 
     {    
@@ -94,9 +92,8 @@ public class DelimiterSeg implements ISegment
      * push back the data to the stream
      * 
      * @param   data
-     * @throws  IOException 
      */
-    protected void pushBack( int data ) throws IOException 
+    protected void pushBack( int data )
     {
         reader.unread(data);
         idx--;
@@ -137,12 +134,12 @@ public class DelimiterSeg implements ISegment
             //System.out.println(isb.toString());
             /* @Note
              * check and do the word return
-             * 1, if the global dictionary instance is effective and we will
+             * 1, if the global dictionary instance is more effective, we will
              * try to get more info from the dictionary
              * 2, otherwise create a new word with just position filled
             */
             IWord wd = null;
-            String val = isb.toString();
+            final String val = isb.toString();
             if ( dic != null && dic.match(ILexicon.CJK_WORD, val) ) {
                 wd = dic.get(ILexicon.CJK_WORD, val).clone();
             } else {
@@ -162,7 +159,7 @@ public class DelimiterSeg implements ISegment
             */
             if ( dic != null && config.APPEND_CJK_PINYIN 
                     && config.LOAD_CJK_PINYIN && wd.getPinyin() != null ) {
-                IWord pinyin = new Word(wd.getPinyin(), IWord.T_CJK_PINYIN);
+                final IWord pinyin = new Word(wd.getPinyin(), IWord.T_CJK_PINYIN);
                 pinyin.setPosition(pos);
                 pinyin.setLength(wd.getLength());
                 wordPool.add(pinyin);
@@ -210,9 +207,9 @@ public class DelimiterSeg implements ISegment
     }
 
     /**
-     * get the current JcsegTaskConfig instance
+     * get the current Segmenter Config instance
      * 
-     * @return  JcsegTaskConfig
+     * @return  SegmenterConfig
     */
     public SegmenterConfig getConfig()
     {

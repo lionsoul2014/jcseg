@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.lionsoul.jcseg.util.Util;
@@ -42,7 +44,7 @@ public class SegmenterConfig implements Cloneable, Serializable
     /**whether to load the Pinyin of the CJK_WORDS*/
     public boolean LOAD_CJK_PINYIN = true;
     
-    /**append the Pinyin to the splited IWord*/
+    /**append the Pinyin to the result */
     public boolean APPEND_CJK_PINYIN = false;
     
     /**whether to load the word's part of speech*/
@@ -51,10 +53,10 @@ public class SegmenterConfig implements Cloneable, Serializable
     /**append the part of speech.*/
     public boolean APPEND_PART_OF_SPEECH = false;
     
-    /**whether to load the synonyms word of the CJK_WORDS.*/
+    /**whether to load the synonym word of the CJK_WORDS.*/
     public boolean LOAD_CJK_SYN = true;
     
-    /**append the syn word to the splited IWord.*/
+    /**append the syn word to the result.*/
     public boolean APPEND_CJK_SYN = false;
 
     /**whether to load the entity define*/
@@ -106,7 +108,7 @@ public class SegmenterConfig implements Cloneable, Serializable
     
     private String[] lexPath = null;        /*lexicon directory path array.*/
     private boolean lexAutoload = false;
-    private int polltime = 10;
+    private int pollTime = 10;
     
     //the currently used lexicon properties file
     private String pFile = null;
@@ -128,7 +130,7 @@ public class SegmenterConfig implements Cloneable, Serializable
     }
     
     /**
-     * create and initialize the config by auto load
+     * create and initialize the config by autoload
      * 
      * @param   autoLoad
     */
@@ -160,15 +162,14 @@ public class SegmenterConfig implements Cloneable, Serializable
     }
     
     /**
-     * initialize the value of its options from a speicfied 
+     * initialize the value of its options from a specified
      * jcseg.properties propertie file
      * 
      * @param   proFile 
-     * @throws  IOException
      */
     public void load( String proFile ) throws IOException 
     {
-        this.load(new FileInputStream(proFile));
+        this.load(Files.newInputStream(Paths.get(proFile)));
     }
     
 	/**
@@ -178,12 +179,10 @@ public class SegmenterConfig implements Cloneable, Serializable
 	 * 1. Inside the dir that jcseg-core-{version}.jar is located, means beside the jar file.
 	 * <p>
 	 * 2. Search root classpath.
-	 * <li>First, could manually put this file into root classpath (which is outside of any jar file).
+	 * <li>First, could manually put this file into root classpath (out of any jar file).
 	 * <li>Second, there is a copy of this file inside jcseg-core-{version}.jar. It will be used if didn't manually copy this file into classpath.
 	 * <p>
 	 * 3. Load from system property "user.home".
-	 * 
-	 * @throws IOException
 	 */
     public void autoLoad() throws IOException 
     {
@@ -195,7 +194,7 @@ public class SegmenterConfig implements Cloneable, Serializable
             return;
         }
         
-        // Search root classpath, if didn't copy to classpath manually, then will found & use the one inside jcseg-core-{version}.jar.
+        // Search root classpath, if didn't copy to classpath manually, then will find & use the one inside jcseg-core-{version}.jar.
         InputStream is = this.getClass().getResourceAsStream("/"+LEX_PROPERTY_FILE);
         if ( is != null ) {
             pFile = "classpath/jcseg.properties";
@@ -226,10 +225,9 @@ public class SegmenterConfig implements Cloneable, Serializable
     
     /**
      * initialize the value of its options from a InputStream
-     * of a jcseg.properties prperties file
+     * of a jcseg.properties file
      * 
      * @param   is
-     * @throws  IOException 
     */
     public void load( InputStream is ) throws IOException
     {
@@ -247,9 +245,9 @@ public class SegmenterConfig implements Cloneable, Serializable
      * @param	value
      * @return	boolean
     */
-    private static final boolean configBoolStatus(String value)
+    private static boolean configBoolStatus(String value)
     {
-    	return (value.equals("1") || value.equals("true") || value.equals("on")) ? true : false;
+    	return value.equals("1") || value.equals("true") || value.equals("on");
     }
     
     /**
@@ -257,7 +255,6 @@ public class SegmenterConfig implements Cloneable, Serializable
      * 
      * @param	key
      * @param	value
-     * @throws IOException 
     */
     public void set(String key, String value) throws IOException
     {
@@ -267,7 +264,7 @@ public class SegmenterConfig implements Cloneable, Serializable
     		}
     		
             if ( ! "null".equalsIgnoreCase(value) ) {
-                if ( value.indexOf("{jar.dir}") > -1 ) {
+                if (value.contains("{jar.dir}")) {
                 	value = value.replace("{jar.dir}", Util.getJarHome(this));
                 }
                 
@@ -317,7 +314,7 @@ public class SegmenterConfig implements Cloneable, Serializable
         } else if ( "lexicon.autoload".equals(key) ) {
         	lexAutoload = configBoolStatus(value);
         } else if ( "lexicon.polltime".equals(key) ) {
-            polltime = Integer.parseInt(value);
+            pollTime = Integer.parseInt(value);
         } else if ( "jcseg.ensecondseg".equals(key) ) {
         	EN_SECOND_SEG = configBoolStatus(value);
         } else if ( "jcseg.ensecminlen".equals(key) ) {
@@ -331,7 +328,7 @@ public class SegmenterConfig implements Cloneable, Serializable
         } else if ( "jcseg.delimiter".equals(key) ) {
         	DELIMITER = (value.equals("whitespace") || value.equals("default")) ? ' ' : value.charAt(0);
         } else if ( "jcseg.gram".equals(key) ) {
-        	GRAM = value.equals("default") ? 1 : Byte.valueOf(value).byteValue();
+        	GRAM = value.equals("default") ? 1 : Byte.valueOf(value);
         }
     }
     
@@ -359,12 +356,12 @@ public class SegmenterConfig implements Cloneable, Serializable
     
     public int getPollTime()
     {
-        return polltime;
+        return pollTime;
     }
     
     public void setPollTime( int polltime )
     {
-        this.polltime = polltime;
+        this.pollTime = polltime;
     }
 
     public int getMaxLength()
@@ -580,7 +577,7 @@ public class SegmenterConfig implements Cloneable, Serializable
         KEEP_UNREG_WORDS = keepUnregWords;
     }
     
-    //return the currently use properties file
+    //return the currently used properties file
     public String getPropertieFile() {
         return pFile;
     }

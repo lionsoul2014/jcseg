@@ -82,12 +82,9 @@ public class Sentence
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append('{')
-        .append("position=").append(position).append(',')
-        .append("length=").append(length).append(',')
-        .append("value=").append(value).append('}');
-        
-        return sb.toString();
+        return '{' +
+                "position=" + position + ',' +
+                "length=" + length + ',' +
+                "value=" + value + '}';
     }
 }

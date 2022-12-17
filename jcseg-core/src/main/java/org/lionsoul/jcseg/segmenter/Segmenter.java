@@ -45,7 +45,7 @@ public abstract class Segmenter implements ISegment
     final protected LinkedList<IWord> subWordPool;
     //protected IHashQueue<IWord> wordPool = null;
     final protected IStringBuffer isb;
-    final protected IntArrayList ialist;
+    final protected IntArrayList iaList;
     
     /**
      * global behind Latin word after the CJK word
@@ -74,17 +74,16 @@ public abstract class Segmenter implements ISegment
     {
         this.config = config;
         this.dic    = dic;
-        wordPool    = new LinkedList<IWord>();
-        subWordPool = new LinkedList<IWord>();
+        wordPool    = new LinkedList<>();
+        subWordPool = new LinkedList<>();
         isb         = new IStringBuffer(64);
-        ialist      = new IntArrayList(15);
+        iaList = new IntArrayList(15);
     }
     
     /**
      * input stream and reader reset.
      * 
      * @param input
-     * @throws IOException
      */
     public void reset( Reader input ) throws IOException
     {
@@ -97,8 +96,6 @@ public abstract class Segmenter implements ISegment
     
     /**
      * read the next char from the current position
-     * 
-     * @throws IOException 
      */
     protected int readNext() throws IOException 
     {
@@ -111,9 +108,8 @@ public abstract class Segmenter implements ISegment
      * push back the data to the stream.
      * 
      * @param   data
-     * @throws  IOException 
      */
-    protected void pushBack( int data ) throws IOException 
+    protected void pushBack( int data )
     {
         reader.unread(data);
         idx--;
@@ -151,8 +147,6 @@ public abstract class Segmenter implements ISegment
     
     /**
      * get the current task configuration instance.
-     * 
-     * @return    JcsegTaskConfig
      */
     public SegmenterConfig getConfig() 
     {
@@ -273,7 +267,7 @@ public abstract class Segmenter implements ISegment
              * 
              * @Added at 2016/08/21
              * if the word is null we should check the wordPool first
-             * or if the continue lead the next loop to the end of the stream
+             * or if the #continue lead the next loop to the end of the stream
              * then the buffered word will miss
             */
             if ( wordPool.size() > 0 ) {
@@ -290,7 +284,6 @@ public abstract class Segmenter implements ISegment
      * @param   c
      * @param   pos
      * @return  IWord could be null and that mean we reached a stop word
-     * @throws  IOException 
     */
     protected IWord getNextCJKWord(int c, int pos) throws IOException
     {
@@ -387,14 +380,14 @@ public abstract class Segmenter implements ISegment
                      * 
                      * @added: 2014-06-06
                      */
-                    if ( matched == true && num.length() - NUMLEN == 1 
+                    if ( matched && num.length() - NUMLEN == 1
                             && dic.match(ILexicon.CJK_UNIT, num.substring(NUMLEN)) ) {
                         num     = ONUM;
                         matched = false;    //reset the matched
                     }
                     
                     IWord wd = null;
-                    if ( matched == false && config.CNNUM_TO_ARABIC ) {
+                    if ( !matched && config.CNNUM_TO_ARABIC ) {
                         String arabic = NumericUtil.cnNumericToArabic(num, true)+"";
                         if ( (cjkidx + num.length()) < chars.length
                                 && dic.match(ILexicon.CJK_UNIT, chars[cjkidx + num.length()]+"") ) {
@@ -482,11 +475,11 @@ public abstract class Segmenter implements ISegment
                  * the last name and the first char make up a word
                  * for the double name. 
                  */
-                /*else if ( w.getLength() > 1
-                        && findCHName( w, chunk ))  {
-                    T = IWord.T_CN_NAME;
-                    sb.append(chunk.getWords()[1].getValue().charAt(0));
-                }*/
+                /// else if ( w.getLength() > 1
+                ///         && findCHName( w, chunk ))  {
+                ///     T = IWord.T_CN_NAME;
+                ///     sb.append(chunk.getWords()[1].getValue().charAt(0));
+                /// }
                 
                 if ( T != -1 ) {
                     w = new Word(sb.toString(), T);
@@ -551,7 +544,6 @@ public abstract class Segmenter implements ISegment
      * @param   c
      * @param   pos
      * @return  IWord could be null and that mean we reached a stop word
-     * @throws  IOException 
     */
     protected IWord getNextLatinWord(int c, int pos) throws IOException
     {
@@ -583,7 +575,7 @@ public abstract class Segmenter implements ISegment
         
         /* We stop here if there is no necessary 
          * to do the char type or lexicon word segmentation */
-		if ( config.EN_SECOND_SEG == false || enSecondSegFilter(w) == false ) {
+		if ( !config.EN_SECOND_SEG || !enSecondSegFilter(w)) {
         	appendCJKWordFeatures(w);
         	return w;
         }
@@ -633,14 +625,13 @@ public abstract class Segmenter implements ISegment
      * @param   chars
      * @param   cjkidx
      * @return  IWord or null for nothing found
-     * @throws  IOException 
     */
     protected IWord getNextMixedWord(char[] chars, int cjkidx) throws IOException
     {
         final IStringBuffer buff = new IStringBuffer();
         buff.clear().append(chars, cjkidx);
-        String tstring = buff.toString();
-        if ( ! dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
+        String tString = buff.toString();
+        if ( ! dic.match(ILexicon.MIX_ASSIST_WORD, tString) ) {
             return null;
         }
         
@@ -653,28 +644,28 @@ public abstract class Segmenter implements ISegment
         
         IWord wd = null;
         buff.append(behindLatin);
-        tstring = buff.toString();
-        if ( dic.match(ILexicon.CJK_WORD, tstring) ) {
-            wd = dic.get(ILexicon.CJK_WORD, tstring);
+        tString = buff.toString();
+        if ( dic.match(ILexicon.CJK_WORD, tString) ) {
+            wd = dic.get(ILexicon.CJK_WORD, tString);
         }
         
         if ( (ctrlMask & ISegment.CHECK_EC_MASK) != 0 
-                || dic.match(ILexicon.MIX_ASSIST_WORD, tstring) ) {
-            ialist.clear();
+                || dic.match(ILexicon.MIX_ASSIST_WORD, tString) ) {
+            iaList.clear();
             int chr = -1, j, mc = 0;
             for ( j = 0; j < dic.mixSuffixLength && (chr = readNext()) != -1; j++ ) {
                 buff.append((char)chr);
-                ialist.add(chr);
-                tstring = buff.toString();
-                if ( dic.match(ILexicon.CJK_WORD, tstring) ) {
-                    wd = dic.get(ILexicon.CJK_WORD, tstring);
+                iaList.add(chr);
+                tString = buff.toString();
+                if ( dic.match(ILexicon.CJK_WORD, tString) ) {
+                    wd = dic.get(ILexicon.CJK_WORD, tString);
                     mc = j + 1;
                 }
             }
             
             //push back the read chars.
             for ( int i = j - 1; i >= mc; i-- ) {
-                pushBack(ialist.get(i));
+                pushBack(iaList.get(i));
             }
         }
         
@@ -693,7 +684,6 @@ public abstract class Segmenter implements ISegment
      * @param   c
      * @param   pos
      * @return  IWord could be null and that mean we reached a stop word
-     * @throws  IOException 
     */
     protected IWord getNextPunctuationPairWord(int c, int pos) throws IOException
     {
@@ -711,8 +701,7 @@ public abstract class Segmenter implements ISegment
         
         //handle the pair text.
         if ( text != null && text.length() > 0
-                && ! ( config.CLEAR_STOPWORD 
-                        && dic.match(ILexicon.STOP_WORD, text) ) ) {
+                && ! ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, text) ) ) {
             w2 = new Word( text, ILexicon.CJK_WORD );
             w2.setPartSpeechForNull(IWord.PPT_POSPEECH);
             w2.setPosition(pos+1);
@@ -822,7 +811,7 @@ public abstract class Segmenter implements ISegment
         
         /* check and create the sub word token buffer */
         if ( wList == null ) {
-        	wList = new LinkedList<IWord>();
+        	wList = new LinkedList<>();
         }
         
         /* check and keep the original Latin word */
@@ -920,7 +909,7 @@ public abstract class Segmenter implements ISegment
         /* check and create the default word list */
         // ArrayList<IWord> mList = new ArrayList<IWord>(8);
         if ( wList == null ) {
-        	wList = new ArrayList<IWord>(8);
+        	wList = new ArrayList<>(8);
         }
         
         String temp = sb.toString();
@@ -947,9 +936,9 @@ public abstract class Segmenter implements ISegment
         	wList.add(new Word(temp, ILexicon.UNMATCH_CJK_WORD));
         }
         
-/*        for ( int j = 0; j < mList.size(); j++ ) {
-            System.out.println(mList.get(j));
-        }*/
+        /// for ( int j = 0; j < mList.size(); j++ ) {
+        ///     System.out.println(mList.get(j));
+        /// }
         
         final IWord[] words = new IWord[wList.size()];
         wList.toArray(words);
@@ -968,9 +957,9 @@ public abstract class Segmenter implements ISegment
      */
     protected String findCHName( char[] chars, int index, IChunk chunk ) 
     {
-        StringBuilder isb = new StringBuilder();
-        //isb.clear();
-        /*there is only two IWords in the chunk. */
+        final StringBuilder isb = new StringBuilder();
+        /// isb.clear();
+        // there is only two IWords in the chunk.
         if ( chunk.getWords().length == 2 ) {
             IWord w = chunk.getWords()[1];
             switch ( w.getLength() ) {
@@ -992,8 +981,8 @@ public abstract class Segmenter implements ISegment
                  * like: 这本书是陈美丽的, chunk: 陈_美丽的
                  * 2.single name: the char and the two chars after it make up a word. -ignore
                  */
-                String d1 = new String(w.getValue().charAt(0)+"");
-                String d2 = new String(w.getValue().charAt(1)+"");
+                String d1 = w.getValue().charAt(0) + "";
+                String d2 = w.getValue().charAt(1) + "";
                 if ( dic.match(ILexicon.CN_DNAME_1, d1)
                         && dic.match(ILexicon.CN_DNAME_2, d2)) {
                     isb.append(d1);
@@ -1043,7 +1032,7 @@ public abstract class Segmenter implements ISegment
                      * like: 陈高兴奋极了, chunk:陈_高_兴奋 (single name)
                      */
                     else {
-                        String d1 = new String(w2.getValue().charAt(0)+"");
+                        String d1 = w2.getValue().charAt(0) + "";
                         int index_ = index + chunk.getWords()[0].getLength() + 2;
                         IWord[] ws = getNextMatch(config.MAX_LENGTH, chars, index_, null);
                         //System.out.println("index:"+index+":"+chars[index]+", "+ws[0]);
@@ -1069,8 +1058,8 @@ public abstract class Segmenter implements ISegment
                 
                 return null;
             case 2:
-                String d1 = new String(w1.getValue().charAt(0)+"");
-                String d2 = new String(w1.getValue().charAt(1)+"");
+                String d1 = w1.getValue().charAt(0) + "";
+                String d2 = w1.getValue().charAt(1) + "";
                 /*
                  * it is a double name and char 1, char 2 make up a word.
                  * like: 陈美丽是对的, chunk: 陈_美丽_是
@@ -1101,8 +1090,8 @@ public abstract class Segmenter implements ISegment
                  * it is a double name.
                  * like: 陈美丽的人生， chunk: 陈_美丽的_人生
                  */
-                String c1 = new String(w1.getValue().charAt(0)+"");
-                String c2 = new String(w1.getValue().charAt(1)+"");
+                String c1 = w1.getValue().charAt(0) + "";
+                String c2 = w1.getValue().charAt(1) + "";
                 IWord w3 = dic.get(ILexicon.CJK_WORD, w1.getValue().charAt(2)+"");
                 if ( dic.match(ILexicon.CN_DNAME_1, c1)
                         && dic.match(ILexicon.CN_DNAME_2, c2)
@@ -1125,7 +1114,6 @@ public abstract class Segmenter implements ISegment
      * 
      * @param  c
      * @return char[]
-     * @throws IOException
      */
     protected char[] nextCJKSentence( int c ) throws IOException 
     {
@@ -1165,7 +1153,6 @@ public abstract class Segmenter implements ISegment
      * @param  c
      * @param  pos
      * @return IWord
-     * @throws IOException 
      */
     protected IWord nextLatinWord(int c, int pos) throws IOException 
     {
@@ -1249,7 +1236,7 @@ public abstract class Segmenter implements ISegment
          * 2. try to find the English and punctuation mixed word.
          * 
          * set _ctype as the status for the existence of punctuation
-         * at the end of the isb cause we need to plus the tcount 
+         * at the end of the isb because we need to plus the tcount
          * to avoid the secondary check for words like chenxin+, c+.
         */
         _ctype = 0;
@@ -1333,37 +1320,37 @@ public abstract class Segmenter implements ISegment
         
         
         //@step 4: check and get English and Chinese mixed word like 'B超'.
-        IStringBuffer ibuffer = new IStringBuffer();
-        ibuffer.append(__str);
+        final IStringBuffer iBuffer = new IStringBuffer();
+        iBuffer.append(__str);
         String _temp = null;
         int mc = 0, j = 0;        //the number of char that have read from the stream.
         
         //replace width IntArrayList at 2013-09-08
         //ArrayList<Integer> chArr = new ArrayList<Integer>(config.MIX_CN_LENGTH);
-        ialist.clear();
+        iaList.clear();
         
         /* 
          * Attention:
          * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
-         * or it cause the miss of the next char. 
+         * or it will cause the miss of the next char.
          * 
          * @reader: (2013-09-25)
-         * we do not check the type of the char readed next.
+         * we do not check the type of the char that have been read next.
          * so, words started with English and its length except the start English part
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
          * 
          * @Note added at 2017/08/05
-         * Add the ibuffer.length checking logic to follow the limitation 
+         * Add the iBuffer.length checking logic to follow the limitation
          * of the maximum length of the current token 
         */
         for ( ; j < dic.mixSuffixLength 
-                && ibuffer.length() < config.MAX_LENGTH 
+                && iBuffer.length() < config.MAX_LENGTH
                     && (ch = readNext()) != -1; j++ ) {
             /* 
              * Attention:
-             *  it is a accident that Jcseg works fine for 
+             *  it is an accident that Jcseg works fine for
              *  we break the loop directly when we meet a whitespace.
-             *  1. if a EC word is found, unit check process will be ignore.
+             *  1. if an EC word is found, unit check process will be ignored.
              *  2. if matches no EC word, certainly return of readNext() 
              *      will make sure the units check process works find.
              */
@@ -1372,9 +1359,9 @@ public abstract class Segmenter implements ISegment
                 break;
             }
             
-            ibuffer.append((char)ch);
-            ialist.add(ch);
-            _temp = ibuffer.toString();
+            iBuffer.append((char)ch);
+            iaList.add(ch);
+            _temp = iBuffer.toString();
             if ( dic.match(ILexicon.CJK_WORD, _temp) ) {
                 w = dic.get(ILexicon.CJK_WORD, _temp);
                 w.setType(IWord.T_MIXED_WORD);
@@ -1383,11 +1370,10 @@ public abstract class Segmenter implements ISegment
             }
         }
         
-        ibuffer.clear();
-        ibuffer = null;        //Let gc do it's work.
-        
+        iBuffer.clear();
+
         //push back the read chars.
-        for ( int i = j - 1; i >= mc; i-- ) pushBack(ialist.get(i));
+        for ( int i = j - 1; i >= mc; i-- ) pushBack(iaList.get(i));
         //chArr.clear();chArr = null;
         
         /* @step 5: check if there is a units for the digit.
@@ -1427,7 +1413,6 @@ public abstract class Segmenter implements ISegment
      * 
      * @param   c
      * @return  String
-     * @throws  IOException 
     */
     protected String nextLatinString(int c) throws IOException
     {
@@ -1499,7 +1484,6 @@ public abstract class Segmenter implements ISegment
      * 
      * @param c
      * @return String
-     * @throws IOException
      */
     protected String nextLetterNumber( int c ) throws IOException 
     {
@@ -1530,7 +1514,6 @@ public abstract class Segmenter implements ISegment
      * 
      * @param   c
      * @return  String
-     * @throws  IOException
      */
     protected String nextOtherNumber( int c ) throws IOException 
     {
@@ -1609,7 +1592,6 @@ public abstract class Segmenter implements ISegment
      * the purpose is to get the text between them
      * 
      * @param c
-     * @throws IOException 
      */
     protected String getPairPunctuationText( int c ) throws IOException 
     {
@@ -1621,7 +1603,7 @@ public abstract class Segmenter implements ISegment
         
         //replaced with IntArrayList at 2013-09-08
         //ArrayList<Integer> chArr = new ArrayList<Integer>(config.PPT_MAX_LENGTH);
-        ialist.clear();
+        iaList.clear();
         
         for ( j = 0; j < config.PPT_MAX_LENGTH; j++ ) {
             ch = readNext();
@@ -1633,12 +1615,13 @@ public abstract class Segmenter implements ISegment
             }
             
             isb.append( (char) ch );
-            ialist.add(ch);
+            iaList.add(ch);
         }
         
-        if ( matched == false ) {
-            for ( int i = j - 1; i >= 0; i-- ) 
-                pushBack( ialist.get(i) );
+        if (!matched) {
+            for ( int i = j - 1; i >= 0; i-- ) {
+                pushBack(iaList.get(i));
+            }
             return null;
         }
         
@@ -1648,9 +1631,9 @@ public abstract class Segmenter implements ISegment
     
     /**
      * check if the specified word is existed in a specified dictionary
-     * and if does clone it or create a new one.
+     * and if it does clone it or create a new one.
      * Note: why we need this ?
-     * clone will extend all the features from the orginal word item
+     * clone will extend all the features from the original word item
      * including part of speech, pinyin, synonyms etc.
      * 
      * @param	t
@@ -1672,7 +1655,7 @@ public abstract class Segmenter implements ISegment
      * @param  maxLen
      * @return IChunk
      */
-    protected IChunk getBestChunk(char chars[], int index, int maxLen)
+    protected IChunk getBestChunk(char[] chars, int index, int maxLen)
     {
     	return null;
     }

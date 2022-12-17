@@ -12,7 +12,7 @@ public class AutoLoadFile
     /**
      * disk file File instance
      */
-    private File file = null;
+    private final File file;
     
     /**
      * last update unix stamp 
@@ -30,20 +30,13 @@ public class AutoLoadFile
         return file;
     }
 
-    public AutoLoadFile setFile(File file) 
-    {
-        this.file = file;
-        return this;
-    }
-    
-    public long getLastUpdateTime() 
+    public long getLastUpdateTime()
     {
         return lastUpdateTime;
     }
 
-    public AutoLoadFile setLastUpdateTime(long lastUpdateTime) 
+    public void setLastUpdateTime(long lastUpdateTime)
     {
         this.lastUpdateTime = lastUpdateTime;
-        return this;
     }
 }

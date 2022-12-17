@@ -314,7 +314,7 @@ public class Entity
     
     public static String[] fieldsArr = null;
     static {
-        Field[] fields = Entity.class.getDeclaredFields();
+        final Field[] fields = Entity.class.getDeclaredFields();
         fieldsArr = new String[fields.length];
         try { 
             int i = 0;
@@ -329,13 +329,12 @@ public class Entity
                 
                 fieldsArr[i++] = (String) f.get(Entity.class);
             }
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {}
+        } catch (IllegalArgumentException | IllegalAccessException ignored) {}
     }
     
     /**
-     * get the entity string by the specified key
-     * Note well, this may puzzle you more or less
+     * get the entity string by the specified key.
+     * @Note well, this may puzzle you more or less
      * thousands of word items quote the same string constants
      * of course, this will save lots of runtime memory (constants string pool)
     */

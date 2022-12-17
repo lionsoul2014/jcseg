@@ -2,8 +2,6 @@ package org.lionsoul.jcseg.dic;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
@@ -12,11 +10,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -40,7 +40,7 @@ public abstract class ADictionary implements IDictionary, Serializable
 	private static final long serialVersionUID = 4471659405268497613L;
 	
     /**
-     * the default auto load task file name 
+     * the default autoload task file name
     */
     public static final String AL_TODO_FILE = "lex-autoload.todo";
     
@@ -74,7 +74,7 @@ public abstract class ADictionary implements IDictionary, Serializable
     */
     public ADictionary( SegmenterConfig config, Boolean sync ) 
     {
-        this.sync   = sync.booleanValue();
+        this.sync   = sync;
         this.config = config;
     }
     
@@ -82,12 +82,9 @@ public abstract class ADictionary implements IDictionary, Serializable
      * load all the words from a specified lexicon file
      * 
      * @param   file
-     * @throws  IOException 
-     * @throws  FileNotFoundException 
-     * @throws  NumberFormatException 
      */
     public void load( File file )
-            throws NumberFormatException, FileNotFoundException, IOException
+            throws NumberFormatException, IOException
     {
         loadWords(config, this, file, synBuffer);
     }
@@ -96,12 +93,9 @@ public abstract class ADictionary implements IDictionary, Serializable
      * load all the words from a specified lexicon path
      * 
      * @param   file
-     * @throws  IOException 
-     * @throws  FileNotFoundException 
-     * @throws  NumberFormatException 
     */
     public void load( String file ) 
-            throws NumberFormatException, FileNotFoundException, IOException
+            throws NumberFormatException, IOException
     {
         loadWords(config, this, file, synBuffer);
     }
@@ -110,8 +104,6 @@ public abstract class ADictionary implements IDictionary, Serializable
      * load all the words from a specified lexicon input stream
      * 
      * @param   is
-     * @throws  IOException 
-     * @throws  NumberFormatException 
     */
     public void load( InputStream is ) throws NumberFormatException, IOException
     {
@@ -122,28 +114,29 @@ public abstract class ADictionary implements IDictionary, Serializable
      * load the all the words from all the files under a specified lexicon directory
      * 
      * @param   lexDir
-     * @throws  IOException
      */
     public void loadDirectory( String lexDir ) throws IOException
     {
-        File path = new File(lexDir);
+        final File path = new File(lexDir);
         if ( ! path.exists() ) {
-            throw new IOException("Lexicon directory ["+lexDir+"] does'n exists.");
+            throw new IOException("Lexicon directory ["+lexDir+"] is not exists.");
         }
         
         /*
          * load all the lexicon file under the lexicon path 
          *     that start with "lex-" and end with ".lex".
          */
-        File[] files = path.listFiles(new FilenameFilter(){
+        final File[] files = path.listFiles(new FilenameFilter(){
             @Override
             public boolean accept(File dir, String name) {
                 return (name.startsWith("lex-") && name.endsWith(".lex"));
             }
         });
-        
-        for ( File file : files ) {
-            load(file);
+
+        if (files != null) {
+            for ( File file : files ) {
+                load(file);
+            }
         }
     }
     
@@ -155,19 +148,18 @@ public abstract class ADictionary implements IDictionary, Serializable
      * add IDE classpath supported here
      *
      * @since   1.9.9
-     * @throws  IOException
     */
     public void loadClassPath() throws IOException
     {
-        Class<?> dClass    = this.getClass();
-        CodeSource codeSrc = this.getClass().getProtectionDomain().getCodeSource();
+        final Class<?> dClass    = this.getClass();
+        final CodeSource codeSrc = this.getClass().getProtectionDomain().getCodeSource();
         if ( codeSrc == null ) {
             return;
         }
         
-        String codePath = codeSrc.getLocation().getPath();
+        final String codePath = codeSrc.getLocation().getPath();
         if ( codePath.toLowerCase().endsWith(".jar") ) {
-            ZipInputStream zip = new ZipInputStream(codeSrc.getLocation().openStream());
+            final ZipInputStream zip = new ZipInputStream(codeSrc.getLocation().openStream());
             while ( true ) {
                 ZipEntry e = zip.getNextEntry();
                 if ( e == null ) {
@@ -183,7 +175,7 @@ public abstract class ADictionary implements IDictionary, Serializable
         } else {
             //now, the classpath is an IDE directory 
             //  like eclipse ./bin or maven ./target/classes/
-            File lexiconDir = new File(URLDecoder.decode(codeSrc.getLocation().getFile(),"utf-8"));
+            final File lexiconDir = new File(URLDecoder.decode(codeSrc.getLocation().getFile(),"utf-8"));
             loadDirectory(lexiconDir.getPath() + File.separator + "lexicon");
         }
     }
@@ -199,68 +191,65 @@ public abstract class ADictionary implements IDictionary, Serializable
             if ( synBuffer.size() == 0 ) {
                 return;
             }
-            
-            Iterator<String[]> it = synBuffer.iterator();
-            while ( it.hasNext() ) {
-                String[] synLine = it.next();
-                
+
+            for (String[] synLine : synBuffer) {
                 ///if ( synLine[0].length() > config.MAX_LENGTH ) {
                 ///    continue;
                 ///}
-                
+
                 //check if the baseWord is exists or not
                 IWord baseWord = get(ILexicon.CJK_WORD, synLine[0]);
-                if ( baseWord == null ) {
+                if (baseWord == null) {
                     continue;
                 }
-                
+
                 /*
-                 * first get the synonyms entry from the root map
-                 * create a new one and map it with the root word if it not exists 
-                */
+                 * first get the synonym entry from the root map
+                 * create a new one and map it with the root word if it not exists
+                 */
                 SynonymsEntry synEntry = rootMap.get(baseWord.getValue());
-                if ( synEntry == null ) {
+                if (synEntry == null) {
                     synEntry = new SynonymsEntry(baseWord);
                     rootMap.put(baseWord.getValue(), synEntry);
                     synEntry.add(baseWord); //add the base word first
                 }
-                
-                for ( int i = 1; i < synLine.length; i++ ) {
+
+                for (int i = 1; i < synLine.length; i++) {
                     String[] parts = synLine[i].split("\\s*/\\s*");
                     ///if ( parts[0].length() > config.MAX_LENGTH ) {
                     ///    continue;
                     ///}
-                    
+
                     /* Ignore the synonyms define that is already existed */
-                    for ( final IWord w : synEntry.getList() ) {
-                    	if ( w.getValue().equals(parts[0]) ) {
-                    		continue;
-                    	}
+                    for (final IWord w : synEntry.getList()) {
+                        if (w.getValue().equals(parts[0])) {
+                            continue;
+                        }
                     }
-                    
+
                     //check if the word is exists or not
                     //  or create a new one
                     IWord synWord = get(ILexicon.CJK_WORD, parts[0]);
-                    if ( synWord == null ) {
+                    if (synWord == null) {
                         synWord = new Word(parts[0], IWord.T_CJK_WORD);
                         add(ILexicon.CJK_WORD, synWord);
                     }
-                    
+
                     //check and extends the part of speech from the baseWord
-                    if ( synWord.getPartSpeech() == null ) {
+                    if (synWord.getPartSpeech() == null) {
                         synWord.setPartSpeech(baseWord.getPartSpeech());
                     }
-                    
+
                     //check and extends the entity from the baseWord
-                    if ( synWord.getEntity() == null ) {
+                    if (synWord.getEntity() == null) {
                         synWord.setEntity(baseWord.getEntity());
                     }
-                    
+
                     //check and set the pinyin
-                    if ( parts.length > 1 ) {
+                    if (parts.length > 1) {
                         synWord.setPinyin(parts[1]);
                     }
-                    
+
                     synEntry.add(synWord);
                 }
             }
@@ -279,12 +268,12 @@ public abstract class ADictionary implements IDictionary, Serializable
             return;
         }
         
-        //create and start the lexicon auto load thread
+        //create and start the lexicon autoload thread
         autoloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String[] paths = config.getLexiconPath();
-                AutoLoadFile[] files = new AutoLoadFile[paths.length];
+                final String[] paths = config.getLexiconPath();
+                final AutoLoadFile[] files = new AutoLoadFile[paths.length];
                 for ( int i = 0; i < files.length; i++ ) {
                     files[i] = new AutoLoadFile(paths[i] + "/" + AL_TODO_FILE);
                     files[i].setLastUpdateTime(files[i].getFile().lastModified());
@@ -293,7 +282,7 @@ public abstract class ADictionary implements IDictionary, Serializable
                 while ( true ) {
                     //sleep for some time (seconds)
                     try {
-                        Thread.sleep(config.getPollTime() * 1000);
+                        Thread.sleep(config.getPollTime() * 1000L);
                     } catch (InterruptedException e) {break;}
                     
                     
@@ -312,8 +301,8 @@ public abstract class ADictionary implements IDictionary, Serializable
                         
                         //load words form the lexicon files
                         try {
-                            BufferedReader reader = new BufferedReader(new FileReader(f));
                             String line = null;
+                            final BufferedReader reader = new BufferedReader(new FileReader(f));
                             while ( ( line = reader.readLine() ) != null ) {
                                 line = line.trim();
                                 if ( line.indexOf('#') != -1 ) continue;
@@ -323,7 +312,7 @@ public abstract class ADictionary implements IDictionary, Serializable
                             
                             reader.close();
                             
-                            FileWriter fw = new FileWriter(f);
+                            final FileWriter fw = new FileWriter(f);
                             fw.write("");
                             fw.close();
                             
@@ -416,15 +405,12 @@ public abstract class ADictionary implements IDictionary, Serializable
      * @param   dic
      * @param   file
      * @param   buffer
-     * @throws  IOException 
-     * @throws  FileNotFoundException 
-     * @throws  NumberFormatException 
      */
     public static void loadWords( 
-            SegmenterConfig config, ADictionary dic, File file, List<String[]> buffer ) 
-            throws NumberFormatException, FileNotFoundException, IOException 
+        SegmenterConfig config, ADictionary dic, File file, List<String[]> buffer )
+        throws NumberFormatException, IOException
     {
-        loadWords(config, dic, new FileInputStream(file), buffer);
+        loadWords(config, dic, Files.newInputStream(file.toPath()), buffer);
     }
     
     /**
@@ -434,15 +420,12 @@ public abstract class ADictionary implements IDictionary, Serializable
      * @param   dic
      * @param   file
      * @param   buffer
-     * @throws  IOException 
-     * @throws  FileNotFoundException 
-     * @throws  NumberFormatException 
     */
     public static void loadWords( 
-            SegmenterConfig config, ADictionary dic, String file, List<String[]> buffer ) 
-            throws NumberFormatException, FileNotFoundException, IOException
+        SegmenterConfig config, ADictionary dic, String file, List<String[]> buffer )
+        throws NumberFormatException, IOException
     {
-        loadWords(config, dic, new FileInputStream(file), buffer);
+        loadWords(config, dic, Files.newInputStream(Paths.get(file)), buffer);
     }
     
     /**
@@ -452,8 +435,6 @@ public abstract class ADictionary implements IDictionary, Serializable
      * @param   dic
      * @param   is
      * @param   buffer
-     * @throws  IOException 
-     * @throws  NumberFormatException 
     */
     public static void loadWords( 
             SegmenterConfig config, ADictionary dic, InputStream is, List<String[]> buffer ) 
@@ -463,7 +444,7 @@ public abstract class ADictionary implements IDictionary, Serializable
         int t = -1;
         String line = null, gEntity = null;
         
-        try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+        try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             while ( (line = buffReader.readLine()) != null ) {
                 line = line.trim();
                 if ( "".equals(line) ) continue;
@@ -472,7 +453,7 @@ public abstract class ADictionary implements IDictionary, Serializable
                 }
 
                 //the first line for the lexicon file.
-                if ( isFirstLine == true ) {
+                if (isFirstLine) {
                     t = ADictionary.getIndex(line);
                     isFirstLine = false;
                     if ( t >= 0 ) {
@@ -559,11 +540,11 @@ public abstract class ADictionary implements IDictionary, Serializable
                     dic.add(t, line, IWord.T_CJK_WORD);
                     break;
                 case ILexicon.STOP_WORD:
-                    /*char fChar = line.charAt(0);
-                    if ( fChar <= 127 || (fChar > 127
-                            && line.length() <= config.MAX_LENGTH) ) {
-                        dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
-                    }*/
+                    /// char fChar = line.charAt(0);
+                    /// if ( fChar <= 127 || (fChar > 127
+                    ///         && line.length() <= config.MAX_LENGTH) ) {
+                    ///     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
+                    /// }
                     dic.add(ILexicon.STOP_WORD, line, IWord.T_CJK_WORD);
                     break;
                 case ILexicon.DOMAIN_SUFFIX:
@@ -679,43 +660,43 @@ public abstract class ADictionary implements IDictionary, Serializable
                         tword.setPinyin(wd[2]);
                     }
 
-                    //update the synonym of the word.
-                    //@Deprecated at 2017/06/10
-                    /*String[] arr = tword.getSyn();
-                    if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
-                        String[] syns = wd[3].split(",");
-                        for ( int j = 0; j < syns.length; j++ ) {
-                            syns[j] = syns[j].trim();
-                             Here:
-                             * filter the synonym that its length
-                             * is greater than config.MAX_LENGTH
+                    /// update the synonym of the word.
+                    /// @Deprecated at 2017/06/10
+                    /// String[] arr = tword.getSyn();
+                    /// if ( config.LOAD_CJK_SYN && ! "null".equals(wd[3]) ) {
+                    ///     String[] syns = wd[3].split(",");
+                    ///     for ( int j = 0; j < syns.length; j++ ) {
+                    ///         syns[j] = syns[j].trim();
+                    ///          Here:
+                    ///          * filter the synonym that its length
+                    ///          * is greater than config.MAX_LENGTH
 
-                            if ( t == ILexicon.CJK_WORD
-                                    && syns[j].length() > config.MAX_LENGTH ) {
-                                continue;
-                            }
+                    ///         if ( t == ILexicon.CJK_WORD
+                    ///                 && syns[j].length() > config.MAX_LENGTH ) {
+                    ///             continue;
+                    ///         }
 
-                             Here:
-                             * check the synonym is not exists, make sure
-                             * the same synonym won't appended. (dictionary reload)
-                             *
-                             * @date 2013-09-02
+                    ///          Here:
+                    ///          * check the synonym is not exists, make sure
+                    ///          * the same synonym won't appended. (dictionary reload)
+                    ///          *
+                    ///          * @date 2013-09-02
 
-                            boolean add = true;
-                            if ( arr != null ) {
-                                for ( int i = 0; i < arr.length; i++ )  {
-                                    if ( syns[j].equals(arr[i]) ) {
-                                        add = false;
-                                        break;
-                                    }
-                                }
-                            }
+                    ///         boolean add = true;
+                    ///         if ( arr != null ) {
+                    ///             for ( int i = 0; i < arr.length; i++ )  {
+                    ///                 if ( syns[j].equals(arr[i]) ) {
+                    ///                     add = false;
+                    ///                     break;
+                    ///                 }
+                    ///             }
+                    ///         }
 
-                            if ( add ) {
-                                tword.addSyn(syns[j]);
-                            }
-                        }
-                    }*/
+                    ///         if ( add ) {
+                    ///             tword.addSyn(syns[j]);
+                    ///         }
+                    ///     }
+                    /// }
 
                     //update the word's part of speech
                     String[] arr = tword.getPartSpeech();
@@ -727,14 +708,14 @@ public abstract class ADictionary implements IDictionary, Serializable
 
                             /* Here:
                              * check the part of speech is not exists, make sure
-                             * the same part of speech won't appended.(dictionary reload)
+                             * the same part of speech won't be appended.(dictionary reload)
                              *
                              * @date 2013-09-02
                              */
                             boolean add = true;
                             if ( arr != null ) {
-                                for ( int i = 0; i < arr.length; i++ )  {
-                                    if ( pos[j].equals(arr[i]) ) {
+                                for (String s : arr) {
+                                    if (pos[j].equals(s)) {
                                         add = false;
                                         break;
                                     }
@@ -754,40 +735,32 @@ public abstract class ADictionary implements IDictionary, Serializable
     
     /**
      * check and reset the value of {@link ADictionary#mixPrefixLength}
-     * 
-     * @param   config
-     * @param   dic
-     * @param   mixLength
-     * @return  boolean
-    */
-    public static boolean resetPrefixLength(SegmenterConfig config, ADictionary dic, int mixLength)
+     *
+     * @param config
+     * @param dic
+     * @param mixLength
+     */
+    public static void resetPrefixLength(SegmenterConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
                 && mixLength > dic.mixPrefixLength ) {
             dic.mixPrefixLength = mixLength;
-            return true;
         }
-        
-        return false;
     }
     
     /**
      * check and reset the value of the {@link ADictionary#mixSuffixLength}
-     * 
-     * @param   config
-     * @param   dic
-     * @param   mixLength
-     * @return  boolean
-    */
-    public static boolean resetSuffixLength(SegmenterConfig config, ADictionary dic, int mixLength)
+     *
+     * @param config
+     * @param dic
+     * @param mixLength
+     */
+    public static void resetSuffixLength(SegmenterConfig config, ADictionary dic, int mixLength)
     {
         if ( mixLength <= config.MAX_LENGTH 
                 && mixLength > dic.mixSuffixLength ) {
             dic.mixSuffixLength = mixLength;
-            return true;
         }
-        
-        return false;
     }
     
 }

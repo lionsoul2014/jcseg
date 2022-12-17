@@ -51,7 +51,6 @@ public class NGramSeg implements ISegment
      * 
      * @param   config
      * @param   dic
-     * @throws  IOException
      */
     public NGramSeg(SegmenterConfig config, ADictionary dic)
     {
@@ -59,7 +58,7 @@ public class NGramSeg implements ISegment
         this.config = config;
         this.dic    = dic;
         this.N 		= config.getGRAM();
-        wordPool    = new LinkedList<IWord>();
+        wordPool    = new LinkedList<>();
         isb         = new IStringBuffer(N + 1);
     }
 
@@ -83,7 +82,6 @@ public class NGramSeg implements ISegment
      * read the next char from the current position
      * 
      * @return  int
-     * @throws  IOException 
      */
     protected int readNext() throws IOException 
     {    
@@ -96,17 +94,15 @@ public class NGramSeg implements ISegment
      * push back the data to the stream
      * 
      * @param   data
-     * @throws  IOException 
      */
-    protected void pushBack( int data ) throws IOException 
+    protected void pushBack( int data )
     {
         reader.unread(data);
         idx--;
     }
     
-    /** reset the data back from the specified position 
-     * @throws IOException */
-    protected void streamResetTo(String str, int start) throws IOException
+    /** reset the data back from the specified position */
+    protected void streamResetTo(String str, int start)
     {
 		for ( int i = start; i < str.length(); i++ ) {
 			pushBack(str.charAt(i));
@@ -130,7 +126,9 @@ public class NGramSeg implements ISegment
         
         IWord word = null;
         while ( (c = readNext()) != -1 ) {
-            if ( StringUtil.isWhitespace(c) ) continue;
+            if ( StringUtil.isWhitespace(c) ) {
+                continue;
+            }
             
             pos  = idx;
             type = 0;
@@ -193,15 +191,10 @@ public class NGramSeg implements ISegment
                 return word;
             }
             
-            final String str = (N == 1) 
-            		? String.valueOf((char)c) 
-            			: getNextType(c, type, checker);
-            		
+            final String str = (N == 1) ? String.valueOf((char)c) : getNextType(c, type, checker);
             /* reach the end of the stream ?*/
-			/*
-			 * if ( str == null ) { continue; }
-			 */
-            
+			/// if ( str == null ) { continue; }
+
     		if ( config.CLEAR_STOPWORD && dic.match(ILexicon.STOP_WORD, str)) {
     			if ( N > 1 ) {
     				streamResetTo(str, 1);
@@ -246,7 +239,6 @@ public class NGramSeg implements ISegment
      * @param	type
      * @param	checker
      * @return	IWord
-     * @throws	IOException 
     */
     protected String getNextType(int c, int type, CharTypeFunction checker) throws IOException
     {

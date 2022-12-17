@@ -32,7 +32,7 @@ public class DictionaryFactory
      * create a default ADictionary instance:
      * 1. check the lexicon path and load the lexicons
      *  if it is null and default to load the lexicon in the classpath
-     * 2. check and start the autoload of the dictionary
+     * 2. check and start the autoload settings of the dictionary
      * 
      * @param   config
      * @param   sync
@@ -42,8 +42,8 @@ public class DictionaryFactory
     public static ADictionary createDefaultDictionary( 
             SegmenterConfig config, boolean sync, boolean loadDic ) 
     {
-        final ADictionary dic = (ADictionary) IDictionary.HASHMAP.factory.create(config, sync);
-        if ( loadDic == false ) {
+        final ADictionary dic = IDictionary.HASHMAP.factory.create(config, sync);
+        if (!loadDic) {
             return dic;
         }
         
@@ -55,11 +55,11 @@ public class DictionaryFactory
              * if specified none lexicon paths (config.getLexiconPath() is null)
              * And we directly load the default lexicons that in the class path
             */
-            String[] lexpath = config.getLexiconPath();
-            if ( lexpath == null ) {
+            String[] lexPath = config.getLexiconPath();
+            if ( lexPath == null ) {
             	dic.loadClassPath();
             } else {
-                for ( String lpath : lexpath ) dic.loadDirectory(lpath);
+                for ( String lPath : lexPath) dic.loadDirectory(lPath);
                 if ( config.isAutoload() ) dic.startAutoload();
             }
             
@@ -112,7 +112,7 @@ public class DictionaryFactory
     }
     
     /**
-     * create a singleton ADictionary object according to the JcsegTaskConfig
+     * create a singleton ADictionary object according to the SegmentConfig
      * 
      * @param   config
      * @param   loadDic

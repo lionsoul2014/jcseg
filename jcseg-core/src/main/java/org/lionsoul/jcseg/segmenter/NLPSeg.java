@@ -38,12 +38,10 @@ public class NLPSeg extends ComplexSeg
     {
     	super(config, dic);
     	
-        /*
-         * basic common setting for NLP mode
-        */
-        //config.EN_SECOND_SEG   = false;
-        //config.CNFRA_TO_ARABIC = true;
-        //config.CNNUM_TO_ARABIC = true;
+        // basic common setting for NLP mode
+        ///config.EN_SECOND_SEG   = false;
+        ///config.CNFRA_TO_ARABIC = true;
+        ///config.CNNUM_TO_ARABIC = true;
         config.APPEND_CJK_PINYIN = false;
         config.APPEND_CJK_SYN  = false;
         config.MAX_LATIN_LENGTH = 128;
@@ -54,7 +52,6 @@ public class NLPSeg extends ComplexSeg
      * And we also invoke the parent.next method to get the next token
      *
      * @see Segmenter#next()
-     * @throws IOException
     */
     public IWord next() throws IOException
     {
@@ -62,12 +59,12 @@ public class NLPSeg extends ComplexSeg
             return eWordPool.removeFirst();
         }
 
-        IWord word = super.next();
+        final IWord word = super.next();
         if ( word == null ) {
             return null;
         }
 
-        String[] entity = word.getEntity();
+        final String[] entity = word.getEntity();
 
         /*
          * This is a temporary program for
@@ -76,7 +73,7 @@ public class NLPSeg extends ComplexSeg
          * added at 2017/05/25
         */
         if ( entity == null && word.getValue().charAt(0) == '第' ) {
-            IWord dWord = getNextTheWord(word);
+            final IWord dWord = getNextTheWord(word);
             if ( dWord != null ) {
                 dWord.setPartSpeechForNull(IWord.QUANTIFIER);
                 return dWord;
@@ -91,14 +88,14 @@ public class NLPSeg extends ComplexSeg
         if ( (eIdx = ArrayUtil.startsWith("time.a", entity)) > -1
         		|| (eIdx = ArrayUtil.startsWith(
         				Entity.E_DATETIME_P, entity)) > -1 ) {
-            IWord dWord = getNextTimeMergedWord(word, eIdx);
+            final IWord dWord = getNextTimeMergedWord(word, eIdx);
             if ( dWord != null ) {
                 return dWord;
             }
         }
 
         if ( (eIdx = ArrayUtil.startsWith("datetime.ymd", entity)) > -1 ) {
-            IWord dWord = getNextDatetimeWord(word, eIdx);
+            final IWord dWord = getNextDatetimeWord(word, eIdx);
             if ( dWord != null ) {
                 return dWord;
             }
@@ -111,7 +108,6 @@ public class NLPSeg extends ComplexSeg
      * internal interface to get the next word item buffered or not buffered
      * 
      * @return	IWord
-     * @throws IOException 
     */
     private IWord _internalNext() throws IOException
     {
@@ -123,7 +119,6 @@ public class NLPSeg extends ComplexSeg
      *
      * @param  word
      * @return IWord
-     * @throws IOException
     */
     protected IWord getNextTheWord(IWord word) throws IOException
     {
@@ -176,7 +171,6 @@ public class NLPSeg extends ComplexSeg
      *
      * @param   word
      * @return  IWord
-     * @throws  IOException
     */
     private IWord _nextNumberWord(IWord word) throws IOException
     {
@@ -245,7 +239,6 @@ public class NLPSeg extends ComplexSeg
      * @param   word
      * @param   eIdx
      * @return  IWord
-     * @throws  IOException
     */
     protected IWord getNextTimeMergedWord(IWord word, int eIdx) throws IOException
     {
@@ -274,7 +267,7 @@ public class NLPSeg extends ComplexSeg
                 }
             } else if ( ArrayUtil.startsWith("datetime.hi", entity) > -1 ) {
                 /*
-                 * check and merge the date time time part with a style
+                 * check and merge the datetime time part with a style
                  * like 15:45 or 15:45:36 eg...
                 */
                 TimeUtil.fillTimeToPool(wMask, dWord.getValue());
@@ -297,17 +290,17 @@ public class NLPSeg extends ComplexSeg
         }
 
         buffer.clear();
-        for ( int i = 0; i < wMask.length; i++ ) {
-            if ( wMask[i] == null ) {
-            	continue;
+        for (IWord iWord : wMask) {
+            if (iWord == null) {
+                continue;
             }
 
             /* check and append the whitespace for the merged time word */
-            if ( buffer.length() > 0 && i < wMask.length ) {
+            if (buffer.length() > 0) {
                 buffer.append(' ');
             }
 
-            buffer.append(wMask[i].getValue());
+            buffer.append(iWord.getValue());
         }
 
         dWord = new Word(buffer.toString(), IWord.T_BASIC_LATIN);
@@ -316,9 +309,9 @@ public class NLPSeg extends ComplexSeg
 
         //check and define the entity
         buffer.clear().append("datetime.");
-        for ( int i = 0; i < wMask.length; i++ ) {
-            if ( wMask[i] == null ) continue;
-            buffer.append(TimeUtil.getTimeKey(wMask[i]));
+        for (IWord iWord : wMask) {
+            if (iWord == null) continue;
+            buffer.append(TimeUtil.getTimeKey(iWord));
         }
 
         dWord.setEntity(new String[]{buffer.toString()});
@@ -332,7 +325,6 @@ public class NLPSeg extends ComplexSeg
      * @param   word
      * @param   entityIdx
      * @return  IWord
-     * @throws  IOException
     */
     protected IWord getNextDatetimeWord(IWord word, int entityIdx) throws IOException
     {
@@ -355,7 +347,7 @@ public class NLPSeg extends ComplexSeg
             /*
              * @Note: added at 2017/04/01
              * 1, A word start with time.h or datetime.h could be merged
-             * 2, if the new time merged word could not be merged with the origin word
+             * 2, if the new time merged word could not be merged with the origin word.
              *  and we should put the dWord to the first of the eWordPool CUZ #getNextTimeMergedWord
              * may append some IWord to the end of eWordPool
             */
@@ -386,8 +378,8 @@ public class NLPSeg extends ComplexSeg
         dWord.setPartSpeechForNull(IWord.TIME_POSPEECH);
 
         //re-define the entity
-        //int sIdx = entity.indexOf('.') + 1;
-        // int sIdx = entity[eIdx].charAt(0) == 't' ? 5 : 9;
+        /// int sIdx = entity.indexOf('.') + 1;
+        /// int sIdx = entity[eIdx].charAt(0) == 't' ? 5 : 9;
         int sIdx = 9;	// datetime
         buffer.clear().append(word.getEntity(0)).append(entity[eIdx].substring(sIdx));
         dWord.addEntity(buffer.toString());
@@ -405,7 +397,7 @@ public class NLPSeg extends ComplexSeg
     */
     private IWord getNumericUnitComposedWord(String numeric, IWord unitWord)
     {
-    	IStringBuffer sb = new IStringBuffer();
+    	final IStringBuffer sb = new IStringBuffer();
     	sb.clear().append(numeric).append(unitWord.getValue());
 	    IWord wd = new Word(sb.toString(), IWord.T_CJK_WORD);
 
@@ -419,7 +411,7 @@ public class NLPSeg extends ComplexSeg
 
 	    wd.setEntity(new String[] {sb.toString()});
 	    wd.setPartSpeechForNull(IWord.QUANTIFIER);
-	    sb.clear();sb = null;
+	    sb.clear();
 
 	    return wd;
     }
@@ -480,7 +472,7 @@ public class NLPSeg extends ComplexSeg
                     }
                 } else {
                     String temp = null;
-                    IStringBuffer sb = new IStringBuffer();
+                    final IStringBuffer sb = new IStringBuffer();
 
                     /*
                      * check the Chinese numeric and the units
@@ -571,7 +563,7 @@ public class NLPSeg extends ComplexSeg
             int T = -1;
             if ( config.I_CN_NAME && w.getLength() <= 2
             		&& chunk.getWords().length > 1 ) {
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 sb.append(w.getValue());
                 String str = null;
 
@@ -659,7 +651,6 @@ public class NLPSeg extends ComplexSeg
      * @param  c
      * @param  pos
      * @return IWord
-     * @throws IOException
     */
     @Override
     protected IWord nextLatinWord(int c, int pos) throws IOException
@@ -670,9 +661,9 @@ public class NLPSeg extends ComplexSeg
         isb.append((char)c);
 
         boolean _check = false, _wspace = false;
-        ByteCharCounter counter = new ByteCharCounter();
         int ch, _ctype = 0, tcount = 1;             //number of different char type.
         int _TYPE  = StringUtil.getEnCharType(c);   //current char type.
+        final ByteCharCounter counter = new ByteCharCounter();
 
         while ( (ch = readNext()) != -1 ) {
             // Covert the full-width char to half-width char.
@@ -810,7 +801,7 @@ public class NLPSeg extends ComplexSeg
             boolean isPercentage = false;
             for ( int i = isb.length() - 1; i > 0; i-- ) {
                 if ( isb.charAt(i) == '%' ) {
-                    if ( i > 0 && StringUtil.isEnNumeric(isb.charAt(i-1)) ) {
+                    if (StringUtil.isEnNumeric(isb.charAt(i-1))) {
                         isPercentage = true;
                         break;
                     }
@@ -866,7 +857,7 @@ public class NLPSeg extends ComplexSeg
          * 1, check if the end char is a special single unit char like '℉,℃' and so on ..
          * 2, or do it as the end stream way like (ch == -1 or _wspace == true)
         */
-        if ( _check == false ) {
+        if (!_check) {
             /*
              * we check the units here, so we can recognize
              * many other units that is not Chinese like '℉,℃' and so on ...
@@ -920,7 +911,7 @@ public class NLPSeg extends ComplexSeg
          *
          * Attention:
          * make sure that (ch = readNext()) is after j < Config.MIX_CN_LENGTH.
-         * or it cause the miss of the next char.
+         * or it will cause the miss of the next char.
          *
          * @reader: (2013-09-25)
          * we do not check the type of the char read next.
@@ -928,21 +919,21 @@ public class NLPSeg extends ComplexSeg
          * less than config.MIX_CN_LENGTH in the EC dictionary could be recognized.
          *
          * @Note added at 2017/08/05
-         * Add the ibuffer.length checking logic to follow the limitation
+         * Add the iBuffer.length checking logic to follow the limitation
          * of the maximum length of the current token
         */
-        IStringBuffer ibuffer = new IStringBuffer(str);
+        final IStringBuffer iBuffer = new IStringBuffer(str);
         String tstr = null;
         int mc = 0, j = 0;        //the number of char that read from the stream.
-        ialist.clear();
+        iaList.clear();
         for ( ; j < dic.mixSuffixLength
-                && ibuffer.length() < config.MAX_LENGTH
+                && iBuffer.length() < config.MAX_LENGTH
                     && (ch = readNext()) != -1; j++ ) {
             /*
              * Attention:
-             * it is a accident that Jcseg works fine for
+             * it is an accident that Jcseg works fine for
              * we break the loop directly when we meet a whitespace.
-             * 1, if a EC word is found, unit check process will be ignore.
+             * 1, if an EC word is found, unit check process will be ignored.
              * 2, if matches no EC word, certainly return of readNext()
              *   will make sure the units check process works fine.
             */
@@ -951,19 +942,18 @@ public class NLPSeg extends ComplexSeg
                 break;
             }
 
-            ibuffer.append((char)ch);
-            ialist.add(ch);
-            tstr = ibuffer.toString();
+            iBuffer.append((char)ch);
+            iaList.add(ch);
+            tstr = iBuffer.toString();
             if ( dic.match(ILexicon.CJK_WORD, tstr) ) {
                 wd  = dic.get(ILexicon.CJK_WORD, tstr);
                 mc = j + 1;
             }
         }
 
-        ibuffer.clear();
-        ibuffer = null;                 //Let gc do it's work.
+        iBuffer.clear();
         for ( int i = j - 1; i >= mc; i-- ) {
-            pushBack(ialist.get(i));    //push back the read chars.
+            pushBack(iaList.get(i));    //push back the read chars.
         }
 
         if ( wd != null ) {
@@ -980,7 +970,7 @@ public class NLPSeg extends ComplexSeg
         */
         boolean isDigit = StringUtil.isDigit(str);
         if ( isDigit || StringUtil.isDecimal(str) ) {
-            ialist.clear();
+            iaList.clear();
             IWord unitWord = null;
             IStringBuffer sb = new IStringBuffer();
             for ( j = 0; j < config.MAX_UNIT_LENGTH
@@ -991,7 +981,7 @@ public class NLPSeg extends ComplexSeg
                 }
 
                 sb.append((char)ch);
-                ialist.add(ch);
+                iaList.add(ch);
                 tstr = sb.toString();
                 if ( dic.match(ILexicon.CJK_UNIT, tstr) ) {
                     unitWord = dic.get(ILexicon.CJK_UNIT, tstr);
@@ -1010,7 +1000,7 @@ public class NLPSeg extends ComplexSeg
             }
 
             for ( int i = j - 1; i >= mc; i-- ) {
-                pushBack(ialist.get(i));
+                pushBack(iaList.get(i));
             }
         }
 

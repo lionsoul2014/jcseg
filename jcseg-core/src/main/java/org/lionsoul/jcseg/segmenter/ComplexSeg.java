@@ -38,58 +38,58 @@ public class ComplexSeg extends Segmenter implements Serializable
      * @see Segmenter#getBestChunk(char[], int, int)
      */
     @Override
-    public IChunk getBestChunk(char chars[], int index, int maxLen)
+    public IChunk getBestChunk(char[] chars, int index, int maxLen)
     {
     	/* create a global word list buffer */
     	final List<IWord> wList = new ArrayList<IWord>(12);
-        IWord[] mwords = getNextMatch(maxLen, chars, index, wList), mword2, mword3;
-        if ( mwords.length == 1 
-                && mwords[0].getType() == ILexicon.UNMATCH_CJK_WORD ) {
-            return new Chunk(new IWord[]{mwords[0]});
+        IWord[] mWords = getNextMatch(maxLen, chars, index, wList), mword2, mword3;
+        if ( mWords.length == 1
+                && mWords[0].getType() == ILexicon.UNMATCH_CJK_WORD ) {
+            return new Chunk(new IWord[]{mWords[0]});
         }
         
         int idx_2, idx_3;
         final ArrayList<IChunk> chunkArr = new ArrayList<IChunk>();
-        for ( int x = 0; x < mwords.length; x++ ) {
+        for (int x = 0; x < mWords.length; x++ ) {
             //the second layer
-            idx_2 = index + mwords[x].getLength();
+            idx_2 = index + mWords[x].getLength();
             if ( idx_2 < chars.length ) {
                 mword2 = getNextMatch(maxLen, chars, idx_2, wList);
                 /*
                  * the first try for the second layer
                  * returned a UNMATCH_CJK_WORD
                  * here, just return the largest length word in
-                 * the first layer. 
+                 * the first layer.
                  */
                 if ( mword2.length == 1
                         && mword2[0].getType() == ILexicon.UNMATCH_CJK_WORD) {
-                    return new Chunk(new IWord[]{mwords[mwords.length - 1]});
+                    return new Chunk(new IWord[]{mWords[mWords.length - 1]});
                 }
-                
+
                 for ( int y = 0; y < mword2.length; y++ ) {
                     //the third layer
                     idx_3 = idx_2 + mword2[y].getLength();
                     if ( idx_3 < chars.length ) {
                         mword3 = getNextMatch(maxLen, chars, idx_3, wList);
                         for ( int z = 0; z < mword3.length; z++ ) {
-                            ArrayList<IWord> wArr = new ArrayList<IWord>(3);
-                            wArr.add(mwords[x]);
+                            final ArrayList<IWord> wArr = new ArrayList<>(3);
+                            wArr.add(mWords[x]);
                             wArr.add(mword2[y]);
                             if ( mword3[z].getType() != ILexicon.UNMATCH_CJK_WORD )
                                 wArr.add(mword3[z]);
-                            
-                            IWord[] words = new IWord[wArr.size()];
+
+                            final IWord[] words = new IWord[wArr.size()];
                             wArr.toArray(words);
                             wArr.clear();
-                            
+
                             chunkArr.add(new Chunk(words));
                         }
                     } else {
-                        chunkArr.add(new Chunk(new IWord[]{mwords[x], mword2[y]}));
+                        chunkArr.add(new Chunk(new IWord[]{mWords[x], mword2[y]}));
                     }
                 }
             } else {
-                chunkArr.add(new Chunk(new IWord[]{mwords[x]}));
+                chunkArr.add(new Chunk(new IWord[]{mWords[x]}));
             }
         }
         
@@ -98,19 +98,19 @@ public class ComplexSeg extends Segmenter implements Serializable
             return chunkArr.get(0);
         }
         
-/*        Iterator<IChunk> it = chunkArr.iterator();
-        while ( it.hasNext() ) {
-            System.out.println(it.next());
-        }
-        System.out.println("-+---------------------+-");*/
+        /// Iterator<IChunk> it = chunkArr.iterator();
+        /// while ( it.hasNext() ) {
+        ///     System.out.println(it.next());
+        /// }
+        /// System.out.println("-+---------------------+-");*/
         
-        mwords = null;
+        mWords = null;
         mword2 = null;
         mword3 = null;
         
         
         //-------------------------MMSeg core invoke------------------------
-        final ArrayList<IChunk> chunkBuf = new ArrayList<IChunk>(chunkArr.size());
+        final ArrayList<IChunk> chunkBuf = new ArrayList<>(chunkArr.size());
         
         //filter the maximum match rule.
         ArrayList<IChunk> chunks = MMSegFilter.getMaximumMatchChunks(chunkArr, chunkBuf);

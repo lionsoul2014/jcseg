@@ -45,11 +45,10 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * 
      * @param   reader
      * @return  List<Sentence>
-     * @throws  IOException 
     */
     List<Sentence> textToSentence(Reader reader) throws IOException
     {
-        List<Sentence> sentence = new ArrayList<Sentence>();
+        final List<Sentence> sentence = new ArrayList<>();
         
         Sentence sen = null;
         sentenceSeg.reset(reader);
@@ -65,13 +64,12 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * 
      * @param   sentence
      * @return  List<List<IWord>>
-     * @throws  IOException 
     */
     List<List<IWord>> sentenceTokenize(List<Sentence> sentence) throws IOException
     {
-        List<List<IWord>> senWords = new ArrayList<List<IWord>>();
+        final List<List<IWord>> senWords = new ArrayList<>();
         for ( Sentence sen : sentence ) {
-            List<IWord> words = new ArrayList<IWord>();
+            List<IWord> words = new ArrayList<>();
             wordSeg.reset(new StringReader(sen.getValue()));
             IWord word = null;
             while ( (word = wordSeg.next()) != null ) {
@@ -108,12 +106,12 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         //2. count all the tf and the df/N
         //word and the frequency mapping for each document 
         @SuppressWarnings("unchecked")
-        Map<IWord, Integer>[] tf = new Map[docNum];
-        //word and the number of document thats contains this word mapping 
-        Map<IWord, Integer> df = new HashMap<IWord, Integer>();
+        final Map<IWord, Integer>[] tf = new Map[docNum];
+        //word and the number of document that contains this word mapping
+        final Map<IWord, Integer> df = new HashMap<>();
         int index = 0;
         for ( List<IWord> words : senWords ) {
-            Map<IWord, Integer> f = new HashMap<IWord, Integer>();
+            final Map<IWord, Integer> f = new HashMap<>();
             for ( IWord word : words ) {
                 f.put(word, f.containsKey(word) ? f.get(word) + 1 : 1);
             }
@@ -132,15 +130,15 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         }
         
         //3. count the words idf
-        Map<IWord, Double> idf = new HashMap<IWord, Double>();
+        final Map<IWord, Double> idf = new HashMap<>();
         for ( Map.Entry<IWord, Integer> entry : df.entrySet() ) {
-            IWord key = entry.getKey();
-            int nq = df.get(key).intValue();
+            final IWord key = entry.getKey();
+            final int nq = df.get(key);
             idf.put(key, Math.log((docNum - nq + 0.5) / (nq + 0.5)) );
         }
         
         //4. build the relevance score matrix
-        double[][] scores = new double[docNum][docNum];
+        final double[][] scores = new double[docNum][docNum];
         for ( int i = 0; i < docNum; i++ ) {
             int j = 0;
             int dl = senWords.get(i).size();
@@ -156,13 +154,13 @@ public class TextRankSummaryExtractor extends SummaryExtractor
                     /*
                      * count the relevance of q with document sentence[i] 
                     */
-                    int fi = tf[i].containsKey(q) ? tf[i].get(q).intValue() : 0;
+                    int fi = tf[i].getOrDefault(q, 0);
                     double rel = fi * (K1 + 1) / (fi + dlRelative);
                     
                     /*
                      * count and add the sub relevance value: idf * rel 
                     */
-                    score += idf.get(q).doubleValue() * rel;
+                    score += idf.get(q) * rel;
                 }
                 
                 scores[i][j++] = score;
@@ -171,10 +169,8 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         //let gc do its work
         for ( Map<IWord, Integer> m : tf ) m.clear();
-        tf = null;
-        
-        df.clear(); df = null;
-        idf.clear(); idf = null;
+        df.clear();
+        idf.clear();
         
         return scores;
     }
@@ -197,25 +193,24 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * 
      * @param   sentence
      * @param   senWords
-     * @throws  IOException 
     */
     protected Document[] textRankSortedDocuments(
-            List<Sentence> sentence, List<List<IWord>> senWords) throws IOException
+            List<Sentence> sentence, List<List<IWord>> senWords)
     {
         int docNum = sentence.size();
     
         //documents relevance matrix build
-        double[][] relevance = BM25RelevanceMatixBuild(sentence, senWords);
+        final double[][] relevance = BM25RelevanceMatixBuild(sentence, senWords);
         //org.lionsoul.jcseg.util.Util.printMatrix(relevance);
         
-        double[] score = new double[docNum];
-        double[] weight_sum = new double[docNum];
+        final double[] score = new double[docNum];
+        final double[] weight_sum = new double[docNum];
         for ( int i = 0; i < docNum; i++ ) {
             weight_sum[i] = sum(relevance[i]) - relevance[i][i];
             score[i] = 0;
         }
         
-        //do the textrank score iteration
+        //do the text-rank score iteration
         for ( int c = 0; c < maxIterateNum; c++ ) {
             for ( int i = 0; i < docNum; i++ ) {
                 double sigema = 0D;
@@ -236,19 +231,12 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         
         //build the document set
         //and sort the documents by scores
-        Document[] docs = new Document[docNum];
+        final Document[] docs = new Document[docNum];
         for ( int i = 0; i < docNum; i++ ) {
             docs[i] = new Document(i, sentence.get(i), senWords.get(i), score[i]);
         }
         
         Sort.shellSort(docs);
-        
-        
-        //let gc do its works
-        relevance = null;
-        score = null;
-        weight_sum = null;
-        
         return docs;
     }
 
@@ -256,32 +244,31 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     public List<String> getKeySentence(Reader reader) throws IOException 
     {
         //build the documents
-        List<Sentence> sentence = textToSentence(reader);
+        final List<Sentence> sentence = textToSentence(reader);
         if ( sentence.size() == 1 ) {
-            List<String> list = new ArrayList<String>(1);
+            List<String> list = new ArrayList<>(1);
             list.add(sentence.get(0).getValue());
             return list;
         }
         
-        List<List<IWord>> senWords = sentenceTokenize(sentence);
+        final List<List<IWord>> senWords = sentenceTokenize(sentence);
         int docNum = sentence.size();
                 
         //get the text rank score sorted documents
-        Document[] docs = textRankSortedDocuments(sentence, senWords);
+        final Document[] docs = textRankSortedDocuments(sentence, senWords);
         
         //return the sublist as the final result
         int len = Math.min(sentenceNum, docNum);
-        List<String> topSentence = new ArrayList<String>(len);
+        final List<String> topSentence = new ArrayList<>(len);
         for ( int i = 0; i < len; i++ ) {
             topSentence.add(docs[i].getSentence().getValue());
             //System.out.println(i+", "+docs[i].getScore()+", "+docs[i].getSentence());
         }
         
         //let gc do its work
-        docs = null;
-        sentence.clear(); sentence = null;
-        senWords.clear(); senWords = null;
-        
+        sentence.clear();
+        senWords.clear();
+
         return topSentence;
     }
 
@@ -289,18 +276,18 @@ public class TextRankSummaryExtractor extends SummaryExtractor
     public String getSummary(Reader reader, int length) throws IOException 
     {
         //build the documents
-        List<Sentence> sentence = textToSentence(reader);
+        final List<Sentence> sentence = textToSentence(reader);
         if ( sentence.size() == 1 ) {
             String summary = sentence.get(0).getValue();
             return length >= summary.length() 
                     ? summary.substring(0) : summary.substring(0, length);
         }
         
-        List<List<IWord>> senWords = sentenceTokenize(sentence);
+        final List<List<IWord>> senWords = sentenceTokenize(sentence);
         int docNum = sentence.size();
                 
         //get the text rank score sorted documents
-        Document[] docs = textRankSortedDocuments(sentence, senWords);
+        final Document[] docs = textRankSortedDocuments(sentence, senWords);
         
         /*
          * substring length chars from the position
@@ -330,7 +317,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
             if ( less > 0 ) sIdx = 0;
         }
         
-        IStringBuffer isb = new IStringBuffer();
+        final IStringBuffer isb = new IStringBuffer();
         for ( int i = sIdx; i < docNum; i++ ) {
             int senLen = isb.length() + sentence.get(i).getLength();
             if ( senLen < length ) {
@@ -353,9 +340,8 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         }
         
         //let gc do its work
-        docs = null;
-        sentence.clear(); sentence = null;
-        senWords.clear(); senWords = null;
+        sentence.clear();
+        senWords.clear();
                 
         return isb.toString();
     }
@@ -386,7 +372,7 @@ public class TextRankSummaryExtractor extends SummaryExtractor
      * 
      * @author  chenxin<chenxin619315@gmail.com>
     */
-    public class Document implements Comparable<Document>
+    public static class Document implements Comparable<Document>
     {
         /**
          * the relevance score for the current document 
@@ -394,12 +380,12 @@ public class TextRankSummaryExtractor extends SummaryExtractor
         private double score;
         
         /**
-         * the orginal sentence for the ducment 
+         * the original sentence for the document
         */
         private Sentence sentence;
         
         /**
-         * the orginal index 
+         * the original index
         */
         private int index;
         

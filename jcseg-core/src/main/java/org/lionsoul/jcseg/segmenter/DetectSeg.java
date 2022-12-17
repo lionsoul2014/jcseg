@@ -36,8 +36,8 @@ public class DetectSeg implements ISegment, Serializable
      * runtime needed push back reader and the string buffer
     */
     private IPushbackReader reader = null;
-    private IStringBuffer isb = null;
-    protected LinkedList<IWord> wordPool = null;
+    private final IStringBuffer isb;
+    protected final LinkedList<IWord> wordPool;
     
     /**
      * the dictionary and task configuration
@@ -51,7 +51,6 @@ public class DetectSeg implements ISegment, Serializable
      * 
      * @param   config
      * @param   dic
-     * @throws  IOException
      */
     public DetectSeg(SegmenterConfig config, ADictionary dic)
     {
@@ -88,7 +87,6 @@ public class DetectSeg implements ISegment, Serializable
      * read the next char from the current position
      * 
      * @return  int
-     * @throws  IOException 
      */
     protected int readNext() throws IOException 
     {    
@@ -101,9 +99,8 @@ public class DetectSeg implements ISegment, Serializable
      * push back the data to the stream
      * 
      * @param   data
-     * @throws  IOException 
      */
-    protected void pushBack( int data ) throws IOException 
+    protected void pushBack( int data )
     {
         reader.unread(data);
         idx--;
@@ -121,8 +118,6 @@ public class DetectSeg implements ISegment, Serializable
     
     /**
      * get the current task config instance
-     * 
-     * @return  JcsegTaskConfig
      */
     public SegmenterConfig getConfig() 
     {
@@ -200,7 +195,7 @@ public class DetectSeg implements ISegment, Serializable
             
             /* 
              * match no word in dictionary
-             * push back the char readed except the first one and continue the loop
+             * push back the char that have read except the first one and continue the loop
              */
             if ( w == null ) {
                 for ( i = isb.length() - 1; i > 0; i-- ) pushBack(isb.charAt(i));

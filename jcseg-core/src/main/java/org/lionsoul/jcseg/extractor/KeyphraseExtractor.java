@@ -43,10 +43,10 @@ public abstract class KeyphraseExtractor
          * normally word with length less than 2 will
          * be something, well could be ignored 
         */
-        /*if ( word.getValue().length() < 2 ) 
-        {
-            return false;
-        }*/
+        /// if ( word.getValue().length() < 2 )
+        /// {
+        ///     return false;
+        /// }
         
         //type check
         switch ( word.getType() ) {
@@ -61,20 +61,19 @@ public abstract class KeyphraseExtractor
         }
         
         //part of speech check
-        String[] poss = word.getPartSpeech();
+        final String[] poss = word.getPartSpeech();
         if ( poss == null ) return true;
         
         char pos = poss[0].charAt(0);
         switch ( pos ) {
              case 'e': {
-                 if ( poss[0].equals("en") ) return true;
-                 return false;
+                 return poss[0].equals("en");
              }
-            /*case 'm':
-            {
-                if ( poss[0].equals("mix") ) return true;
-                return false;
-            }*/
+            /// case 'm':
+            /// {
+            ///     if ( poss[0].equals("mix") ) return true;
+            ///     return false;
+            /// }
             case 'q':
             case 'b':
             case 'r':
@@ -85,8 +84,8 @@ public abstract class KeyphraseExtractor
             case 'y':
             case 'd':    //@date 2015-11-23
             case 'o':
-            //case 'h':
-            //case 'k':
+            /// case 'h':
+            /// case 'k':
             case 'g':
             case 'x':
             case 'w': {
@@ -102,7 +101,6 @@ public abstract class KeyphraseExtractor
      * 
      * @param   doc
      * @return  List[]
-     * @throws  IOException
     */
     public List<String> getKeyphraseFromString(String doc) throws IOException
     {
@@ -114,7 +112,6 @@ public abstract class KeyphraseExtractor
      * 
      * @param   file
      * @return  List[]
-     * @throws  IOException
     */
     public List<String> getKeyphraseFromFile(String file) throws IOException
     {
@@ -125,7 +122,6 @@ public abstract class KeyphraseExtractor
      * get the keyphrase list from a reader
      * 
      * @param   reader
-     * @throws  IOException
     */
     public abstract List<String> getKeyphrase(Reader reader) throws IOException;
 

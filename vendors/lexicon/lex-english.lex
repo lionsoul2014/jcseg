@@ -38850,6 +38850,7 @@ gooey/a,adj/null/null/
 goof/n/null/null/
 goofus/n/null/null/
 goofy/a,adj/null/null/
+google/n/null/null/
 googly/n/null/null/
 googol/n/null/null/
 googolplex/n/null/null/

@@ -113,7 +113,7 @@ public interface IWord extends Cloneable
     /** set the string parameters */
     void setParameter(String param);
     
-    /** you have to rewrite the equals method cause the Jcseg require it */
+    /** you have to rewrite the #equals method cause the Jcseg require it */
     @Override
     boolean equals(Object o);
     

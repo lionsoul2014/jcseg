@@ -17,10 +17,9 @@ public class SynonymsEntry
     protected IWord rootWord = null;
     
     /**
-     * all the Synonyms word list
+     * all the Synonym word list
     */
-    private final List<IWord> synsList = Collections
-            .synchronizedList(new ArrayList<IWord>());
+    private final List<IWord> synList = Collections.synchronizedList(new ArrayList<>());
     
     public SynonymsEntry()
     {
@@ -54,17 +53,17 @@ public class SynonymsEntry
     */
     public List<IWord> getList()
     {
-        return synsList;
+        return synList;
     }
     
     public int size()
     {
-        return synsList.size();
+        return synList.size();
     }
     
     /**
      * add a new synonyms word
-     * and the newly added word will extends the part of speech and the entity 
+     * and the newly added word will extend the part of speech and the entity
      *  from the base word if there are not set
      * 
      * @param   word
@@ -82,7 +81,7 @@ public class SynonymsEntry
         }
         
         word.setSyn(this);
-        synsList.add(word);
+        synList.add(word);
     }
    
 }

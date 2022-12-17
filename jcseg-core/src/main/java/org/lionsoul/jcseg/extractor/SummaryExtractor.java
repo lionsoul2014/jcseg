@@ -43,7 +43,6 @@ public abstract class SummaryExtractor
      * 
      * @param   doc
      * @return  List<String>
-     * @throws  IOException
     */
     public List<String> getKeySentenceFromString( String doc ) throws IOException
     {
@@ -55,7 +54,6 @@ public abstract class SummaryExtractor
      * 
      * @param   file
      * @return  List<String>
-     * @throws  IOException
     */
     public List<String> getKeySentenceFromFile( String file ) throws IOException
     {
@@ -67,7 +65,6 @@ public abstract class SummaryExtractor
      * 
      * @param   reader
      * @return  String
-     * @throws  IOException
     */
     public abstract List<String> getKeySentence( Reader reader ) throws IOException;
     
@@ -78,7 +75,6 @@ public abstract class SummaryExtractor
      * @param   doc
      * @param   length
      * @return  String
-     * @throws  IOException
     */
     public String getSummaryFromString(String doc, int length) throws IOException
     {
@@ -92,7 +88,6 @@ public abstract class SummaryExtractor
      * @param   file
      * @param   length
      * @return  String
-     * @throws  IOException
     */
     public String getSummaryFromFile(String file, int length) throws IOException
     {
@@ -105,7 +100,6 @@ public abstract class SummaryExtractor
      * @param   reader
      * @param   length
      * @return  String
-     * @throws  IOException
     */
     public abstract String getSummary(Reader reader, int length) throws IOException;
 

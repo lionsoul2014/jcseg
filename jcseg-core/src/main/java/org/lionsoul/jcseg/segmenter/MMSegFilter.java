@@ -44,30 +44,26 @@ public class MMSegFilter
     */
     public static ArrayList<IChunk> getLargestAverageWordLengthChunks(ArrayList<IChunk> chunks, ArrayList<IChunk> chunkArr) 
     {
-        double largetAverage = chunks.get(0).getAverageWordsLength();
+        double largestAverage = chunks.get(0).getAverageWordsLength();
         int j;
         
         //find the largest average word length
         for ( j = 1; j < chunks.size(); j++ ) {
-            if ( chunks.get(j).getAverageWordsLength() > largetAverage ) {
-                largetAverage = chunks.get(j).getAverageWordsLength();
+            if ( chunks.get(j).getAverageWordsLength() > largestAverage) {
+                largestAverage = chunks.get(j).getAverageWordsLength();
             }
         }
         
         //get the items that the average word length equals to the largest.
         chunkArr.clear();
         for ( j = 0; j < chunks.size(); j++ ) {
-            if ( chunks.get(j).getAverageWordsLength() == largetAverage) {
+            if ( chunks.get(j).getAverageWordsLength() == largestAverage) {
                 chunkArr.add(chunks.get(j));
             }
         }
         
         return chunkArr;
     }
-    
-    /**
-     * 2 
-    */
     
     /**
      * the smallest variance word length

@@ -36,7 +36,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
     protected int windowSize = 5;
     
     /**
-     * auto append the words with a length over the specifield value
+     * auto append the words with a length over the specified value
      * as a phrase
     */
     protected int autoMinLength = -1;
@@ -54,16 +54,16 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
     @Override
     public List<String> getKeyphrase(Reader reader) throws IOException 
     {
-        Map<IWord, List<IWord>> winMap = new HashMap<IWord, List<IWord>>();
-        List<IWord> wordsPool = new ArrayList<IWord>();
+        final Map<IWord, List<IWord>> winMap = new HashMap<>();
+        final List<IWord> wordsPool = new ArrayList<>();
         
         ///document segment
         IWord w = null;
         seg.reset(reader);
         while ( (w = seg.next()) != null ) {
-            if ( filter(w) == false ) continue;
+            if (!filter(w)) continue;
             if ( ! winMap.containsKey(w) ) {
-                winMap.put(w, new LinkedList<IWord>());
+                winMap.put(w, new LinkedList<>());
             }
             
             wordsPool.add(w);
@@ -84,7 +84,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         }
         
         ///do the page rank scores count
-        Map<IWord, Float> score = new HashMap<IWord, Float>();
+        final Map<IWord, Float> score = new HashMap<>();
         for ( int c = 0; c < maxIterateNum; c++ ) {
             for ( Map.Entry<IWord, List<IWord>> entry : winMap.entrySet() ) {
                 IWord key = entry.getKey();
@@ -99,7 +99,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                     }
                     
                     float Sy = 0F;
-                    if ( score != null && score.containsKey(ele) ) {
+                    if (score.containsKey(ele)) {
                         Sy = score.get(ele);
                     }
                     
@@ -112,8 +112,8 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         }
         
         //sort the items by PR value
-        List<Map.Entry<IWord, Float>> entryList = new ArrayList<Map.Entry<IWord, Float>>(score.entrySet());
-        Collections.sort(entryList, new Comparator<Map.Entry<IWord, Float>>(){
+        final List<Map.Entry<IWord, Float>> entryList = new ArrayList<>(score.entrySet());
+        entryList.sort(new Comparator<Entry<IWord, Float>>() {
             @Override
             public int compare(Entry<IWord, Float> o1, Entry<IWord, Float> o2) {
                 return o2.getValue().compareTo(o1.getValue());
@@ -121,7 +121,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         });
         
         if ( entryList.size() == 0 ) {
-            return new ArrayList<String>(1);
+            return new ArrayList<>(1);
         }
         
         float tScores = 0F, avgScores = 0F, stdScores = 0F;
@@ -135,10 +135,10 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
         
         /*
          * we consider the conjoint keywords as a key phrase
-         * so, get all the conjointed keywords
+         * so, get all the conjoined keywords
         */
-        IStringBuffer isb = new IStringBuffer();
-        List<String> phraseList = new LinkedList<String>();
+        final IStringBuffer isb = new IStringBuffer();
+        final List<String> phraseList = new LinkedList<>();
         for ( int i = 0; i < entryList.size(); ) {
             Map.Entry<IWord, Float> entry = entryList.get(i);
             IWord seed = entry.getKey();
@@ -158,14 +158,14 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                 if ( idx >= entryList.size() ) break;
                 listQueue.add(entryList.get(idx).getKey());
             }
-            
-            for ( ; listQueue.size() > 1 ; ) {
+
+            while (listQueue.size() > 1) {
                 /*
                  * sort the sort queue and check all the words could
                  * make a phrase by its original position
                 */
-                sortQueue = new ArrayList<IWord>(listQueue);
-                Collections.sort(sortQueue, new Comparator<IWord>(){
+                sortQueue = new ArrayList<>(listQueue);
+                sortQueue.sort(new Comparator<IWord>() {
                     @Override
                     public int compare(IWord o1, IWord o2) {
                         return (o1.getPosition() - o2.getPosition());
@@ -190,7 +190,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                  * not matched, remove the last word item
                  * from the list queue and continue the next match check ... 
                 */
-                if ( match == false ) {
+                if (!match) {
                     //let gc do its work
                     sortQueue.clear();
                     sortQueue = null;
@@ -201,7 +201,7 @@ public class TextRankKeyphraseExtractor extends KeyphraseExtractor
                 len = listQueue.size();
                 break;
             }
-            
+
             //no matching
             if ( len == 0 ) {
                 //return the mix words

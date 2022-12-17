@@ -30,7 +30,6 @@ public class MostSeg extends Segmenter
      * and this function is the core part the most segmentation implements
      * 
      * @see Segmenter#getNextCJKWord(int, int)
-     * @throws IOException 
     */
     @Override 
     protected IWord getNextCJKWord(int c, int pos) throws IOException
@@ -39,7 +38,7 @@ public class MostSeg extends Segmenter
         char[] chars = nextCJKSentence(c);
         int cjkidx = 0, ignidx = 0, mnum = 0;
         IWord word = null;
-        ArrayList<IWord> mList = new ArrayList<IWord>(8);
+        final ArrayList<IWord> mList = new ArrayList<>(8);
         
         while ( cjkidx < chars.length ) {
             /// @Note added at 2017/04/29
@@ -102,8 +101,7 @@ public class MostSeg extends Segmenter
         
         //let gc do its work
         mList.clear();
-        mList = null;
-        
+
         return wordPool.size()==0 ? null : wordPool.remove();
     }
     
@@ -140,7 +138,7 @@ public class MostSeg extends Segmenter
     		/* check and append the single letter word */
 			str = String.valueOf(chars[curidx]);
 			ignore = (curidx == 0 && str.length() == len);
-			if ( ignore == false && dic.match(ILexicon.CJK_WORD, str) ) {
+			if ( !ignore && dic.match(ILexicon.CJK_WORD, str) ) {
 				tw = dic.get(ILexicon.CJK_WORD, str).clone();
 				tw.setPosition(pos+curidx);
                 wList.add(tw);
@@ -168,9 +166,9 @@ public class MostSeg extends Segmenter
     		/*
              * no matches here:
              * should the current character chars[cjkidx] be a single word ?
-             * lets do the current check 
+             * let's do the current check
             */
-            if ( ignore == false && mnum == 0 && (curidx == 0 || curidx > ignidx) ) {
+            if ( !ignore && mnum == 0 && (curidx == 0 || curidx > ignidx) ) {
                 String temp = String.valueOf(chars[curidx]);
                 if ( ! dic.match(ILexicon.CJK_WORD, temp) ) {
                     tw = new Word(temp, ILexicon.UNMATCH_CJK_WORD);
