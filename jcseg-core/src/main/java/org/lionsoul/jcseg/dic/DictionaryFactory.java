@@ -62,7 +62,7 @@ public class DictionaryFactory
                 for ( String lPath : lexPath) dic.loadDirectory(lPath);
                 if ( config.isAutoload() ) dic.startAutoload();
             }
-            
+
             /*
              * added at 2017/06/10
              * check and reset synonyms net of the current Dictionary 

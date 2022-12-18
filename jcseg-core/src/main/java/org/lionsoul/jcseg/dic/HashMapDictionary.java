@@ -80,7 +80,7 @@ public class HashMapDictionary extends ADictionary implements Serializable
                 return dictMap[t].get(key);
             }
             
-            IWord word = new Word(key, fre, type, entity);
+            final IWord word = new Word(key, fre, type, entity);
             dictMap[t].put(key, word);
             return word;
         }

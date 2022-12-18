@@ -188,11 +188,11 @@ public class JcsegServer
          * 
          * reset the max length to pass the dictionary words length limitation
         */
-        SegmenterConfig dictLoadConfig = globalJcsegTaskConfig.clone();
+        final SegmenterConfig dictLoadConfig = globalJcsegTaskConfig.clone();
         dictLoadConfig.setMaxLength(100);
         if ( globalConfig.has("jcseg_dict") ) {
-            JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
-            String[] dictNames = JSONObject.getNames(dictSetting);
+            final JSONObject dictSetting = globalConfig.getJSONObject("jcseg_dict");
+            final String[] dictNames = JSONObject.getNames(dictSetting);
             if (dictNames != null) {
                 for (String name : dictNames) {
                     final JSONObject dicJson = dictSetting.getJSONObject(name);
@@ -240,14 +240,12 @@ public class JcsegServer
             }
         }
         
-        dictLoadConfig = null;
-        
         /*
          * create the JcsegTaskConfig instance according to the definition config
         */
         if ( globalConfig.has("jcseg_config") ) {
-            JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
-            String[] configNames = JSONObject.getNames(configSetting);
+            final JSONObject configSetting = globalConfig.getJSONObject("jcseg_config");
+            final String[] configNames = JSONObject.getNames(configSetting);
             if (configNames != null) {
                 for (String name : configNames) {
                     final JSONObject configJson = configSetting.getJSONObject(name);
@@ -269,8 +267,8 @@ public class JcsegServer
          * create the tokenizer instance according the definition of tokenizer
         */
         if ( globalConfig.has("jcseg_tokenizer") ) {
-            JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
-            String[] tokenizerNames = JSONObject.getNames(tokenizerSetting);
+            final JSONObject tokenizerSetting = globalConfig.getJSONObject("jcseg_tokenizer");
+            final String[] tokenizerNames = JSONObject.getNames(tokenizerSetting);
             if (tokenizerNames != null) {
                 for (String name : tokenizerNames) {
                     final JSONObject tokenizerJson = tokenizerSetting.getJSONObject(name);
@@ -301,10 +299,9 @@ public class JcsegServer
                 }
             }
         }
-        
+
         //now, initialize the server
         init();
-
     }
     
 

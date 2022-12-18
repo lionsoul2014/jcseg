@@ -60,7 +60,10 @@ public interface IWord extends Cloneable
     
     /** return the frequency of the word, use only when the word's length is one. */
     int getFrequency();
-    
+
+    /** set the frequency of the word */
+    void setFrequency(int freq);
+
     /** return the type of the word */
     int getType();
     

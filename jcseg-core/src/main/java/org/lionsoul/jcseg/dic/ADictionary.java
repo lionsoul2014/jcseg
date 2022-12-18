@@ -63,8 +63,8 @@ public abstract class ADictionary implements IDictionary, Serializable
     /**
      * synonyms buffer
     */
-    private final List<String[]> synBuffer = Collections.synchronizedList(new ArrayList<String[]>());
-    private final Map<String, SynonymsEntry> rootMap = new HashMap<String, SynonymsEntry>();
+    private final List<String[]> synBuffer = Collections.synchronizedList(new ArrayList<>());
+    private final Map<String, SynonymsEntry> rootMap = new HashMap<>();
     
     /**
      * initialize the ADictionary
@@ -585,14 +585,17 @@ public abstract class ADictionary implements IDictionary, Serializable
                     ///    continue;
                     ///}
 
-                    tword = dic.get(t, wd[0]);
+                    tword = dic.get(ILexicon.CJK_WORD, wd[0]);
                     if ( tword == null ) {
                         if ( t == ILexicon.CJK_CHAR ) {
-                            tword = dic.add(ILexicon.CJK_WORD, wd[0],
-                                    Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
+                            tword = dic.add(ILexicon.CJK_WORD, wd[0], Integer.parseInt(wd[4]), IWord.T_CJK_WORD);
                         } else {
                             tword = dic.add(t, wd[0], IWord.T_CJK_WORD);
                         }
+                    } else if (t == ILexicon.CJK_CHAR) {
+                        // @Note: added at 2022/12/18
+                        // reset the word frequency for the CJK_CHAR word
+                        tword.setFrequency(Integer.parseInt(wd[4]));
                     }
 
                     /*

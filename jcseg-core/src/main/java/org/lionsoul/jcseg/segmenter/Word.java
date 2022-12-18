@@ -22,7 +22,7 @@ public class Word implements IWord,Cloneable, Serializable
 {
     private static final long serialVersionUID = 1L;
     private final String value;
-    private int fre = 0;
+    private int fre;
     private int type;
     private int position;
     
@@ -122,6 +122,11 @@ public class Word implements IWord,Cloneable, Serializable
     public int getFrequency() 
     {
         return fre;
+    }
+
+    @Override
+    public void setFrequency(int freq) {
+        this.fre = freq;
     }
 
     /**
