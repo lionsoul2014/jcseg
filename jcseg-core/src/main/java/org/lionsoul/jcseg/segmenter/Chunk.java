@@ -26,10 +26,15 @@ public class Chunk implements IChunk
     private double wordsVariance = -1D;
     
     /**
-     * single word degree of morphemic freedom 
+     * single word degree of morphemic freedom.
      */
-    private double singleWordMorphemicFreedom = -1D;
-    
+    private double singleWordMorphemicFreedom = -1;
+
+    /*
+     * single word frequency
+     */
+    private int singleWordFrequency = -1;
+
     /**
      * words length 
      */
@@ -93,12 +98,28 @@ public class Chunk implements IChunk
             for (IWord word : words) {
                 //one-character word
                 if (word.getLength() == 1) {
-                    singleWordMorphemicFreedom += Math.log((double) word.getFrequency());
+                    singleWordMorphemicFreedom += word.getFrequency() > 0 ? Math.log(word.getFrequency()) : 0;
                 }
             }
         } 
         
         return singleWordMorphemicFreedom;
+    }
+
+    @Override
+    public int getSingleWordsFrequency()
+    {
+        if ( singleWordFrequency == -1D ) {
+            singleWordFrequency = 0;
+            for (IWord word : words) {
+                //one-character word
+                if (word.getLength() == 1) {
+                    singleWordFrequency += Math.max(word.getFrequency(), 0);
+                }
+            }
+        }
+
+        return singleWordFrequency;
     }
 
     /**
@@ -123,11 +144,16 @@ public class Chunk implements IChunk
     public String toString()
     {
         final StringBuilder sb = new StringBuilder();
-        sb.append("chunk: ");
+        final String prefix = "chunk: ";
+        sb.append(prefix);
         for (IWord word : words) {
-            sb.append(word).append("/");
+            if (sb.length() > prefix.length()) {
+               sb.append("/") ;
+            }
+            sb.append(word);
         }
         
         return sb.toString();
     }
+
 }

@@ -21,6 +21,8 @@ public interface IChunk
     
     /** return the degree of morphemic freedom for all the single words. */
     double getSingleWordsMorphemicFreedom();
+
+    int getSingleWordsFrequency();
     
     /** return the length of the chunk(the number of the word) */
     int getLength();

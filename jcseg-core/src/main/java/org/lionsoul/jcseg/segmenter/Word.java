@@ -423,6 +423,7 @@ public class Word implements IWord,Cloneable, Serializable
         
         sb.append(",\"type\":").append(type);
         sb.append(",\"position\":").append(position);
+        sb.append(",\"freq\":").append(fre);
         sb.append(",\"length\":").append(getLength());
         
         if ( pinyin != null ) {

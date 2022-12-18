@@ -97,49 +97,58 @@ public class ComplexSeg extends Segmenter implements Serializable
         if ( chunkArr.size() == 1 ) {
             return chunkArr.get(0);
         }
-        
-        /// Iterator<IChunk> it = chunkArr.iterator();
-        /// while ( it.hasNext() ) {
-        ///     System.out.println(it.next());
-        /// }
-        /// System.out.println("-+---------------------+-");*/
-        
+
         mWords = null;
         mword2 = null;
         mword3 = null;
-        
+        /// printChunks("#0=>Init: ", chunkArr);
+
         
         //-------------------------MMSeg core invoke------------------------
         final ArrayList<IChunk> chunkBuf = new ArrayList<>(chunkArr.size());
         
         //filter the maximum match rule.
         ArrayList<IChunk> chunks = MMSegFilter.getMaximumMatchChunks(chunkArr, chunkBuf);
+        /// printChunks("#1=>MaximumMatchChunks: ", chunks);
         if ( chunks.size() == 1 ) {
             return chunks.get(0);
         }
-        
+
         //filter the largest average rule.
         chunks = MMSegFilter.getLargestAverageWordLengthChunks(chunkBuf, chunkArr);
+        /// printChunks("#2=>LargestAverageWordLengthChunks: ", chunks);
         if ( chunks.size() == 1 ) {
             return chunks.get(0);
         }
-        
+
         //filter the smallest variance rule.
         chunks = MMSegFilter.getSmallestVarianceWordLengthChunks(chunkArr, chunkBuf);
+        // printChunks("3#=>SmallestVarianceWordLengthChunks: ", chunks);
         if ( chunks.size() == 1 ) {
             return chunks.get(0);
         }
-        
+
         //filter the largest sum of degree of morphemic freedom rule.
         chunks = MMSegFilter.getLargestSingleMorphemicFreedomChunks(chunkBuf, chunkArr);
+        /// printChunks("4#=>LargestSingleMorphemicFreedomChunks: ", chunks);
         if ( chunks.size() == 1 ) {
             return chunks.get(0);
         }
-        
+
         //consider this as the final rule
         //Change it to return the last chunk at 2017/07/04
         //return afterChunks[0];
         return chunks.get(chunks.size() - 1);
     }
-    
+
+    // for debug
+    protected static void printChunks(final String scene, final ArrayList<IChunk> chunks)
+    {
+        System.out.println(scene);
+        for (IChunk c : chunks) {
+            System.out.println(c.toString());
+        }
+        System.out.println("-+------------------------+-");
+    }
+
 }

@@ -59,7 +59,7 @@ public class TokenizerController extends JcsegController
         
         final ISegment seg = ISegment.Type.fromIndex(tokenizerEntry.getAlgorithm())
 				.factory.create(tokenizerEntry.getConfig(), tokenizerEntry.getDict());
-		final List<IWord> list = new ArrayList<IWord>();
+		final List<IWord> list = new ArrayList<>();
 		seg.reset(new StringReader(text));
 		
 		long s_time = System.nanoTime();
@@ -69,7 +69,7 @@ public class TokenizerController extends JcsegController
 		}
 		
 		double c_time = (System.nanoTime() - s_time)/1E9;
-		final Map<String, Object> map = new HashMap<String, Object>();
+		final Map<String, Object> map = new HashMap<>();
 		final DecimalFormat df = new DecimalFormat("0.00000");
 		map.put("took", Float.valueOf(df.format(c_time)));
 		map.put("list", list);
