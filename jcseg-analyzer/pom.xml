@@ -12,7 +12,7 @@
   <artifactId>jcseg-analyzer</artifactId>
   <packaging>jar</packaging>
   <name>jcseg-analyzer</name>
-  <url>http://github.com/lionsoul2014/jcseg</url>
+  <url>https://github.com/lionsoul2014/jcseg</url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

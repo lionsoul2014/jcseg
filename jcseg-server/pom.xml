@@ -12,7 +12,7 @@
   <artifactId>jcseg-server</artifactId>
   <packaging>jar</packaging>
   <name>jcseg-server</name>
-  <url>http://github.com/lionsoul2014/jcseg</url>
+  <url>https://github.com/lionsoul2014/jcseg</url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,13 +30,6 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
       <version>9.4.41.v20210516</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   
