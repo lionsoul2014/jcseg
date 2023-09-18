@@ -1208,6 +1208,6 @@ List<String> keyphrases = extractor.getKeyphrase(new StringReader(str));
 
 ### 4，技术交流分享
 * 1，使用案例典范：[原语智能~语义理解](http://yuanyu.ai)，[Gitee搜索~信息检索](https://search.gitee.com/?skin=rec&type=repository&q=%E5%88%86%E8%AF%8D)，[Kooder~开源代码搜索](https://gitee.com/koode/kooder)
-* 2，NLP交流分享：微信：lionsoul2014(请备注Jcseg)，ＱＱ：1187582057(很少关注)
+* 2，NLP博客分享：微信公众号：lionsoul-org(狮子的魂)
 
 > This is the end line and thanks for reading !!!
